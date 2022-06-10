@@ -92,10 +92,6 @@ def generate_common_variables(index_date_variable):
 
 # DEFINE OUTCOMES ------------------------------------------------------
 
-   
-
-   
-
     # Define covariates (other than sex, which is considered constant and needed for JCVI groupings) ------------------------------
 
     ## Age
@@ -224,7 +220,6 @@ def generate_common_variables(index_date_variable):
         },
     ),
 
-    
     ## Obesity
     ### Primary care
     tmp_cov_bin_obesity_snomed=patients.with_these_clinical_events(
@@ -244,9 +239,7 @@ def generate_common_variables(index_date_variable):
     cov_bin_obesity=patients.maximum_of(
         "tmp_cov_bin_obesity_snomed", "tmp_cov_bin_obesity_hes",
     ),
-      
-   
-    
+  
 
     ## Total Cholesterol
     tmp_cov_num_cholesterol=patients.max_recorded_value(
@@ -310,13 +303,7 @@ def generate_common_variables(index_date_variable):
         
     ),
 
-    # Define subgroups (for variables that don't have a corresponding covariate only)
-
-    ## Arterial thrombosis events (i.e., any arterial event - this combines: AMI, ischaemic stroke, other arterial embolism)
-    ## NB: prior ami is not included in all_ate_codes codelists (only incident ami) hence the use of the seperate covariates 
-    sub_bin_ate=patients.maximum_of(
-        "cov_bin_ami", "cov_bin_other_arterial_embolism", "tmp_cov_bin_stroke_isch_snomed", "tmp_cov_bin_stroke_isch_hes",
-    ),
+  
     ## COVID-19 severity
     sub_date_covid19_hospital=patients.admitted_to_hospital(
         with_these_primary_diagnoses=covid_codes,
