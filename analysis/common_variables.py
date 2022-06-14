@@ -90,7 +90,7 @@ def generate_common_variables(index_date_variable):
         "tmp_exp_date_covid19_confirmed_sgss","tmp_exp_date_covid19_confirmed_snomed","tmp_exp_date_covid19_confirmed_hes","tmp_exp_date_covid19_confirmed_death"
     ),
 
-# DEFINE OUTCOMES ------------------------------------------------------
+# DEFINE COVARIATES ------------------------------------------------------
 
 
     ## Age
