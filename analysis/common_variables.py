@@ -90,8 +90,53 @@ def generate_common_variables(index_date_variable):
         "tmp_exp_date_covid19_confirmed_sgss","tmp_exp_date_covid19_confirmed_snomed","tmp_exp_date_covid19_confirmed_hes","tmp_exp_date_covid19_confirmed_death"
     ),
 
-# DEFINE COVARIATES ------------------------------------------------------
+    # Define subgroups (for variables that don't have a corresponding covariate only)
+    ## COVID-19 severity
+    sub_date_covid19_hospital=patients.admitted_to_hospital(
+        with_these_primary_diagnoses=covid_codes,
+        returning="date_admitted",
+        on_or_after="exp_date_covid19_confirmed",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "index_date", "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.5,
+        },
+    ),
+    ## History of COVID-19 
+    ### Positive SARS-COV-2 PCR antigen test
+    tmp_sub_bin_covid19_confirmed_history_sgss=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    ### COVID-19 code (diagnosis, positive test or sequalae) in primary care
+    tmp_sub_bin_covid19_confirmed_history_snomed=patients.with_these_clinical_events(
+        combine_codelists(
+            covid_primary_care_code,
+            covid_primary_care_positive_test,
+            covid_primary_care_sequalae,
+        ),
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    ### Hospital episode with confirmed diagnosis in any position
+    tmp_sub_bin_covid19_confirmed_history_hes=patients.admitted_to_hospital(
+        with_these_diagnoses=covid_codes,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    ## Generate variable to identify first date of confirmed COVID
+    sub_bin_covid19_confirmed_history=patients.maximum_of(
+        "tmp_sub_bin_covid19_confirmed_history_sgss","tmp_sub_bin_covid19_confirmed_history_snomed","tmp_sub_bin_covid19_confirmed_history_hes"
+    ),
 
+# DEFINE COVARIATES ------------------------------------------------------
 
     ## Age
     cov_num_age = patients.age_as_of(
@@ -311,50 +356,6 @@ def generate_common_variables(index_date_variable):
     ),
 
   
-    ## COVID-19 severity
-    sub_date_covid19_hospital=patients.admitted_to_hospital(
-        with_these_primary_diagnoses=covid_codes,
-        returning="date_admitted",
-        on_or_after="exp_date_covid19_confirmed",
-        date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
-            "rate": "uniform",
-            "incidence": 0.5,
-        },
-    ),
-    ## History of COVID-19 
-    ### Positive SARS-COV-2 PCR antigen test
-    tmp_sub_bin_covid19_confirmed_history_sgss=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        returning='binary_flag',
-        on_or_before=f"{index_date_variable}",
-        return_expectations={"incidence": 0.1},
-    ),
-    ### COVID-19 code (diagnosis, positive test or sequalae) in primary care
-    tmp_sub_bin_covid19_confirmed_history_snomed=patients.with_these_clinical_events(
-        combine_codelists(
-            covid_primary_care_code,
-            covid_primary_care_positive_test,
-            covid_primary_care_sequalae,
-        ),
-        returning='binary_flag',
-        on_or_before=f"{index_date_variable}",
-        return_expectations={"incidence": 0.1},
-    ),
-    ### Hospital episode with confirmed diagnosis in any position
-    tmp_sub_bin_covid19_confirmed_history_hes=patients.admitted_to_hospital(
-        with_these_diagnoses=covid_codes,
-        returning='binary_flag',
-        on_or_before=f"{index_date_variable}",
-        return_expectations={"incidence": 0.1},
-    ),
-    ## Generate variable to identify first date of confirmed COVID
-    sub_bin_covid19_confirmed_history=patients.maximum_of(
-        "tmp_sub_bin_covid19_confirmed_history_sgss","tmp_sub_bin_covid19_confirmed_history_snomed","tmp_sub_bin_covid19_confirmed_history_hes"
-    ),
 
     )
     return dynamic_variables
