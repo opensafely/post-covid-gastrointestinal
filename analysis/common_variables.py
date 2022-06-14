@@ -92,7 +92,6 @@ def generate_common_variables(index_date_variable):
 
 # DEFINE OUTCOMES ------------------------------------------------------
 
-    # Define covariates (other than sex, which is considered constant and needed for JCVI groupings) ------------------------------
 
     ## Age
     cov_num_age = patients.age_as_of(
@@ -102,6 +101,14 @@ def generate_common_variables(index_date_variable):
         "int": {"distribution": "population_ages"},
         "incidence" : 0.001
         },
+    ),
+
+    ## Sex 
+    cov_cat_sex = patients.sex(
+        return_expectations = {
+        "rate": "universal",
+        "category": {"ratios": {"M": 0.49, "F": 0.51}},
+    }
     ),
 
     ## Ethnicity 
