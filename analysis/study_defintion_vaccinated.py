@@ -27,12 +27,12 @@ import study_definition_helper_functions as helpers
 from common_variables import generate_common_variables
 (
     dynamic_variables
-) = generate_common_variables(index_date_variable="vax_date_covid_2 + 14 days")
+) = generate_common_variables(f="vax_date_covid_2 + 14 days")
 
 study = StudyDefinition(
 
     # Specify index date for study
-    index_date = "2021-06-01",
+    index_date = patients.maximum_of("2021-06-01","vax_date_covid_2 + 14 days")
 
     # Configure the expectations framework
     default_expectations={
