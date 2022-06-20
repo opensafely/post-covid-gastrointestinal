@@ -5,8 +5,9 @@ expectations:
 
 actions:
 
-  generate_study_population:
+  generate_study_population_vaccinated:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated
+      --output-format feather
     outputs:
       highly_sensitive:
-        cohort: output/input.csv
+        cohort: output/input_vaccinated.feather
