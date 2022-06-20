@@ -29,6 +29,7 @@ from common_variables import generate_common_variables
     dynamic_variables
 ) = generate_common_variables(index_date_variable="index_date")
 
+
 study = StudyDefinition(
 
     # Specify index date for study
