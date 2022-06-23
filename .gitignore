@@ -9,4 +9,4 @@ venv/
 .DS_Store
 .Rhistory
 .Rproj.user/
-.test.R
+test.R
