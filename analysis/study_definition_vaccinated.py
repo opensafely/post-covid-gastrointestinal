@@ -23,24 +23,13 @@ from common_variables import generate_common_variables
     dynamic_variables
 ) = generate_common_variables(index_date_variable="latest_date")
 
+#define a global variable start_date to be used in study definition
+start_date="2021-06-01"
+
 study = StudyDefinition(
 
     # Specify index date for study
-    index_date = "2021-06-01",
-
-    #Specifiy latest date max of index and covid_2 vacc
-    ##Not working giving TypeError: unhashable type: 'dict'
-    latest_date=patients.maximum_of("2021-06-01",patients.with_tpp_vaccination_record(
-            target_disease_matches="SARS-2 CORONAVIRUS",
-            on_or_after="vax_date_covid_1 + 1 day",
-            find_first_match_in_period=True,
-            returning="date",
-            date_format="YYYY-MM-DD",
-            return_expectations={
-                "date": {"earliest": "2021-01-08", "latest" : "today"}, # dates can only be 'index_date','today', or specified date
-                "incidence": 0.6
-            },
-        )),
+    index_date =start_date,
 
     # Configure the expectations framework
     default_expectations={
@@ -113,6 +102,9 @@ study = StudyDefinition(
                 "incidence": 0.5
             },
         ),
+
+        #Define latest date between second vax covid and start date (index date)
+        latest_date=patients.maximum_of(start_date,"vax_date_covid_2"),
 
         ## Pfizer BioNTech
         ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
