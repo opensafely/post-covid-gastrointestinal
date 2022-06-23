@@ -1,10 +1,4 @@
-# Import statements
-
-## Set seed
-import numpy as np
-np.random.seed(123456)
-
-## Cohort extractor
+# Cohort extractor
 from cohortextractor import (
   StudyDefinition,
   patients,
@@ -27,13 +21,26 @@ import study_definition_helper_functions as helpers
 from common_variables import generate_common_variables
 (
     dynamic_variables
-) = generate_common_variables(index_date_variable="index_date")
-
+) = generate_common_variables(index_date_variable="latest_date")
 
 study = StudyDefinition(
 
     # Specify index date for study
-    index_date = patients.maximum_of("2021-06-01","vax_date_covid_2 + 14 days")
+    index_date = "2021-06-01",
+
+    #Specifiy latest date max of index and covid_2 vacc
+    ##Not working giving TypeError: unhashable type: 'dict'
+    latest_date=patients.maximum_of("2021-06-01",patients.with_tpp_vaccination_record(
+            target_disease_matches="SARS-2 CORONAVIRUS",
+            on_or_after="vax_date_covid_1 + 1 day",
+            find_first_match_in_period=True,
+            returning="date",
+            date_format="YYYY-MM-DD",
+            return_expectations={
+                "date": {"earliest": "2021-01-08", "latest" : "today"}, # dates can only be 'index_date','today', or specified date
+                "incidence": 0.6
+            },
+        )),
 
     # Configure the expectations framework
     default_expectations={
@@ -44,7 +51,6 @@ study = StudyDefinition(
 
     # Define the study population 
     # NB: not all inclusions and exclusions are written into study definition
-    
     population = patients.satisfying(
         """
             NOT has_died
@@ -148,7 +154,7 @@ study = StudyDefinition(
         ## Oxford AZ 
         ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
         vax_date_AstraZeneca_1=patients.with_tpp_vaccination_record(
-            product_name_matches="COVID-19 AZD2816 AstraZeneca (ChAdOx1 nCOV-19) 3.5x10*9 viral particles/0.5ml dose sol for inj MDV",
+            product_name_matches="COVID-19 Vaccine Vaxzevria 0.5ml inj multidose vials (AstraZeneca)",
             on_or_after="2020-12-08",
             find_first_match_in_period=True,
             returning="date",
@@ -159,7 +165,7 @@ study = StudyDefinition(
             },
         ),
         vax_date_AstraZeneca_2=patients.with_tpp_vaccination_record(
-            product_name_matches="COVID-19 AZD2816 AstraZeneca (ChAdOx1 nCOV-19) 3.5x10*9 viral particles/0.5ml dose sol for inj MDV",
+            product_name_matches="COVID-19 Vaccine Vaxzevria 0.5ml inj multidose vials (AstraZeneca)",
             on_or_after="vax_date_AstraZeneca_1 + 1 day",  
             find_first_match_in_period=True,
             returning="date",
@@ -170,7 +176,7 @@ study = StudyDefinition(
             },
         ),
         vax_date_AstraZeneca_3=patients.with_tpp_vaccination_record(
-            product_name_matches="COVID-19 AZD2816 AstraZeneca (ChAdOx1 nCOV-19) 3.5x10*9 viral particles/0.5ml dose sol for inj MDV",
+            product_name_matches="COVID-19 Vaccine Vaxzevria 0.5ml inj multidose vials (AstraZeneca)",
             on_or_after="vax_date_AstraZeneca_2 + 1 day",  
             find_first_match_in_period=True,
             returning="date",
