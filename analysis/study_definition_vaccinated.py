@@ -1,12 +1,15 @@
 # Cohort extractor
+from tracemalloc import start
 from cohortextractor import (
   StudyDefinition,
   patients,
+  date_expressions,
   codelist_from_csv,
   codelist,
   filter_codes_by_category,
   combine_codelists,
 )
+
 
 ## Codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import *
@@ -91,6 +94,17 @@ study = StudyDefinition(
                 "incidence": 0.6
             },
         ),
+        vax_date_covid_1_b=patients.with_tpp_vaccination_record(
+            target_disease_matches="SARS-2 CORONAVIRUS",
+            on_or_after="2020-12-08",
+            find_first_match_in_period=True,
+            returning="binary_flag",
+            date_format="YYYY-MM-DD",
+            return_expectations={
+                "date": {"earliest": "2020-12-08", "latest": "today"},
+                "incidence": 0.7
+            },
+        ),
         vax_date_covid_3=patients.with_tpp_vaccination_record(
             target_disease_matches="SARS-2 CORONAVIRUS",
             on_or_after="vax_date_covid_2 + 1 day",
@@ -104,7 +118,13 @@ study = StudyDefinition(
         ),
 
         #Define latest date between second vax covid and start date (index date)
-        latest_date=patients.maximum_of(start_date,"vax_date_covid_2"),
+       #testdate=start_date,
+        
+        #latest_date=patients.maximum_of("vax_date_covid_2",start_date),
+        #date_of_vax_1=patients.date_of("vax_date_covid_1_b", date_format="YYYY-MM-DD"),
+    
+        latest_date=patients.maximum_of("vax_date_covid_2","2021-06-01"),
+
 
         ## Pfizer BioNTech
         ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
