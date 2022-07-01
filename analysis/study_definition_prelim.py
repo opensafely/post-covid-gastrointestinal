@@ -1,3 +1,5 @@
+#patient ID, vaccination dates, vaccination eligibility
+
 # Cohort extractor
 from tracemalloc import start
 from cohortextractor import (
@@ -9,30 +11,23 @@ from cohortextractor import (
   filter_codes_by_category,
   combine_codelists,
 )
-
-
 ## Codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import *
 
 ## Datetime functions
 from datetime import date
 
-## Study definition helper
-import study_definition_helper_functions as helpers
-
-## Import common variables function
-from common_variables import generate_common_variables
-(
-    dynamic_variables
-) = generate_common_variables(index_date_variable="latest_date")
-
-#define a global variable start_date to be used in study definition
-start_date="2021-06-01"
+## Variables for deriving JCVI groups
+from grouping_variables import (
+    jcvi_variables, 
+    start_date,
+    end_date,
+)
 
 study = StudyDefinition(
 
     # Specify index date for study
-    index_date =start_date,
+    index_date = pandemic_start,
 
     # Configure the expectations framework
     default_expectations={
@@ -68,7 +63,11 @@ study = StudyDefinition(
         return_expectations = {"incidence": 0.95},
         ),
     ),
-      
+
+    #patients ids
+        pseudo_id=patients.registered_practice_as_of(
+            "index_date", returning="pseudo_id"
+            ),  
     # COVID-19 Vaccinations
 
         ## Any covid vaccination, identified by target disease
@@ -107,15 +106,7 @@ study = StudyDefinition(
             },
         ),
 
-        #Define latest date between second vax covid and start date (index date)
-       #testdate=start_date,
-        
-        #latest_date=patients.maximum_of("vax_date_covid_2",start_date),
-        #date_of_vax_1=patients.date_of("vax_date_covid_1_b", date_format="YYYY-MM-DD"),
-        
-        latest_date = patients.maximum_of("vax_date_covid_2","2021-06-01"),
-        
-
+       
         ## Pfizer BioNTech
         ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
         
@@ -225,7 +216,5 @@ study = StudyDefinition(
             },
         ),
     
-    # Define common variables (e.g., exposures, outcomes, covariates) that require dynamic dates
-
-        **dynamic_variables
+    
 )
