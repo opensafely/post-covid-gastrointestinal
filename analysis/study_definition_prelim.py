@@ -22,7 +22,9 @@ from grouping_variables import (
     jcvi_variables, 
     start_date,
     end_date,
+    pandemic_start
 )
+import json
 
 study = StudyDefinition(
 
@@ -64,10 +66,7 @@ study = StudyDefinition(
         ),
     ),
 
-    #patients ids
-        pseudo_id=patients.registered_practice_as_of(
-            "index_date", returning="pseudo_id"
-            ),  
+    
     # COVID-19 Vaccinations
 
         ## Any covid vaccination, identified by target disease
@@ -215,6 +214,17 @@ study = StudyDefinition(
                 "incidence": 0.5
             },
         ),
-    
+# Define sex 
+    # NB: this is required for JCVI variables hence is defined here
+        cov_cat_sex = patients.sex(
+            return_expectations = {
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}},
+            }
+        ),
+    # Define vaccine eligibility variables
+
+        **jcvi_variables,
+        
     
 )
