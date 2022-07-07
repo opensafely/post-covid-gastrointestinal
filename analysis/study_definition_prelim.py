@@ -66,6 +66,32 @@ study = StudyDefinition(
         ),
     ),
 
+# Define death date
+
+        ## Primary care
+        primary_care_death_date=patients.with_death_recorded_in_primary_care(
+            on_or_after="index_date",
+            returning="date_of_death",
+            date_format="YYYY-MM-DD",
+            return_expectations={
+                "date": {"earliest": "index_date", "latest" : "today"},
+                "rate": "exponential_increase",
+            },
+        ),
+        ## ONS
+        ons_died_from_any_cause_date=patients.died_from_any_cause(
+            on_or_after="index_date",
+            returning="date_of_death",
+            date_format="YYYY-MM-DD",
+            return_expectations={
+                "date": {"earliest": "index_date", "latest" : "today"},
+                "rate": "exponential_increase",
+            },
+        ),
+        ## Combined
+        death_date=patients.minimum_of(
+            "primary_care_death_date", "ons_died_from_any_cause_date"
+        ),
     
     # COVID-19 Vaccinations
 
