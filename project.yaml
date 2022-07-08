@@ -8,20 +8,26 @@ actions:
     run: r:latest analysis/vax_eligibility_inputs.R
     outputs:
       highly_sensitive:
-        vax_study_dates_json: output/vax_study_dates.json
-        vax_jcvi_groups: output/vax_jcvi_groups.csv
-        vax_eligible_dates: output/vax_eligible_dates.csv
+        vax_study_dates_json: analysis/vax_study_dates.json
+        vax_jcvi_groups: analysis/vax_jcvi_groups.csv
+        vax_eligible_dates: analysis/vax_eligible_dates.csv
 
   # generate_study_population_vaccinated:
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated
   #     --output-format feather
   #   outputs:
   #     highly_sensitive:
-  #       cohort: output/input_vaccinated.feather
+  #       cohort: analysis/input_vaccinated.feather
 
-    generate_study_population_prelim:
-      run: cohortextractor:latest generate_cohort --study-definition study_definition_prelim
-        --output-format feather
+  generate_study_population_prelim:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_prelim
+      --output-format feather
+    outputs:
+      highly_sensitive:
+        cohort: output/input_prelim.feather
+
+  generate_index_dates:
+      run: r:latest analysis/prelim.R
       outputs:
         highly_sensitive:
-          cohort: output/input_prelim.feather
+          index_dates: output/index_dates.feather
