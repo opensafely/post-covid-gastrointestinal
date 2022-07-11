@@ -23,15 +23,15 @@ prelim_data <- arrow::read_feather("output/input_prelim.feather") %>%
                 ~ floor_date(
                   as.Date(., format="%Y-%m-%d"),
                   unit = "days")
-                ),
+  ),
   ##vaccinated study
   #Add 14 days to vax_date_covid_2
-    vax_date_covid_2_14 = vax_date_covid_2 + days(14),
+  vax_date_covid_2_14 = vax_date_covid_2 + days(14),
   #maximum of vax2 date and 
-    index_vax = data.table::fifelse(as.Date(
-      vax_date_covid_2_14) > as.Date(delta_date,format="%Y-%m-%d"),
-                               as.Date(vax_date_covid_2_14),
-                               as.Date(delta_date,format="%Y-%m-%d")),
+  index_vax = data.table::fifelse(as.Date(
+    vax_date_covid_2_14) > as.Date(delta_date,format="%Y-%m-%d"),
+    as.Date(vax_date_covid_2_14),
+    as.Date(delta_date,format="%Y-%m-%d")),
   ##electively unvaccinated study
   vax_date_eligible_84 = vax_date_eligible + days(84),
   index_unvax = data.table::fifelse(as.Date(
@@ -39,6 +39,9 @@ prelim_data <- arrow::read_feather("output/input_prelim.feather") %>%
     as.Date(vax_date_eligible_84),
     as.Date(delta_date,format="%Y-%m-%d")),
   
+  ##prevax index date
+  index_prevax = as.Date(study_dates$pandemic_start)
+    
   )
 
 arrow::write_feather(prelim_data, "./output/index_dates.feather")
