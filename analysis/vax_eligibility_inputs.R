@@ -24,6 +24,7 @@ study_dates <-
     start_date_az = "2021-01-04",
     start_date_moderna = "2021-03-04",
     delta_date = "2021-06-01",
+    omicron_date = "2021-12-14",
     end_date = "2021-09-15" # last date of available vaccination data. NEED TO ALSO CHECK END DATES FOR OTHER DATA SOURCES
   )
 

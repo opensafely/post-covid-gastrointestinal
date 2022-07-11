@@ -29,8 +29,8 @@ actions:
   generate_index_dates:
       run: r:latest analysis/prelim.R
       needs: 
-      - generate_study_population_prelim
       - vax_eligibility_inputs
+      - generate_study_population_prelim
       outputs:
         highly_sensitive:
-          index_dates: output/index_dates.feather
+          cohort: output/index_dates.feather
