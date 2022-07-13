@@ -10,7 +10,7 @@
 
 #Load libraries using pacman
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(dplyr,tictoc,purrr,lubridate,glue,tidyverse,jsonlite,here)
+pacman::p_load(dplyr,tictoc,purrr,lubridate,glue,tidyverse,jsonlite,here,arrow)
 
 #json file containing vax study dates
 study_dates <- fromJSON("output/vax_study_dates.json")
@@ -21,8 +21,9 @@ eligibility_offset <- 84
 
 
 #Read in the output of study_definition_prelim and add dates variables
-prelim_data <- arrow::read_feather("output/input_prelim.feather") %>%
+prelim_data <- arrow::read_feather("output/input_prelim.feather") 
   # Because date types are not returned consistently by cohort extractor (Elsie)
+  prelim_data <- prelim_data %>%
   mutate(across(c(contains("_date")), 
                 ~ floor_date(
                   as.Date(., format="%Y-%m-%d"),
