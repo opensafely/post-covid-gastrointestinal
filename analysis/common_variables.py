@@ -22,7 +22,7 @@ import study_definition_helper_functions as helpers
 
 # Define common variables function
 
-def generate_common_variables(index_date_variable):
+def generate_common_variables(index_date_variable,end_date_variable):
     dynamic_variables = dict(
 
 # DEFINE EXPOSURES ------------------------------------------------------
@@ -34,9 +34,9 @@ def generate_common_variables(index_date_variable):
         returning="date",
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{end_date_variable}"],
         return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -49,11 +49,11 @@ def generate_common_variables(index_date_variable):
             covid_primary_care_sequalae,
         ),
         returning="date",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{end_date_variable}"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -62,11 +62,11 @@ def generate_common_variables(index_date_variable):
     tmp_exp_date_covid19_confirmed_hes=patients.admitted_to_hospital(
         with_these_diagnoses=covid_codes,
         returning="date_admitted",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{end_date_variable}"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -75,11 +75,11 @@ def generate_common_variables(index_date_variable):
     tmp_exp_date_covid19_confirmed_death=patients.with_these_codes_on_death_certificate(
         covid_codes,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1
         },
@@ -98,7 +98,7 @@ def generate_common_variables(index_date_variable):
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "index_date", "latest" : "today"},
+            "date": {"earliest": "1900-01-01", "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.5,
         },
