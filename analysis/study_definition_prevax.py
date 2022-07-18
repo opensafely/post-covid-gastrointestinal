@@ -1,13 +1,13 @@
+# Import statements
+
 ## Set seed
 import numpy as np
 np.random.seed(123456)
 
-# Cohort extractor
-from tracemalloc import start
+## Cohort extractor
 from cohortextractor import (
   StudyDefinition,
   patients,
-  date_expressions,
   codelist_from_csv,
   codelist,
   filter_codes_by_category,
@@ -21,43 +21,50 @@ from codelists import *
 from datetime import date
 
 ## Study definition helper
-import study_definition_helper_functions as helpers
+import study_def_helper_functions as helpers
 
 ## Import common variables function
 from common_variables import generate_common_variables
 (
     dynamic_variables
-) = generate_common_variables(index_date_variable="index_date_vax", end_date_variable="end_date_vax")
+) = generate_common_variables(index_date_variable="index_date_prevax", end_date_variable="end_date_prevax")
 
-#define a global variable start_date to be used in study definition
-#start_date="2021-06-01"
+## Variables for deriving JCVI groups
+from grouping_variables import (
+    jcvi_variables, 
+    start_date,
+    end_date,
+    pandemic_start
+)
+
 
 study = StudyDefinition(
 
-    # Read in index date for study from the output of prelim.R file 
-    index_date_vax = patients.with_value_from_file(
+    # Specify index date for study
+    index_date_prevax = patients.with_value_from_file(
         f_path = 'output/index_dates.csv', 
-        returning = 'index_vax', 
-        returning_type = 'date', 
-        date_format = 'YYYY-MM-DD',     
-    ),
-
-    end_date_vax = patients.with_value_from_file(
-        f_path = 'output/index_dates.csv',
-        returning = 'end_vax',
+        returning = 'index_prevax', 
         returning_type = 'date', 
         date_format = 'YYYY-MM-DD',
+        
     ),
- 
+     end_date_prevax = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv', 
+        returning = 'end_prevax', 
+        returning_type = 'date', 
+        date_format = 'YYYY-MM-DD',
+        
+    ),
+
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},
         "rate": "uniform",
         "incidence": 0.5,
     },
-   
-    # # Define the study population 
-    # # NB: not all inclusions and exclusions are written into study definition
+
+    # Define the study population 
+    # NB: not all inclusions and exclusions are written into study definition
     population = patients.satisfying(
         """
             NOT has_died
@@ -68,22 +75,26 @@ study = StudyDefinition(
             """,
         
         has_died = patients.died_from_any_cause(
-        on_or_before = "index_date_vax",
+        on_or_before = "index_date_prevax",
         returning="binary_flag",
         ),
         
         registered = patients.satisfying(
         "registered_at_start",
-        registered_at_start = patients.registered_as_of("index_date_vax"),
+        registered_at_start = patients.registered_as_of("index_date_prevax"),
         ),
         
         has_follow_up_previous_6months = patients.registered_with_one_practice_between(
-        start_date = "index_date_vax - 6 months",
-        end_date = "index_date_vax",
+        start_date = "index_date_prevax - 6 months",
+        end_date = "index_date_prevax",
         return_expectations = {"incidence": 0.95},
         ),
     ),
-        
+
+    # Define vaccine eligibility variables
+
+        **jcvi_variables, 
+
     # Define common variables (e.g., exposures, outcomes, covariates) that require dynamic dates
 
         **dynamic_variables
