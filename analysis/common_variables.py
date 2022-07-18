@@ -23,7 +23,6 @@ import study_definition_helper_functions as helpers
 # Define common variables function
 
 def generate_common_variables(index_date_variable):
-
     dynamic_variables = dict(
 
 # DEFINE EXPOSURES ------------------------------------------------------
@@ -353,9 +352,7 @@ def generate_common_variables(index_date_variable):
             },
         },
         
-    ),
-
-  
+    ) 
 
     )
     return dynamic_variables

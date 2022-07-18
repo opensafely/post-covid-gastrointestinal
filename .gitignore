@@ -4,8 +4,10 @@ model.log
 __pycache__
 .python-version
 /output/*
+!output/.gitkeep
 metadata/*
 venv/
 .DS_Store
 .Rhistory
 .Rproj.user/
+test.R
