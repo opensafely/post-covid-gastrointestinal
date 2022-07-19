@@ -286,3 +286,21 @@ immrx_primis = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+##Quality assurance codes 
+
+prostate_cancer_snomed_clinical = codelist_from_csv(
+    "codelists/user-RochelleKnight-prostate_cancer_snomed.csv",
+    system="snomed",
+    column="code",
+)
+prostate_cancer_icd10 = codelist_from_csv(
+    "codelists/user-RochelleKnight-prostate_cancer_icd10.csv",
+    system="icd10",
+    column="code",
+)
+pregnancy_snomed_clinical = codelist_from_csv(
+    "codelists/user-RochelleKnight-pregnancy_and_birth_snomed.csv",
+    system="snomed",
+    column="code",
+)

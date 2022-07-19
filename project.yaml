@@ -38,3 +38,12 @@ actions:
       highly_sensitive:
         cohort: output/index_dates.feather
 
+  generate_study_population_vaccinated:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated
+      --output-format feather
+    needs:
+    - generate_index_dates
+    outputs:
+      highly_sensitive:
+        cohort: output/input_vaccinated.feather
+

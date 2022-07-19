@@ -171,7 +171,7 @@ actions_list <- splice(
     highly_sensitive = list(
       cohort = glue("output/index_dates.feather")
     )
-  ))
+  ),
 
 
   #comment("Generate dummy data for study_definition - electively_unvaccinated"),
@@ -184,14 +184,16 @@ actions_list <- splice(
   #   )
   # ),
   
-  # #comment("Generate dummy data for study_definition - vaccinated"),
-  # action(
-  #   name = "generate_study_population_vaccinated",
-  #   run = "cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated --output-format feather",
-  #   highly_sensitive = list(
-  #     cohort = glue("output/input_vaccinated.feather")
-  #   )
-  # ), 
+  #comment("Generate dummy data for study_definition - vaccinated"),
+  action(
+    name = "generate_study_population_vaccinated",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated --output-format feather",
+    needs = list("generate_index_dates"),
+    highly_sensitive = list(
+      cohort = glue("output/input_vaccinated.feather")
+    )
+  )
+  
   
   # #comment("Generate dummy data for study_definition - index"),
   # action(
