@@ -48,8 +48,8 @@ prelim_data <- arrow::read_feather("output/input_prelim.feather")
   rowwise() %>%
   mutate(end_prevax = min(c(vax_date_eligible,death_date,vax_date_covid_1),na.rm=T))
 
-#Write data to feather file 
-arrow::write_feather(prelim_data, "output/index_dates.feather")
+#Write data to csv file 
+write_csv(prelim_data, "output/index_dates.csv")
 
 
 

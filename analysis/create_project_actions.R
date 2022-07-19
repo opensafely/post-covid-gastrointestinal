@@ -169,7 +169,7 @@ actions_list <- splice(
     run = "r:latest analysis/prelim.R",
     needs = list("vax_eligibility_inputs","generate_study_population_prelim"),
     highly_sensitive = list(
-      cohort = glue("output/index_dates.feather")
+      cohort = glue("output/index_dates.csv")
     )
   ),
 
@@ -193,6 +193,7 @@ actions_list <- splice(
       cohort = glue("output/input_vaccinated.feather")
     )
   )
+)
   
   
   # #comment("Generate dummy data for study_definition - index"),
