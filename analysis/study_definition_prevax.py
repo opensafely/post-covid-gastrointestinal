@@ -21,7 +21,7 @@ from codelists import *
 from datetime import date
 
 ## Study definition helper
-import study_def_helper_functions as helpers
+import study_definition_helper_functions as helpers
 
 ## Import common variables function
 from common_variables import generate_common_variables
@@ -52,10 +52,15 @@ study = StudyDefinition(
         f_path = 'output/index_dates.csv', 
         returning = 'end_prevax', 
         returning_type = 'date', 
-        date_format = 'YYYY-MM-DD',
-        
+        date_format = 'YYYY-MM-DD',     
     ),
-
+# Define sex 
+    # NB: this is required for JCVI variables hence is defined here
+    cov_cat_sex = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv',
+        returning = 'cov_cat_sex',
+        returning_type = 'str',  
+        ),
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},

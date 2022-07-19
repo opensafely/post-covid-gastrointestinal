@@ -52,6 +52,13 @@ study = StudyDefinition(
         returning_type = 'date', 
         date_format = 'YYYY-MM-DD',
     ),
+    # Define sex 
+    # NB: this is required for JCVI variables hence is defined here
+    cov_cat_sex = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv',
+        returning = 'cov_cat_sex',
+        returning_type = 'str',  
+        ),
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},
@@ -87,14 +94,7 @@ study = StudyDefinition(
         ),
     ),
 
-    # Define sex 
-    # NB: this is required for JCVI variables hence is defined here
-        cov_cat_sex = patients.sex(
-            return_expectations = {
-            "rate": "universal",
-            "category": {"ratios": {"M": 0.49, "F": 0.51}},
-            }
-        ),
+
 
     # Define vaccine eligibility variables
 

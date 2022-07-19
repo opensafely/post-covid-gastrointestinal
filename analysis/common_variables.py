@@ -147,13 +147,13 @@ def generate_common_variables(index_date_variable,end_date_variable):
         },
     ),
 
-    ## Sex 
-    cov_cat_sex = patients.sex(
-        return_expectations = {
-        "rate": "universal",
-        "category": {"ratios": {"M": 0.49, "F": 0.51}},
-    }
-    ),
+    # ## Sex 
+    # cov_cat_sex = patients.sex(
+    #     return_expectations = {
+    #     "rate": "universal",
+    #     "category": {"ratios": {"M": 0.49, "F": 0.51}},
+    # }
+    # ),
 
     ## Ethnicity 
     cov_cat_ethnicity=patients.categorised_as(
