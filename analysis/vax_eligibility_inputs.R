@@ -23,6 +23,8 @@ study_dates <-
     start_date_pfizer = "2020-12-08",
     start_date_az = "2021-01-04",
     start_date_moderna = "2021-03-04",
+    delta_date = "2021-06-01",
+    omicron_date = "2021-12-14",
     end_date = "2021-09-15" # last date of available vaccination data. NEED TO ALSO CHECK END DATES FOR OTHER DATA SOURCES
   )
 
@@ -47,7 +49,7 @@ tribble(
     "99", "DEFAULT",
 )
 
-readr::write_csv(jcvi_groups, "output/vax_jcvi_groups.csv")
+readr::write_csv(jcvi_groups,here::here( "output","vax_jcvi_groups.csv"))
 
 # create elig_dates ----
 elig_dates <-
@@ -84,4 +86,4 @@ tribble(
     "2100-12-31", "DEFAULT", "NA",
 )
 
-readr::write_csv(elig_dates, "output/vax_eligible_dates.csv")
+readr::write_csv(elig_dates, here::here("output","vax_eligible_dates.csv"))
