@@ -31,6 +31,7 @@ from common_variables import generate_common_variables
 
 ## Variables for deriving JCVI groups
 from grouping_variables import (
+    study_dates,
     jcvi_variables, 
     start_date,
     end_date,
@@ -63,7 +64,7 @@ study = StudyDefinition(
         ),
     # Configure the expectations framework
     default_expectations={
-        "date": {"earliest": "1900-01-01", "latest": "today"},
+        "date": {"earliest": study_dates["earliest_expec"], "latest": "today"},
         "rate": "uniform",
         "incidence": 0.5,
     },

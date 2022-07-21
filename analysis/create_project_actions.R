@@ -197,7 +197,7 @@ actions_list <- splice(
   action(
     name = "generate_study_population_vaccinated",
     run = "cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated --output-format feather",
-    needs = list("generate_index_dates"),
+    needs = list("generate_index_dates","vax_eligibility_inputs"),
     highly_sensitive = list(
       cohort = glue("output/input_vaccinated.feather")
     )

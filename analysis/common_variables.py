@@ -11,6 +11,10 @@ from cohortextractor import (
     codelist_from_csv,
 )
 
+#study dates
+from grouping_variables import (
+    study_dates,
+    days)
 ## Codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import *
 
@@ -20,11 +24,13 @@ from datetime import date
 ## Study definition helper
 import study_definition_helper_functions as helpers
 
+# Define pandemic_start
+pandemic_start = study_dates["pandemic_start"]
 # Define common variables function
 
 def generate_common_variables(index_date_variable,end_date_variable):
     dynamic_variables = dict(
-
+    
 # DEFINE EXPOSURES ------------------------------------------------------
 
     ## Date of positive SARS-COV-2 PCR antigen test
@@ -36,7 +42,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         date_format="YYYY-MM-DD",
         between=[f"{index_date_variable}",f"{end_date_variable}"],
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -53,7 +59,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": study_dates["vax1_earliest"], "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -66,7 +72,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": study_dates["vax1_earliest"], "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -79,7 +85,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": study_dates["vax1_earliest"], "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.1
         },
@@ -98,7 +104,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "1900-01-01", "latest" : "today"},
+            "date": {"earliest": study_dates["vax1_earliest"], "latest" : "today"},
             "rate": "uniform",
             "incidence": 0.5,
         },
@@ -296,11 +302,11 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_cov_num_cholesterol=patients.max_recorded_value(
         cholesterol_snomed,
         on_most_recent_day_of_measurement=True, 
-        between=["2015-01-01", "today"],
+        between=[f"{index_date_variable}- 5years", f"{index_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
-            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "date": {"earliest":study_dates["earliest_expec"], "latest": "today"}, ##return_expectations can't take dynamic variable se default are kept here! 
             "incidence": 0.80,
         },
     ),
@@ -309,11 +315,11 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_cov_num_hdl_cholesterol=patients.max_recorded_value(
         hdl_cholesterol_snomed,
         on_most_recent_day_of_measurement=True, 
-        between=["2015-01-01", "today"],
+        between=[f"{index_date_variable}- 5years", f"{index_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
-            "date": {"earliest": "1980-02-01", "latest": "2021-05-31"},
+            "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
             "incidence": 0.80,
         },
     ),
@@ -326,7 +332,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         include_measurement_date=True,
         date_format="YYYY-MM",
         return_expectations={
-            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"},
+            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"}, ##How do we obtain these dates ? 
             "float": {"distribution": "normal", "mean": 28, "stddev": 8},
             "incidence": 0.7,
         },
@@ -398,7 +404,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         qa_num_birth_year=patients.date_of_birth(
             date_format="YYYY",
             return_expectations={
-                "date": {"earliest": "1900-01-01", "latest": "today"},
+                "date": {"earliest": study_dates["vax1_earliest"], "latest": "today"},
                 "rate": "uniform",
             },
         ),
@@ -407,7 +413,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
 
     ## 2019 consultation rate
         cov_num_consulation_rate=patients.with_gp_consultations(
-            between=["2019-01-01", "2019-12-31"],
+            between=[days(study_dates["pandemic_start"],-365), days(study_dates["pandemic_start"],-1)],
             returning="number_of_matches_in_period",
             return_expectations={
                 "int": {"distribution": "poisson", "mean": 5},

@@ -63,6 +63,7 @@ actions:
       --output-format feather
     needs:
     - generate_index_dates
+    - vax_eligibility_inputs
     outputs:
       highly_sensitive:
         cohort: output/input_vaccinated.feather

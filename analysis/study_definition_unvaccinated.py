@@ -34,6 +34,7 @@ from grouping_variables import (
     jcvi_variables, 
     start_date,
     end_date,
+    study_dates
 )
 
 study = StudyDefinition(
@@ -61,7 +62,7 @@ study = StudyDefinition(
         ),
     # Configure the expectations framework
     default_expectations={
-        "date": {"earliest": "1900-01-01", "latest": "today"},
+        "date": {"earliest": study_dates["earliest_expec"], "latest": "today"},
         "rate": "uniform",
         "incidence": 0.5,
     },

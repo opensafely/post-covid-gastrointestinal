@@ -14,6 +14,14 @@ from cohortextractor import (
   combine_codelists,
 )
 
+#study dates
+
+## Variables for deriving JCVI groups
+from grouping_variables import (
+  
+    study_dates
+)
+
 ## Codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import *
 
@@ -29,8 +37,6 @@ from common_variables import generate_common_variables
     dynamic_variables
 ) = generate_common_variables(index_date_variable="index_date_vax", end_date_variable="end_date_vax")
 
-#define a global variable start_date to be used in study definition
-#start_date="2021-06-01"
 
 study = StudyDefinition(
 
@@ -51,7 +57,7 @@ study = StudyDefinition(
  
     # Configure the expectations framework
     default_expectations={
-        "date": {"earliest": "1900-01-01", "latest": "today"},
+        "date": {"earliest": study_dates["earliest_expec"], "latest": "today"},
         "rate": "uniform",
         "incidence": 0.5,
     },
