@@ -1,3 +1,6 @@
+## Set seed
+import numpy as np
+np.random.seed(123456)
 #patient ID, vaccination dates, vaccination eligibility
 
 # Cohort extractor
@@ -26,7 +29,6 @@ from grouping_variables import (
     pandemic_start
 )
 import json
-
 study = StudyDefinition(
 
     # Specify index date for study
