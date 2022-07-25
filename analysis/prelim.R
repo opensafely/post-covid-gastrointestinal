@@ -5,7 +5,9 @@ pacman::p_load(dplyr,tictoc,purrr,lubridate,glue,tidyverse,jsonlite,here,arrow)
 study_dates <- fromJSON("output/vax_study_dates.json")
 delta_date <- study_dates$delta_date
 delta_end_date <- study_dates$omicron_date
+# efficacy offset = 14 days (vaccination date + 14 days is generally considered the date at which someone starts receiving their protection from vaccine)
 efficacy_offset <- 14 
+# eligibility offset = 84 days (the number of days added to vax eligibility date)
 eligibility_offset <- 84
 
 #Read in the output of study_definition_prelim and add dates variables
