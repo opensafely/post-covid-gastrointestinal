@@ -3,10 +3,12 @@ model.log
 */input.csv
 __pycache__
 .python-version
+output/*
 !output/.gitkeep
 metadata/*
 venv/
+.vscode/settings.json
 .DS_Store
 .Rhistory
-.Rproj.user/
-test.R
+.Rproj.user*
+.Rproj.user
