@@ -2,7 +2,7 @@
 pacman::p_load(dplyr,tictoc,purrr,lubridate,glue,tidyverse,jsonlite,here,arrow)
 
 #json file containing vax study dates
-study_dates <- fromJSON("output/vax_study_dates.json")
+study_dates <- fromJSON("output/study_dates.json")
 delta_date <- study_dates$delta_date
 delta_end_date <- study_dates$omicron_date
 all_eligible_date <- study_dates$all_eligible

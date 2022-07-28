@@ -147,9 +147,9 @@ actions_list <- splice(
   #comment("Generate vaccination eligibility information"),
   action(
     name = glue("vax_eligibility_inputs"),
-    run = "r:latest analysis/vax_eligibility_inputs.R",
+    run = "r:latest analysis/metadates.R",
     highly_sensitive = list(
-      vax_study_dates_json = glue("output/vax_study_dates.json"),
+      study_dates_json = glue("output/study_dates.json"),
       vax_jcvi_groups= glue("output/vax_jcvi_groups.csv"),
       vax_eligible_dates= ("output/vax_eligible_dates.csv")
     )
