@@ -54,12 +54,7 @@ study = StudyDefinition(
         returning_type = 'date', 
         date_format = 'YYYY-MM-DD',
     ),
-    # Define sex 
-    cov_cat_sex = patients.with_value_from_file(
-        f_path = 'output/index_dates.csv',
-        returning = 'cov_cat_sex',
-        returning_type = 'str',  
-        ),
+    
  
     # Configure the expectations framework
     default_expectations={
@@ -95,9 +90,14 @@ study = StudyDefinition(
         return_expectations = {"incidence": 0.95},
         ),
     ),
-
     
-        
+    # Define sex 
+    cov_cat_sex = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv',
+        returning = 'cov_cat_sex',
+        returning_type = 'str',  
+        ),
+
     # Define common variables (e.g., exposures, outcomes, covariates) that require dynamic dates
 
         **dynamic_variables

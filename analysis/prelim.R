@@ -8,7 +8,7 @@ delta_end_date <- study_dates$omicron_date
 all_eligible_date <- study_dates$all_eligible
 # efficacy offset = 14 days (vaccination date + 14 days is generally considered the date at which someone starts receiving their protection from vaccine)
 efficacy_offset <- 14 
-# eligibility offset = 84 days (the number of days added to vax eligibility date)
+# eligibility offset = 84 days (12 weeks ( 7*12), which is generally considered ample time to get vaccinated post eligibility)
 eligibility_offset <- 84
 
 #Read in the output of study_definition_prelim and add dates variables
