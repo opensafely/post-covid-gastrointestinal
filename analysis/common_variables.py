@@ -398,7 +398,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         qa_num_birth_year=patients.date_of_birth(
             date_format="YYYY",
             return_expectations={
-                "date": {"earliest": study_dates["vax1_earliest"], "latest": "today"},
+                "date": {"earliest": study_dates["earliest_expec"], "latest": "today"},
                 "rate": "uniform",
             },
         ),
