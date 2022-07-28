@@ -31,7 +31,7 @@ study_dates <-
     end_date = "2021-09-15" # last date of available vaccination data. NEED TO ALSO CHECK END DATES FOR OTHER DATA SOURCES
   )
 
-jsonlite::write_json(study_dates, path = "output/vax_study_dates.json", auto_unbox = TRUE, pretty=TRUE)
+jsonlite::write_json(study_dates, path = "output/study_dates.json", auto_unbox = TRUE, pretty=TRUE)
 
 # create jcvi_groups ----
 jcvi_groups <- 
