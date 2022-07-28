@@ -35,7 +35,7 @@ import study_definition_helper_functions as helpers
 from common_variables import generate_common_variables
 (
     dynamic_variables
-) = generate_common_variables(index_date_variable="index_date_vax", end_date_variable="end_date_vax")
+) = generate_common_variables(covars_date_variable="index_date_vax - 1 day",index_date_variable="index_date_vax", end_date_variable="end_date_vax")
 
 
 study = StudyDefinition(
@@ -54,6 +54,12 @@ study = StudyDefinition(
         returning_type = 'date', 
         date_format = 'YYYY-MM-DD',
     ),
+    # Define sex 
+    cov_cat_sex = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv',
+        returning = 'cov_cat_sex',
+        returning_type = 'str',  
+        ),
  
     # Configure the expectations framework
     default_expectations={
