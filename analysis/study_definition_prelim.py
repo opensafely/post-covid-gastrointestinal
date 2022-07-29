@@ -117,7 +117,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": study_dates["pandemic_satrt"], "latest" : "today"}, # dates can only be 'index_date','today', or specified date
+                "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"}, # dates can only be 'index_date','today', or specified date
                 "incidence": 0.6
             },
         ),
