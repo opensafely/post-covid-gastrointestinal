@@ -23,6 +23,7 @@ from datetime import date
 ## Variables for deriving JCVI groups
 from grouping_variables import (
     jcvi_variables, 
+    study_dates,
     start_date,
     end_date,
     pandemic_start
@@ -35,7 +36,7 @@ study = StudyDefinition(
 
     # Configure the expectations framework
     default_expectations={
-        "date": {"earliest": "1900-01-01", "latest": "today"},
+        "date": {"earliest": study_dates["earliest_expec"], "latest": "today"},
         "rate": "uniform",
         "incidence": 0.5,
     },
@@ -100,12 +101,12 @@ study = StudyDefinition(
         ## Any covid vaccination, identified by target disease
         vax_date_covid_1=patients.with_tpp_vaccination_record(
             target_disease_matches="SARS-2 CORONAVIRUS",
-            on_or_after="2020-12-08",
+            on_or_after=study_dates["vax1_earliest"],
             find_first_match_in_period=True,
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2020-12-08", "latest": "today"},
+                "date": {"earliest": study_dates["pandemic_start"], "latest": "today"},
                 "incidence": 0.7
             },
         ),
@@ -116,7 +117,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-01-08", "latest" : "today"}, # dates can only be 'index_date','today', or specified date
+                "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"}, # dates can only be 'index_date','today', or specified date
                 "incidence": 0.6
             },
         ),
@@ -128,7 +129,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-02-08", "latest" : "today"}, # dates can only be 'index_date','today', or specified date
+                "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"}, # dates can only be 'index_date','today', or specified date
                 "incidence": 0.5
             },
         ),
@@ -139,12 +140,12 @@ study = StudyDefinition(
         
         vax_date_Pfizer_1=patients.with_tpp_vaccination_record(
             product_name_matches="COVID-19 mRNA Vaccine Comirnaty 30micrograms/0.3ml dose conc for susp for inj MDV (Pfizer)",
-            on_or_after="2020-12-08",
+            on_or_after=study_dates["vax1_earliest"],
             find_first_match_in_period=True,
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2020-12-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax1_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ), 
@@ -155,7 +156,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-01-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax2_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),
@@ -166,7 +167,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-02-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax3_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),
@@ -175,12 +176,12 @@ study = StudyDefinition(
         ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
         vax_date_AstraZeneca_1=patients.with_tpp_vaccination_record(
             product_name_matches="COVID-19 Vaccine Vaxzevria 0.5ml inj multidose vials (AstraZeneca)",
-            on_or_after="2020-12-08",
+            on_or_after=study_dates["vax1_earliest"],
             find_first_match_in_period=True,
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2020-12-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax1_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),
@@ -191,7 +192,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-01-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax2_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),
@@ -202,7 +203,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-02-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax3_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),
@@ -211,12 +212,12 @@ study = StudyDefinition(
         ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
         vax_date_Moderna_1=patients.with_tpp_vaccination_record(
             product_name_matches="COVID-19 mRNA Vaccine Spikevax (nucleoside modified) 0.1mg/0.5mL dose disp for inj MDV (Moderna)",
-            on_or_after="2020-12-08",
+            on_or_after=study_dates["vax1_earliest"],
             find_first_match_in_period=True,
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2020-12-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax1_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),            
@@ -227,7 +228,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-01-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax2_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),
@@ -238,7 +239,7 @@ study = StudyDefinition(
             returning="date",
             date_format="YYYY-MM-DD",
             return_expectations={
-                "date": {"earliest": "2021-02-08", "latest" : "today"},
+                "date": {"earliest": study_dates["vax3_earliest"], "latest" : "today"},
                 "incidence": 0.5
             },
         ),

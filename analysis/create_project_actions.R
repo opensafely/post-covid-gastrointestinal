@@ -1,6 +1,11 @@
+library(tidyverse)
+library(yaml)
+library(here)
+library(glue)
+library(readr)
+library(dplyr)
 
 
-pacman::p_load(tidyverse,yaml,here,glue,readr,dplyr)
 ###########################
 # Load information to use #
 ###########################
@@ -142,9 +147,9 @@ actions_list <- splice(
   #comment("Generate vaccination eligibility information"),
   action(
     name = glue("vax_eligibility_inputs"),
-    run = "r:latest analysis/vax_eligibility_inputs.R",
+    run = "r:latest analysis/metadates.R",
     highly_sensitive = list(
-      vax_study_dates_json = glue("output/vax_study_dates.json"),
+      study_dates_json = glue("output/study_dates.json"),
       vax_jcvi_groups= glue("output/vax_jcvi_groups.csv"),
       vax_eligible_dates= ("output/vax_eligible_dates.csv")
     )
@@ -164,30 +169,41 @@ actions_list <- splice(
     run = "r:latest analysis/prelim.R",
     needs = list("vax_eligibility_inputs","generate_study_population_prelim"),
     highly_sensitive = list(
-      cohort = glue("output/index_dates.feather")
+      index_dates = glue("output/index_dates.csv")
     )
   ),
 
 
-  #comment("Generate dummy data for study_definition - electively_unvaccinated"),
-  # action(
-  #   name = "generate_study_population_electively_unvaccinated",
-  #   run = "cohortextractor:latest generate_cohort --study-definition study_definition_electively_unvaccinated --output-format feather",
-  #   needs = list("vax_eligibility_inputs"),
-  #   highly_sensitive = list(
-  #     cohort = glue("output/input_electively_unvaccinated.feather")
-  #   )
-  # ),
+  #comment("Generate dummy data for study_definition - unvaccinated"),
+  action(
+    name = "generate_study_population_unvaccinated",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_unvaccinated --output-format feather",
+    needs = list("vax_eligibility_inputs","generate_index_dates"),
+    highly_sensitive = list(
+      cohort = glue("output/input_unvaccinated.feather")
+    )
+  ),
+  #comment("Generate dummy data for study_definition - prevax"),
+  action(
+    name = "generate_study_population_prevax",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_prevax --output-format feather",
+    needs = list("vax_eligibility_inputs","generate_index_dates"),
+    highly_sensitive = list(
+      cohort = glue("output/input_prevax.feather")
+    )
+  ),
   
   #comment("Generate dummy data for study_definition - vaccinated"),
   action(
     name = "generate_study_population_vaccinated",
     run = "cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated --output-format feather",
-    needs = list("generate_index_dates"),
+    needs = list("generate_index_dates","vax_eligibility_inputs"),
     highly_sensitive = list(
       cohort = glue("output/input_vaccinated.feather")
     )
-  )) 
+  )
+)
+  
   
   # #comment("Generate dummy data for study_definition - index"),
   # action(

@@ -13,10 +13,10 @@ actions:
   ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
   vax_eligibility_inputs:
-    run: r:latest analysis/vax_eligibility_inputs.R
+    run: r:latest analysis/metadates.R
     outputs:
       highly_sensitive:
-        vax_study_dates_json: output/vax_study_dates.json
+        study_dates_json: output/study_dates.json
         vax_jcvi_groups: output/vax_jcvi_groups.csv
         vax_eligible_dates: output/vax_eligible_dates.csv
 
@@ -36,13 +36,34 @@ actions:
     - generate_study_population_prelim
     outputs:
       highly_sensitive:
-        cohort: output/index_dates.csv
+        index_dates: output/index_dates.csv
+
+  generate_study_population_unvaccinated:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_unvaccinated
+      --output-format feather
+    needs:
+    - vax_eligibility_inputs
+    - generate_index_dates
+    outputs:
+      highly_sensitive:
+        cohort: output/input_unvaccinated.feather
+
+  generate_study_population_prevax:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax
+      --output-format feather
+    needs:
+    - vax_eligibility_inputs
+    - generate_index_dates
+    outputs:
+      highly_sensitive:
+        cohort: output/input_prevax.feather
 
   generate_study_population_vaccinated:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated
       --output-format feather
-    needs: 
+    needs:
     - generate_index_dates
+    - vax_eligibility_inputs
     outputs:
       highly_sensitive:
         cohort: output/input_vaccinated.feather
