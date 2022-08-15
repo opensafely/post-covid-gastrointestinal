@@ -276,7 +276,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_cov_bin_obesity_snomed=patients.with_these_clinical_events(
         bmi_obesity_snomed_clinical,
         returning='binary_flag',
-        on_or_before=f"{index_date_variable} -1 day",
+        on_or_before=f"{index_date_variable} - 1 day",
         return_expectations={"incidence": 0.1},
     ),
     ### HES APC
@@ -296,7 +296,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_cov_num_cholesterol=patients.max_recorded_value(
         cholesterol_snomed,
         on_most_recent_day_of_measurement=True, 
-        between=[f"{index_date_variable} - 5years", f"{index_date_variable} -1 day"],
+        between=[f"{index_date_variable} - 5 years", f"{index_date_variable} -1 day"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
@@ -353,8 +353,8 @@ def generate_common_variables(index_date_variable,end_date_variable):
         },
         
     ),
-# Define quality assurances
 
+# Define quality assurances
     ## Prostate cancer
         ### Primary care
         prostate_cancer_snomed=patients.with_these_clinical_events(
