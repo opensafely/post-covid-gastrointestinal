@@ -96,6 +96,13 @@ study = StudyDefinition(
         returning = 'cov_cat_sex',
         returning_type = 'str',  
         ),
+    
+     ## Any covid vaccination, identified by target disease
+    vax_date_covid_1 = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv',
+        returning = 'vax_date_covid_1',
+        returning_type = 'date'          
+    ),
 
     # Define vaccine eligibility variables
 

@@ -99,7 +99,7 @@ study = StudyDefinition(
         ),
 # Bring COVID-19 Vaccinations vars from index_dates file
 
-        ## Any covid vaccination, identified by target disease
+    ## Any covid vaccination, identified by target disease
     vax_date_covid_1 = patients.with_value_from_file(
         f_path = 'output/index_dates.csv',
         returning = 'vax_date_covid_1',
@@ -110,7 +110,6 @@ study = StudyDefinition(
         returning = 'vax_date_covid_2',
         returning_type = 'date'   
     ),
-
     vax_date_covid_3 = patients.with_value_from_file(
         f_path = 'output/index_dates.csv',
         returning = 'vax_date_covid_3',
@@ -118,8 +117,8 @@ study = StudyDefinition(
     ),
 
        
-        ## Pfizer BioNTech
-        ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
+    ## Pfizer BioNTech
+    ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
         
     vax_date_Pfizer_1 = patients.with_value_from_file(
         f_path = 'output/index_dates.csv',
