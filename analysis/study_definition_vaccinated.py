@@ -95,7 +95,82 @@ study = StudyDefinition(
     cov_cat_sex = patients.with_value_from_file(
         f_path = 'output/index_dates.csv',
         returning = 'cov_cat_sex',
-        returning_type = 'str',  
+        returning_type = 'str'
+        ),
+# Bring COVID-19 Vaccinations vars from index_dates file
+
+        ## Any covid vaccination, identified by target disease
+        vax_date_covid_1 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_covid_1',
+            returning_type = 'date'          
+        ),
+        vax_date_covid_2 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_covid_2',
+            returning_type = 'date'   
+        ),
+
+        vax_date_covid_3 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_covid_3',
+            returning_type = 'date'
+        )
+
+       
+        ## Pfizer BioNTech
+        ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
+        
+        vax_date_Pfizer_1 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_Pfizer_1',
+            returning_type = 'date'
+        ), 
+        vax_date_Pfizer_2 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_Pfizer_2',
+            returning_type = 'date'
+        ),
+        vax_date_Pfizer_3 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_Pfizer_3',
+            returning_type = 'date'
+        ),
+        
+        ## Oxford AZ 
+        ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
+        vax_date_AstraZeneca_1 = patients.patients.patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_AstraZeneca_1',
+            returning_type = 'date'
+        ),
+        vax_date_AstraZeneca_2 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_AstraZeneca_2',
+            returning_type = 'date'
+        ),
+        vax_date_AstraZeneca_3 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_AstraZeneca_3',
+            returning_type = 'date'
+        ),
+        
+        ## Moderna
+        ## NB: may be patient's first COVID vaccine dose or their second if mixed types are given
+        vax_date_Moderna_1 = patients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_Moderna_1',
+            returning_type = 'date'
+        ),            
+        vax_date_Moderna_2 = ppatients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_Moderna_2',
+            returning_type = 'date'
+        ),
+        vax_date_Moderna_3 = ppatients.with_value_from_file(
+            f_path = 'output/index_dates.csv',
+            returning = 'vax_date_Moderna_3',
+            returning_type = 'date'
         ),
 
     # Define common variables (e.g., exposures, outcomes, covariates) that require dynamic dates
