@@ -97,6 +97,13 @@ study = StudyDefinition(
         returning = 'cov_cat_sex',
         returning_type = 'str'
         ),
+    #Death date
+    death_date = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv',
+        returning = 'death_date',
+        returning_type = 'date', 
+
+    ),
 # Bring COVID-19 Vaccinations vars from index_dates file
 
     ## Any covid vaccination, identified by target disease
