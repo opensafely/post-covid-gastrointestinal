@@ -104,6 +104,12 @@ study = StudyDefinition(
         returning_type = 'date', 
 
     ),
+    # eligibility date
+    vax_date_eligible = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv',
+        returning = 'vax_date_eligible',
+        returning_type = 'date',
+    ),
 # Bring COVID-19 Vaccinations vars from index_dates file
 
     ## Any covid vaccination, identified by target disease
@@ -178,7 +184,6 @@ study = StudyDefinition(
         returning = 'vax_date_Moderna_3',
         returning_type = 'date'
     ),
-
     # Define common variables (e.g., exposures, outcomes, covariates) that require dynamic dates
 
         **dynamic_variables
