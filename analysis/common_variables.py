@@ -97,7 +97,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
 
     # Define subgroups (for variables that don't have a corresponding covariate only)
     ## COVID-19 severity
-    sub_date_covid19_hospital=patients.admitted_to_hospital(
+    sub_date_covid19_hospital = patients.admitted_to_hospital(
         with_these_primary_diagnoses=covid_codes,
         returning="date_admitted",
         on_or_after="exp_date_covid19_confirmed",
