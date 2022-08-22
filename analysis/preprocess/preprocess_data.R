@@ -1,14 +1,13 @@
 # Load libraries ---------------------------------------------------------------
-
+tictoc::tic()
 library(magrittr)
 library(dplyr)
 library(tidyverse)
 library(lubridate)
 
 # Specify command arguments ----------------------------------------------------
-
 args <- commandArgs(trailingOnly=TRUE)
-
+print(length(args))
 if(length(args)==0){
   # use for interactive testing
   cohort_name <- "vaccinated"
@@ -20,51 +19,57 @@ fs::dir_create(here::here("output", "not-for-review"))
 fs::dir_create(here::here("output", "review"))
 
 
-# Read cohort dataset 
-args[[1]]<- "vaccinated"
-df <- arrow::read_feather(file = paste0("output/input_",args[[1]],".feather") )
+# Read cohort dataset ---------------------------------------------------------- 
 
-print("Dataset has been read successfully")
+df <- arrow::read_feather(file = paste0("output/input_",cohort_name,".feather") )
 
-# Format columns -----------------------------------------------------
+message("Dataset has been read successfully")
+
+# Format columns ---------------------------------------------------------------
 # dates, numerics, factors, logicals
 
 df <- df %>%
-  mutate(across(c(contains("_date")), ~ floor_date(as.Date(., format="%Y-%m-%d"), unit = "days")),
-         across(contains('_birth_year'), ~ format(as.Date(.), "%Y")),
+  mutate(across(c(contains("_date")),
+                ~ floor_date(as.Date(., format="%Y-%m-%d"), unit = "days")),
+         across(contains('_birth_year'),
+                ~ format(as.Date(.), "%Y")),
          across(contains('_num'), ~ as.numeric(.)),
          across(contains('_cat'), ~ as.factor(.)),
          across(contains('_bin'), ~ as.logical(.)))
 
 
-# Overwrite vaccination information for dummy data only ------------------------
+# Overwrite vaccination information for dummy data and vaccinated cohort only --
 
-if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations") && args[[1]] %in% c("vaccinated", "unvaccinated")) {
+if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations") &&
+   cohort_name %in% c("vaccinated")) {
   source("analysis/preprocess/modify_dummy_vax_data.R")
-  print("Vaccine information overwritten successfully")
+  message("Vaccine information overwritten successfully")
 }
 
 
-# Describe data --------------------------------------------------------------
+# Describe data ----------------------------------------------------------------
 
 sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
 print(Hmisc::describe(df))
 sink()
 
-
+message ("Cohort ",cohort_name, " description written successfully!")
 
 #Combine BMI variables to create one history of obesity variable ---------------
 
-df$cov_bin_obesity <-ifelse(df$cov_bin_obesity==TRUE | df$cov_cat_bmi_groups=="Obese",TRUE,FALSE)
+df$cov_bin_obesity <- ifelse(df$cov_bin_obesity==TRUE | 
+                               df$cov_cat_bmi_groups=="Obese",TRUE,FALSE)
 df[,c("cov_num_bmi")] <- NULL
 
-# QC for consultation variable
+# QC for consultation variable--------------------------------------------------
 #max to 365 (average of one per day)
 df <- df %>%
-  mutate(cov_num_consulation_rate = replace(cov_num_consulation_rate, cov_num_consulation_rate > 365, 365))%>%
+  mutate(cov_num_consulation_rate = replace(cov_num_consulation_rate, 
+                                            cov_num_consulation_rate > 365, 365))%>%
   dplyr::select(- c(cov_cat_bmi_groups))
 
 
+#COVID19 severity --------------------------------------------------------------
 
 df <- df %>%
   mutate(sub_cat_covid19_hospital = 
@@ -78,13 +83,14 @@ df <- df %>%
 df <- df[!is.na(df$patient_id),]
 df[,c("sub_date_covid19_hospital")] <- NULL
 
-print("COVID19 severity determined successfully")
+message("COVID19 severity determined successfully")
 
 
 # Restrict columns and save analysis dataset ---------------------------------
 
 
-df1 <- df%>% select(patient_id,"death_date",starts_with("index_date_"), starts_with("end_date_"),
+df1 <- df%>% select(patient_id,"death_date",starts_with("index_date_"),
+                    starts_with("end_date_"),
              contains("sub_"), # Subgroups
              contains("exp_"), # Exposures
              contains("out_"), # Outcomes
@@ -101,7 +107,7 @@ df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
 
 saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"))
 
-print("Input data saved successfully")
+message("Input data saved successfully")
 
 # Describe data --------------------------------------------------------------
 
@@ -110,7 +116,6 @@ print(Hmisc::describe(df1))
 sink()
 
 # Restrict columns and save Venn diagram input dataset -----------------------
-
 
 df2 <- df %>% select(starts_with(c("patient_id","tmp_out_date","out_date")))
 
@@ -122,4 +127,5 @@ sink()
 
 saveRDS(df2, file = paste0("output/venn_",cohort_name,".rds"))
 
-print("Venn diagram data saved successfully")
+message("Venn diagram data saved successfully")
+tictoc::toc()
