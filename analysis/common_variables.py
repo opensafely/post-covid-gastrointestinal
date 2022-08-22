@@ -169,13 +169,13 @@ def generate_common_variables(index_date_variable,end_date_variable):
         ),
         cov_ethnicity_gp_primis=patients.with_these_clinical_events(
             primis_covid19_vacc_update_ethnicity,
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
             returning="category",
             find_last_match_in_period=True,
         ),
         cov_ethnicity_gp_opensafely_date=patients.with_these_clinical_events(
             opensafely_ethnicity_codes_6,
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
             returning="category",
             find_last_match_in_period=True,
         ),
@@ -239,12 +239,12 @@ def generate_common_variables(index_date_variable,end_date_variable):
         most_recent_smoking_code=patients.with_these_clinical_events(
             smoking_clear,
             find_last_match_in_period=True,
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
             returning="category",
         ),
         ever_smoked=patients.with_these_clinical_events(
             filter_codes_by_category(smoking_clear, include=["S", "E"]),
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
         ),
     ),
 
@@ -320,17 +320,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
 
     ## BMI
     # taken from: https://github.com/opensafely/BMI-and-Metabolic-Markers/blob/main/analysis/common_variables.py 
-    cov_num_bmi=patients.most_recent_bmi(
-        on_or_before=f"{index_date_variable} -1 day",
-        minimum_age_at_measurement=18,
-        include_measurement_date=True,
-        date_format="YYYY-MM",
-        return_expectations={
-            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"}, ##How do we obtain these dates ? 
-            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
-            "incidence": 0.7,
-        },
-    ),
+    
      ### Categorising BMI
     cov_cat_bmi_groups = patients.categorised_as(
         {
@@ -351,6 +341,18 @@ def generate_common_variables(index_date_variable,end_date_variable):
                 }
             },
         },
+        cov_num_bmi = patients.most_recent_bmi(
+        on_or_before=f"{index_date_variable} - 1 day",
+        minimum_age_at_measurement=18,
+        include_measurement_date=True,
+        date_format="YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"}, ##How do we obtain these dates ? 
+            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
+            "incidence": 0.7,
+        },
+    ),
+
         
     ),
 
