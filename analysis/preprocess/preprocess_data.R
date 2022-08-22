@@ -33,7 +33,7 @@ df <- df %>%
                 ~ floor_date(as.Date(., format="%Y-%m-%d"), unit = "days")),
          across(contains('_birth_year'),
                 ~ format(as.Date(.), "%Y")),
-         across(contains('_num'), ~ as.numeric(.)),
+         across(contains('_num') & !contains('date'), ~ as.numeric(.)),
          across(contains('_cat'), ~ as.factor(.)),
          across(contains('_bin'), ~ as.logical(.)))
 
@@ -57,7 +57,7 @@ message ("Cohort ",cohort_name, " description written successfully!")
 
 #Combine BMI variables to create one history of obesity variable ---------------
 
-df$cov_bin_obesity <- ifelse(df$cov_bin_obesity==TRUE | 
+df$cov_bin_obesity <- ifelse(df$cov_bin_obesity == TRUE | 
                                df$cov_cat_bmi_groups=="Obese",TRUE,FALSE)
 df[,c("cov_num_bmi")] <- NULL
 
