@@ -23,7 +23,7 @@ fs::dir_create(here::here("output", "review"))
 
 df <- arrow::read_feather(file = paste0("output/input_",cohort_name,".feather") )
 
-message("Dataset has been read successfully")
+message(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
 # Format columns ---------------------------------------------------------------
 # dates, numerics, factors, logicals
