@@ -19,8 +19,11 @@ from cohortextractor import (
 ## Variables for deriving JCVI groups
 from grouping_variables import (
   
-    study_dates
+    study_dates,
+    jcvi_variables,
+  
 )
+
 
 ## Codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import *
@@ -98,12 +101,12 @@ study = StudyDefinition(
         returning_type = 'str'
         ),
 
-    # eligibility date
-    vax_date_eligible = patients.with_value_from_file(
-        f_path = 'output/index_dates.csv',
-        returning = 'vax_date_eligible',
-        returning_type = 'date',
-    ),
+    # # eligibility date
+    # vax_date_eligible = patients.with_value_from_file(
+    #     f_path = 'output/index_dates.csv',
+    #     returning = 'vax_date_eligible',
+    #     returning_type = 'date',
+    # ),
 # Bring COVID-19 Vaccinations vars from index_dates file
 
     ## Any covid vaccination, identified by target disease

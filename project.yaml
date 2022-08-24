@@ -72,7 +72,6 @@ actions:
     run: r:latest analysis/preprocess/preprocess_data.R vax
     needs:
     - generate_index_dates
-    - vax_eligibility_inputs
     - generate_study_population_vax
     outputs:
       moderately_sensitive:
@@ -85,6 +84,7 @@ actions:
   preprocess_data_unvax:
     run: r:latest analysis/preprocess/preprocess_data.R unvax
     needs:
+    - generate_index_dates
     - generate_study_population_unvax
     outputs:
       moderately_sensitive:
@@ -97,6 +97,7 @@ actions:
   preprocess_data_prevax:
     run: r:latest analysis/preprocess/preprocess_data.R prevax
     needs:
+    - generate_index_dates
     - generate_study_population_prevax
     outputs:
       moderately_sensitive:

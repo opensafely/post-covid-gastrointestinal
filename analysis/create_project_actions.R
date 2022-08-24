@@ -209,7 +209,7 @@ actions_list <- splice(
   action(
     name = "preprocess_data_vax",
     run = "r:latest analysis/preprocess/preprocess_data.R vax",
-    needs = list("generate_index_dates","vax_eligibility_inputs","generate_study_population_vax"),
+    needs = list("generate_index_dates","generate_study_population_vax"),
     moderately_sensitive = list(
       describe = glue("output/not-for-review/describe_input_vax_stage0.txt"),
       descrive_venn = glue("output/not-for-review/describe_venn_vax.txt")
@@ -224,7 +224,7 @@ actions_list <- splice(
   action(
     name = "preprocess_data_unvax",
     run = "r:latest analysis/preprocess/preprocess_data.R unvax",
-    needs = list( "generate_study_population_unvax"),
+    needs = list("generate_index_dates", "generate_study_population_unvax"),
     moderately_sensitive = list(
       describe = glue("output/not-for-review/describe_input_unvax_stage0.txt"),
       describe_venn = glue("output/not-for-review/describe_venn_unvax.txt")
@@ -239,7 +239,7 @@ actions_list <- splice(
   action(
     name = "preprocess_data_prevax",
     run = "r:latest analysis/preprocess/preprocess_data.R prevax",
-    needs = list( "generate_study_population_prevax"),
+    needs = list( "generate_index_dates","generate_study_population_prevax"),
     moderately_sensitive = list(
       describe = glue("output/not-for-review/describe_input_prevax_stage0.txt"),
       describe_venn = glue("output/not-for-review/describe_venn_prevax.txt")

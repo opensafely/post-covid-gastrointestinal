@@ -44,3 +44,5 @@ primis-covid19-vacc-uptake/sev_obesity/v1.2
 user/RochelleKnight/prostate_cancer_snomed/0437497e
 user/RochelleKnight/prostate_cancer_icd10/6b27d648
 user/RochelleKnight/pregnancy_and_birth_snomed/1d46bcb3
+user/elsie_horne/cocp_dmd/1666a7a3
+user/elsie_horne/hrt_dmd/19196799

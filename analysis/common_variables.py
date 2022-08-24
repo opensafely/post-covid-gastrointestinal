@@ -252,7 +252,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     cov_bin_combined_oral_contraceptive_pill=patients.with_these_medications(
         cocp_dmd, 
         returning='binary_flag',
-        on_or_before=f"{index_date_variable_covariates}",
+        on_or_before=f"{index_date_variable} - 1 day",
         return_expectations={"incidence": 0.3},
     ),
 
@@ -260,7 +260,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     cov_bin_hormone_replacement_therapy=patients.with_these_medications(
         hrt_dmd, 
         returning='binary_flag',
-        on_or_before=f"{index_date_variable_covariates}",
+        on_or_before=f"{index_date_variable} - 1 day",
         return_expectations={"incidence": 0.3},
     ),
 
