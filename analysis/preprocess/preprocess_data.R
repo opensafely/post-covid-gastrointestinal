@@ -65,8 +65,7 @@ df[,c("cov_num_bmi")] <- NULL
 #max to 365 (average of one per day)
 df <- df %>%
   mutate(cov_num_consulation_rate = replace(cov_num_consulation_rate, 
-                                            cov_num_consulation_rate > 365, 365))%>%
-  dplyr::select(- c(cov_cat_bmi_groups))
+                                            cov_num_consulation_rate > 365, 365))
 
 
 #COVID19 severity --------------------------------------------------------------
@@ -104,6 +103,8 @@ df1 <- df%>% select(patient_id,"death_date",starts_with("index_date_"),
 
 
 df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
+
+# Repo specific preprocessing 
 
 saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"))
 

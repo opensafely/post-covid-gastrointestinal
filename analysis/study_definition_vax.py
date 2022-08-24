@@ -97,13 +97,7 @@ study = StudyDefinition(
         returning = 'cov_cat_sex',
         returning_type = 'str'
         ),
-    #Death date
-    death_date = patients.with_value_from_file(
-        f_path = 'output/index_dates.csv',
-        returning = 'death_date',
-        returning_type = 'date', 
 
-    ),
     # eligibility date
     vax_date_eligible = patients.with_value_from_file(
         f_path = 'output/index_dates.csv',
@@ -184,7 +178,11 @@ study = StudyDefinition(
         returning = 'vax_date_Moderna_3',
         returning_type = 'date'
     ),
+    # Define vaccine eligibility variables
+
+        **jcvi_variables, 
     # Define common variables (e.g., exposures, outcomes, covariates) that require dynamic dates
 
         **dynamic_variables
+
 )
