@@ -107,7 +107,7 @@ df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
 
 saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"))
 
-message("Input data saved successfully")
+message(paste0("Input data saved successfully with N = ", nrow(df1), " rows"))
 
 # Describe data --------------------------------------------------------------
 
