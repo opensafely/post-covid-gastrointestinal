@@ -174,13 +174,13 @@ actions_list <- splice(
   ),
 
 
-  #comment("Generate dummy data for study_definition - unvaccinated"),
+  #comment("Generate dummy data for study_definition - unvax"),
   action(
-    name = "generate_study_population_unvaccinated",
-    run = "cohortextractor:latest generate_cohort --study-definition study_definition_unvaccinated --output-format feather",
+    name = "generate_study_population_unvax",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_unvax --output-format feather",
     needs = list("vax_eligibility_inputs","generate_index_dates"),
     highly_sensitive = list(
-      cohort = glue("output/input_unvaccinated.feather")
+      cohort = glue("output/input_unvax.feather")
     )
   ),
   #comment("Generate dummy data for study_definition - prevax"),
@@ -193,45 +193,45 @@ actions_list <- splice(
     )
   ),
   
-  #comment("Generate dummy data for study_definition - vaccinated"),
+  #comment("Generate dummy data for study_definition - vax"),
   action(
-    name = "generate_study_population_vaccinated",
-    run = "cohortextractor:latest generate_cohort --study-definition study_definition_vaccinated --output-format feather",
+    name = "generate_study_population_vax",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_vax --output-format feather",
     needs = list("generate_index_dates","vax_eligibility_inputs"),
     highly_sensitive = list(
-      cohort = glue("output/input_vaccinated.feather")
+      cohort = glue("output/input_vax.feather")
     )
   ),
 
   
 
-  # #comment("Preprocess data - vaccinated"),
+  # #comment("Preprocess data - vax"),
   action(
-    name = "preprocess_data_vaccinated",
-    run = "r:latest analysis/preprocess/preprocess_data.R vaccinated",
-    needs = list("generate_index_dates","vax_eligibility_inputs","generate_study_population_vaccinated"),
+    name = "preprocess_data_vax",
+    run = "r:latest analysis/preprocess/preprocess_data.R vax",
+    needs = list("generate_index_dates","vax_eligibility_inputs","generate_study_population_vax"),
     moderately_sensitive = list(
-      describe = glue("output/not-for-review/describe_input_vaccinated_stage0.txt"),
-      descrive_venn = glue("output/not-for-review/describe_venn_vaccinated.txt")
+      describe = glue("output/not-for-review/describe_input_vax_stage0.txt"),
+      descrive_venn = glue("output/not-for-review/describe_venn_vax.txt")
     ),
     highly_sensitive = list(
-      cohort = glue("output/input_vaccinated.rds"),
-      venn = glue("output/venn_vaccinated.rds")
+      cohort = glue("output/input_vax.rds"),
+      venn = glue("output/venn_vax.rds")
     )
   ), 
 
-  # #comment("Preprocess data -unvaccinated"),
+  # #comment("Preprocess data -unvax"),
   action(
-    name = "preprocess_data_unvaccinated",
-    run = "r:latest analysis/preprocess/preprocess_data.R unvaccinated",
-    needs = list( "generate_study_population_unvaccinated"),
+    name = "preprocess_data_unvax",
+    run = "r:latest analysis/preprocess/preprocess_data.R unvax",
+    needs = list( "generate_study_population_unvax"),
     moderately_sensitive = list(
-      describe = glue("output/not-for-review/describe_input_unvaccinated_stage0.txt"),
-      describe_venn = glue("output/not-for-review/describe_venn_unvaccinated.txt")
+      describe = glue("output/not-for-review/describe_input_unvax_stage0.txt"),
+      describe_venn = glue("output/not-for-review/describe_venn_unvax.txt")
     ),
     highly_sensitive = list(
-      cohort = glue("output/input_unvaccinated.rds"),
-      venn = glue("output/venn_unvaccinated.rds")
+      cohort = glue("output/input_unvax.rds"),
+      venn = glue("output/venn_unvax.rds")
     )
   ),
   

@@ -10,7 +10,7 @@ args <- commandArgs(trailingOnly=TRUE)
 print(length(args))
 if(length(args)==0){
   # use for interactive testing
-  cohort_name <- "vaccinated"
+  cohort_name <- "vax"
 } else {
   cohort_name <- args[[1]]
 }
@@ -38,10 +38,10 @@ df <- df %>%
          across(contains('_bin'), ~ as.logical(.)))
 
 
-# Overwrite vaccination information for dummy data and vaccinated cohort only --
+# Overwrite vaccination information for dummy data and vax cohort only --
 
 if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations") &&
-   cohort_name %in% c("vaccinated")) {
+   cohort_name %in% c("vax")) {
   source("analysis/preprocess/modify_dummy_vax_data.R")
   message("Vaccine information overwritten successfully")
 }
