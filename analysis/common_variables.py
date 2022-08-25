@@ -94,10 +94,52 @@ def generate_common_variables(index_date_variable,end_date_variable):
     exp_date_covid19_confirmed=patients.minimum_of(
         "tmp_exp_date_covid19_confirmed_sgss","tmp_exp_date_covid19_confirmed_snomed","tmp_exp_date_covid19_confirmed_hes","tmp_exp_date_covid19_confirmed_death"
     ),
+# POPULATION SELECTION VARIABLES ------------------------------------------------------
 
+    has_follow_up_previous_6months=patients.registered_with_one_practice_between(
+        start_date=f"{index_date_variable} - 6 months",
+        end_date=f"{index_date_variable}",
+        return_expectations={"incidence": 0.95},
+    ),
+
+    has_died = patients.died_from_any_cause(
+        on_or_before = f"{index_date_variable}",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.01}
+    ),
+
+    registered_at_start = patients.registered_as_of(f"{index_date_variable}",
+    ),
+
+    registered_as_of_6months_before_delta=patients.registered_with_one_practice_between(
+        start_date="2020-12-15",
+        end_date="2021-06-01",
+        return_expectations={"incidence": 0.95},
+    ),
+
+    registered_as_of_pandemic_start=patients.registered_with_one_practice_between(
+        start_date="2020-01-01",
+        end_date="2020-01-01",
+        return_expectations={"incidence": 0.95},
+    ),
+
+    registered_as_of_6months_before_pandemic_start=patients.registered_with_one_practice_between(
+        start_date="2019-07-17",
+        end_date="2020-01-01",
+        return_expectations={"incidence": 0.95},
+    ),
+
+    dereg_date=patients.date_deregistered_from_all_supported_practices(
+        on_or_after="2020-01-01", date_format = 'YYYY-MM-DD',
+                        return_expectations={
+                    "date": {"earliest": "2020-01-01", "latest": "today"},
+                    "rate": "uniform",
+                    "incidence": 0.01
+                },
+    ),
     # Define subgroups (for variables that don't have a corresponding covariate only)
     ## COVID-19 severity
-    sub_date_covid19_hospital=patients.admitted_to_hospital(
+    sub_date_covid19_hospital = patients.admitted_to_hospital(
         with_these_primary_diagnoses=covid_codes,
         returning="date_admitted",
         on_or_after="exp_date_covid19_confirmed",
@@ -169,13 +211,13 @@ def generate_common_variables(index_date_variable,end_date_variable):
         ),
         cov_ethnicity_gp_primis=patients.with_these_clinical_events(
             primis_covid19_vacc_update_ethnicity,
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
             returning="category",
             find_last_match_in_period=True,
         ),
         cov_ethnicity_gp_opensafely_date=patients.with_these_clinical_events(
             opensafely_ethnicity_codes_6,
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
             returning="category",
             find_last_match_in_period=True,
         ),
@@ -239,13 +281,29 @@ def generate_common_variables(index_date_variable,end_date_variable):
         most_recent_smoking_code=patients.with_these_clinical_events(
             smoking_clear,
             find_last_match_in_period=True,
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
             returning="category",
         ),
         ever_smoked=patients.with_these_clinical_events(
             filter_codes_by_category(smoking_clear, include=["S", "E"]),
-            on_or_before=f"{index_date_variable} -1 day",
+            on_or_before=f"{index_date_variable} - 1 day",
         ),
+    ),
+## Combined oral contraceptive pill
+    ### dmd: dictionary of medicines and devices
+    cov_bin_combined_oral_contraceptive_pill=patients.with_these_medications(
+        cocp_dmd, 
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        return_expectations={"incidence": 0.3},
+    ),
+
+    ## Hormone replacement therapy
+    cov_bin_hormone_replacement_therapy=patients.with_these_medications(
+        hrt_dmd, 
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        return_expectations={"incidence": 0.3},
     ),
 
     ## Care home status
@@ -276,7 +334,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_cov_bin_obesity_snomed=patients.with_these_clinical_events(
         bmi_obesity_snomed_clinical,
         returning='binary_flag',
-        on_or_before=f"{index_date_variable} -1 day",
+        on_or_before=f"{index_date_variable} - 1 day",
         return_expectations={"incidence": 0.1},
     ),
     ### HES APC
@@ -296,7 +354,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_cov_num_cholesterol=patients.max_recorded_value(
         cholesterol_snomed,
         on_most_recent_day_of_measurement=True, 
-        between=[f"{index_date_variable} - 5years", f"{index_date_variable} -1 day"],
+        between=[f"{index_date_variable} - 5 years", f"{index_date_variable} -1 day"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
@@ -320,17 +378,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
 
     ## BMI
     # taken from: https://github.com/opensafely/BMI-and-Metabolic-Markers/blob/main/analysis/common_variables.py 
-    cov_num_bmi=patients.most_recent_bmi(
-        on_or_before=f"{index_date_variable} -1 day",
-        minimum_age_at_measurement=18,
-        include_measurement_date=True,
-        date_format="YYYY-MM",
-        return_expectations={
-            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"}, ##How do we obtain these dates ? 
-            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
-            "incidence": 0.7,
-        },
-    ),
+    
      ### Categorising BMI
     cov_cat_bmi_groups = patients.categorised_as(
         {
@@ -351,10 +399,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
                 }
             },
         },
+        cov_num_bmi = patients.most_recent_bmi(
+        on_or_before=f"{index_date_variable} - 1 day",
+        minimum_age_at_measurement=18,
+        include_measurement_date=True,
+        date_format="YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "2010-02-01", "latest": "2022-02-01"}, ##How do we obtain these dates ? 
+            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
+            "incidence": 0.7,
+        },
+    ),
+
         
     ),
-# Define quality assurances
 
+# Define quality assurances
     ## Prostate cancer
         ### Primary care
         prostate_cancer_snomed=patients.with_these_clinical_events(

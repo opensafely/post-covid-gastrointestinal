@@ -77,7 +77,6 @@ jcvi_variables = dict(
         },
     ),
 
-
     vax_cat_jcvi_group=patients.categorised_as(
         dict_jcvi,
         return_expectations={
@@ -87,6 +86,7 @@ jcvi_variables = dict(
                 "ratios": ratio_jcvi 
                 }
         },
+    ),
 
     ### NEED TO DISCUSS CONDITIONS FOR PREGNANCY (FEMALE AND <50)
     ### WAS ADDED INITIALLY TO AVOID CODING ERRORS, BUT NOT VERY INCLUSIVE SO CONSIDER REVISING
@@ -399,7 +399,7 @@ jcvi_variables = dict(
         on_or_before=days(start_date, -1),
         return_expectations={"incidence": 0.01},
     ),
-    ),
+    
 
     # vaccine eligibility dates
     vax_date_eligible=patients.categorised_as(
