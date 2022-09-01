@@ -288,9 +288,17 @@ def generate_common_variables(index_date_variable,end_date_variable):
         hrt_dmd, 
         returning='binary_flag',
         on_or_before=f"{index_date_variable} - 1 day",
+
         return_expectations={"incidence": 0.3},
     ),
 
+    ## Hormone replacement therapy
+    cov_bin_hormone_replacement_therapy=patients.with_these_medications(
+        hrt_dmd, 
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable_covariates}",
+        return_expectations={"incidence": 0.3},
+    ),
     ## Care home status
     cov_bin_carehome_status=patients.care_home_status_as_of(
         f"{index_date_variable} -1 day", 
