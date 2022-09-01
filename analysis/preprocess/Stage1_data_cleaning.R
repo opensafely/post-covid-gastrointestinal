@@ -45,6 +45,8 @@ library(tidyr)
 library(ggplot2)
 
 
+#clear memory
+rm(list=ls())
 
 # Get dataset for either the vaccinated or electively unvaccinated subcohort
 # Specify command arguments ----------------------------------------------------
@@ -62,13 +64,17 @@ if(length(args)==0){
 fs::dir_create(here::here("output", "not-for-review"))
 fs::dir_create(here::here("output", "review", "descriptives"))
 
-# START DATES
+#vaccinattion program start date
+vax_start_date<-as.Date("2020-12-08")
 
+#date before which
+mixed_vax_threshold<-as.Date("2021-05-07")
 # start_date_prevax = as.Date("2020-01-01")
 # end_date_prevax = as.Date("2021-06-18") # General End date: 2021-06-18 (date last JCVI group eligible for vaccination - Decision on Jan 18th 2022)
 
-# start_date_delta = as.Date("2021-06-01")
-# end_date_delta = as.Date("2021-12-14") # General End date: 2021-12-14 (Decision on Dec 20th 2021)
+#TODO read from json file 
+start_date_delta = as.Date("2021-06-01")
+end_date_delta = as.Date("2021-12-14") # General End date: 2021-12-14 (Decision on Dec 20th 2021)
 
 stage1 <- function(cohort_name, group){
 
@@ -76,25 +82,12 @@ stage1 <- function(cohort_name, group){
     
     print(paste0(cohort_name, " ", group, " ", nrow(input), " rows in the input file"))
     
-    # Define general start date and end date
+#Rename the index_date_vax/unvax/prevax to index_date   
+    input<- input %>%
+     rename(index_date=!!sym(paste0("index_date_",cohort_name))) %>%
+      rename(end_date = !!sym(paste0("end_date_",cohort_name)))
     
-    # if (cohort_name == "prevax") {
-
-    # start_date = start_date_prevax
-    # end_date = end_date_prevax 
-    # input <- input %>% mutate(index_date = start_date)
-    
-    # } else if (cohort_name == "vax"){
-    
-    # start_date = start_date_delta
-    # end_date = end_date_delta
-    # input <- input %>% mutate(index_date = index_date_vax)
-    
-    # } else if (cohort_name == "unvax"){
-    # start_date = start_date_delta
-    # end_date = end_date_delta
-    # input <- input %>% mutate(index_date = index_date_unvax)  
-    # }
+   
       
     # NOTE: no censoring of end date for death/event at this stage
                            
@@ -159,7 +152,7 @@ stage1 <- function(cohort_name, group){
     #####################
     # 2. Apply QA rules #
     #####################
-    
+   
     #Rule 1: Year of birth is after year of death or patient only has year of death
     input$rule1=NA
     input$rule1=((input$qa_num_birth_year > (format(input$death_date, format="%Y")) & is.na(input$qa_num_birth_year)== FALSE & is.na(input$death_date) == FALSE)|(is.na(input$qa_num_birth_year)== TRUE & is.na(input$death_date) == FALSE))
@@ -235,8 +228,8 @@ stage1 <- function(cohort_name, group){
                               N_removed = numeric(),
                               Description = character(),
                               stringsAsFactors = FALSE)
+    cohort_flow[nrow(cohort_flow)+1,] <- c(as.numeric(as.numeric(nrow(input)) + as.numeric(QA_summary[nrow(QA_summary),2])), 0, "Study defined sample size before QA checks")
     
-    cohort_flow[nrow(cohort_flow)+1,] <- c(as.numeric(as.numeric(nrow(input)) + as.numeric(QA_summary[7,2])), 0, "Study defined sample size before QA checks")
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(QA_summary[7,2]) ,"Study defined sample size after QA checks")
     
     #----------------------------------------------------------------#
@@ -246,11 +239,15 @@ stage1 <- function(cohort_name, group){
     #Inclusion criteria 1: Alive on the first day of follow up
     input <- input %>% filter(index_date < death_date | is.na(death_date))
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[2,1]) - nrow(input), "Criteria 1 (Inclusion): Alive on the first day of follow up") # Feed into the cohort flow
-    
+    # cohort_flow<- cohort_flow %>%
+    #   rbind(c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow)-1,1]) - nrow(input), "Criteria 1 (Inclusion): Alive on the first day of follow up"))
     #Inclusion criteria 2: Known age between 18 and 110 on 01/06/2021 
     #input <- input[!is.na(input$cov_num_age),] # Commented out this code line since it should be dealt with in the next code line
     input <- subset(input, input$cov_num_age >= 18) # Subset input if age between 18 and 110 on 01/06/2021.
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[3,1]) - nrow(input), "Criteria 2a (Inclusion): Aged 18 and over on index date") # Feed into the cohort flow
+    # cohort_flow<- cohort_flow %>%
+    #   rbind(c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow)-1,1]) - nrow(input), "Criteria 1 (Inclusion): Alive on the first day of follow up"))
+    
     
     input <- subset(input, input$cov_num_age <= 110) # Subset input if age between 18 and 110 on 01/06/2021.
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[4,1]) - nrow(input), "Criteria 2b (Inclusion): Aged 110 and under on index date") # Feed into the cohort flow
@@ -267,13 +264,19 @@ stage1 <- function(cohort_name, group){
     input <- subset(input, input$has_follow_up_previous_6months == TRUE)
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[7,1]) - nrow(input), "Criteria 5 (Inclusion): Registered in an English GP with TPP software for at least 6 months prior to the study start date")
     
-    #Inclusion criteria 6: Known region
+    #Inclusion criteria 6: Not deregistered 
+    input <- input %>%
+      filter(is.na(dereg_date))
+    #cohort_flow <- rbind(cohort_flow,c(nrow(input),as.numeric(cohort_flow[(nrow(input)-1),1]) - nrow(input)))
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[8,1]) - nrow(input), "Criteria 6 (Inclusion): Not deregistered from all support practices between index and end of study date")
+    
+    #Inclusion criteria 7: Known region
     input <- input %>% mutate(cov_cat_region = as.character(cov_cat_region)) %>%
       filter(cov_cat_region != "Missing")%>%
       mutate(cov_cat_region = as.factor(cov_cat_region))
     
     input$cov_cat_region <- relevel(input$cov_cat_region, ref = "East")
-    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[8,1]) - nrow(input), "Criteria 6 (Inclusion): Known region")
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[9,1]) - nrow(input), "Criteria 7 (Inclusion): Known region")
     
     # A simple check if factor reference level has changed
     describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step'), ignore.case = TRUE))
@@ -291,37 +294,37 @@ stage1 <- function(cohort_name, group){
     #-------------------------------------------------#
     
     if (cohort_name == "vax") {
-      
-      #Exclusion criteria 7: Do not have a record of two vaccination doses prior to the study end date
+        
+      #Exclusion criteria 8: Do not have a record of two vaccination doses prior to the study end date
       input$vax_gap <- input$vax_date_covid_2 - input$vax_date_covid_1 #Determine the vaccination gap in days : gap is NA if any vaccine date is missing
       input <- input[!is.na(input$vax_gap),] # Subset the fully vaccinated group
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[9,1]) - nrow(input), "Criteria 7 (Exclusion): No record of two vaccination doses prior to the study end date") # Feed into the cohort flow
+      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[10,1]) - nrow(input), "Criteria 7 (Exclusion): No record of two vaccination doses prior to the study end date") # Feed into the cohort flow
       
-      #Exclusion criteria 8: Received a vaccination prior to 08-12-2020 (i.e., the start of the vaccination program)
-      input <- subset(input, input$vax_date_covid_1 >= as.Date("2020-12-08")&input$vax_date_covid_2 >= as.Date("2020-12-08"))
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[10,1]) - nrow(input), "Criteria 8 (Exclusion): Recorded vaccination prior to the start date of vaccination program")
+      #Exclusion criteria 9: Received a vaccination prior to 08-12-2020 (i.e., the start of the vaccination program)
+      input <- subset(input, input$vax_date_covid_1 >= vax_start_date&input$vax_date_covid_2 >= vax_start_date)
+      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[11,1]) - nrow(input), "Criteria 8 (Exclusion): Recorded vaccination prior to the start date of vaccination program")
       
-      #Exclusion criteria 9: Received a second dose vaccination before their first dose vaccination
+      #Exclusion criteria 10: Received a second dose vaccination before their first dose vaccination
       input <- subset(input, input$vax_gap >= 0) # Keep those with positive vaccination gap
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[11,1]) - nrow(input), "Criteria 9 (Exclusion): Second dose vaccination recorded before the first dose vaccination")
+      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[12,1]) - nrow(input), "Criteria 9 (Exclusion): Second dose vaccination recorded before the first dose vaccination")
       
-      #Exclusion criteria 10: Received a second dose vaccination less than three weeks after their first dose
+      #Exclusion criteria 11: Received a second dose vaccination less than three weeks after their first dose
       input <- subset(input, input$vax_gap >= 21) # Keep those with at least 3 weeks vaccination gap
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[12,1]) - nrow(input), "Criteria 10 (Exclusion): Second dose vaccination recorded less than three weeks after the first dose")
+      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[13,1]) - nrow(input), "Criteria 10 (Exclusion): Second dose vaccination recorded less than three weeks after the first dose")
       
-      #Exclusion criteria 11: Mixed vaccine products received before 07-05-2021
+      #Exclusion criteria 12: Mixed vaccine products received before 07-05-2021
       # Trick to run the mixed vaccine code on dummy data with limited levels -> To ensure that the levels are the same in vax_cat_product variables
       
       input <- input %>%
-        mutate(AZ_date = ifelse(vax_date_AstraZeneca_1 < as.Date("2021-05-07"), 1,
-                                ifelse(vax_date_AstraZeneca_2 < as.Date("2021-05-07"), 1,
-                                       ifelse(vax_date_AstraZeneca_3 < as.Date("2021-05-07"), 1, 0)))) %>%
-        mutate(Moderna_date = ifelse(vax_date_Moderna_1 < as.Date("2021-05-07"), 1,
-                                ifelse(vax_date_Moderna_2 < as.Date("2021-05-07"), 1,
-                                       ifelse(vax_date_Moderna_3 < as.Date("2021-05-07"), 1, 0)))) %>%
-        mutate(Pfizer_date = ifelse(vax_date_Pfizer_1 < as.Date("2021-05-07"), 1,
-                                ifelse(vax_date_Pfizer_2 < as.Date("2021-05-07"), 1,
-                                       ifelse(vax_date_Pfizer_3 < as.Date("2021-05-07"), 1, 0)))) %>%
+        mutate(AZ_date = ifelse(vax_date_AstraZeneca_1 < mixed_vax_threshold, 1,
+                                ifelse(vax_date_AstraZeneca_2 < mixed_vax_threshold, 1,
+                                       ifelse(vax_date_AstraZeneca_3 < mixed_vax_threshold, 1, 0)))) %>%
+        mutate(Moderna_date = ifelse(vax_date_Moderna_1 < mixed_vax_threshold, 1,
+                                ifelse(vax_date_Moderna_2 < mixed_vax_threshold, 1,
+                                       ifelse(vax_date_Moderna_3 < mixed_vax_threshold, 1, 0)))) %>%
+        mutate(Pfizer_date = ifelse(vax_date_Pfizer_1 < mixed_vax_threshold, 1,
+                                ifelse(vax_date_Pfizer_2 < mixed_vax_threshold, 1,
+                                       ifelse(vax_date_Pfizer_3 < mixed_vax_threshold, 1, 0)))) %>%
         rowwise() %>%
         mutate(vax_mixed = sum(across(c("AZ_date", "Moderna_date", "Pfizer_date")), na.rm = T)) %>%
         dplyr::filter(vax_mixed < 2)
@@ -347,6 +350,8 @@ stage1 <- function(cohort_name, group){
       
       
     } else if (cohort_name == "unvax"){
+      input %>% rename (index_date = index_date_unvax) %>%
+        rename(end_date = end_date_unvax)
       
       #Exclusion criteria 7: Have a record of one or more vaccination prior index date
       # i.e. Have a record of a first vaccination prior index date (no more vax 2 and 3 variables available in this dataset)
@@ -381,81 +386,7 @@ stage1 <- function(cohort_name, group){
     # 3.c. Apply outcome specific exclusions criteria #
     #-------------------------------------------------#
     
-    if (group == "diabetes"){
-      # Exclude individuals with a recorded diagnosis of diabetes prior to index date
-      input <- input %>% 
-        filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
-        filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-        filter(! out_date_otherdm < index_date | is.na(out_date_otherdm))
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), "Calculate manually", "Diabetes specific criteria: Remove those with diabetes prior to study start date")
-      
-    } else if (group == "diabetes_prediabetes"){
-      # Restrict to only those with a history of pre diabetes
-      input <- input %>% 
-        filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
-        filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-        filter(! out_date_otherdm < index_date | is.na(out_date_otherdm))  %>%
-        filter(cov_bin_prediabetes == TRUE) %>%
-        # change name of t2dm variable to avoid duplicated cox actions
-        dplyr::rename(out_date_t2dm_pd = out_date_t2dm)
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Calculate manually", "Diabetes specific criteria: Remove those with diabetes prior to study start date AND restrict to those with a history of prediabetes")
-      
-    } else if (group == "diabetes_no_prediabetes"){
-      # Restrict to only those with NO history of pre diabetes
-      input <- input %>% 
-        filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
-        filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-        filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
-        filter(cov_bin_prediabetes == FALSE) %>%
-        # change name of t2dm variable to avoid duplicated cox actions
-        dplyr::rename(out_date_t2dm_pd_no = out_date_t2dm)
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Calculate manually", "Diabetes specific criteria: Remove those with diabetes prior to study start date AND restrict to those with NO history of prediabetes")
-      
-    } else if (group == "diabetes_obesity"){
-      # Restrict to only those with a history of pre diabetes
-      input <- input %>% 
-        filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
-        filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-        filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
-        filter(cov_cat_bmi_groups == "Obese") %>%
-        # change name of t2dm variable to avoid duplicated cox actions
-        dplyr::rename(out_date_t2dm_obes = out_date_t2dm)
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Calculate manually", "Diabetes specific criteria: Remove those with diabetes prior to study start date AND restrict to those with obesity")
-      
-    } else if (group == "diabetes_no_obesity"){
-      # Restrict to only those with NO history of pre diabetes
-      input <- input %>% 
-        filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
-        filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-        filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
-        filter(cov_cat_bmi_groups != "Obese") %>%
-        # change name of t2dm variable to avoid duplicated cox actions
-        dplyr::rename(out_date_t2dm_obes_no = out_date_t2dm)
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),"Calculate manually", "Diabetes specific criteria: Remove those with diabetes prior to study start date AND restrict to those with NO obesity")
-      
-    } else if (group == "diabetes_gestational"){
-      # Exclude men from gestational diabetes analysis
-      input <- input %>% 
-        filter(! out_date_t1dm < index_date | is.na(out_date_t1dm)) %>%
-        filter(! out_date_t2dm < index_date | is.na(out_date_t2dm)) %>%
-        filter(! out_date_otherdm < index_date | is.na(out_date_otherdm)) %>%
-        filter(cov_cat_sex == "Female")
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), "Calculate manually", "Gestational diabetes: The study population will be restricted to women.")
-      
-    } else if (group == "mental_health"){
-      # Mental health analyses exclusion criteria
-      input <- input %>% 
-        filter()
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), "Calculate manually", "Mental health: .")
-      
-    } else if (group == "CVD"){
-      # Mental health analyses exclusion criteria
-      input <- input %>% 
-        filter()
-      cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), "Calculate manually", "CVD: .")
-    }
     
-    print(paste0(cohort_name, " ", group, " ", nrow(input), " rows in the input file after all inclusion criteria"))
     
     #----------------------#
     # 3.d. Create csv file #
@@ -489,6 +420,8 @@ stage1 <- function(cohort_name, group){
 }
 
 # Run function using outcome group
+
+
 active_analyses <- read_rds("lib/active_analyses.rds")
 active_analyses <- active_analyses %>% filter(active==TRUE)
 group <- unique(active_analyses$outcome_group)
