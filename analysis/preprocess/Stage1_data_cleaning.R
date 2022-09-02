@@ -349,8 +349,7 @@ stage1 <- function(cohort_name){
       
       
     } else if (cohort_name == "unvax"){
-      input %>% rename (index_date = index_date_unvax) %>%
-        rename(end_date = end_date_unvax)
+     
       
       #Exclusion criteria 7: Have a record of one or more vaccination prior index date
       # i.e. Have a record of a first vaccination prior index date (no more vax 2 and 3 variables available in this dataset)
