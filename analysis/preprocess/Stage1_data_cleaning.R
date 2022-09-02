@@ -38,12 +38,9 @@
 ###############################################
 # 0. Load relevant libraries and read in data #
 ###############################################
-library(readr)
-library(dplyr)
-library(stringr)
-library(tidyr)
-library(ggplot2)
 
+#Load libraries using pacman
+pacman::p_load(dplyr,tictoc,readr,stringr,tidyr,ggplot2,jsonlite,here,arrow)
 
 #clear memory
 rm(list=ls())
@@ -64,23 +61,25 @@ if(length(args)==0){
 fs::dir_create(here::here("output", "not-for-review"))
 fs::dir_create(here::here("output", "review", "descriptives"))
 
+#json file containing vax study dates
+study_dates <- fromJSON("output/study_dates.json")
 #vaccinattion program start date
-vax_start_date<-as.Date("2020-12-08")
+vax_start_date<-as.Date(study_dates$vax1_earliest, format="%Y-%m-%d")
 
-#date before which
+#Date before which
 mixed_vax_threshold<-as.Date("2021-05-07")
 # start_date_prevax = as.Date("2020-01-01")
 # end_date_prevax = as.Date("2021-06-18") # General End date: 2021-06-18 (date last JCVI group eligible for vaccination - Decision on Jan 18th 2022)
 
 #TODO read from json file 
-start_date_delta = as.Date("2021-06-01")
-end_date_delta = as.Date("2021-12-14") # General End date: 2021-12-14 (Decision on Dec 20th 2021)
+start_date_delta = as.Date(study_dates$delta_date, format="%Y-%m-%d")
+end_date_delta = as.Date(study_dates$omicron_date, format="%Y-%m-%d") # General End date: 2021-12-14 (Decision on Dec 20th 2021)
 
-stage1 <- function(cohort_name, group){
+stage1 <- function(cohort_name){
 
     input <- read_rds(file.path("output", paste0("input_",cohort_name,".rds")))
     
-    print(paste0(cohort_name, " ", group, " ", nrow(input), " rows in the input file"))
+    print(paste0(cohort_name,  " ", nrow(input), " rows in the input file"))
     
 #Rename the index_date_vax/unvax/prevax to index_date   
     input<- input %>%
@@ -216,7 +215,7 @@ stage1 <- function(cohort_name, group){
     # Remove QA variables from dataset
     input <- input_QA[ , !names(input_QA) %in% c("qa_num_birth_year", "qa_bin_pregnancy", "qa_bin_prostate_cancer")]
     
-    print(paste0(cohort_name, " ", group, " ", nrow(input), " rows in the input file after QA"))
+    print(paste0(cohort_name,  " ", nrow(input), " rows in the input file after QA"))
     
     #########################################
     # 3. Apply exclusion/inclusion criteria #
@@ -287,7 +286,7 @@ stage1 <- function(cohort_name, group){
     print(meta_data_factors)
     sink()
     
-    print(paste0(cohort_name, " ", group, " ", nrow(input), " rows in the input file after common inclusion criteria"))
+    print(paste0(cohort_name, " ", nrow(input), " rows in the input file after common inclusion criteria"))
     
     #-------------------------------------------------#
     # 3.b. Apply criteria specific to each sub-cohort #
@@ -380,7 +379,7 @@ stage1 <- function(cohort_name, group){
       
     }
     
-    print(paste0(cohort_name, " ", group, " ", nrow(input), " rows in the input file after cohort specificinclusion criteria"))
+    print(paste0(cohort_name, " " , nrow(input), " rows in the input file after cohort specificinclusion criteria"))
     
     #-------------------------------------------------#
     # 3.c. Apply outcome specific exclusions criteria #
@@ -391,7 +390,7 @@ stage1 <- function(cohort_name, group){
     #----------------------#
     # 3.d. Create csv file #
     #----------------------#
-    write.csv(cohort_flow, file = file.path("output/review/descriptives", paste0("Cohort_flow_",cohort_name, "_",group, ".csv")) , row.names=F)
+    write.csv(cohort_flow, file = file.path("output/review/descriptives", paste0("Cohort_flow_",cohort_name, ".csv")) , row.names=F)
     
     #--------------------------#
     # 3.e. Generate histograms #
@@ -401,7 +400,7 @@ stage1 <- function(cohort_name, group){
     numeric_vars <- input %>% dplyr::select(contains("_num"))
     numeric_title <- colnames(numeric_vars)
     
-    svglite::svglite(file = file.path("output/not-for-review/", paste0("numeric_histograms_", cohort_name, "_", group, ".svg")), width = 15, height = 8)
+    svglite::svglite(file = file.path("output/not-for-review/", paste0("numeric_histograms_", cohort_name, "_",  ".svg")), width = 15, height = 8)
     g <- ggplot(gather(numeric_vars), aes(value)) + 
       geom_histogram(bins = 10) + 
       facet_wrap(~key, scales = 'free_x')
@@ -415,23 +414,18 @@ stage1 <- function(cohort_name, group){
     # Remove inclusion/exclusion variables from dataset
     input <- input[ , !names(input) %in% c("start_alive", "vax_gap", "vax_mixed", "vax_prior_unknown", "prior_vax1")]
     
-    saveRDS(input, file = file.path("output", paste0("input_",cohort_name, "_stage1_",group,".rds")))
+    saveRDS(input, file = file.path("output", paste0("input_",cohort_name, "_stage1_",".rds")))
 
 }
 
 # Run function using outcome group
 
 
-active_analyses <- read_rds("lib/active_analyses.rds")
-active_analyses <- active_analyses %>% filter(active==TRUE)
-group <- unique(active_analyses$outcome_group)
-
-for(i in group){
 if (cohort_name == "all") {
-  stage1("prevax", i)
-  stage1("vax", i)
-  stage1("unvax", i)
+  stage1("prevax")
+  stage1("vax")
+  stage1("unvax")
 } else{
-  stage1(cohort_name, i)
+  stage1(cohort_name)
 }
-}
+
