@@ -53,7 +53,7 @@ args <- commandArgs(trailingOnly=TRUE)
 if(length(args)==0){
   # use for interactive testing
   cohort_name <- "all"
-  group <- "diabetes"
+  
 } else {
   cohort_name <- args[[1]]
 }
@@ -210,7 +210,7 @@ stage1 <- function(cohort_name){
                                          nrow(input)-nrow(input_QA))
     
     #Save Qa summary as .csv
-    write.csv(QA_summary, file = file.path("output/review/descriptives", paste0("QA_summary_",cohort_name, "_",group, ".csv")) , row.names=F)
+    write.csv(QA_summary, file = file.path("output/review/descriptives", paste0("QA_summary_",cohort_name,  ".csv")) , row.names=F)
     
     # Remove QA variables from dataset
     input <- input_QA[ , !names(input_QA) %in% c("qa_num_birth_year", "qa_bin_pregnancy", "qa_bin_prostate_cancer")]
