@@ -1,37 +1,5 @@
 ## =============================================================================
-## Project:     Post covid vaccinated project
-##
-##
-## Purpose:  Apply stage 1. Data cleaning
-##  - Prepare variables
-##  - Apply QA rules
-##  - Apply inclusion exclusion criteria
-##  - Create cleaned datasets for the following sub-cohorts:
-##    a. Vaccinated
-##    b. Electively unvaccinated
-## 
-## Authors: Yinghui Wei, Renin Toms, Rochelle Knight, Genevieve Cezard
-## Reviewer: Genevieve Cezard
-## 
-## Date combined: 13 December 2021
-## by Genevieve Cezard
-##
-##
-## Content: 
-## 0. Load relevant libraries and read data/arguments
-## 1. Prepare all variables (re-factoring, re-typing)
-## 2. Apply QA rules
-## 3. Apply exclusion/inclusion criteria
-##    (Differentiate criteria for the two sub-cohorts)
-##    3.a. Apply the 6 common criteria applicable to both sub-cohort
-##    3.b. Apply criteria specific to each sub-cohort
-##    3.c. Create csv file 
-## 4. Create the final stage 1 dataset 
-## 
-## NOTE: This code outputs 3 .csv files and 1 R dataset
-##       Output files have a specific name to reflect either the Vaccinated 
-##       or Electively unvaccinated cohort
-##
+#Based on script in vaccinated repo
 ## =============================================================================
 
 
@@ -66,14 +34,11 @@ study_dates <- fromJSON("output/study_dates.json")
 #vaccinattion program start date
 vax_start_date<-as.Date(study_dates$vax1_earliest, format="%Y-%m-%d")
 
-#Date before which
+#reference date for mixed vaccine products
 mixed_vax_threshold<-as.Date("2021-05-07")
-# start_date_prevax = as.Date("2020-01-01")
-# end_date_prevax = as.Date("2021-06-18") # General End date: 2021-06-18 (date last JCVI group eligible for vaccination - Decision on Jan 18th 2022)
-
-#TODO read from json file 
+#read date variables from json file
 start_date_delta = as.Date(study_dates$delta_date, format="%Y-%m-%d")
-end_date_delta = as.Date(study_dates$omicron_date, format="%Y-%m-%d") # General End date: 2021-12-14 (Decision on Dec 20th 2021)
+end_date_delta = as.Date(study_dates$omicron_date, format="%Y-%m-%d") 
 
 stage1 <- function(cohort_name){
 
@@ -237,15 +202,10 @@ stage1 <- function(cohort_name){
     #Inclusion criteria 1: Alive on the first day of follow up
     input <- input %>% filter(index_date < death_date | is.na(death_date))
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Criteria 1 (Inclusion): Alive on the first day of follow up") # Feed into the cohort flow
-    # cohort_flow<- cohort_flow %>%
-    #   rbind(c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow)-1,1]) - nrow(input), "Criteria 1 (Inclusion): Alive on the first day of follow up"))
+   
     #Inclusion criteria 2: Known age between 18 and 110 on 01/06/2021 
-    #input <- input[!is.na(input$cov_num_age),] # Commented out this code line since it should be dealt with in the next code line
     input <- subset(input, input$cov_num_age >= 18) # Subset input if age between 18 and 110 on 01/06/2021.
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Criteria 2a (Inclusion): Aged 18 and over on index date") # Feed into the cohort flow
-    # cohort_flow<- cohort_flow %>%
-    #   rbind(c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow)-1,1]) - nrow(input), "Criteria 1 (Inclusion): Alive on the first day of follow up"))
-    
     
     input <- subset(input, input$cov_num_age <= 110) # Subset input if age between 18 and 110 on 01/06/2021.
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Criteria 2b (Inclusion): Aged 110 and under on index date") # Feed into the cohort flow
@@ -394,7 +354,7 @@ stage1 <- function(cohort_name){
     # Remove inclusion/exclusion variables from dataset
     input <- input[ , !names(input) %in% c("start_alive", "vax_gap", "vax_mixed", "vax_prior_unknown", "prior_vax1")]
     
-    saveRDS(input, file = file.path("output", paste0("input_",cohort_name, "_stage1_",".rds")))
+    saveRDS(input, file = file.path("output", paste0("input_",cohort_name, "_stage1",".rds")))
 
 }
 
