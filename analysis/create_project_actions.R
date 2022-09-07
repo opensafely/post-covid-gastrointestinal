@@ -245,7 +245,6 @@ actions_list <- splice(
     )
   ),
   
- 
 #comment("Stage 1 - Data cleaning - all cohorts"),
   action(
     name = "stage1_data_cleaning_all",
