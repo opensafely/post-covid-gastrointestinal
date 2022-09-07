@@ -240,12 +240,7 @@ stage1 <- function(cohort_name){
     describe_vars <- tidyselect::vars_select(names(input), contains(c('_cat_', 'cov_bin','cov_cat','qa_bin','exp_cat','vax_cat', 'step'), ignore.case = TRUE))
     meta_data_factors <- lapply(input[,c(describe_vars)], table)
     
-    # NB: write.csv is not feasible to output list with uneven length
-    sink(file = file.path("output/not-for-review", paste0("meta_data_factors_",cohort_name, ".csv")))
-    print(meta_data_factors)
-    sink()
     
-    print(paste0(cohort_name, " ", nrow(input), " rows in the input file after common inclusion criteria"))
     
     #-------------------------------------------------#
     # 3.b. Apply criteria specific to each sub-cohort #
@@ -290,7 +285,7 @@ stage1 <- function(cohort_name){
   
       cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Criteria 12 (Exclusion): Received mixed vaccine products before 07-05-2021")
       
-      #Inclusions criteria 12: Index date is before cohort end date - will remove anyone who is not fully vaccinated by the cohort end date
+      #Inclusions criteria 13: Index date is before cohort end date - will remove anyone who is not fully vaccinated by the cohort end date
       input <- input %>% filter (!is.na(index_date) & index_date <= end_date & index_date >= start_date_delta)
       cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input),as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Criteria 13 (Inclusion): Patient index date is within the study start and end dates i.e patient is fully vaccinated before the study end date")
       
@@ -321,12 +316,20 @@ stage1 <- function(cohort_name){
     
     print(paste0(cohort_name, " " , nrow(input), " rows in the input file after cohort specificinclusion criteria"))
     
+    
+    
+    print(paste0(cohort_name, " ", nrow(input), " rows in the input file after common inclusion criteria"))
     #-------------------------------------------------#
-    # 3.c. Apply outcome specific exclusions criteria #
+    # 3.c. Apply outcome specific exclusions criteria
     #-------------------------------------------------#
+     ####INSERT OUTCOME SPECIFIC EXCLUSION HERE#######    
+
+
     
-    
-    
+    # NB: write.csv is not feasible to output list with uneven length
+    sink(file = file.path("output/not-for-review", paste0("meta_data_factors_",cohort_name, ".csv")))
+    print(meta_data_factors)
+    sink()
     #----------------------#
     # 3.d. Create csv file #
     #----------------------#
