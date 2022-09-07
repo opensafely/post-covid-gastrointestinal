@@ -16,7 +16,7 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   # use for interactive testing
-  cohort_name <- "vaccinated"
+  cohort_name <- "vax"
 } else {
   cohort_name <- args[[1]]
 }
