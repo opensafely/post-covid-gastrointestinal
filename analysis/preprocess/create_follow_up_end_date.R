@@ -24,9 +24,16 @@ if(length(args)==0){
 #json file containing vax study dates
 study_dates <- fromJSON("output/study_dates.json")
 
+if (cohort_name %in% c("vax","unvax"))
+{
 #These are the study start and end dates for the Delta era
 cohort_start_date <- as.Date(study_dates$delta_date)
 cohort_end_date <- as.Date(study_dates$omicron_date)
+}else if (cohort_name == "prevax") {
+  cohort_start_date <- as.Date(study_dates$pandemic_start)
+  cohort_end_date <- as.Date(study_dates$all_eligible)
+   
+}
 
 ## Read in active analyses table and filter to relevant outcomes
 
@@ -54,7 +61,15 @@ follow_up_end_dates <- function(cohort_name){
     # Calculate follow up end dates based on cohort
     # follow_up_end_unexposed is required in Table 2 script and follow_up_end is 
     # the general follow up end date for each patient
-    if(cohort_name=="vax"){
+    if(cohort_name=="prevax"){
+    
+    input$follow_up_end_unexposed <- apply(input[,c("vax_date_covid_1", "vax_date_eligible", "event_date", "expo_date", "death_date", "cohort_end_date")],1, min,na.rm=TRUE)
+    input$follow_up_end <- apply(input[,c("vax_date_covid_1", "vax_date_eligible", "event_date", "death_date", "cohort_end_date")],1, min,na.rm=TRUE)
+      
+    input$follow_up_end_unexposed <- as.Date(input$follow_up_end_unexposed)
+    input$follow_up_end <- as.Date(input$follow_up_end)
+    
+    }else if(cohort_name=="vax"){
       input$follow_up_end_unexposed <- apply(input[,c("event_date", "expo_date", "death_date", "cohort_end_date")],1, min,na.rm=TRUE)
       input$follow_up_end <- apply(input[,c("event_date", "death_date", "cohort_end_date")],1, min, na.rm=TRUE)
       
