@@ -67,7 +67,7 @@ message ("Cohort ",cohort_name, " description written successfully!")
 
 df$cov_bin_obesity <- ifelse(df$cov_bin_obesity == TRUE | 
                                df$cov_cat_bmi_groups=="Obese",TRUE,FALSE)
-df[,c("cov_num_bmi")] <- NULL
+#df[,c("cov_num_bmi")] <- NULL
 
 # QC for consultation variable--------------------------------------------------
 #max to 365 (average of one per day)
@@ -95,18 +95,20 @@ message("COVID19 severity determined successfully")
 
 # Restrict columns and save analysis dataset ---------------------------------
 
-
+#TODO add the new variables 
 df1 <- df%>% select(patient_id,"death_date",starts_with("index_date_"),
-                    starts_with("end_date_"),
-             contains("sub_"), # Subgroups
-             contains("exp_"), # Exposures
-             contains("out_"), # Outcomes
-             contains("cov_"), # Covariates
-             contains("qa_"), # Quality assurance
-             #contains("step"), # diabetes steps
-             contains("vax_date_eligible"), # Vaccination eligibility
-             contains("vax_date_"), # Vaccination dates and vax type 
-             #contains("vax_cat_")# Vaccination products
+                    has_follow_up_previous_6months,
+                    dereg_date,
+                     starts_with("end_date_"),
+                     contains("sub_"), # Subgroups
+                     contains("exp_"), # Exposures
+                     contains("out_"), # Outcomes
+                     contains("cov_"), # Covariates
+                     contains("qa_"), #quality assurance
+                     contains("step"), # diabetes steps
+                     contains("vax_date_eligible"), # Vaccination eligibility
+                     contains("vax_date_"), # Vaccination dates and vax type 
+                     contains("vax_cat_")# Vaccination products
 )
 
 
