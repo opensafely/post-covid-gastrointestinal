@@ -95,7 +95,6 @@ message("COVID19 severity determined successfully")
 
 # Restrict columns and save analysis dataset ---------------------------------
 
-#TODO add the new variables 
 df1 <- df%>% select(patient_id,"death_date",starts_with("index_date_"),
                     has_follow_up_previous_6months,
                     dereg_date,

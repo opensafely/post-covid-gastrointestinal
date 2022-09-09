@@ -49,7 +49,16 @@ df_vax<- df %>%
                   NA_Date_,
                   .x
                 ))) %>%
-  
+ #Set vax_date_covid_1 to the first jab date depending on vax type
+  mutate(vax_date_covid_1 = case_when(vaccine_1_type %in% "AstraZeneca" ~ vax_date_AstraZeneca_1,
+                                      vaccine_1_type %in% "Pfizer" ~ vax_date_Pfizer_1,
+                                      vaccine_1_type %in% "Moderna" ~ vax_date_Moderna_1,
+                                      vaccine_1_type %in% "None" ~ NA_Date_,
+                                      TRUE ~ NA_Date_
+                                      )
+         )%>%
+                                      
+    
  #Change date for the second jab
    mutate(
     vax_date_Pfizer_2 = vax_date_Pfizer_1 + days(round(rnorm(nrow(.), mean = 10*7, sd = 3))),
@@ -82,7 +91,7 @@ df_vax<- df %>%
                   NA_Date_))) %>%
   mutate(across(vax_date_Moderna_2,
                 ~if_else(
-                  vaccine_1_type %in% "Moderna",
+                  vaccine_2_type %in% "Moderna",
                   .x,
                   NA_Date_))) %>%
 
@@ -109,7 +118,14 @@ df_vax<- df %>%
                   missing_moderna_2,
                   NA_Date_,
                   .x))) %>%
-  
+  #Set vax_date_covid_2 to the first jab date depending on vax type
+  mutate(vax_date_covid_2 = case_when(vaccine_2_type %in% "AstraZeneca" ~ vax_date_AstraZeneca_2,
+                                      vaccine_2_type %in% "Pfizer" ~ vax_date_Pfizer_2,
+                                      vaccine_2_type %in% "Moderna" ~ vax_date_Moderna_2,
+                                      vaccine_2_type %in% "None" ~ NA_Date_,
+                                      TRUE ~ NA_Date_
+  )
+  )%>%
 #Set 3rd jab type
   mutate(vaccine_3_type =  ifelse( vaccine_2_type!="None",
                                 sample(
@@ -142,7 +158,7 @@ df_vax<- df %>%
                     NA_Date_))) %>%
     mutate(across(vax_date_Moderna_3,
                   ~if_else(
-                    vaccine_1_type %in% "Moderna",
+                    vaccine_3_type %in% "Moderna",
                     .x,
                     NA_Date_))) %>%
 
@@ -168,7 +184,14 @@ df_vax<- df %>%
                     missing_moderna_3,
                     NA_Date_,
                     .x)))%>%
-
+  #Set vax_date_covid_3 to the first jab date depending on vax type
+  mutate(vax_date_covid_3 = case_when(vaccine_3_type %in% "AstraZeneca" ~ vax_date_AstraZeneca_3,
+                                      vaccine_3_type %in% "Pfizer" ~ vax_date_Pfizer_3,
+                                      vaccine_3_type %in% "Moderna" ~ vax_date_Moderna_3,
+                                      vaccine_3_type %in% "None" ~ NA_Date_,
+                                      TRUE ~ NA_Date_
+  )
+  )%>%
 select(-starts_with("missing"),-matches("vaccine_\\d_type"))
 
   
