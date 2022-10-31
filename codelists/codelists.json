@@ -42,12 +42,6 @@
       "downloaded_at": "2022-06-06 14:46:29.809592Z",
       "sha": "4e90c401f67eca3a3aa716edea013340a6164f44"
     },
-    "bristol-hdl-cholesterol.csv": {
-      "id": "bristol/hdl-cholesterol/64775990",
-      "url": "https://codelists.opensafely.org/codelist/bristol/hdl-cholesterol/64775990/",
-      "downloaded_at": "2022-06-06 14:46:29.996825Z",
-      "sha": "ce9f10f91453a33d5de195b7d02656bf11782760"
-    },
     "user-RochelleKnight-confirmed-hospitalised-covid-19.csv": {
       "id": "user/RochelleKnight/confirmed-hospitalised-covid-19/1f0d2526",
       "url": "https://codelists.opensafely.org/codelist/user/RochelleKnight/confirmed-hospitalised-covid-19/1f0d2526/",
@@ -287,6 +281,318 @@
       "url": "https://codelists.opensafely.org/codelist/user/elsie_horne/hrt_dmd/19196799/",
       "downloaded_at": "2022-08-24 14:33:13.163735Z",
       "sha": "14aff592668a703f02cc68aa54c7ebab0774c62f"
+    },
+    "bristol-abdominal-distension-snomed.csv": {
+      "id": "bristol/abdominal-distension-snomed/3e949f25",
+      "url": "https://codelists.opensafely.org/codelist/bristol/abdominal-distension-snomed/3e949f25/",
+      "downloaded_at": "2022-10-25 14:33:26.127657Z",
+      "sha": "7b1a94dd21547f7df8d6bfe65635fbdda610e62f"
+    },
+    "bristol-abdominal-distension-icd10.csv": {
+      "id": "bristol/abdominal-distension-icd10/1cf20bce",
+      "url": "https://codelists.opensafely.org/codelist/bristol/abdominal-distension-icd10/1cf20bce/",
+      "downloaded_at": "2022-10-25 15:18:47.612362Z",
+      "sha": "7b0484a15ad97f500abbff6340e7a2a5c1a69037"
+    },
+    "bristol-abdominal-paindiscomfort-icd10.csv": {
+      "id": "bristol/abdominal-paindiscomfort-icd10/03e29899",
+      "url": "https://codelists.opensafely.org/codelist/bristol/abdominal-paindiscomfort-icd10/03e29899/",
+      "downloaded_at": "2022-10-25 15:18:47.775808Z",
+      "sha": "94831a9cc4a3bc89d8fb808ef61c55c155e705d5"
+    },
+    "bristol-abdominal-paindiscomfort-snomed.csv": {
+      "id": "bristol/abdominal-paindiscomfort-snomed/70b3858f",
+      "url": "https://codelists.opensafely.org/codelist/bristol/abdominal-paindiscomfort-snomed/70b3858f/",
+      "downloaded_at": "2022-10-25 15:18:47.958113Z",
+      "sha": "dbf2c37b66da75883bc155160f1fe757a7690597"
+    },
+    "bristol-belching-icd10.csv": {
+      "id": "bristol/belching-icd10/51c3b22e",
+      "url": "https://codelists.opensafely.org/codelist/bristol/belching-icd10/51c3b22e/",
+      "downloaded_at": "2022-10-25 15:18:48.121649Z",
+      "sha": "7b0484a15ad97f500abbff6340e7a2a5c1a69037"
+    },
+    "bristol-belching-snomed.csv": {
+      "id": "bristol/belching-snomed/0baf052c",
+      "url": "https://codelists.opensafely.org/codelist/bristol/belching-snomed/0baf052c/",
+      "downloaded_at": "2022-10-25 15:18:48.349076Z",
+      "sha": "25b09227e3b1ff12f262a3d22ec8b055dd21f8fe"
+    },
+    "bristol-bloody-stools-icd10.csv": {
+      "id": "bristol/bloody-stools-icd10/6ad32563",
+      "url": "https://codelists.opensafely.org/codelist/bristol/bloody-stools-icd10/6ad32563/",
+      "downloaded_at": "2022-10-25 15:18:48.602503Z",
+      "sha": "fed3fdb64b0f6a1e6a3efe4618d683a1d54aa5cf"
+    },
+    "bristol-bloody-stools-snomed.csv": {
+      "id": "bristol/bloody-stools-snomed/70ff58de",
+      "url": "https://codelists.opensafely.org/codelist/bristol/bloody-stools-snomed/70ff58de/",
+      "downloaded_at": "2022-10-25 15:18:48.750841Z",
+      "sha": "37d37ea2cb1dfec1bff0e61c928d3741e907cd96"
+    },
+    "bristol-bowel-ischaemia-icd10.csv": {
+      "id": "bristol/bowel-ischaemia-icd10/38b43ef9",
+      "url": "https://codelists.opensafely.org/codelist/bristol/bowel-ischaemia-icd10/38b43ef9/",
+      "downloaded_at": "2022-10-25 15:18:48.895291Z",
+      "sha": "c934ca4966a7aaceb49d86e7633304bbd1e70fc0"
+    },
+    "bristol-bowel-ischaemia-snomed.csv": {
+      "id": "bristol/bowel-ischaemia-snomed/6140505d",
+      "url": "https://codelists.opensafely.org/codelist/bristol/bowel-ischaemia-snomed/6140505d/",
+      "downloaded_at": "2022-10-25 15:18:49.278271Z",
+      "sha": "cd3b5ad58a0275fd677068adb218a0ebf7d96d4c"
+    },
+    "bristol-diarrhoea-icd-10.csv": {
+      "id": "bristol/diarrhoea-icd-10/6d85e559",
+      "url": "https://codelists.opensafely.org/codelist/bristol/diarrhoea-icd-10/6d85e559/",
+      "downloaded_at": "2022-10-25 15:18:49.571061Z",
+      "sha": "2d186cd5be7374362d8c0c160b00501e229813c3"
+    },
+    "bristol-diarrhoea-snomed.csv": {
+      "id": "bristol/diarrhoea-snomed/7e7d18ac",
+      "url": "https://codelists.opensafely.org/codelist/bristol/diarrhoea-snomed/7e7d18ac/",
+      "downloaded_at": "2022-10-25 15:18:49.751961Z",
+      "sha": "09ed4e7fc5459dcf3a8380087abd03605f16e6d3"
+    },
+    "bristol-ibs-icd10.csv": {
+      "id": "bristol/ibs-icd10/220bb86b",
+      "url": "https://codelists.opensafely.org/codelist/bristol/ibs-icd10/220bb86b/",
+      "downloaded_at": "2022-10-25 15:18:49.886584Z",
+      "sha": "d5d450854e765ee19f6b36b9c8fdbb6798a7b1df"
+    },
+    "bristol-ibs-snomed.csv": {
+      "id": "bristol/ibs-snomed/5d556595",
+      "url": "https://codelists.opensafely.org/codelist/bristol/ibs-snomed/5d556595/",
+      "downloaded_at": "2022-10-25 15:18:50.080258Z",
+      "sha": "d8e9bce21fb946ffcabc16c52abefeff3ad5f658"
+    },
+    "bristol-intestinal-obstruction-icd10.csv": {
+      "id": "bristol/intestinal-obstruction-icd10/3ab31d5a",
+      "url": "https://codelists.opensafely.org/codelist/bristol/intestinal-obstruction-icd10/3ab31d5a/",
+      "downloaded_at": "2022-10-25 15:18:50.297067Z",
+      "sha": "274e2c625ca0450041b982953690b1bb2d082897"
+    },
+    "bristol-intestinal-obstruction-snomed.csv": {
+      "id": "bristol/intestinal-obstruction-snomed/2b367f2b",
+      "url": "https://codelists.opensafely.org/codelist/bristol/intestinal-obstruction-snomed/2b367f2b/",
+      "downloaded_at": "2022-10-25 15:18:50.497374Z",
+      "sha": "d1bb41de2c02d89984687fd6dd37bebf14245f9e"
+    },
+    "bristol-nausea-icd-10.csv": {
+      "id": "bristol/nausea-icd-10/09c2f8c5",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nausea-icd-10/09c2f8c5/",
+      "downloaded_at": "2022-10-25 15:18:50.655429Z",
+      "sha": "e44c2085d0436e5d25ecf8a11f5ee9747f8a4951"
+    },
+    "bristol-nausea-snomed.csv": {
+      "id": "bristol/nausea-snomed/62bae581",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nausea-snomed/62bae581/",
+      "downloaded_at": "2022-10-25 15:18:50.818651Z",
+      "sha": "52ee6aa6b7bdac6d0097bf2ca7b5f6ea8c6aa456"
+    },
+    "bristol-vomiting-snomed.csv": {
+      "id": "bristol/vomiting-snomed/791798c0",
+      "url": "https://codelists.opensafely.org/codelist/bristol/vomiting-snomed/791798c0/",
+      "downloaded_at": "2022-10-25 15:18:50.994607Z",
+      "sha": "00644e6784ed3bc1add17ce047bec766f051ef9b"
+    },
+    "bristol-vomititing-icd-10.csv": {
+      "id": "bristol/vomititing-icd-10/089436f0",
+      "url": "https://codelists.opensafely.org/codelist/bristol/vomititing-icd-10/089436f0/",
+      "downloaded_at": "2022-10-25 15:18:51.157318Z",
+      "sha": "e44c2085d0436e5d25ecf8a11f5ee9747f8a4951"
+    },
+    "bristol-coeliac-disease.csv": {
+      "id": "bristol/coeliac-disease/6e00c599",
+      "url": "https://codelists.opensafely.org/codelist/bristol/coeliac-disease/6e00c599/",
+      "downloaded_at": "2022-10-31 17:21:54.629737Z",
+      "sha": "dcac9bd3d2cad7c143aab22b1946750417f72659"
+    },
+    "bristol-coeliac-disease-icd10.csv": {
+      "id": "bristol/coeliac-disease-icd10/3dc48299",
+      "url": "https://codelists.opensafely.org/codelist/bristol/coeliac-disease-icd10/3dc48299/",
+      "downloaded_at": "2022-10-31 17:21:54.787118Z",
+      "sha": "43e25b402959623e5bf5de99583b1deb14d366ea"
+    },
+    "bristol-appendicitis-snomed.csv": {
+      "id": "bristol/appendicitis-snomed/729628f9",
+      "url": "https://codelists.opensafely.org/codelist/bristol/appendicitis-snomed/729628f9/",
+      "downloaded_at": "2022-10-31 17:21:54.981309Z",
+      "sha": "11df8ad88215f705eb0ed9a159d2a0fe09730ce3"
+    },
+    "bristol-appendicitis-icd10.csv": {
+      "id": "bristol/appendicitis-icd10/0e61c522",
+      "url": "https://codelists.opensafely.org/codelist/bristol/appendicitis-icd10/0e61c522/",
+      "downloaded_at": "2022-10-31 17:21:55.160850Z",
+      "sha": "63639515bebb0804f63fadac451d17df72f4ba7d"
+    },
+    "bristol-gallstones-disease-snomed.csv": {
+      "id": "bristol/gallstones-disease-snomed/1300917f",
+      "url": "https://codelists.opensafely.org/codelist/bristol/gallstones-disease-snomed/1300917f/",
+      "downloaded_at": "2022-10-31 17:21:55.311781Z",
+      "sha": "8f7e15a6d87167a575846a47976e45fd3e0c6334"
+    },
+    "bristol-gallstone-disease-icd10.csv": {
+      "id": "bristol/gallstone-disease-icd10/6cd203c4",
+      "url": "https://codelists.opensafely.org/codelist/bristol/gallstone-disease-icd10/6cd203c4/",
+      "downloaded_at": "2022-10-31 17:21:55.511052Z",
+      "sha": "b9e1664ff3386fc5897dc089dc9674f203650faa"
+    },
+    "bristol-nonalcoholic-steatohepatitis-snomed.csv": {
+      "id": "bristol/nonalcoholic-steatohepatitis-snomed/46f8b256",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nonalcoholic-steatohepatitis-snomed/46f8b256/",
+      "downloaded_at": "2022-10-31 17:21:55.711914Z",
+      "sha": "8a27a5e6188e349e15763cd663ee665b8945d8d8"
+    },
+    "bristol-nonalcoholic-steatohepatitis-icd10.csv": {
+      "id": "bristol/nonalcoholic-steatohepatitis-icd10/22578bba",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nonalcoholic-steatohepatitis-icd10/22578bba/",
+      "downloaded_at": "2022-10-31 17:21:55.882805Z",
+      "sha": "9a7c1c78b3a20d8da3891964e29d668bda30f085"
+    },
+    "bristol-acute-pancreatitis-snomed.csv": {
+      "id": "bristol/acute-pancreatitis-snomed/075c0c1e",
+      "url": "https://codelists.opensafely.org/codelist/bristol/acute-pancreatitis-snomed/075c0c1e/",
+      "downloaded_at": "2022-10-31 17:21:56.041181Z",
+      "sha": "65083d44ea6f3e3b0007273ad55547d962d1f513"
+    },
+    "bristol-acute-pancreatitis-icd10.csv": {
+      "id": "bristol/acute-pancreatitis-icd10/67d4921e",
+      "url": "https://codelists.opensafely.org/codelist/bristol/acute-pancreatitis-icd10/67d4921e/",
+      "downloaded_at": "2022-10-31 17:21:56.227477Z",
+      "sha": "ffac2089c72c0c7157fda67843dd1dd7879a96d2"
+    },
+    "bristol-gastro-oesophageal-reflux-disease-snomed.csv": {
+      "id": "bristol/gastro-oesophageal-reflux-disease-snomed/11148518",
+      "url": "https://codelists.opensafely.org/codelist/bristol/gastro-oesophageal-reflux-disease-snomed/11148518/",
+      "downloaded_at": "2022-10-31 17:21:56.367938Z",
+      "sha": "0c43b1790e71d88e24259a5f513e1d5fe5ffa99a"
+    },
+    "bristol-gastro-oesophageal-reflux-disease-icd10.csv": {
+      "id": "bristol/gastro-oesophageal-reflux-disease-icd10/35b5abb4",
+      "url": "https://codelists.opensafely.org/codelist/bristol/gastro-oesophageal-reflux-disease-icd10/35b5abb4/",
+      "downloaded_at": "2022-10-31 17:21:56.516706Z",
+      "sha": "50d0145ac10aa4b9ece66c9b70f86de7e8fa94ed"
+    },
+    "bristol-dyspepsia-snomed.csv": {
+      "id": "bristol/dyspepsia-snomed/4193326a",
+      "url": "https://codelists.opensafely.org/codelist/bristol/dyspepsia-snomed/4193326a/",
+      "downloaded_at": "2022-10-31 17:21:56.682205Z",
+      "sha": "e4314f161551e76747f0939389b508b569a70f40"
+    },
+    "bristol-dyspesia-icd10.csv": {
+      "id": "bristol/dyspesia-icd10/3b66feef",
+      "url": "https://codelists.opensafely.org/codelist/bristol/dyspesia-icd10/3b66feef/",
+      "downloaded_at": "2022-10-31 17:21:56.864845Z",
+      "sha": "e7915efde969c91ad93e4d48dc6dcd3811e3286c"
+    },
+    "opensafely-systolic-blood-pressure-qof.csv": {
+      "id": "opensafely/systolic-blood-pressure-qof/3572b5fb",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/systolic-blood-pressure-qof/3572b5fb/",
+      "downloaded_at": "2022-10-31 17:21:56.999477Z",
+      "sha": "f2bc461e351499f4e5573a6f94e760b99979491e"
+    },
+    "bristol-diastolic-blood-pressure-snomed.csv": {
+      "id": "bristol/diastolic-blood-pressure-snomed/4ccfa985",
+      "url": "https://codelists.opensafely.org/codelist/bristol/diastolic-blood-pressure-snomed/4ccfa985/",
+      "downloaded_at": "2022-10-31 17:21:57.148830Z",
+      "sha": "f29de51d5630ab4df0decfe73d87f90989be8291"
+    },
+    "bristol-hdl-cholesterol.csv": {
+      "id": "bristol/hdl-cholesterol/64775990",
+      "url": "https://codelists.opensafely.org/codelist/bristol/hdl-cholesterol/64775990/",
+      "downloaded_at": "2022-06-06 14:46:29.996825Z",
+      "sha": "ce9f10f91453a33d5de195b7d02656bf11782760"
+    },
+    "bristol-crp-snomed.csv": {
+      "id": "bristol/crp-snomed/257bc2f3",
+      "url": "https://codelists.opensafely.org/codelist/bristol/crp-snomed/257bc2f3/",
+      "downloaded_at": "2022-10-31 17:21:57.526050Z",
+      "sha": "24f581ac695058db74ca3cf4060eecf2b0fb76b7"
+    },
+    "bristol-hypercalcemia-snomed.csv": {
+      "id": "bristol/hypercalcemia-snomed/735cdc88",
+      "url": "https://codelists.opensafely.org/codelist/bristol/hypercalcemia-snomed/735cdc88/",
+      "downloaded_at": "2022-10-31 17:21:57.679286Z",
+      "sha": "9dec7a1d7bb236ef9adfe50c96fa84dfefe93fb6"
+    },
+    "bristol-cholelisthiasis-snomed.csv": {
+      "id": "bristol/cholelisthiasis-snomed/1fa4cbc4",
+      "url": "https://codelists.opensafely.org/codelist/bristol/cholelisthiasis-snomed/1fa4cbc4/",
+      "downloaded_at": "2022-10-31 17:21:57.863411Z",
+      "sha": "4f632deac182cb9bb07a3338d8ba56a8f6bcb4c2"
+    },
+    "bristol-cholelisthiasis-icd10.csv": {
+      "id": "bristol/cholelisthiasis-icd10/0695588f",
+      "url": "https://codelists.opensafely.org/codelist/bristol/cholelisthiasis-icd10/0695588f/",
+      "downloaded_at": "2022-10-31 17:21:58.032485Z",
+      "sha": "ef30000dd768b767b6dad0b840041cf436d325a5"
+    },
+    "bristol-history-of-oesophagus.csv": {
+      "id": "bristol/history-of-oesophagus/43f0b614",
+      "url": "https://codelists.opensafely.org/codelist/bristol/history-of-oesophagus/43f0b614/",
+      "downloaded_at": "2022-10-31 17:21:58.168312Z",
+      "sha": "c92705a832be299ed550a16c771677f5604ff42b"
+    },
+    "bristol-history-of-stomach-and-duodenum-diseases-snomed.csv": {
+      "id": "bristol/history-of-stomach-and-duodenum-diseases-snomed/78c25c74",
+      "url": "https://codelists.opensafely.org/codelist/bristol/history-of-stomach-and-duodenum-diseases-snomed/78c25c74/",
+      "downloaded_at": "2022-10-31 17:21:58.345403Z",
+      "sha": "a7089296ad95a0f27c768e9f075d0b5cac837481"
+    },
+    "bristol-history-of-small-bowel-and-colon-diseases-snomed.csv": {
+      "id": "bristol/history-of-small-bowel-and-colon-diseases-snomed/46a3760a",
+      "url": "https://codelists.opensafely.org/codelist/bristol/history-of-small-bowel-and-colon-diseases-snomed/46a3760a/",
+      "downloaded_at": "2022-10-31 17:21:58.492585Z",
+      "sha": "ce63afb7f1c4a2853560680b2c1c2be859b95566"
+    },
+    "bristol-history-of-liver-disease.csv": {
+      "id": "bristol/history-of-liver-disease/14848fa0",
+      "url": "https://codelists.opensafely.org/codelist/bristol/history-of-liver-disease/14848fa0/",
+      "downloaded_at": "2022-10-31 17:21:58.635301Z",
+      "sha": "380d2a3253c553fb6d730ce8ab5d70170edccfb2"
+    },
+    "bristol-history-of-pancreas-diseases-snomed.csv": {
+      "id": "bristol/history-of-pancreas-diseases-snomed/6265a935",
+      "url": "https://codelists.opensafely.org/codelist/bristol/history-of-pancreas-diseases-snomed/6265a935/",
+      "downloaded_at": "2022-10-31 17:21:58.793275Z",
+      "sha": "4fb2b03ff4c010858ae0fd2b5934abec0215129c"
+    },
+    "bristol-h-pylori-infection-snomed.csv": {
+      "id": "bristol/h-pylori-infection-snomed/481e0b2e",
+      "url": "https://codelists.opensafely.org/codelist/bristol/h-pylori-infection-snomed/481e0b2e/",
+      "downloaded_at": "2022-10-31 17:21:58.940426Z",
+      "sha": "962ddcd5af808b910c6a26c543271ab084d95841"
+    },
+    "bristol-h-pylori-infection-icd10.csv": {
+      "id": "bristol/h-pylori-infection-icd10/2f0e97f9",
+      "url": "https://codelists.opensafely.org/codelist/bristol/h-pylori-infection-icd10/2f0e97f9/",
+      "downloaded_at": "2022-10-31 17:21:59.103517Z",
+      "sha": "bcbbc14efd57852a7727258204448749934f21ba"
+    },
+    "bristol-nsaids.csv": {
+      "id": "bristol/nsaids/05cea500",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nsaids/05cea500/",
+      "downloaded_at": "2022-10-31 17:21:59.284349Z",
+      "sha": "0d86c90f6918c7ab58600de0b57ac452ecbb835c"
+    },
+    "bristol-aspirin.csv": {
+      "id": "bristol/aspirin/6cbf31ca",
+      "url": "https://codelists.opensafely.org/codelist/bristol/aspirin/6cbf31ca/",
+      "downloaded_at": "2022-10-31 17:21:59.441093Z",
+      "sha": "c76d239000c93ebe41484da37531099446bb0b3f"
+    },
+    "bristol-anticoagulants.csv": {
+      "id": "bristol/anticoagulants/1099a4d8",
+      "url": "https://codelists.opensafely.org/codelist/bristol/anticoagulants/1099a4d8/",
+      "downloaded_at": "2022-10-31 17:21:59.564516Z",
+      "sha": "5e3f66fad04d8a488cd087ad023fa5498410622e"
+    },
+    "bristol-antidepressants-bnf.csv": {
+      "id": "bristol/antidepressants-bnf/7a3cf198",
+      "url": "https://codelists.opensafely.org/codelist/bristol/antidepressants-bnf/7a3cf198/",
+      "downloaded_at": "2022-10-31 17:21:59.737112Z",
+      "sha": "fb4cb53355b95e41fae6c9fe0d875c428e2ecbad"
     }
   }
 }

@@ -1,0 +1,582 @@
+code,term
+0403,Antidepressant drugs
+040301,Tricyclic and related antidepressant drugs
+0403010,Tricyclic and related antidepressant drugs
+0403010B0,Amitriptyline hydrochloride
+0403010B0AA,Amitriptyline hydrochloride
+0403010B0AAA1A1,Amitriptyline 75mg/5ml oral solution
+0403010B0AAA2A2,Amitriptyline 100mg/5ml oral solution
+0403010B0AAA5A5,Amitriptyline 25mg/5ml oral suspension
+0403010B0AAA6A6,Amitriptyline 10mg/5ml oral liquid
+0403010B0AAA7A7,Amitriptyline 80mg/5ml oral solution
+0403010B0AAA8A8,Amitriptyline 25mg / Perphenazine 2mg tablets
+0403010B0AAA9A9,Amitriptyline 10mg / Perphenazine 2mg tablets
+0403010B0AAAAAA,Amitriptyline 25mg modified-release capsules
+0403010B0AAABAB,Amitriptyline 50mg modified-release capsules
+0403010B0AAAFAF,Amitriptyline 50mg/5ml oral solution sugar free
+0403010B0AAAGAG,Amitriptyline 10mg tablets
+0403010B0AAAHAH,Amitriptyline 25mg tablets
+0403010B0AAAIAI,Amitriptyline 50mg tablets
+0403010B0AAANAN,Amitriptyline 25mg/5ml oral solution sugar free
+0403010B0AABBBB,Amitriptyline 2.5mg/5ml oral solution
+0403010B0AABCBC,Amitriptyline 10mg/5ml oral solution sugar free
+0403010B0AABDBD,Amitriptyline 5mg/5ml oral liquid
+0403010B0AABEBE,Amitriptyline 15mg/5ml oral solution
+0403010B0AABFBF,Amitriptyline 150mg/5ml oral solution
+0403010B0AABGBG,Amitriptyline 1.25mg/5ml oral solution
+0403010B0BD,Lentizol
+0403010B0BDAAAA,Lentizol 25mg modified-release capsules
+0403010B0BDABAB,Lentizol 50mg modified-release capsules
+0403010B0BI,Triptafen
+0403010B0BIAAA8,Triptafen tablets
+0403010B0BIABA9,Triptafen-M tablets
+0403010C0,Amoxapine
+0403010C0AA,Amoxapine
+0403010C0AAABAB,Amoxapine 50mg tablets
+0403010C0AAACAC,Amoxapine 100mg tablets
+0403010C0BB,Asendis
+0403010C0BBABAB,Asendis 50mg tablets
+0403010C0BBACAC,Asendis 100mg tablets
+0403010C0BC,Defanyl
+0403010C0BCAAAC,Defanyl 100mg tablets
+0403010F0,Clomipramine hydrochloride
+0403010F0AA,Clomipramine hydrochloride
+0403010F0AAAAAA,Clomipramine 10mg capsules
+0403010F0AAABAB,Clomipramine 25mg capsules
+0403010F0AAACAC,Clomipramine 50mg capsules
+0403010F0AAADAD,Clomipramine 25mg/2ml solution for injection ampoules
+0403010F0AAAEAE,Clomipramine 25mg/5ml oral solution
+0403010F0AAAKAK,Clomipramine 25mg/5ml oral liquid
+0403010F0AAALAL,Clomipramine 10mg/5ml oral liquid
+0403010F0AAAMAM,Clomipramine 5mg/5ml oral liquid
+0403010F0AAANAN,Clomipramine 50mg/5ml oral solution
+0403010F0AAAPAP,Clomipramine 37.5mg/5ml oral liquid
+0403010F0AAAQAQ,Clomipramine 50mg/5ml oral suspension
+0403010F0AAARAR,Clomipramine 75mg modified-release tablets
+0403010F0AAASAS,Clomipramine 250mg/5ml oral suspension
+0403010F0BB,Anafranil
+0403010F0BBAAAA,Anafranil 10mg capsules
+0403010F0BBABAB,Anafranil 25mg capsules
+0403010F0BBACAC,Anafranil 50mg capsules
+0403010F0BBADAK,Anafranil 25mg/5ml syrup
+0403010F0BBAEAD,Anafranil 25mg/2ml solution for injection ampoules
+0403010F0BBAFAR,Anafranil SR 75mg tablets
+0403010J0,Dosulepin hydrochloride
+0403010J0AA,Dosulepin hydrochloride
+0403010J0AAA5A5,Dosulepin 50mg/5ml oral solution
+0403010J0AAA6A6,Dosulepin 25mg/5ml oral suspension
+0403010J0AAA7A7,Dosulepin 75mg/5ml oral suspension
+0403010J0AAA8A8,Dosulepin 100mg/5ml oral solution
+0403010J0AAAAAA,Dosulepin 25mg capsules
+0403010J0AAAIAI,Dosulepin 75mg tablets
+0403010J0AABABA,Dosulepin 10mg/5ml oral solution
+0403010J0AABBBB,Dosulepin 150mg/5ml oral solution
+0403010J0AABCBC,Dosulepin 125mg/5ml oral solution
+0403010J0AABDBD,Dosulepin 250mg/5ml oral solution
+0403010J0AABEBE,Dosulepin 5mg/5ml oral solution
+0403010J0AABFBF,Dosulepin 37.5mg/5ml oral solution
+0403010J0AABHBH,Dosulepin 20mg/5ml oral solution
+0403010J0AABJBJ,Dosulepin 25mg/5ml oral solution
+0403010J0AABKBK,Dosulepin 75mg/5ml oral solution
+0403010J0BB,Prothiaden
+0403010J0BBAAAA,Prothiaden 25mg capsules
+0403010J0BBABAI,Prothiaden 75mg tablets
+0403010J0BC,Dothapax
+0403010J0BCAAAA,Dothapax 25 capsules
+0403010J0BCABAI,Dothapax 75 tablets
+0403010J0BD,Prepadine
+0403010J0BDAAAI,Prepadine 75mg tablets
+0403010J0BDABAA,Prepadine 25mg capsules
+0403010J0BF,Thaden
+0403010J0BFAAAA,Thaden 25mg capsules
+0403010J0BFABAI,Thaden 75mg tablets
+0403010L0,Doxepin
+0403010L0AA,Doxepin
+0403010L0AAAAAA,Doxepin 10mg capsules
+0403010L0AAABAB,Doxepin 25mg capsules
+0403010L0AAACAC,Doxepin 50mg capsules
+0403010L0AAADAD,Doxepin 75mg capsules
+0403010L0AAAEAE,Doxepin 50mg/5ml oral liquid
+0403010L0BB,Sinequan
+0403010L0BBAAAA,Sinequan 10mg capsules
+0403010L0BBABAB,Sinequan 25mg capsules
+0403010L0BBACAC,Sinequan 50mg capsules
+0403010L0BBADAD,Sinequan 75mg capsules
+0403010L0BC,Sinepin
+0403010L0BCAAAB,Sinepin 25mg capsules
+0403010L0BCABAC,Sinepin 50mg capsules
+0403010N0,Imipramine hydrochloride
+0403010N0AA,Imipramine hydrochloride
+0403010N0AAACAC,Imipramine 25mg/5ml oral solution
+0403010N0AAADAD,Imipramine 10mg tablets
+0403010N0AAAEAE,Imipramine 25mg tablets
+0403010N0AAAJAJ,Imipramine 100mg/5ml oral liquid
+0403010N0AAAKAK,Imipramine 25mg/5ml oral suspension
+0403010N0AAALAL,Imipramine 10mg/5ml oral liquid
+0403010N0AAAMAM,Imipramine 12.5mg/5ml oral liquid
+0403010N0AAANAN,Imipramine 40mg/5ml oral liquid
+0403010N0AAAPAP,Imipramine 125mg/5ml oral liquid
+0403010N0AAAQAQ,Imipramine 25mg/5ml oral solution sugar free
+0403010N0BC,Tofranil
+0403010N0BCABAE,Tofranil 25mg tablets
+0403010N0BCACAC,Tofranil 25mg/5ml syrup
+0403010R0,Lofepramine hydrochloride
+0403010R0AA,Lofepramine hydrochloride
+0403010R0AAAAAA,Lofepramine 70mg tablets
+0403010R0AAAGAG,Lofepramine 70mg/5ml oral liquid
+0403010R0AAAHAH,Lofepramine 140mg/5ml oral liquid
+0403010R0AAAIAI,Lofepramine 5mg/5ml oral liquid
+0403010R0AAAKAK,Lofepramine 23mg/5ml oral liquid
+0403010R0AAALAL,Lofepramine 70mg/5ml oral suspension sugar free
+0403010R0AAAMAM,Lofepramine 35mg/5ml oral liquid
+0403010R0BB,Gamanil
+0403010R0BBAAAA,Gamanil 70mg tablets
+0403010R0BC,Lomont
+0403010R0BCAAAL,Lomont 70mg/5ml oral suspension
+0403010R0BD,Feprapax
+0403010R0BDAAAA,Feprapax 70mg tablets
+0403010S0,Maprotiline hydrochloride
+0403010S0AA,Maprotiline hydrochloride
+0403010S0AAAAAA,Maprotiline 10mg tablets
+0403010S0AAABAB,Maprotiline 25mg tablets
+0403010S0AAADAD,Maprotiline 75mg tablets
+0403010S0AAAEAE,Maprotiline 50mg tablets
+0403010S0BB,Ludiomil
+0403010S0BBAAAA,Ludiomil 10mg tablets
+0403010S0BBABAB,Ludiomil 25mg tablets
+0403010S0BBACAE,Ludiomil 50mg tablets
+0403010S0BBADAD,Ludiomil 75mg tablets
+0403010T0,Mianserin hydrochloride
+0403010T0AA,Mianserin hydrochloride
+0403010T0AAAAAA,Mianserin 10mg tablets
+0403010T0AAABAB,Mianserin 20mg tablets
+0403010T0AAACAC,Mianserin 30mg tablets
+0403010T0AAADAD,Mianserin 20mg/5ml oral liquid
+0403010T0AAAEAE,Mianserin 30mg/5ml oral liquid
+0403010T0AAAFAF,Mianserin 10mg/5ml oral liquid
+0403010V0,Nortriptyline
+0403010V0AA,Nortriptyline
+0403010V0AAADAD,Nortriptyline 10mg tablets
+0403010V0AAAEAE,Nortriptyline 25mg tablets
+0403010V0AAAGAG,Nortriptyline 10mg/5ml oral suspension
+0403010V0AAALAL,Nortriptyline 30mg / Fluphenazine 1.5mg tablets
+0403010V0AAAMAM,Nortriptyline 10mg / Fluphenazine 500microgram tablets
+0403010V0AAANAN,Nortriptyline 10mg/5ml oral solution
+0403010V0AAAQAQ,Nortriptyline 25mg/5ml oral liquid
+0403010V0AAARAR,Nortriptyline 50mg tablets
+0403010V0AAASAS,Nortriptyline 50mg/5ml oral suspension
+0403010V0AAATAT,Nortriptyline 50mg/5ml oral solution
+0403010V0AAAUAU,Nortriptyline 10mg/5ml oral solution sugar free
+0403010V0AAAVAV,Nortriptyline 25mg/5ml oral solution sugar free
+0403010V0AAAWAW,Nortriptyline 10mg capsules
+0403010V0AAAXAX,Nortriptyline 25mg capsules
+0403010V0BB,Allegron
+0403010V0BBAAAD,Allegron 10mg tablets
+0403010V0BBABAE,Allegron 25mg tablets
+0403010V0BD,Motipress
+0403010V0BDAAAL,Motipress tablets
+0403010V0BE,Motival
+0403010V0BEAAAM,Motival 10mg/500microgram tablets
+0403010X0,Trazodone hydrochloride
+0403010X0AA,Trazodone hydrochloride
+0403010X0AAAAAA,Trazodone 50mg capsules
+0403010X0AAABAB,Trazodone 100mg capsules
+0403010X0AAADAD,Trazodone 150mg tablets
+0403010X0AAAEAE,Trazodone 150mg modified-release tablets
+0403010X0AAAFAF,Trazodone 50mg/5ml oral solution sugar free
+0403010X0AAAGAG,Trazodone 50mg/5ml oral liquid
+0403010X0AAAHAH,Trazodone 250mg/5ml oral liquid
+0403010X0AAAIAI,Trazodone 100mg/5ml oral liquid
+0403010X0AAAJAJ,Trazodone 25mg/5ml oral liquid
+0403010X0AAAKAK,Trazodone 10mg/5ml oral liquid
+0403010X0AAALAL,Trazodone 150mg/5ml oral liquid
+0403010X0AAAMAM,Trazodone 75mg/5ml oral liquid
+0403010X0AAANAN,Trazodone 100mg/5ml oral solution sugar free
+0403010X0AAAPAP,Trazodone 50mg tablets
+0403010X0AAAQAQ,Trazodone 100mg tablets
+0403010X0BB,Molipaxin
+0403010X0BBAAAA,Molipaxin 50mg capsules
+0403010X0BBABAB,Molipaxin 100mg capsules
+0403010X0BBACAF,Molipaxin 50mg/5ml oral liquid
+0403010X0BBADAD,Molipaxin 150mg tablets
+0403010X0BBAEAE,Molipaxin CR 150mg tablets
+0403010Y0,Trimipramine maleate
+0403010Y0AA,Trimipramine maleate
+0403010Y0AAAAAA,Trimipramine 50mg capsules
+0403010Y0AAABAB,Trimipramine 10mg tablets
+0403010Y0AAACAC,Trimipramine 25mg tablets
+0403010Y0AAAGAG,Trimipramine 50mg/5ml oral liquid
+0403010Y0AAAHAH,Trimipramine 25mg/5ml oral liquid
+0403010Y0AAAIAI,Trimipramine 125mg/5ml oral liquid
+0403010Y0AAAKAK,Trimipramine 10mg/5ml oral liquid
+0403010Y0BB,Surmontil
+0403010Y0BBAAAA,Surmontil 50mg capsules
+0403010Y0BBABAB,Surmontil 10mg tablets
+0403010Y0BBACAC,Surmontil 25mg tablets
+040302,Monoamine-oxidase inhibitors (maois)
+0403020,Monoamine-oxidase inhibitors (maois)
+0403020H0,Isocarboxazid
+0403020H0AA,Isocarboxazid
+0403020H0AAAAAA,Isocarboxazid 10mg tablets
+0403020H0AAACAC,Isocarboxazid 20mg/5ml oral suspension
+0403020K0,Moclobemide
+0403020K0AA,Moclobemide
+0403020K0AAAAAA,Moclobemide 150mg tablets
+0403020K0AAACAC,Moclobemide 300mg tablets
+0403020K0AAADAD,Moclobemide 150mg/5ml oral suspension
+0403020K0AAAEAE,Moclobemide 50mg/5ml oral suspension
+0403020K0BB,Manerix
+0403020K0BBAAAA,Manerix 150mg tablets
+0403020K0BBABAC,Manerix 300mg tablets
+0403020M0,Phenelzine sulfate
+0403020M0AA,Phenelzine sulfate
+0403020M0AAAAAA,Phenelzine 15mg tablets
+0403020M0AAABAB,Phenelzine 15mg capsules
+0403020M0BB,Nardil
+0403020M0BBAAAA,Nardil 15mg tablets
+0403020Q0,Tranylcypromine sulfate
+0403020Q0AA,Tranylcypromine sulfate
+0403020Q0AAAAAA,Tranylcypromine 10mg tablets
+040303,Selective serotonin re-uptake inhibitors
+0403030,Selective serotonin re-uptake inhibitors
+0403030D0,Citalopram hydrobromide
+0403030D0AA,Citalopram hydrobromide
+0403030D0AAAAAA,Citalopram 20mg tablets
+0403030D0AAABAB,Citalopram 10mg tablets
+0403030D0AAACAC,Citalopram 40mg tablets
+0403030D0AAADAD,Citalopram 20mg/5ml oral suspension
+0403030D0AAAGAG,Citalopram 10mg/5ml oral suspension
+0403030D0BB,Cipramil hydrobromide
+0403030D0BBAAAA,Cipramil 20mg tablets
+0403030D0BBABAB,Cipramil 10mg tablets
+0403030D0BBACAC,Cipramil 40mg tablets
+0403030E0,Fluoxetine hydrochloride
+0403030E0AA,Fluoxetine hydrochloride
+0403030E0AAAAAA,Fluoxetine 20mg capsules
+0403030E0AAACAC,Fluoxetine 20mg/5ml oral solution
+0403030E0AAAEAE,Fluoxetine 60mg capsules
+0403030E0AAAGAG,Fluoxetine 2.5mg/5ml oral liquid
+0403030E0AAAHAH,Fluoxetine 20mg/5ml oral solution sugar free
+0403030E0AAAIAI,Fluoxetine 2mg/5ml oral liquid
+0403030E0AAAKAK,Fluoxetine 20mg dispersible tablets sugar free
+0403030E0AAALAL,Fluoxetine 10mg capsules
+0403030E0AAAMAM,Fluoxetine 30mg capsules
+0403030E0AAANAN,Fluoxetine 40mg capsules
+0403030E0AAAPAP,Fluoxetine 10mg tablets
+0403030E0AAAQAQ,Fluoxetine 10mg/5ml oral suspension
+0403030E0BB,Prozac
+0403030E0BBAAAA,Prozac 20mg capsules
+0403030E0BBABAC,Prozac 20mg/5ml liquid
+0403030E0BBACAE,Prozac 60mg capsules
+0403030E0BC,Felicium
+0403030E0BCAAAA,Felicium 20mg capsules
+0403030E0BD,Oxactin
+0403030E0BDAAAA,Oxactin 20mg capsules
+0403030E0BE,Ranflutin
+0403030E0BEAAAA,Ranflutin 20mg capsules
+0403030E0BF,Prozit
+0403030E0BFAAAC,Prozit 20mg/5ml oral solution
+0403030E0BG,Prozep
+0403030E0BGAAAH,Prozep 20mg/5ml oral solution
+0403030E0BH,Olena
+0403030E0BHAAAK,Olena 20mg dispersible tablets
+0403030L0,Fluvoxamine maleate
+0403030L0AA,Fluvoxamine maleate
+0403030L0AAAAAA,Fluvoxamine 50mg tablets
+0403030L0AAABAB,Fluvoxamine 100mg tablets
+0403030L0AAAEAE,Fluvoxamine 50mg/5ml oral suspension
+0403030L0BB,Faverin
+0403030L0BBAAAA,Faverin 50mg tablets
+0403030L0BBABAB,Faverin 100mg tablets
+0403030P0,Paroxetine hydrochloride
+0403030P0AA,Paroxetine hydrochloride
+0403030P0AAAAAA,Paroxetine 20mg tablets
+0403030P0AAABAB,Paroxetine 30mg tablets
+0403030P0AAADAD,Paroxetine 20mg/5ml oral liquid
+0403030P0AAAEAE,Paroxetine 30mg/5ml oral liquid
+0403030P0AAAFAF,Paroxetine 10mg/5ml oral liquid
+0403030P0AAAGAG,Paroxetine 10mg/5ml oral suspension sugar free
+0403030P0AAAKAK,Paroxetine 10mg tablets
+0403030P0AAALAL,Paroxetine 40mg tablets
+0403030P0BB,Seroxat
+0403030P0BBAAAA,Seroxat 20mg tablets
+0403030P0BBABAB,Seroxat 30mg tablets
+0403030P0BBACAG,Seroxat 20mg/10ml liquid
+0403030P0BBADAK,Seroxat 10mg tablets
+0403030Q0,Sertraline hydrochloride
+0403030Q0AA,Sertraline hydrochloride
+0403030Q0AAAAAA,Sertraline 50mg tablets
+0403030Q0AAABAB,Sertraline 100mg tablets
+0403030Q0AAAIAI,Sertraline 12.5mg/5ml oral suspension
+0403030Q0AAAKAK,Sertraline 150mg/5ml oral suspension
+0403030Q0AAANAN,Sertraline 20mg/5ml oral suspension
+0403030Q0AAAPAP,Sertraline 10mg/5ml oral suspension
+0403030Q0AAAQAQ,Sertraline 50mg/5ml oral suspension
+0403030Q0AAARAR,Sertraline 100mg/5ml oral suspension
+0403030Q0AAASAS,Sertraline 15mg/5ml oral suspension
+0403030Q0AAATAT,Sertraline 5mg/5ml oral suspension
+0403030Q0AAAUAU,Sertraline 75mg/5ml oral suspension
+0403030Q0AAAVAV,Sertraline 50mg/5ml oral solution
+0403030Q0AAAWAW,Sertraline 25mg/5ml oral solution
+0403030Q0AAAXAX,Sertraline 25mg/5ml oral suspension
+0403030Q0AAAYAY,Sertraline 12.5mg tablets
+0403030Q0AAAZAZ,Sertraline 25mg tablets
+0403030Q0BB,Lustral
+0403030Q0BBAAAA,Lustral 50mg tablets
+0403030Q0BBABAB,Lustral 100mg tablets
+0403030X0,Escitalopram
+0403030X0AA,Escitalopram
+0403030X0AAAAAA,Escitalopram 10mg tablets
+0403030X0AAABAB,Escitalopram 20mg tablets
+0403030X0AAACAC,Escitalopram 5mg tablets
+0403030X0AAADAD,Escitalopram 10mg/ml oral drops sugar free
+0403030X0AAAFAF,Escitalopram 20mg/ml oral drops sugar free
+0403030X0BB,Cipralex
+0403030X0BBAAAA,Cipralex 10mg tablets
+0403030X0BBABAB,Cipralex 20mg tablets
+0403030X0BBACAC,Cipralex 5mg tablets
+0403030X0BBADAD,Cipralex 10mg/ml oral drops
+0403030X0BBAEAF,Cipralex 20mg/ml oral drops
+0403030Z0,Citalopram hydrochloride
+0403030Z0AA,Citalopram hydrochloride
+0403030Z0AAAAAA,Citalopram 40mg/ml oral drops sugar free
+0403030Z0BB,Cipramil hydrochloride
+0403030Z0BBAAAA,Cipramil 40mg/ml drops
+040304,Other antidepressant drugs
+0403040,Other antidepressant drugs
+040304000,Other antidepressant preparations
+040304000AA,Generic compound preparation BNF 0403040
+040304000AAABAB,Milnacipran 50mg capsules
+0403040AA,Levomilnacipran
+0403040AAAA,Levomilnacipran
+0403040AAAAAAAA,Levomilnacipran 40mg modified-release capsules
+0403040AAAAABAB,Levomilnacipran 80mg modified-release capsules
+0403040AABB,Fetzima
+0403040AABBAAAA,Fetzima 40mg modified-release capsules
+0403040AABBABAB,Fetzima 80mg modified-release capsules
+0403040AB,Vortioxetine
+0403040ABAA,Vortioxetine
+0403040ABAAAAAA,Vortioxetine 5mg tablets
+0403040ABAAABAB,Vortioxetine 10mg tablets
+0403040ABAAACAC,Vortioxetine 20mg tablets
+0403040ABBB,Brintellix
+0403040ABBBAAAA,Brintellix 5mg tablets
+0403040ABBBABAB,Brintellix 10mg tablets
+0403040ABBBACAC,Brintellix 20mg tablets
+0403040F0,Flupentixol hydrochloride
+0403040F0AA,Flupentixol hydrochloride (Antidepressant)
+0403040F0AAAAAA,Flupentixol 500microgram tablets
+0403040F0AAABAB,Flupentixol 1mg tablets
+0403040F0AAAFAF,Flupentixol 500micrograms/5ml oral liquid
+0403040F0AAAGAG,Flupentixol 1mg/5ml oral solution
+0403040F0BB,Fluanxol
+0403040F0BBAAAA,Fluanxol 500microgram tablets
+0403040F0BBABAB,Fluanxol 1mg tablets
+0403040R0,Oxitriptan
+0403040R0AA,Oxitriptan
+0403040R0AAAFAF,Oxitriptan 50mg capsules
+0403040R0AAAJAJ,Oxitriptan 100mg tablets
+0403040R0AAAKAK,Oxitriptan 50mg modified-release tablets
+0403040R0BB,Tript-OH
+0403040R0BBABAF,Tript-OH 50mg capsules
+0403040R0BD,Lamberts 5-HTP
+0403040R0BDAAAJ,Lamberts 5-HTP 100mg tablets
+0403040R0BE,HealthAid 5-HTP
+0403040R0BEAAAK,HealthAid 5-HTP HydroxyTryptoPhan 50mg tablets
+0403040S0,Tryptophan
+0403040S0AA,Tryptophan
+0403040S0AAABAB,Tryptophan 500mg tablets
+0403040S0AAAGAG,Tryptophan 50mg capsules
+0403040S0AAAIAI,Tryptophan 500mg capsules
+0403040S0BB,Optimax
+0403040S0BBAAAB,Optimax 500mg tablets
+0403040S0BBADAI,Optimax 500mg capsules
+0403040T0,Nefazodone hydrochloride
+0403040T0AA,Nefazodone hydrochloride
+0403040T0AAAAAA,Nefazodone 100mg tablets
+0403040T0AAABAB,Nefazodone 200mg tablets
+0403040T0AAACAC,Generic Dutonin tablets treatment initiation pack
+0403040T0BB,Dutonin
+0403040T0BBAAAA,Dutonin 100mg tablets
+0403040T0BBABAB,Dutonin 200mg tablets
+0403040T0BBACAC,Dutonin tablets treatment initiation pack
+0403040U0,Reboxetine
+0403040U0AA,Reboxetine
+0403040U0AAAAAA,Reboxetine 4mg tablets
+0403040U0BB,Edronax
+0403040U0BBAAAA,Edronax 4mg tablets
+0403040W0,Venlafaxine
+0403040W0AA,Venlafaxine
+0403040W0AAAAAA,Venlafaxine 37.5mg tablets
+0403040W0AAABAB,Venlafaxine 75mg tablets
+0403040W0AAACAC,Venlafaxine 50mg tablets
+0403040W0AAADAD,Venlafaxine 75mg modified-release capsules
+0403040W0AAAEAE,Venlafaxine 150mg modified-release capsules
+0403040W0AAAHAH,Venlafaxine 150mg oral powder sachets
+0403040W0AAAIAI,Venlafaxine 150mg/5ml oral liquid
+0403040W0AAAJAJ,Venlafaxine 75mg modified-release tablets
+0403040W0AAAKAK,Venlafaxine 150mg modified-release tablets
+0403040W0AAALAL,Venlafaxine 225mg modified-release tablets
+0403040W0AAAMAM,Venlafaxine 37.5mg modified-release tablets
+0403040W0AAANAN,Venlafaxine 37.5mg/5ml oral solution
+0403040W0AAAPAP,Venlafaxine 37.5mg/5ml oral suspension
+0403040W0AAAQAQ,Venlafaxine 75mg/5ml oral solution
+0403040W0AAARAR,Venlafaxine 75mg/5ml oral suspension
+0403040W0AAASAS,Venlafaxine 37.5mg modified-release capsules
+0403040W0AAATAT,Venlafaxine 225mg modified-release capsules
+0403040W0AAAUAU,Venlafaxine 225mg/5ml oral suspension
+0403040W0AAAVAV,Venlafaxine 300mg modified-release tablets
+0403040W0AAAWAW,Venlafaxine 37.5mg/5ml oral solution sugar free
+0403040W0AAAXAX,Venlafaxine 75mg/5ml oral solution sugar free
+0403040W0BB,Efexor
+0403040W0BBAAAA,Efexor 37.5mg tablets
+0403040W0BBABAB,Efexor 75mg tablets
+0403040W0BBACAC,Efexor 50mg tablets
+0403040W0BBADAD,Efexor XL 75mg capsules
+0403040W0BBAEAE,Efexor XL 150mg capsules
+0403040W0BBAFAT,Efexor XL 225mg capsules
+0403040W0BC,Rodomel
+0403040W0BCAAAD,Rodomel XL 75mg capsules
+0403040W0BCABAE,Rodomel XL 150mg capsules
+0403040W0BD,Trixat
+0403040W0BDAAAD,Trixat XL 75mg capsules
+0403040W0BDABAE,Trixat XL 150mg capsules
+0403040W0BE,Winfex
+0403040W0BEAAAD,Winfex XL 75mg capsules
+0403040W0BEABAE,Winfex XL 150mg capsules
+0403040W0BF,Tardcaps
+0403040W0BFAAAD,Tardcaps XL 75mg capsules
+0403040W0BFABAE,Tardcaps XL 150mg capsules
+0403040W0BG,Vensir
+0403040W0BGAAAD,Vensir XL 75mg capsules
+0403040W0BGABAE,Vensir XL 150mg capsules
+0403040W0BGACAT,Vensir XL 225mg capsules
+0403040W0BH,Vexarin
+0403040W0BHAAAD,Vexarin XL 75mg capsules
+0403040W0BHABAE,Vexarin XL 150mg capsules
+0403040W0BI,Viepax
+0403040W0BIAAAJ,ViePax XL 75mg tablets
+0403040W0BIABAK,ViePax XL 150mg tablets
+0403040W0BIACAA,ViePax 37.5mg tablets
+0403040W0BIADAB,ViePax 75mg tablets
+0403040W0BIAEAL,ViePax XL 225mg tablets
+0403040W0BJ,Tifaxin
+0403040W0BJAAAD,Tifaxin XL 75mg capsules
+0403040W0BJABAE,Tifaxin XL 150mg capsules
+0403040W0BK,Vaxalin
+0403040W0BKAAAD,Vaxalin XL 75mg capsules
+0403040W0BKABAE,Vaxalin XL 150mg capsules
+0403040W0BL,Venaxx
+0403040W0BLAAAD,Venaxx XL 75mg capsules
+0403040W0BLABAE,Venaxx XL 150mg capsules
+0403040W0BM,Politid
+0403040W0BMAAAD,Politid XL 75mg capsules
+0403040W0BMABAE,Politid XL 150mg capsules
+0403040W0BN,Venlalic
+0403040W0BNAAAJ,Venlalic XL 75mg tablets
+0403040W0BNABAK,Venlalic XL 150mg tablets
+0403040W0BNACAL,Venlalic XL 225mg tablets
+0403040W0BNADAM,Venlalic XL 37.5mg tablets
+0403040W0BNAEAV,Venlalic XL 300mg tablets
+0403040W0BP,Foraven
+0403040W0BPAAAD,Foraven XL 75mg capsules
+0403040W0BPABAE,Foraven XL 150mg capsules
+0403040W0BQ,Ranfaxine
+0403040W0BQAAAD,Ranfaxine XL 75mg capsules
+0403040W0BQABAE,Ranfaxine XL 150mg capsules
+0403040W0BR,Venlablue
+0403040W0BRAAAD,Venlablue XL 75mg capsules
+0403040W0BRABAE,Venlablue XL 150mg capsules
+0403040W0BRACAS,Venlablue XL 37.5mg capsules
+0403040W0BS,Tonpular
+0403040W0BSAAAD,Tonpular XL 75mg capsules
+0403040W0BSABAE,Tonpular XL 150mg capsules
+0403040W0BT,Alventa
+0403040W0BTAAAD,Alventa XL 75mg capsules
+0403040W0BTABAE,Alventa XL 150mg capsules
+0403040W0BU,Mentaven
+0403040W0BUAAAD,Mentaven XL 75mg capsules
+0403040W0BUABAE,Mentaven XL 150mg capsules
+0403040W0BV,Depefex
+0403040W0BVAAAD,Depefex XL 75mg capsules
+0403040W0BVABAE,Depefex XL 150mg capsules
+0403040W0BW,Venlaneo
+0403040W0BWAAAD,Venlaneo XL 75mg capsules
+0403040W0BWABAE,Venlaneo XL 150mg capsules
+0403040W0BX,Sunveniz
+0403040W0BXAAAJ,Sunveniz XL 75mg tablets
+0403040W0BXABAK,Sunveniz XL 150mg tablets
+0403040W0BY,Bonilux
+0403040W0BYAAAE,Bonilux XL 150mg capsules
+0403040W0BYABAD,Bonilux XL 75mg capsules
+0403040W0BZ,Venladex
+0403040W0BZAAAK,Venladex XL 150mg tablets
+0403040W0BZABAJ,Venladex XL 75mg tablets
+0403040W0BZACAL,Venladex XL 225mg tablets
+0403040W0CB,Amphero
+0403040W0CBAAAE,Amphero XL 150mg capsules
+0403040W0CBABAD,Amphero XL 75mg capsules
+0403040W0CC,Vencarm
+0403040W0CCAAAS,Vencarm XL 37.5mg capsules
+0403040W0CCABAD,Vencarm XL 75mg capsules
+0403040W0CCACAE,Vencarm XL 150mg capsules
+0403040W0CCADAT,Vencarm XL 225mg capsules
+0403040W0CD,Venlasov
+0403040W0CDAAAD,Venlasov XL 75mg capsules
+0403040W0CDABAE,Venlasov XL 150mg capsules
+0403040W0CE,Venzip
+0403040W0CEAAAD,Venzip XL 75mg capsules
+0403040W0CEABAE,Venzip XL 150mg capsules
+0403040W0CF,Majoven
+0403040W0CFAAAS,Majoven XL 37.5mg capsules
+0403040W0CFABAD,Majoven XL 75mg capsules
+0403040W0CFACAE,Majoven XL 150mg capsules
+0403040W0CG,Apclaven XL
+0403040W0CGAAAS,Apclaven XL 37.5mg capsules
+0403040W0CGABAD,Apclaven XL 75mg capsules
+0403040W0CGACAE,Apclaven XL 150mg capsules
+0403040X0,Mirtazapine
+0403040X0AA,Mirtazapine
+0403040X0AAAAAA,Mirtazapine 30mg tablets
+0403040X0AAABAB,Mirtazapine 30mg/5ml oral liquid
+0403040X0AAAFAF,Mirtazapine 75mg/5ml oral suspension
+0403040X0AAAGAG,Mirtazapine 15mg/ml oral solution sugar free
+0403040X0AAAHAH,Mirtazapine 4mg capsules
+0403040X0AAAIAI,Mirtazapine 2mg capsules
+0403040X0AAAJAJ,Mirtazapine 30mg orodispersible tablets
+0403040X0AAAKAK,Mirtazapine 750micrograms/5ml oral liquid
+0403040X0AAALAL,Mirtazapine 15mg orodispersible tablets
+0403040X0AAAMAM,Mirtazapine 45mg orodispersible tablets
+0403040X0AAANAN,Mirtazapine 15mg tablets
+0403040X0AAAPAP,Mirtazapine 45mg tablets
+0403040X0AAAQAQ,Mirtazapine 15mg orodispersible tablets sugar free
+0403040X0AAARAR,Mirtazapine 45mg orodispersible tablets sugar free
+0403040X0AAASAS,Mirtazapine 15mg/5ml oral solution
+0403040X0BB,Zispin
+0403040X0BBAAAA,Zispin 30mg tablets
+0403040X0BBABAJ,Zispin SolTab 30mg orodispersible tablets
+0403040X0BBACAL,Zispin SolTab 15mg orodispersible tablets
+0403040X0BBADAM,Zispin SolTab 45mg orodispersible tablets
+0403040Y0,Duloxetine hydrochloride
+0403040Y0AA,Duloxetine hydrochloride (Antidepressant)
+0403040Y0AAAAAA,Duloxetine 30mg gastro-resistant capsules
+0403040Y0AAABAB,Duloxetine 60mg gastro-resistant capsules
+0403040Y0AAACAC,Duloxetine 90mg gastro-resistant capsules
+0403040Y0AAADAD,Duloxetine 120mg gastro-resistant capsules
+0403040Y0BB,Cymbalta (Antidepressant)
+0403040Y0BBAAAA,Cymbalta 30mg gastro-resistant capsules
+0403040Y0BBABAB,Cymbalta 60mg gastro-resistant capsules
+0403040Y0BC,Duciltia (Antidepressant)
+0403040Y0BCAAAA,Duciltia 30mg gastro-resistant capsules
+0403040Y0BCAAAB,Duciltia 60mg gastro-resistant capsules
+0403040Y0BD,Depalta
+0403040Y0BDAAAA,Depalta 30mg gastro-resistant capsules
+0403040Y0BDABAB,Depalta 60mg gastro-resistant capsules
+0403040Y0BE,Dutor (Antidepressant)
+0403040Y0BEAAAA,Dutor 30mg gastro-resistant capsules
+0403040Y0BEABAB,Dutor 60mg gastro-resistant capsules
+0403040Z0,Agomelatine
+0403040Z0AA,Agomelatine
+0403040Z0AAAAAA,Agomelatine 25mg tablets
+0403040Z0BB,Valdoxan
+0403040Z0BBAAAA,Valdoxan 25mg tablets

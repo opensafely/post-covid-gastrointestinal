@@ -314,3 +314,38 @@ hrt_dmd = codelist_from_csv(
     system="snomed",
     column="dmd_id",
 )
+
+#GI outcomes 
+'''
+This script reads in the codelists from the txt file and generate 
+the python code similar to the code above automatically! '''
+
+with open("codelists/codelists.txt") as f: 
+    lines = f.readlines()
+#parsing the lines which comes after the line '#GI'
+start_index = lines.index('#GI\n')
+s = ''
+for i in range(start_index + 1 , len(lines)):
+    if not lines[i].startswith("#"):
+        var = lines[i].rstrip().split("/")[1].replace("-","_")
+        if lines[i].startswith("opensafely"):
+            path = "codelists/opensafely-" + lines[i].rstrip().split("/")[1] + ".csv"
+        elif lines[i].startswith("bristol"):
+            path = "codelists/bristol-" + lines[i].rstrip().split("/")[1] + ".csv"
+        #print(var+" = "+path)
+        if ("snomed" in var):
+            sys = "snomed"
+        elif ("icd" in var): 
+            sys = "icd10"
+        elif ("BNF" in var): 
+            sys = "BNF"
+        column = "code"
+        s += var + " = codelist_from_csv('" + path + "' , system = '" + sys + "' , column = '"+ column + "' )\n"
+exec(s)
+
+
+    
+
+
+            
+        
