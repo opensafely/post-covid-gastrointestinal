@@ -402,10 +402,10 @@
       "downloaded_at": "2022-10-25 15:18:51.157318Z",
       "sha": "e44c2085d0436e5d25ecf8a11f5ee9747f8a4951"
     },
-    "bristol-coeliac-disease.csv": {
-      "id": "bristol/coeliac-disease/6e00c599",
-      "url": "https://codelists.opensafely.org/codelist/bristol/coeliac-disease/6e00c599/",
-      "downloaded_at": "2022-10-31 17:21:54.629737Z",
+    "bristol-coeliac-disease-snomed.csv": {
+      "id": "bristol/coeliac-disease-snomed/6e00c599",
+      "url": "https://codelists.opensafely.org/codelist/bristol/coeliac-disease-snomed/6e00c599/",
+      "downloaded_at": "2022-11-04 15:53:56.750294Z",
       "sha": "dcac9bd3d2cad7c143aab22b1946750417f72659"
     },
     "bristol-coeliac-disease-icd10.csv": {
@@ -516,6 +516,12 @@
       "downloaded_at": "2022-10-31 17:21:57.679286Z",
       "sha": "9dec7a1d7bb236ef9adfe50c96fa84dfefe93fb6"
     },
+    "bristol-hypertriglyceridemia-snomed.csv": {
+      "id": "bristol/hypertriglyceridemia-snomed/282e82e9",
+      "url": "https://codelists.opensafely.org/codelist/bristol/hypertriglyceridemia-snomed/282e82e9/",
+      "downloaded_at": "2022-11-04 23:48:02.333025Z",
+      "sha": "ec5d2ffd3b7a6377fec03d12e075c6429195cd50"
+    },
     "bristol-cholelisthiasis-snomed.csv": {
       "id": "bristol/cholelisthiasis-snomed/1fa4cbc4",
       "url": "https://codelists.opensafely.org/codelist/bristol/cholelisthiasis-snomed/1fa4cbc4/",
@@ -570,22 +576,22 @@
       "downloaded_at": "2022-10-31 17:21:59.103517Z",
       "sha": "bcbbc14efd57852a7727258204448749934f21ba"
     },
-    "bristol-nsaids.csv": {
-      "id": "bristol/nsaids/05cea500",
-      "url": "https://codelists.opensafely.org/codelist/bristol/nsaids/05cea500/",
-      "downloaded_at": "2022-10-31 17:21:59.284349Z",
+    "bristol-nsaids-bnf.csv": {
+      "id": "bristol/nsaids-bnf/05cea500",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nsaids-bnf/05cea500/",
+      "downloaded_at": "2022-11-04 17:50:03.441060Z",
       "sha": "0d86c90f6918c7ab58600de0b57ac452ecbb835c"
     },
-    "bristol-aspirin.csv": {
-      "id": "bristol/aspirin/6cbf31ca",
-      "url": "https://codelists.opensafely.org/codelist/bristol/aspirin/6cbf31ca/",
-      "downloaded_at": "2022-10-31 17:21:59.441093Z",
+    "bristol-aspirin-bnf.csv": {
+      "id": "bristol/aspirin-bnf/6cbf31ca",
+      "url": "https://codelists.opensafely.org/codelist/bristol/aspirin-bnf/6cbf31ca/",
+      "downloaded_at": "2022-11-04 17:50:03.632157Z",
       "sha": "c76d239000c93ebe41484da37531099446bb0b3f"
     },
-    "bristol-anticoagulants.csv": {
-      "id": "bristol/anticoagulants/1099a4d8",
-      "url": "https://codelists.opensafely.org/codelist/bristol/anticoagulants/1099a4d8/",
-      "downloaded_at": "2022-10-31 17:21:59.564516Z",
+    "bristol-anticoagulants-bnf.csv": {
+      "id": "bristol/anticoagulants-bnf/1099a4d8",
+      "url": "https://codelists.opensafely.org/codelist/bristol/anticoagulants-bnf/1099a4d8/",
+      "downloaded_at": "2022-11-04 17:50:03.838195Z",
       "sha": "5e3f66fad04d8a488cd087ad023fa5498410622e"
     },
     "bristol-antidepressants-bnf.csv": {

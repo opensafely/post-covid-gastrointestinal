@@ -1,0 +1,448 @@
+dmd_type,dmd_id,dmd_name,bnf_code
+VMP,35934311000001108,"Reviparin sodium 1,432units/0.25ml solution for injection pre-filled syringes",0208010AAAAAAAA
+AMP,5003611000001104,"Clivarine 1,432units/0.25ml solution for injection pre-filled syringes",0208010AABBAAAA
+VMP,36060511000001105,Fondaparinux sodium 2.5mg/0.5ml solution for injection pre-filled syringes,0208010ABAAAAAA
+AMP,32484811000001107,Fondaparinux sodium 2.5mg/0.5ml solution for injection pre-filled syringes,0208010ABAAAAAA
+VMP,36060611000001109,Fondaparinux sodium 5mg/0.4ml solution for injection pre-filled syringes,0208010ABAAABAB
+AMP,32485011000001102,Fondaparinux sodium 5mg/0.4ml solution for injection pre-filled syringes,0208010ABAAABAB
+VMP,36060711000001100,Fondaparinux sodium 7.5mg/0.6ml solution for injection pre-filled syringes,0208010ABAAACAC
+AMP,35215411000001107,Fondaparinux sodium 7.5mg/0.6ml solution for injection pre-filled syringes,0208010ABAAACAC
+AMP,32485211000001107,Fondaparinux sodium 7.5mg/0.6ml solution for injection pre-filled syringes,0208010ABAAACAC
+VMP,36060411000001106,Fondaparinux sodium 10mg/0.8ml solution for injection pre-filled syringes,0208010ABAAADAD
+AMP,32485411000001106,Fondaparinux sodium 10mg/0.8ml solution for injection pre-filled syringes,0208010ABAAADAD
+VMP,13566311000001106,Fondaparinux sodium 1.5mg/0.3ml solution for injection pre-filled syringes,0208010ABAAAEAE
+AMP,4332811000001106,Arixtra 2.5mg/0.5ml solution for injection pre-filled syringes,0208010ABBBAAAA
+AMP,9205511000001101,Arixtra 5mg/0.4ml solution for injection pre-filled syringes,0208010ABBBABAB
+AMP,9205811000001103,Arixtra 7.5mg/0.6ml solution for injection pre-filled syringes,0208010ABBBACAC
+AMP,9206111000001104,Arixtra 10mg/0.8ml solution for injection pre-filled syringes,0208010ABBBADAD
+AMP,13565111000001103,Arixtra 1.5mg/0.3ml solution for injection pre-filled syringes,0208010ABBBAEAE
+VMP,7537811000001101,"Bemiparin sodium 7,500units/0.3ml solution for injection pre-filled syringes",0208010ACAAAAAA
+VMP,35909811000001105,"Bemiparin sodium 2,500units/0.2ml solution for injection pre-filled syringes",0208010ACAAABAB
+VMP,35909911000001100,"Bemiparin sodium 3,500units/0.2ml solution for injection pre-filled syringes",0208010ACAAACAC
+VMP,38894411000001108,"Bemiparin sodium 5,000units/0.2ml solution for injection pre-filled syringes",0208010ACAAADAD
+VMP,7538811000001102,"Bemiparin sodium 10,000units/0.4ml solution for injection pre-filled syringes",0208010ACAAAEAE
+AMP,7538111000001109,"Zibor 7,500units/0.3ml solution for injection pre-filled syringes",0208010ACBBAAAA
+AMP,7533911000001102,"Zibor 2,500units/0.2ml solution for injection pre-filled syringes",0208010ACBBABAB
+AMP,7534511000001107,"Zibor 3,500units/0.2ml solution for injection pre-filled syringes",0208010ACBBACAC
+AMP,7535111000001104,"Zibor 5,000units/0.2ml solution for injection pre-filled syringes",0208010ACBBADAD
+AMP,7539311000001100,"Zibor 10,000units/0.4ml solution for injection pre-filled syringes",0208010ACBBAEAE
+AMP,39567011000001106,"Zibor 2,500units/0.2ml solution for injection pre-filled syringes",0208010ACBBAFAB
+AMP,39567211000001101,"Zibor 3,500units/0.2ml solution for injection pre-filled syringes",0208010ACBBAGAC
+VMP,7653211000001100,Lepirudin 50mg powder for solution for injection vials,0208010ADAAAAAA
+AMP,7653411000001101,Refludan 50mg powder for solution for injection vials,0208010ADBBAAAA
+VMP,36134911000001109,"Certoparin sodium 3,000units/0.3ml solution for injection pre-filled syringes",0208010B0AAAAAA
+AMP,3937811000001104,"Alphaparin 3,000units/0.3ml solution for injection pre-filled syringes",0208010B0BBAAAA
+VMP,36093411000001100,Danaparoid sodium 750units/0.6ml solution for injection ampoules,0208010C0AAAAAA
+AMP,33427611000001104,Danaparoid sodium 750units/0.6ml solution for injection ampoules,0208010C0AAAAAA
+AMP,32754811000001107,Danaparoid sodium 750units/0.6ml solution for injection ampoules,0208010C0AAAAAA
+AMP,9383511000001106,Orgaran 750units/0.6ml solution for injection ampoules,0208010C0BBAAAA
+VMP,38896011000001109,Enoxaparin sodium 20mg/0.2ml solution for injection pre-filled syringes,0208010D0AAAAAA
+VMP,36565711000001107,Enoxaparin sodium 40mg/0.4ml solution for injection pre-filled syringes,0208010D0AAABAB
+VMP,38895011000001100,Enoxaparin sodium 60mg/0.6ml solution for injection pre-filled syringes,0208010D0AAACAC
+VMP,38895111000001104,Enoxaparin sodium 80mg/0.8ml solution for injection pre-filled syringes,0208010D0AAADAD
+VMP,36564011000001106,Enoxaparin sodium 100mg/1ml solution for injection pre-filled syringes,0208010D0AAAEAE
+VMP,36563911000001108,Enoxaparin sodium 120mg/0.8ml solution for injection pre-filled syringes,0208010D0AAAFAF
+VMP,38895211000001105,Enoxaparin sodium 150mg/1ml solution for injection pre-filled syringes,0208010D0AAAGAG
+VMP,11509311000001109,Enoxaparin sodium 300mg/3ml solution for injection vials,0208010D0AAAHAH
+AMP,3826311000001101,Clexane 20mg/0.2ml solution for injection pre-filled syringes,0208010D0BBAAAA
+AMP,3825411000001104,Clexane 40mg/0.4ml solution for injection pre-filled syringes,0208010D0BBABAB
+AMP,4199811000001101,Clexane 60mg/0.6ml solution for injection pre-filled syringes,0208010D0BBACAC
+AMP,4199511000001104,Clexane 80mg/0.8ml solution for injection pre-filled syringes,0208010D0BBADAD
+AMP,4199111000001108,Clexane 100mg/1ml solution for injection pre-filled syringes,0208010D0BBAEAE
+AMP,4198711000001100,Clexane Forte 120mg/0.8ml solution for injection pre-filled syringes,0208010D0BBAFAF
+AMP,4198211000001107,Clexane Forte 150mg/1ml solution for injection pre-filled syringes,0208010D0BBAGAG
+AMP,11507011000001102,Clexane 300mg/3ml solution for injection multidose vials,0208010D0BBAHAH
+AMP,34699911000001109,Inhixa 20mg/0.2ml solution for injection pre-filled syringes,0208010D0BCAAAA
+AMP,34700211000001101,Inhixa 40mg/0.4ml solution for injection pre-filled syringes,0208010D0BCABAB
+AMP,34700511000001103,Inhixa 60mg/0.6ml solution for injection pre-filled syringes,0208010D0BCACAC
+AMP,34700811000001100,Inhixa 80mg/0.8ml solution for injection pre-filled syringes,0208010D0BCADAD
+AMP,34701011000001102,Inhixa 100mg/1ml solution for injection pre-filled syringes,0208010D0BCAEAE
+AMP,36784211000001100,Inhixa 120mg/0.8ml solution for injection pre-filled syringes,0208010D0BCAFAF
+AMP,36784411000001101,Inhixa 150mg/1ml solution for injection pre-filled syringes,0208010D0BCAGAG
+AMP,38232211000001100,Inhixa 300mg/3ml solution for injection multidose vials,0208010D0BCAHAH
+AMP,35083211000001102,Enoxaparin Becat 20mg/0.2ml solution for injection pre-filled syringes,0208010D0BDAAAA
+AMP,35083411000001103,Enoxaparin Becat 40mg/0.4ml solution for injection pre-filled syringes,0208010D0BDABAB
+AMP,35083611000001100,Enoxaparin Becat 60mg/0.6ml solution for injection pre-filled syringes,0208010D0BDACAC
+AMP,35083811000001101,Enoxaparin Becat 80mg/0.8ml solution for injection pre-filled syringes,0208010D0BDADAD
+AMP,35084011000001109,Enoxaparin Becat 100mg/1ml solution for injection pre-filled syringes,0208010D0BDAEAE
+AMP,35569511000001101,Arovi 20mg/0.2ml solution for injection pre-filled syringes,0208010D0BEAAAA
+AMP,35569011000001109,Arovi 40mg/0.4ml solution for injection pre-filled syringes,0208010D0BEABAB
+AMP,35568611000001106,Arovi 60mg/0.6ml solution for injection pre-filled syringes,0208010D0BEACAC
+AMP,35567911000001101,Arovi 80mg/0.8ml solution for injection pre-filled syringes,0208010D0BEADAD
+AMP,35566911000001104,Arovi 100mg/1ml solution for injection pre-filled syringes,0208010D0BEAEAE
+AMP,35559411000001106,Arovi 150mg/1ml solution for injection pre-filled syringes,0208010D0BEAFAG
+AMP,35559211000001107,Arovi 120mg/0.8ml solution for injection pre-filled syringes,0208010D0BEAGAF
+AMP,39197111000001103,Ledraxen 100mg/1ml solution for injection pre-filled syringes,0208010D0BFAAAE
+AMP,39197311000001101,Ledraxen 80mg/0.8ml solution for injection pre-filled syringes,0208010D0BFABAD
+AMP,39197511000001107,Ledraxen 60mg/0.6ml solution for injection pre-filled syringes,0208010D0BFACAC
+AMP,39197911000001100,Ledraxen 40mg/0.4ml solution for injection pre-filled syringes,0208010D0BFADAB
+AMP,39198111000001102,Ledraxen 20mg/0.2ml solution for injection pre-filled syringes,0208010D0BFAEAA
+VMP,36063911000001106,Epoprostenol 500microgram powder and solvent (pH10.5) for solution for infusion vials,0208010E0AAAAAA
+AMP,37366211000001109,Epoprostenol 500microgram powder and solvent (pH10.5) for solution for infusion vials,0208010E0AAAAAA
+AMP,24506611000001104,Epoprostenol 500microgram powder and solvent (pH10.5) for solution for infusion vials,0208010E0AAAAAA
+VMP,36063811000001101,Epoprostenol 1.5mg powder and solvent (pH10.5) for solution for infusion vials,0208010E0AAABAB
+AMP,37367211000001106,Epoprostenol 1.5mg powder and solvent (pH10.5) for solution for infusion vials,0208010E0AAABAB
+AMP,24506811000001100,Epoprostenol 1.5mg powder and solvent (pH10.5) for solution for infusion vials,0208010E0AAABAB
+VMP,22648411000001105,Epoprostenol 500microgram powder (pH12) for solution for infusion vials,0208010E0AAACAC
+AMP,38011111000001103,Epoprostenol 500microgram powder (pH12) for solution for infusion vials,0208010E0AAACAC
+VMP,22648311000001103,Epoprostenol 1.5mg powder (pH12) for solution for infusion vials,0208010E0AAADAD
+AMP,38011311000001101,Epoprostenol 1.5mg powder (pH12) for solution for infusion vials,0208010E0AAADAD
+VMP,33598111000001109,Epoprostenol 1.5mg powder and solvent (pH12) for solution for infusion vials,0208010E0AAAEAE
+VMP,33598211000001103,Epoprostenol 500microgram powder and solvent (pH12) for solution for infusion vials,0208010E0AAAFAF
+AMP,4627411000001100,Flolan 500microgram powder and solvent (pH10.5) for solution for infusion vials,0208010E0BBAAAA
+AMP,4627711000001106,Flolan 1.5mg powder and solvent (pH10.5) for solution for infusion vials,0208010E0BBABAB
+AMP,33592511000001102,Flolan 1.5mg powder and solvent (pH12) for solution for infusion vials,0208010E0BBACAE
+AMP,33593311000001103,Flolan 500microgram powder and solvent (pH12) for solution for infusion vials,0208010E0BBADAF
+AMP,22647311000001104,Veletri 500microgram powder for solution for infusion vials,0208010E0BCAAAC
+AMP,22647611000001109,Veletri 1.5mg powder for solution for infusion vials,0208010E0BCABAD
+VMP,36054311000001101,"Heparin sodium 10,000units/10ml solution for injection ampoules",0208010K0AAA2A2
+AMP,7387811000001108,"Heparin sodium 10,000units/10ml solution for injection ampoules",0208010K0AAA2A2
+AMP,18254911000001103,"Heparin sodium 10,000units/10ml solution for injection ampoules",0208010K0AAA2A2
+AMP,23870711000001102,"Heparin sodium 10,000units/10ml solution for injection ampoules",0208010K0AAA2A2
+AMP,7313611000001104,"Heparin sodium 10,000units/10ml solution for injection ampoules",0208010K0AAA2A2
+AMP,10358411000001107,"Heparin sodium 10,000units/10ml solution for injection ampoules",0208010K0AAA2A2
+VMP,36055311000001102,"Heparin sodium 5,000units/5ml solution for injection vials",0208010K0AAA4A4
+AMP,13616111000001101,"Heparin sodium 5,000units/5ml solution for injection vials",0208010K0AAA4A4
+AMP,15928011000001101,"Heparin sodium 5,000units/5ml solution for injection vials",0208010K0AAA4A4
+AMP,7306511000001109,"Heparin sodium 5,000units/5ml solution for injection vials",0208010K0AAA4A4
+AMP,40482911000001100,"Heparin sodium 5,000units/5ml solution for injection vials",0208010K0AAA4A4
+AMP,10357411000001108,"Heparin sodium 5,000units/5ml solution for injection vials",0208010K0AAA4A4
+VMP,36054911000001100,"Heparin sodium 25,000units/5ml solution for injection vials",0208010K0AAA5A5
+AMP,13616311000001104,"Heparin sodium 25,000units/5ml solution for injection vials",0208010K0AAA5A5
+AMP,15928411000001105,"Heparin sodium 25,000units/5ml solution for injection vials",0208010K0AAA5A5
+AMP,7306811000001107,"Heparin sodium 25,000units/5ml solution for injection vials",0208010K0AAA5A5
+AMP,38566711000001107,"Heparin sodium 25,000units/5ml solution for injection vials",0208010K0AAA5A5
+AMP,40482711000001102,"Heparin sodium 25,000units/5ml solution for injection vials",0208010K0AAA5A5
+AMP,10357611000001106,"Heparin sodium 25,000units/5ml solution for injection vials",0208010K0AAA5A5
+VMP,36054411000001108,"Heparin sodium 125,000units/5ml solution for injection vials",0208010K0AAA6A6
+AMP,13616511000001105,"Heparin sodium 125,000units/5ml solution for injection vials",0208010K0AAA6A6
+AMP,15928211000001106,"Heparin sodium 125,000units/5ml solution for injection vials",0208010K0AAA6A6
+AMP,7307111000001102,"Heparin sodium 125,000units/5ml solution for injection vials",0208010K0AAA6A6
+AMP,10357811000001105,"Heparin sodium 125,000units/5ml solution for injection vials",0208010K0AAA6A6
+VMP,36054211000001109,"Heparin sodium 1,000units/1ml solution for injection ampoules",0208010K0AAA7A7
+AMP,15150311000001103,"Heparin sodium 1,000units/1ml solution for injection ampoules",0208010K0AAA7A7
+AMP,10358011000001103,"Heparin sodium 1,000units/1ml solution for injection ampoules",0208010K0AAA7A7
+VMP,36055211000001105,"Heparin sodium 5,000units/5ml solution for injection ampoules",0208010K0AAA8A8
+AMP,7387611000001109,"Heparin sodium 5,000units/5ml solution for injection ampoules",0208010K0AAA8A8
+AMP,18254711000001100,"Heparin sodium 5,000units/5ml solution for injection ampoules",0208010K0AAA8A8
+AMP,23871311000001106,"Heparin sodium 5,000units/5ml solution for injection ampoules",0208010K0AAA8A8
+AMP,7313411000001102,"Heparin sodium 5,000units/5ml solution for injection ampoules",0208010K0AAA8A8
+AMP,10358211000001108,"Heparin sodium 5,000units/5ml solution for injection ampoules",0208010K0AAA8A8
+VMP,36055111000001104,"Heparin sodium 5,000units/1ml solution for injection ampoules",0208010K0AAA9A9
+AMP,15509411000001101,"Heparin sodium 5,000units/1ml solution for injection ampoules",0208010K0AAA9A9
+AMP,40022111000001100,"Heparin sodium 5,000units/1ml solution for injection ampoules",0208010K0AAA9A9
+AMP,10358811000001109,"Heparin sodium 5,000units/1ml solution for injection ampoules",0208010K0AAA9A9
+VMP,36055011000001100,"Heparin sodium 5,000units/0.2ml solution for injection ampoules",0208010K0AAALAL
+AMP,15150711000001104,"Heparin sodium 5,000units/0.2ml solution for injection ampoules",0208010K0AAALAL
+AMP,10359411000001104,"Heparin sodium 5,000units/0.2ml solution for injection ampoules",0208010K0AAALAL
+VMP,36054511000001107,"Heparin sodium 20,000units/20ml solution for injection ampoules",0208010K0AAAZAZ
+AMP,7388211000001106,"Heparin sodium 20,000units/20ml solution for injection ampoules",0208010K0AAAZAZ
+AMP,18255111000001102,"Heparin sodium 20,000units/20ml solution for injection ampoules",0208010K0AAAZAZ
+AMP,23867311000001109,"Heparin sodium 20,000units/20ml solution for injection ampoules",0208010K0AAAZAZ
+AMP,7313811000001100,"Heparin sodium 20,000units/20ml solution for injection ampoules",0208010K0AAAZAZ
+AMP,10358611000001105,"Heparin sodium 20,000units/20ml solution for injection ampoules",0208010K0AAAZAZ
+VMP,36054811000001105,"Heparin sodium 25,000units/5ml solution for injection ampoules",0208010K0AABCBC
+AMP,15509611000001103,"Heparin sodium 25,000units/5ml solution for injection ampoules",0208010K0AABCBC
+AMP,10359011000001108,"Heparin sodium 25,000units/5ml solution for injection ampoules",0208010K0AABCBC
+VMP,36054711000001102,"Heparin sodium 25,000units/1ml solution for injection ampoules",0208010K0AABFBF
+AMP,15150511000001109,"Heparin sodium 25,000units/1ml solution for injection ampoules",0208010K0AABFBF
+AMP,10359211000001103,"Heparin sodium 25,000units/1ml solution for injection ampoules",0208010K0AABFBF
+VMP,18684211000001103,Heparin sodium 100units/1ml solution for injection ampoules,0208010K0AABJBJ
+AMP,18676411000001103,Heparin sodium 100units/1ml solution for injection ampoules,0208010K0AABJBJ
+AMP,4204911000001105,"Monoparin 1,000units/1ml solution for injection ampoules",0208010K0BCAAA7
+AMP,4000011000001107,"Monoparin 5,000units/1ml solution for injection ampoules",0208010K0BCABA9
+AMP,4909511000001103,"Monoparin 5,000units/5ml solution for injection ampoules",0208010K0BCADA8
+AMP,7299811000001108,"Monoparin 5,000units/0.2ml solution for injection ampoules",0208010K0BCAEAL
+AMP,4527711000001101,"Monoparin 10,000units/10ml solution for injection ampoules",0208010K0BCAGA2
+AMP,4910911000001101,"Monoparin 20,000units/20ml solution for injection ampoules",0208010K0BCAHAZ
+AMP,4507911000001105,"Monoparin 25,000units/1ml solution for injection ampoules",0208010K0BCAHBF
+AMP,4528711000001100,"Monoparin 25,000units/5ml solution for injection ampoules",0208010K0BCAIBC
+AMP,4744311000001106,"Multiparin 5,000units/5ml solution for injection vials",0208010K0BDAAA4
+AMP,4501011000001101,"Multiparin 25,000units/5ml solution for injection vials",0208010K0BDABA5
+AMP,4528211000001107,"Multiparin 125,000units/5ml solution for injection vials",0208010K0BDACA6
+VMP,37084511000001100,"Dalteparin sodium 2,500units/0.2ml solution for injection pre-filled syringes",0208010L0AAAAAA
+VMP,36566011000001101,"Dalteparin sodium 5,000units/0.2ml solution for injection pre-filled syringes",0208010L0AAABAB
+VMP,36092911000001101,"Dalteparin sodium 10,000units/1ml solution for injection ampoules",0208010L0AAACAC
+VMP,36093111000001105,"Dalteparin sodium 10,000units/4ml solution for injection ampoules",0208010L0AAADAD
+VMP,36093311000001107,"Dalteparin sodium 100,000units/4ml solution for injection vials",0208010L0AAAEAE
+VMP,37084311000001106,"Dalteparin sodium 10,000units/0.4ml solution for injection pre-filled syringes",0208010L0AAAFAF
+VMP,36563811000001103,"Dalteparin sodium 12,500units/0.5ml solution for injection pre-filled syringes",0208010L0AAAGAG
+VMP,36564211000001101,"Dalteparin sodium 15,000units/0.6ml solution for injection pre-filled syringes",0208010L0AAAHAH
+VMP,37084411000001104,"Dalteparin sodium 18,000units/0.72ml solution for injection pre-filled syringes",0208010L0AAAIAI
+VMP,36093011000001109,"Dalteparin sodium 10,000units/1ml solution for injection pre-filled syringes",0208010L0AAAJAJ
+VMP,4865111000001103,"Dalteparin sodium 7,500units/0.3ml solution for injection pre-filled syringes",0208010L0AAAKAK
+AMP,3968911000001100,"Fragmin 10,000units/1ml solution for injection ampoules",0208010L0BBAAAC
+AMP,3723611000001103,"Fragmin 5,000units/0.2ml solution for injection pre-filled syringes",0208010L0BBABAB
+AMP,3840411000001109,"Fragmin 2,500units/0.2ml solution for injection pre-filled syringes",0208010L0BBACAA
+AMP,3969411000001100,"Fragmin 10,000units/4ml solution for injection ampoules",0208010L0BBADAD
+AMP,3970611000001100,"Fragmin 100,000units/4ml solution for injection vials",0208010L0BBAEAE
+AMP,3967611000001107,"Fragmin 10,000units/0.4ml solution for injection pre-filled syringes",0208010L0BBAFAF
+AMP,3838711000001100,"Fragmin 12,500units/0.5ml solution for injection pre-filled syringes",0208010L0BBAGAG
+AMP,3968311000001101,"Fragmin 15,000units/0.6ml solution for injection pre-filled syringes",0208010L0BBAHAH
+AMP,3968611000001106,"Fragmin 18,000units/0.72ml solution for injection pre-filled syringes",0208010L0BBAIAI
+AMP,3970311000001105,"Fragmin Graduated Syringe 10,000units/1ml solution for injection pre-filled syringes",0208010L0BBAJAJ
+AMP,4864211000001108,"Fragmin 7,500units/0.3ml solution for injection pre-filled syringes",0208010L0BBAKAK
+VMP,36054011000001104,"Heparin calcium 5,000units/0.2ml solution for injection ampoules",0208010N0AAABAB
+AMP,15150111000001100,"Heparin calcium 5,000units/0.2ml solution for injection ampoules",0208010N0AAABAB
+AMP,10359611000001101,"Heparin calcium 5,000units/0.2ml solution for injection ampoules",0208010N0AAABAB
+VMP,36054111000001103,"Heparin calcium 5,000units/0.2ml solution for injection pre-filled syringes",0208010N0AAAFAF
+VMP,36053911000001102,"Heparin calcium 12,500units/0.5ml solution for injection pre-filled syringes",0208010N0AAAHAH
+AMP,4188111000001102,"Calciparine 5,000units/0.2ml solution for injection pre-filled syringes",0208010N0BBAAAF
+AMP,4908311000001103,"Calciparine 12,500units/0.5ml solution for injection pre-filled syringes",0208010N0BBADAH
+AMP,4761711000001102,"Monoparin calcium 5,000units/0.2ml solution for injection ampoules",0208010N0BEAAAB
+VMP,36054611000001106,Heparin sodium 200units/2ml patency solution ampoules,0208010P0AAABAB
+AMP,7306011000001101,Heparin sodium 200units/2ml I.V. flush solution ampoules,0208010P0AAABAB
+AMP,14769711000001102,Heparin sodium 200units/2ml I.V. flush solution ampoules,0208010P0AAABAB
+AMP,7387411000001106,Heparin sodium 200units/2ml patency solution ampoules,0208010P0AAABAB
+AMP,15709211000001101,Heparin sodium 200units/2ml patency solution ampoules,0208010P0AAABAB
+VMP,4031311000001105,Heparin sodium 50units/5ml patency solution ampoules,0208010P0AAADAD
+AMP,7306311000001103,Heparin sodium 50units/5ml I.V. flush solution ampoules,0208010P0AAADAD
+AMP,14769911000001100,Heparin sodium 50units/5ml I.V. flush solution ampoules,0208010P0AAADAD
+AMP,7387211000001107,Heparin sodium 50units/5ml patency solution ampoules,0208010P0AAADAD
+AMP,15708811000001107,Heparin sodium 50units/5ml patency solution ampoules,0208010P0AAADAD
+AMP,3854011000001105,Canusal 200units/2ml patency solution ampoules,0208010P0BBAAAB
+AMP,4020411000001105,Hepsal 50units/5ml patency solution ampoules,0208010P0BDAAAD
+VMP,35919511000001105,"Tinzaparin sodium 40,000units/2ml solution for injection vials",0208010W0AAAFAF
+VMP,35918911000001106,"Tinzaparin sodium 14,000units/0.7ml solution for injection pre-filled syringes",0208010W0AAAIAI
+VMP,35919011000001102,"Tinzaparin sodium 18,000units/0.9ml solution for injection pre-filled syringes",0208010W0AAAJAJ
+VMP,35918811000001101,"Tinzaparin sodium 10,000units/0.5ml solution for injection pre-filled syringes",0208010W0AAAKAK
+VMP,35919311000001104,"Tinzaparin sodium 3,500units/0.35ml solution for injection pre-filled syringes",0208010W0AAALAL
+AMP,32688711000001105,"Tinzaparin sodium 3,500units/0.35ml solution for injection pre-filled syringes",0208010W0AAALAL
+AMP,31515811000001103,"Tinzaparin sodium 3,500units/0.35ml solution for injection pre-filled syringes",0208010W0AAALAL
+AMP,31222411000001106,"Tinzaparin sodium 3,500units/0.35ml solution for injection pre-filled syringes",0208010W0AAALAL
+VMP,35919411000001106,"Tinzaparin sodium 4,500units/0.45ml solution for injection pre-filled syringes",0208010W0AAAMAM
+AMP,32688911000001107,"Tinzaparin sodium 4,500units/0.45ml solution for injection pre-filled syringes",0208010W0AAAMAM
+AMP,31516911000001101,"Tinzaparin sodium 4,500units/0.45ml solution for injection pre-filled syringes",0208010W0AAAMAM
+AMP,31221711000001107,"Tinzaparin sodium 4,500units/0.45ml solution for injection pre-filled syringes",0208010W0AAAMAM
+VMP,35919211000001107,"Tinzaparin sodium 20,000units/2ml solution for injection vials",0208010W0AAANAN
+VMP,35919111000001101,"Tinzaparin sodium 2,500units/0.25ml solution for injection pre-filled syringes",0208010W0AAAQAQ
+AMP,32688511000001100,"Tinzaparin sodium 2,500units/0.25ml solution for injection pre-filled syringes",0208010W0AAAQAQ
+AMP,31515511000001101,"Tinzaparin sodium 2,500units/0.25ml solution for injection pre-filled syringes",0208010W0AAAQAQ
+AMP,31222811000001108,"Tinzaparin sodium 2,500units/0.25ml solution for injection pre-filled syringes",0208010W0AAAQAQ
+VMP,28566311000001109,"Tinzaparin sodium 16,000units/0.8ml solution for injection pre-filled syringes",0208010W0AAARAR
+VMP,28566111000001107,"Tinzaparin sodium 12,000units/0.6ml solution for injection pre-filled syringes",0208010W0AAASAS
+VMP,28566511000001103,"Tinzaparin sodium 8,000units/0.4ml solution for injection pre-filled syringes",0208010W0AAATAT
+AMP,4121711000001101,"Innohep 40,000units/2ml solution for injection vials",0208010W0BCACAF
+AMP,3919011000001105,"Innohep 14,000units/0.7ml solution for injection pre-filled syringes",0208010W0BCAEAI
+AMP,3920011000001106,"Innohep 18,000units/0.9ml solution for injection pre-filled syringes",0208010W0BCAFAJ
+AMP,3918011000001100,"Innohep 10,000units/0.5ml solution for injection pre-filled syringes",0208010W0BCAGAK
+AMP,3916311000001101,"Innohep 3,500units/0.35ml solution for injection pre-filled syringes",0208010W0BCAHAL
+AMP,4120611000001100,"Innohep 4,500units/0.45ml solution for injection pre-filled syringes",0208010W0BCAIAM
+AMP,4121311000001100,"Innohep 20,000units/2ml solution for injection vials",0208010W0BCAJAN
+AMP,4120211000001102,"Innohep 2,500units/0.25ml solution for injection pre-filled syringes",0208010W0BCAKAQ
+AMP,28498711000001103,"Innohep 16,000units/0.8ml solution for injection pre-filled syringes",0208010W0BCALAR
+AMP,28499911000001109,"Innohep 12,000units/0.6ml solution for injection pre-filled syringes",0208010W0BCAMAS
+AMP,28501011000001100,"Innohep 8,000units/0.4ml solution for injection pre-filled syringes",0208010W0BCANAT
+VMP,9055711000001109,Coumarin 100mg capsules,020802000AAAAAA
+AMP,9053111000001107,Coumarin 100mg capsules,020802000AAAAAA
+VMP,29903211000001100,Edoxaban 15mg tablets,0208020AAAAAAAA
+VMP,29903311000001108,Edoxaban 30mg tablets,0208020AAAAABAB
+VMP,29903411000001101,Edoxaban 60mg tablets,0208020AAAAACAC
+AMP,29902111000001100,Lixiana 15mg tablets,0208020AABBAAAA
+AMP,29902411000001105,Lixiana 30mg tablets,0208020AABBABAB
+AMP,29902711000001104,Lixiana 60mg tablets,0208020AABBACAC
+VMP,319740004,Acenocoumarol 1mg tablets,0208020H0AAAAAA
+AMP,738511000001103,Sinthrome 1mg tablets,0208020H0BBAAAA
+VMP,10475011000001103,Pentosan polysulfate sodium 50mg capsules,0208020I0AAABAB
+VMP,374449003,Pentosan polysulfate sodium 100mg capsules,0208020I0AAAGAG
+AMP,16014911000001106,Pentosan polysulfate sodium 100mg capsules,0208020I0AAAGAG
+AMP,10475411000001107,Fibrase 50mg capsules,0208020I0BBAAAB
+AMP,10478111000001107,Elmiron 100mg capsules,0208020I0BEAAAG
+AMP,23669711000001108,Elmiron 100mg capsules,0208020I0BEABAG
+AMP,35654611000001103,Elmiron 100mg capsules,0208020I0BEACAG
+AMP,35749911000001102,Elmiron 100mg capsules,0208020I0BEADAG
+VMP,319745009,Phenindione 10mg tablets,0208020N0AAAAAA
+AMP,3780911000001106,Phenindione 10mg tablets,0208020N0AAAAAA
+AMP,3781211000001108,Phenindione 10mg tablets,0208020N0AAAAAA
+AMP,3781411000001107,Phenindione 10mg tablets,0208020N0AAAAAA
+VMP,319746005,Phenindione 25mg tablets,0208020N0AAABAB
+AMP,3782011000001106,Phenindione 25mg tablets,0208020N0AAABAB
+AMP,3782311000001109,Phenindione 25mg tablets,0208020N0AAABAB
+AMP,3782511000001103,Phenindione 25mg tablets,0208020N0AAABAB
+VMP,319747001,Phenindione 50mg tablets,0208020N0AAACAC
+AMP,3783211000001107,Phenindione 50mg tablets,0208020N0AAACAC
+AMP,3783611000001109,Phenindione 50mg tablets,0208020N0AAACAC
+AMP,3783811000001108,Phenindione 50mg tablets,0208020N0AAACAC
+VMP,24351511000001102,Phenprocoumon 3mg tablets,0208020S0AAAAAA
+AMP,24226511000001103,Marcoumar 3mg tablets,0208020S0BBAAAA
+VMP,319733000,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,421411000001103,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,19835411000001102,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,303111000001107,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,739511000001109,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,9798311000001105,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,10418211000001107,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,16071211000001106,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,28988911000001100,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,22735311000001104,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,272711000001102,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,524811000001109,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,30945211000001105,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,39905911000001109,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,17876711000001107,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,321511000001106,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,34760111000001106,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,437711000001102,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,590411000001106,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,36843011000001100,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,746411000001102,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,21919511000001107,Warfarin 1mg tablets,0208020V0AAAAAA
+AMP,10138911000001108,Warfarin 1mg tablets,0208020V0AAAAAA
+VMP,319734006,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,456711000001104,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,19835611000001104,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,555911000001104,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,584211000001100,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,9798011000001107,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,10418411000001106,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,16071411000001105,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,28989111000001105,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,22735611000001109,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,927211000001109,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,772211000001101,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,30945411000001109,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,39905711000001107,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,17876911000001109,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,550411000001100,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,34760411000001101,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,508311000001104,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,473111000001108,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,36844011000001103,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,347911000001109,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,21919811000001105,Warfarin 3mg tablets,0208020V0AAABAB
+AMP,10139111000001103,Warfarin 3mg tablets,0208020V0AAABAB
+VMP,375374009,Warfarin 4mg tablets,0208020V0AAACAC
+VMP,319735007,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,751611000001108,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,19835811000001100,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,642911000001101,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,883011000001107,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,9797411000001102,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,10418611000001109,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,16071611000001108,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,28989311000001107,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,22736411000001102,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,729811000001109,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,36911000001105,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,30945711000001103,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,39905311000001108,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,17877111000001109,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,919811000001107,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,34760611000001103,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,617811000001100,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,504911000001105,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,36844311000001100,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,727111000001108,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,21920111000001102,Warfarin 5mg tablets,0208020V0AAADAD
+AMP,10139311000001101,Warfarin 5mg tablets,0208020V0AAADAD
+VMP,8798711000001106,Warfarin 5mg/5ml oral solution,0208020V0AAAIAI
+VMP,8798811000001103,Warfarin 5mg/5ml oral suspension,0208020V0AAAIAI
+AMP,8730911000001102,Warfarin 5mg/5ml oral solution,0208020V0AAAIAI
+AMP,8732411000001106,Warfarin 5mg/5ml oral suspension,0208020V0AAAIAI
+VMP,8798311000001107,Warfarin 2mg/5ml oral solution,0208020V0AAAJAJ
+VMP,8798411000001100,Warfarin 2mg/5ml oral suspension,0208020V0AAAJAJ
+AMP,8731411000001101,Warfarin 2mg/5ml oral solution,0208020V0AAAJAJ
+AMP,8733211000001101,Warfarin 2mg/5ml oral suspension,0208020V0AAAJAJ
+VMP,13016911000001108,Warfarin 25mg/5ml oral solution,0208020V0AAAKAK
+AMP,12959011000001109,Warfarin 25mg/5ml oral solution,0208020V0AAAKAK
+VMP,8798511000001101,Warfarin 3mg/5ml oral solution,0208020V0AAAMAM
+VMP,8798611000001102,Warfarin 3mg/5ml oral suspension,0208020V0AAAMAM
+AMP,8728611000001109,Warfarin 3mg/5ml oral solution,0208020V0AAAMAM
+AMP,8729111000001108,Warfarin 3mg/5ml oral suspension,0208020V0AAAMAM
+VMP,8798111000001105,Warfarin 1mg/5ml oral solution,0208020V0AAANAN
+VMP,8798211000001104,Warfarin 1mg/5ml oral suspension,0208020V0AAANAN
+AMP,8729811000001101,Warfarin 1mg/5ml oral solution,0208020V0AAANAN
+AMP,8730111000001100,Warfarin 1mg/5ml oral suspension,0208020V0AAANAN
+VMP,13017011000001107,Warfarin 4.16mg/5ml oral solution,0208020V0AAAPAP
+AMP,12959411000001100,Warfarin 4.16mg/5ml oral solution,0208020V0AAAPAP
+VMP,13016611000001102,Warfarin 1.5mg/5ml oral solution,0208020V0AAARAR
+AMP,12957311000001102,Warfarin 1.5mg/5ml oral solution,0208020V0AAARAR
+VMP,319736008,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,3659711000001104,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,10305211000001109,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,20538311000001102,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,395111000001106,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,10417011000001103,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,22736711000001108,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,622211000001107,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,37272811000001105,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,39905511000001102,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,17876511000001102,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,15202611000001100,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,34759911000001108,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,21919311000001101,Warfarin 500microgram tablets,0208020V0AAASAS
+AMP,10733911000001106,Warfarin 500microgram tablets,0208020V0AAASAS
+VMP,13016711000001106,Warfarin 100micrograms/5ml oral solution,0208020V0AAATAT
+AMP,12958011000001104,Warfarin 100micrograms/5ml oral solution,0208020V0AAATAT
+VMP,13016811000001103,Warfarin 2.5mg/5ml oral solution,0208020V0AAAUAU
+AMP,12958511000001107,Warfarin 2.5mg/5ml oral solution,0208020V0AAAUAU
+VMP,8797911000001107,Warfarin 10mg/5ml oral solution,0208020V0AAAVAV
+VMP,8798011000001109,Warfarin 10mg/5ml oral suspension,0208020V0AAAVAV
+AMP,8728011000001102,Warfarin 10mg/5ml oral solution,0208020V0AAAVAV
+AMP,8728311000001104,Warfarin 10mg/5ml oral suspension,0208020V0AAAVAV
+VMP,13017111000001108,Warfarin 4mg/5ml oral solution,0208020V0AAAWAW
+AMP,12960011000001105,Warfarin 4mg/5ml oral solution,0208020V0AAAWAW
+VMP,13017211000001102,Warfarin 500micrograms/5ml oral solution,0208020V0AAAXAX
+AMP,12961311000001103,Warfarin 500micrograms/5ml oral solution,0208020V0AAAXAX
+VMP,32751111000001103,Warfarin 1mg capsules,0208020V0AABABA
+AMP,32742511000001102,Warfarin 1mg capsules,0208020V0AABABA
+VMP,18290011000001102,Warfarin 1mg/ml oral suspension sugar free,0208020V0AABBBB
+AMP,20367411000001100,Warfarin 1mg/ml oral suspension sugar free,0208020V0AABBBB
+AMP,18723611000001101,Warfarin 1mg/ml oral suspension sugar free,0208020V0AABBBB
+AMP,22736911000001105,Warfarin 1mg/ml oral suspension sugar free,0208020V0AABBBB
+AMP,18288311000001103,Warfarin 1mg/ml oral suspension sugar free,0208020V0AABBBB
+AMP,21919111000001103,Warfarin 1mg/ml oral suspension sugar free,0208020V0AABBBB
+VMP,32751211000001109,Warfarin 3mg capsules,0208020V0AABCBC
+AMP,32742211000001100,Warfarin 3mg capsules,0208020V0AABCBC
+VMP,32751311000001101,Warfarin 5mg capsules,0208020V0AABDBD
+AMP,32741911000001103,Warfarin 5mg capsules,0208020V0AABDBD
+AMP,933311000001105,Marevan 1mg tablets,0208020V0BBAAAA
+AMP,284011000001104,Marevan 3mg tablets,0208020V0BBABAB
+AMP,461911000001100,Marevan 5mg tablets,0208020V0BBACAD
+AMP,204811000001109,Marevan 500microgram tablets,0208020V0BBAFAS
+AMP,18509011000001102,Coumadin 4mg tablets,0208020V0BDAAAC
+AMP,854311000001103,CoaguChek PT testing strips,0208020W0BBAAA0
+AMP,10186011000001104,CoaguChek XS PT testing strips,0208020W0BBABA0
+AMP,33479111000001102,CoaguChek PT Test testing strips,0208020W0BBACA0
+AMP,34209311000001107,CoaguChek XS PT Test PST testing strips,0208020W0BBADA0
+AMP,9032811000001109,Alere INRatio testing strips,0208020W0BCAAA0
+AMP,9672011000001107,ProTime 3 cuvettes,0208020W0BDAAA0
+AMP,12773511000001105,SmartCheck INR testing strips,0208020W0BEAAA0
+AMP,39202011000001101,LumiraDx INR Test testing strips,0208020W0BFAAA0
+AMP,39558511000001107,microINR testing strips,0208020W0BGAAA0
+VMP,13532911000001104,Dabigatran etexilate 75mg capsules,0208020X0AAAAAA
+VMP,13532811000001109,Dabigatran etexilate 110mg capsules,0208020X0AAABAB
+VMP,19469811000001101,Dabigatran etexilate 150mg capsules,0208020X0AAACAC
+AMP,13504711000001102,Pradaxa 75mg capsules,0208020X0BBAAAA
+AMP,13505411000001109,Pradaxa 110mg capsules,0208020X0BBABAB
+AMP,19465811000001104,Pradaxa 150mg capsules,0208020X0BBACAC
+VMP,14254711000001104,Rivaroxaban 10mg tablets,0208020Y0AAAAAA
+VMP,19842111000001101,Rivaroxaban 15mg tablets,0208020Y0AAABAB
+VMP,19842211000001107,Rivaroxaban 20mg tablets,0208020Y0AAACAC
+VMP,27810711000001104,Rivaroxaban 2.5mg tablets,0208020Y0AAADAD
+VMP,34819111000001102,Rivaroxaban 15mg tablets and Rivaroxaban 20mg tablets,0208020Y0AAAEAE
+VMP,39609211000001101,Rivaroxaban 1mg/ml oral suspension sugar free,0208020Y0AAAFAF
+AMP,14237311000001106,Xarelto 10mg tablets,0208020Y0BBAAAA
+AMP,19840811000001107,Xarelto 15mg tablets,0208020Y0BBABAB
+AMP,19841411000001101,Xarelto 20mg tablets,0208020Y0BBACAC
+AMP,27160311000001106,Xarelto 2.5mg tablets,0208020Y0BBADAD
+AMP,34793111000001102,Xarelto 15mg/20mg treatment initiation pack,0208020Y0BBAEAE
+AMP,39505011000001100,Xarelto 1mg/ml granules for oral suspension,0208020Y0BBAFAF
+VMP,703907006,Apixaban 2.5mg tablets,0208020Z0AAAAAA
+AMP,40704611000001108,Apixaban 2.5mg tablets,0208020Z0AAAAAA
+VMP,703908001,Apixaban 5mg tablets,0208020Z0AAABAB
+AMP,40705011000001102,Apixaban 5mg tablets,0208020Z0AAABAB
+AMP,19506911000001105,Eliquis 2.5mg tablets,0208020Z0BBAAAA
+AMP,21677511000001105,Eliquis 5mg tablets,0208020Z0BBABAB
+VMP,35933111000001109,Protamine sulfate 50mg/5ml solution for injection ampoules,0208030N0AAAAAA
+AMP,4398711000001109,Protamine sulfate 50mg/5ml solution for injection ampoules,0208030N0AAAAAA
+AMP,4399011000001102,Protamine sulfate 50mg/5ml solution for injection ampoules,0208030N0AAAAAA
+AMP,12874311000001100,Protamine sulfate 50mg/5ml solution for injection ampoules,0208030N0AAAAAA
+AMP,14772211000001107,Protamine sulfate 50mg/5ml solution for injection ampoules,0208030N0AAAAAA
+VMP,35933011000001108,Protamine sulfate 100mg/10ml solution for injection ampoules,0208030N0AAABAB
+AMP,4766611000001104,Protamine sulfate 100mg/10ml solution for injection ampoules,0208030N0AAABAB
+AMP,11060911000001103,Protamine sulfate 100mg/10ml solution for injection ampoules,0208030N0AAABAB
+AMP,4766811000001100,Protamine sulfate 100mg/10ml solution for injection ampoules,0208030N0AAABAB
+AMP,4399411000001106,Prosulf 1% solution for injection 5ml ampoules,0208030N0BBAAAA
+VMP,31141811000001100,Idarucizumab 2.5g/50ml solution for infusion vials,0208040A0AAAAAA
+AMP,31065711000001108,Praxbind 2.5g/50ml solution for infusion vials,0208040A0BBAAAA

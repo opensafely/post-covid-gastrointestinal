@@ -467,5 +467,390 @@ def generate_common_variables(index_date_variable,end_date_variable):
         return_expectations={"incidence": 0.01},
     ),
 
-    )
+    #GI outcomes
+        ## Symptoms
+    tmp_out_date_ibs_snomed = patients.with_these_clinical_events(
+        ibs_snomed,
+        returning='date',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    
+    ),
+    tmp_out_date_ibs_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= ibs_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_ibs = patients.minimum_of(
+        "tmp_out_date_ibs_snomed","tmp_out_date_ibs_hes"
+        ), 
+
+    tmp_out_date_diarrhoea_snomed = patients.with_these_clinical_events(
+     diarrhoea_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_diarrhoea_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = diarrhoea_icd_10,#todo fix this
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        return_expectations = {"incidence": 0.1},
+    ),
+    out_date_diarrhoea = patients.minimum_of(
+        "tmp_out_date_diarrhoea_hes","tmp_out_date_diarrhoea_snomed"
+        ), 
+    
+     tmp_out_date_nausea_snomed = patients.with_these_clinical_events(
+     nausea_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_nausea_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= nausea_icd_10, # todo fix this
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_nausea = patients.minimum_of(
+        "tmp_out_date_nausea_hes","tmp_out_date_nausea_snomed"
+        ), 
+ 
+ tmp_out_date_vomiting_snomed = patients.with_these_clinical_events(
+     vomiting_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_vomiting_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= vomititing_icd_10, #todo fix this
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),#todo repair vomititing icd10 name 
+    out_date_vomiting = patients.minimum_of(
+        "tmp_out_date_vomiting_hes","tmp_out_date_vomiting_snomed"
+        ), 
+
+    tmp_out_date_abdominal_paindiscomfort_snomed = patients.with_these_clinical_events(
+     abdominal_paindiscomfort_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_abdominal_paindiscomfort_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= abdominal_paindiscomfort_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_abdominal_paindiscomfort = patients.minimum_of(
+        "tmp_out_date_abdominal_paindiscomfort_hes","tmp_out_date_abdominal_paindiscomfort_snomed"
+        ), 
+    
+
+    tmp_out_date_intestinal_obstruction_snomed = patients.with_these_clinical_events(
+     intestinal_obstruction_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_intestinal_obstruction_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= intestinal_obstruction_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_intestinal_obstruction = patients.minimum_of(
+        "tmp_out_date_intestinal_obstruction_hes","tmp_out_date_intestinal_obstruction_snomed"
+        ), 
+
+    tmp_out_date_bowel_ischaemia_snomed = patients.with_these_clinical_events(
+     bowel_ischaemia_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_bowel_ischaemia_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= bowel_ischaemia_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_bowel_ischaemia = patients.minimum_of(
+        "tmp_out_date_bowel_ischaemia_hes","tmp_out_date_bowel_ischaemia_snomed"
+        ), 
+
+     tmp_out_date_belching_snomed = patients.with_these_clinical_events(
+     belching_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_belching_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= belching_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_belching = patients.minimum_of(
+        "tmp_out_date_belching_hes","tmp_out_date_belching_snomed"
+        ), 
+
+    tmp_out_date_abdominal_distension_snomed = patients.with_these_clinical_events(
+        abdominal_distension_snomed,
+        returning = 'date',
+        on_or_after = f"{index_date_variable}",
+        return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_abdominal_distension_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = abdominal_distension_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_abdominal_distension = patients.minimum_of(
+        "tmp_out_date_abdominal_distension_hes","tmp_out_date_abdominal_distension_snomed"
+    ),
+
+    tmp_out_date_bloody_stools_snomed = patients.with_these_clinical_events(
+     bloody_stools_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_bloody_stools_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= bloody_stools_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_bloody_stools = patients.minimum_of(
+        "tmp_out_date_bloody_stools_hes","tmp_out_date_bloody_stools_snomed"
+        ), 
+    
+    
+    ##Small bowel and colon
+     tmp_out_date_coeliac_disease_snomed = patients.with_these_clinical_events(
+     coeliac_disease_snomed, #TOdo fix this
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_coeliac_disease_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= coeliac_disease_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_coeliac_disease = patients.minimum_of(
+        "tmp_out_date_coeliac_disease_hes","tmp_out_date_coeliac_disease_snomed"
+        ), 
+
+    tmp_out_date_appendicitis_snomed = patients.with_these_clinical_events(
+     appendicitis_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_appendicitis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = appendicitis_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_appendicitis = patients.minimum_of(
+        "tmp_out_date_appendicitis_hes","tmp_out_date_appendicitis_snomed"
+        ),  
+
+    #Liver
+    tmp_out_date_gallstones_disease_snomed = patients.with_these_clinical_events(
+     gallstones_disease_snomed,
+     returning = 'date', 
+     on_or_after=f"{index_date_variable}",
+     return_expectations={"incidence": 0.1},
+    ),
+    tmp_out_date_gallstones_disease_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= gallstone_disease_icd10, #TOdo fix this add s 
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_gallstones_disease = patients.minimum_of(
+        "tmp_out_date_gallstones_disease_hes","tmp_out_date_gallstones_disease_snomed"
+        ), 
+        
+    tmp_out_date_nonalcoholic_steatohepatitis_snomed = patients.with_these_clinical_events(
+     nonalcoholic_steatohepatitis_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_nonalcoholic_steatohepatitis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = nonalcoholic_steatohepatitis_icd10,
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        return_expectations = {"incidence": 0.1},
+    ),
+    out_date_nonalcoholic_steatohepatitis = patients.minimum_of(
+        "tmp_out_date_nonalcoholic_steatohepatitis_hes","tmp_out_date_nonalcoholic_steatohepatitis_snomed"
+        ), 
+    
+    ##Pancreas
+    tmp_out_date_acute_pancreatitis_snomed = patients.with_these_clinical_events(
+     acute_pancreatitis_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_acute_pancreatitis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = acute_pancreatitis_icd10,
+        returning='date_admitted',
+        on_or_after=f"{index_date_variable}",
+        return_expectations={"incidence": 0.1},
+    ),
+    out_date_acute_pancreatitis = patients.minimum_of(
+        "tmp_out_date_acute_pancreatitis_hes","tmp_out_date_acute_pancreatitis_snomed"
+        ), 
+    
+    ##Oesophagous 
+    tmp_out_date_gastro_oesophageal_reflux_disease_snomed = patients.with_these_clinical_events(
+     gastro_oesophageal_reflux_disease_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_gastro_oesophageal_reflux_disease_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = gastro_oesophageal_reflux_disease_icd10,
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        return_expectations = {"incidence": 0.1},
+    ),
+    out_date_gastro_oesophageal_reflux_disease = patients.minimum_of(
+        "tmp_out_date_gastro_oesophageal_reflux_disease_hes","tmp_out_date_gastro_oesophageal_reflux_disease_snomed"
+        ), 
+ 
+    tmp_out_date_dyspepsia_snomed = patients.with_these_clinical_events(
+     dyspepsia_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_dyspepsia_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = dyspesia_icd10, #TODO fix this add p
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        return_expectations = {"incidence": 0.1},
+    ),
+    out_date_dyspepsia = patients.minimum_of(
+        "tmp_out_date_dyspepsia_hes","tmp_out_date_dyspepsia_snomed"
+        ), 
+
+
+#GI Covars
+##Biomarkers just for ischaemic colitis, pencreatitis and NAFLD (Todo distinguish from other covars)
+    cov_bin_hypercalcemia_snomed = patients.with_these_clinical_events(
+        hypercalcemia_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    cov_bin_hypertriglyceridemia_snomed = patients.with_these_clinical_events(
+        hypertriglyceridemia_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_num_systolic_blood_pressure_qof=patients.max_recorded_value( #todo fix the name
+        systolic_blood_pressure_qof,
+        on_most_recent_day_of_measurement=True, 
+        between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
+            "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
+            "incidence": 0.80,
+        },
+    ),
+    tmp_cov_num_diastolic_blood_pressure_qof=patients.max_recorded_value( 
+        diastolic_blood_pressure_snomed,
+        on_most_recent_day_of_measurement=True, 
+        between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
+            "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
+            "incidence": 0.80,
+        },
+    ),
+
+
+
+##Medications
+    cov_bin_nsaid_bnf = patients.with_these_medications(
+        nsaids_bnf,
+        returning='binary_flag',
+        between = [f"{index_date_variable} - 2 years",f"{end_date_variable} - 1 day"],
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    cov_bin_aspirin_bnf = patients.with_these_medications(
+        aspirin_bnf,
+        returning = 'binary_flag',
+        between = [f"{index_date_variable} - 2 years",f"{index_date_variable} - 1 day"],
+        return_expectations = {"incidence": 0.1},
+    ),
+    cov_bin_anticoagulants_bnf = patients.with_these_medications(
+        anticoagulants_bnf,
+        returning = 'binary_flag',
+        between = [f"{index_date_variable} - 2 years",f"{index_date_variable} - 1 day"],
+        return_expectations = {"incidence": 0.1},
+    ),
+    cov_bin_antidepressants_bnf = patients.with_these_medications(
+        antidepressants_bnf,
+        returning = 'binary_flag',
+        between = [f"{index_date_variable} - 2 years",f"{index_date_variable} - 1 day"],
+        return_expectations = {"incidence": 0.1},
+    ),
+
+  #Diseases
+    tmp_cov_bin_cholelisthiasis_snomed = patients.with_these_clinical_events(
+        cholelisthiasis_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_cholelisthiasis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = cholelisthiasis_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    cov_bin_cholelisthiasis = patients.maximum_of(
+        "tmp_cov_bin_cholelisthiasis_hes","tmp_cov_bin_cholelisthiasis_snomed"
+        ), 
+    
+    tmp_cov_bin_h_pylori_infection_snomed = patients.with_these_clinical_events(
+        h_pylori_infection_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_h_pylori_infection_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = h_pylori_infection_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    cov_bin_h_pylori_infection = patients.maximum_of(
+        "tmp_cov_bin_h_pylori_infection_hes","tmp_cov_bin_h_pylori_infection_snomed"
+        ), 
+    ##History of GI diseases
+
+    
+    )   
+
     return dynamic_variables

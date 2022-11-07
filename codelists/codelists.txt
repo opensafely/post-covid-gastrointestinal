@@ -67,7 +67,7 @@ bristol/nausea-icd-10/09c2f8c5
 bristol/nausea-snomed/62bae581
 bristol/vomiting-snomed/791798c0
 bristol/vomititing-icd-10/089436f0
-bristol/coeliac-disease/6e00c599
+bristol/coeliac-disease-snomed/6e00c599
 bristol/coeliac-disease-icd10/3dc48299
 #missing IBS
 bristol/appendicitis-snomed/729628f9
@@ -88,6 +88,7 @@ bristol/diastolic-blood-pressure-snomed/4ccfa985
 bristol/hdl-cholesterol/64775990
 bristol/crp-snomed/257bc2f3
 bristol/hypercalcemia-snomed/735cdc88
+bristol/hypertriglyceridemia-snomed/282e82e9
 bristol/cholelisthiasis-snomed/1fa4cbc4
 bristol/cholelisthiasis-icd10/0695588f
 bristol/history-of-oesophagus/43f0b614
@@ -98,7 +99,7 @@ bristol/history-of-pancreas-diseases-snomed/6265a935
 bristol/h-pylori-infection-snomed/481e0b2e
 bristol/h-pylori-infection-icd10/2f0e97f9
 #Medications
-bristol/nsaids/05cea500
-bristol/aspirin/6cbf31ca
-bristol/anticoagulants/1099a4d8
+bristol/nsaids-bnf/05cea500
+bristol/aspirin-bnf/6cbf31ca
+bristol/anticoagulants-bnf/1099a4d8
 bristol/antidepressants-bnf/7a3cf198
