@@ -530,7 +530,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         "tmp_out_date_diarrhoea_hes","tmp_out_date_diarrhoea_snomed","tmp_out_date_diarrhoea_death"
         ), 
     
-     tmp_out_date_nausea_snomed = patients.with_these_clinical_events(
+    tmp_out_date_nausea_snomed = patients.with_these_clinical_events(
      nausea_snomed,
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
@@ -1101,8 +1101,184 @@ def generate_common_variables(index_date_variable,end_date_variable):
     cov_bin_h_pylori_infection = patients.maximum_of(
         "tmp_cov_bin_h_pylori_infection_hes","tmp_cov_bin_h_pylori_infection_snomed", "tmp_cov_bin_h_pylori_infection_death"
         ), 
-    ##History of GI diseases
 
+    ##History of GI diseases
+      ##Bowel and colon 
+     tmp_cov_bin_coeliac_disease_snomed = patients.with_these_clinical_events(
+        coeliac_disease_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_coeliac_disease_hes = patients.admitted_to_hospital(
+        with_these_diagnoses =coeliac_disease_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_coeliac_disease_death=patients.with_these_codes_on_death_certificate(
+        coeliac_disease_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_coeliac_disease = patients.maximum_of(
+        "tmp_cov_bin_coeliac_disease_hes","tmp_cov_bin_coeliac_disease_snomed","tmp_cov_bin_coeliac_disease_death"
+        ), 
+    
+    tmp_cov_bin_appendicitis_snomed = patients.with_these_clinical_events(
+        appendicitis_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_appendicitis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = appendicitis_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_appendicitis_death=patients.with_these_codes_on_death_certificate(
+        appendicitis_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_appendicitis = patients.maximum_of(
+        "tmp_cov_bin_appendicitis_hes","tmp_cov_bin_appendicitis_snomed","tmp_cov_bin_appendicitis_death"
+        ), 
+
+        ##Liver
+    tmp_cov_bin_gallstones_disease_snomed = patients.with_these_clinical_events(
+        gallstones_disease_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_gallstones_disease_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = gallstone_disease_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_gallstones_disease_death=patients.with_these_codes_on_death_certificate(
+        gallstone_disease_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_gallstones_disease = patients.maximum_of(
+        "tmp_cov_bin_gallstones_disease_hes","tmp_cov_bin_gallstones_disease_snomed","tmp_cov_bin_gallstones_disease_death"
+        ), 
+
+    tmp_cov_bin_nonalcoholic_steatohepatitis_snomed = patients.with_these_clinical_events(
+       nonalcoholic_steatohepatitis_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_nonalcoholic_steatohepatitis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = nonalcoholic_steatohepatitis_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_nonalcoholic_steatohepatitis_death=patients.with_these_codes_on_death_certificate(
+        nonalcoholic_steatohepatitis_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_nonalcoholic_steatohepatitis = patients.maximum_of(
+        "tmp_cov_bin_nonalcoholic_steatohepatitis_hes","tmp_cov_bin_nonalcoholic_steatohepatitis_snomed","tmp_cov_bin_nonalcoholic_steatohepatitis_death"
+        ), 
+    
+    ##Pancreas
+    tmp_cov_bin_acute_pancreatitis_snomed = patients.with_these_clinical_events(
+        acute_pancreatitis_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_acute_pancreatitis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = acute_pancreatitis_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_acute_pancreatitis_death=patients.with_these_codes_on_death_certificate(
+        acute_pancreatitis_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_acute_pancreatitis = patients.maximum_of(
+        "tmp_cov_bin_acute_pancreatitis_hes","tmp_cov_bin_acute_pancreatitis_snomed","tmp_cov_bin_acute_pancreatitis_death"
+        ), 
+
+    ##Oesophagous
+    tmp_cov_bin_gastro_oesophageal_reflux_disease_snomed = patients.with_these_clinical_events(
+       gastro_oesophageal_reflux_disease_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_gastro_oesophageal_reflux_disease_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = gastro_oesophageal_reflux_disease_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_gastro_oesophageal_reflux_disease_death=patients.with_these_codes_on_death_certificate(
+        gastro_oesophageal_reflux_disease_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_gastro_oesophageal_reflux_disease = patients.maximum_of(
+        "tmp_cov_bin_gastro_oesophageal_reflux_disease_hes","tmp_cov_bin_gastro_oesophageal_reflux_disease_snomed","tmp_cov_bin_gastro_oesophageal_reflux_disease_death"
+        ), 
+
+  tmp_cov_bin_dyspepsia_snomed = patients.with_these_clinical_events(
+        dyspepsia_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_dyspepsia_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = dyspesia_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_dyspepsia_death=patients.with_these_codes_on_death_certificate(
+        dyspesia_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_dyspepsia = patients.maximum_of(
+        "tmp_cov_bin_dyspepsia_hes","tmp_cov_bin_dyspepsia_snomed","tmp_cov_bin_dyspepsia_death"
+        ), 
+     ###TODO add   History of symptoms? 
+    cov_bin_GI = patients.maximum_of(
+        "cov_bin_dyspepsia","cov_bin_gastro_oesophageal_reflux_disease","cov_bin_acute_pancreatitis","cov_bin_nonalcoholic_steatohepatitis","cov_bin_gallstones_disease","cov_bin_appendicitis","cov_bin_coeliac_disease"
+    )
+   
     
     )   
 
