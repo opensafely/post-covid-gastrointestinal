@@ -324,7 +324,12 @@ stage1 <- function(cohort_name){
     #-------------------------------------------------#
      ####INSERT OUTCOME SPECIFIC EXCLUSION HERE#######    
 
+     #Remove chronic people with Coelia, IBD and Cirrhosis
+     input <- input %>% 
+     filter_at(vars(ut_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), any_vars(!is.na(.)))
 
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Crietera 11: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)")
+    
     
     # NB: write.csv is not feasible to output list with uneven length
     sink(file = file.path("output/not-for-review", paste0("meta_data_factors_",cohort_name, ".csv")))
