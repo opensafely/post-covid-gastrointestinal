@@ -1,0 +1,35 @@
+code,term
+K226,Gastro-oesophageal laceration-haemorrhage syndrome
+K25,Gastric ulcer
+K250,Gastric ulcer : Acute with haemorrhage
+K251,Gastric ulcer : Acute with perforation
+K252,Gastric ulcer : Acute with both haemorrhage and perforation
+K253,Gastric ulcer : Acute without haemorrhage or perforation
+K254,Gastric ulcer : Chronic or unspecified with haemorrhage
+K255,Gastric ulcer : Chronic or unspecified with perforation
+K256,Gastric ulcer : Chronic or unspecified with both haemorrhage and perforation
+K257,Gastric ulcer : Chronic without haemorrhage or perforation
+K259,"Gastric ulcer : Unspecified as acute or chronic, without haemorrhage or perforation"
+K26,Duodenal ulcer
+K260,Duodenal ulcer : Acute with haemorrhage
+K261,Duodenal ulcer : Acute with perforation
+K262,Duodenal ulcer : Acute with both haemorrhage and perforation
+K263,Duodenal ulcer : Acute without haemorrhage or perforation
+K264,Duodenal ulcer : Chronic or unspecified with haemorrhage
+K265,Duodenal ulcer : Chronic or unspecified with perforation
+K266,Duodenal ulcer : Chronic or unspecified with both haemorrhage and perforation
+K267,Duodenal ulcer : Chronic without haemorrhage or perforation
+K269,"Duodenal ulcer : Unspecified as acute or chronic, without haemorrhage or perforation"
+K270,"Peptic ulcer, site unspecified : Acute with haemorrhage"
+K272,"Peptic ulcer, site unspecified : Acute with both haemorrhage and perforation"
+K273,"Peptic ulcer, site unspecified : Acute without haemorrhage or perforation"
+K274,"Peptic ulcer, site unspecified : Chronic or unspecified with haemorrhage"
+K276,"Peptic ulcer, site unspecified : Chronic or unspecified with both haemorrhage and perforation"
+K277,"Peptic ulcer, site unspecified : Chronic without haemorrhage or perforation"
+K279,"Peptic ulcer, site unspecified : Unspecified as acute or chronic, without haemorrhage or perforation"
+K280,Gastrojejunal ulcer : Acute with haemorrhage
+K282,Gastrojejunal ulcer : Acute with both haemorrhage and perforation
+K283,Gastrojejunal ulcer : Acute without haemorrhage or perforation
+K287,Gastrojejunal ulcer : Chronic without haemorrhage or perforation
+K289,"Gastrojejunal ulcer : Unspecified as acute or chronic, without haemorrhage or perforation"
+K922,"Gastrointestinal haemorrhage, unspecified"

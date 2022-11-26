@@ -1,0 +1,1245 @@
+code,term
+G011,G01.1: Oesophagogastrectomy and anastomosis of oesophagus to stomach
+G012,G01.2: Oesophagogastrectomy and anastomosis of oesophagus to transposed jejunum
+G013,G01.3: Oesophagogastrectomy and anastomosis of oesophagus to jejunum NEC
+G018,G01.8: Other specified excision of oesophagus and stomach
+G019,G01.9: Unspecified excision of oesophagus and stomach
+G021,G02.1: Total oesophagectomy and anastomosis of pharynx to stomach
+G022,G02.2: Total oesophagectomy and interposition of microvascularly attached jejunum
+G023,G02.3: Total oesophagectomy and interposition of jejunum NEC
+G024,G02.4: Total oesophagectomy and interposition of microvascularly attached colon
+G025,G02.5: Total oesophagectomy and interposition of colon NEC
+G028,G02.8: Other specified total excision of oesophagus
+G029,G02.9: Unspecified total excision of oesophagus
+G031,G03.1: Partial oesophagectomy and end to end anastomosis of oesophagus
+G032,G03.2: Partial oesophagectomy and interposition of microvascularly attached jejunum
+G033,G03.3: Partial oesophagectomy and anastomosis of oesophagus to transposed jejunum
+G034,G03.4: Partial oesophagectomy and anastomosis of oesophagus to jejunum NEC
+G035,G03.5: Partial oesophagectomy and interposition of microvascularly attached colon
+G036,G03.6: Partial oesophagectomy and interposition of colon NEC
+G038,G03.8: Other specified partial excision of oesophagus
+G039,G03.9: Unspecified partial excision of oesophagus
+G041,G04.1: Excision of lesion of oesophagus
+G042,G04.2: Open laser destruction of lesion of oesophagus
+G043,G04.3: Open destruction of lesion of oesophagus NEC
+G048,G04.8: Other specified open extirpation of lesion of oesophagus
+G049,G04.9: Unspecified open extirpation of lesion of oesophagus
+G051,G05.1: Bypass of oesophagus by anastomosis of oesophagus to oesophagus
+G052,G05.2: Bypass of oesophagus by anastomosis of oesophagus to stomach
+G053,G05.3: Bypass of oesophagus by interposition of microvascularly attached jejunum
+G054,G05.4: Bypass of oesophagus by interposition of jejunum NEC
+G055,G05.5: Bypass of oesophagus by interposition of microvascularly attached colon
+G056,G05.6: Bypass of oesophagus by interposition of colon NEC
+G058,G05.8: Other specified bypass of oesophagus
+G059,G05.9: Unspecified bypass of oesophagus
+G061,G06.1: Revision of interposition anastomosis of oesophagus
+G062,G06.2: Revision of anastomosis of oesophagus NEC
+G063,G06.3: Removal of bypass of oesophagus
+G064,G06.4: Closure of bypass of oesophagus NEC
+G068,G06.8: Other specified attention to connection of oesophagus
+G069,G06.9: Unspecified attention to connection of oesophagus
+G060,G06.0: Conversion from previous direct anastomosis of oesophagus
+G071,G07.1: Closure of tracheo-oesophageal fistula
+G072,G07.2: Closure of fistula of oesophagus NEC
+G073,G07.3: Correction of congenital atresia of oesophagus
+G074,G07.4: Repair of rupture of oesophagus
+G078,G07.8: Other specified repair of oesophagus
+G079,G07.9: Unspecified repair of oesophagus
+G081,G08.1: Exteriorisation of pouch of oesophagus
+G082,G08.2: External fistulisation of oesophagus NEC
+G083,G08.3: Tube oesophagostomy
+G088,G08.8: Other specified artificial opening into oesophagus
+G089,G08.9: Unspecified artificial opening into oesophagus
+G091,G09.1: Cardiomyotomy
+G092,G09.2: Oesophagomyotomy NEC
+G093,G09.3: Division of web of oesophagus
+G094,G09.4: Drainage of oesophagus
+G098,G09.8: Other specified incision of oesophagus
+G099,G09.9: Unspecified incision of oesophagus
+G101,G10.1: Disconnection of azygos vein
+G102,G10.2: Transection of oesophagus using staple gun
+G103,G10.3: Transection of oesophagus NEC
+G104,G10.4: Local ligation of varices of oesophagus
+G105,G10.5: Open injection sclerotherapy to varices of oesophagus
+G108,G10.8: Other specified open operations on varices of oesophagus
+G109,G10.9: Unspecified open operations on varices of oesophagus
+G111,G11.1: Insertion of tubal prosthesis into oesophagus through stomach
+G112,G11.2: Open insertion of tubal prosthesis into oesophagus NEC
+G113,G11.3: Open revision of tubal prosthesis in oesophagus
+G114,G11.4: Open removal of tubal prosthesis from oesophagus
+G118,G11.8: Other specified open placement of prosthesis in oesophagus
+G119,G11.9: Unspecified open placement of prosthesis in oesophagus
+G121,G12.1: Fibreoptic endoscopic mucosal resection of lesion of oesophagus
+G128,G12.8: Other specified other fibreoptic endoscopic extirpation of lesion of oesophagus
+G129,G12.9: Unspecified other fibreoptic endoscopic extirpation of lesion of oesophagus
+G131,G13.1: Open biopsy of lesion of oesophagus
+G132,G13.2: Open removal of foreign body from oesophagus
+G138,G13.8: Other specified other open operations on oesophagus
+G139,G13.9: Unspecified other open operations on oesophagus
+G141,G14.1: Fibreoptic endoscopic snare resection of lesion of oesophagus
+G142,G14.2: Fibreoptic endoscopic laser destruction of lesion of oesophagus
+G143,G14.3: Fibreoptic endoscopic cauterisation of lesion of oesophagus
+G144,G14.4: Fibreoptic endoscopic injection sclerotherapy to varices of oesophagus
+G145,G14.5: Fibreoptic endoscopic destruction of lesion of oesophagus NEC
+G146,G14.6: Fibreoptic endoscopic submucosal resection of lesion of oesophagus
+G147,G14.7: Fibreoptic endoscopic photodynamic therapy of lesion of oesophagus
+G148,G14.8: Other specified fibreoptic endoscopic extirpation of lesion of oesophagus
+G149,G14.9: Unspecified fibreoptic endoscopic extirpation of lesion of oesophagus
+G151,G15.1: Fibreoptic endoscopic removal of foreign body from oesophagus
+G152,G15.2: Fibreoptic endoscopic balloon dilation of oesophagus
+G153,G15.3: Fibreoptic endoscopic dilation of oesophagus NEC
+G154,G15.4: Fibreoptic endoscopic insertion of tubal prosthesis into oesophagus
+G155,G15.5: Fibreoptic endoscopic dilation of web of oesophagus
+G156,G15.6: Fibreoptic endoscopic insertion of expanding metal stent into oesophagus NEC
+G157,G15.7: Fibreoptic endoscopic insertion of expanding covered metal stent into oesophagus
+G158,G15.8: Other specified other therapeutic fibreoptic endoscopic operations on oesophagus
+G159,G15.9: Unspecified other therapeutic fibreoptic endoscopic operations on oesophagus
+G161,G16.1: Diagnostic fibreoptic endoscopic examination of oesophagus and biopsy of lesion of oesophagus
+G162,G16.2: Diagnostic fibreoptic endoscopic ultrasound examination of oesophagus
+G163,G16.3: Diagnostic fibreoptic insertion of Bravo pH capsule into oesophagus
+G168,G16.8: Other specified diagnostic fibreoptic endoscopic examination of oesophagus
+G169,G16.9: Unspecified diagnostic fibreoptic endoscopic examination of oesophagus
+G171,G17.1: Endoscopic snare resection of lesion of oesophagus using rigid oesophagoscope
+G172,G17.2: Endoscopic laser destruction of lesion of oesophagus using rigid oesophagoscope
+G173,G17.3: Endoscopic cauterisation of lesion of oesophagus using rigid oesophagoscope
+G174,G17.4: Endoscopic injection sclerotherapy to varices of oesophagus using rigid oesophagoscope
+G178,G17.8: Other specified endoscopic extirpation of lesion of oesophagus using rigid oesophagoscope
+G179,G17.9: Unspecified endoscopic extirpation of lesion of oesophagus using rigid oesophagoscope
+G181,G18.1: Endoscopic removal of foreign body from oesophagus using rigid oesophagoscope
+G182,G18.2: Endoscopic balloon dilation of oesophagus using rigid oesophagoscope
+G183,G18.3: Endoscopic dilation of oesophagus using rigid oesophagoscope NEC
+G184,G18.4: Endoscopic insertion of tubal prosthesis into oesophagus using rigid oesophagoscope
+G185,G18.5: Dilation of web of oesophagus using rigid oesophagoscope
+G188,G18.8: Other specified other therapeutic endoscopic operations on oesophagus using rigid oesophagoscope
+G189,G18.9: Unspecified other therapeutic endoscopic operations on oesophagus using rigid oesophagoscope
+G191,G19.1: Diagnostic endoscopic examination of oesophagus and biopsy of lesion of oesophagus using rigid oesophagoscope
+G192,G19.2: Diagnostic endoscopic insertion of Bravo pH capsule using rigid oesophagoscope
+G198,G19.8: Other specified diagnostic endoscopic examination of oesophagus using rigid oesophagoscope
+G199,G19.9: Unspecified diagnostic endoscopic examination of oesophagus using rigid oesophagoscope
+G201,G20.1: Fibreoptic endoscopic coagulation of bleeding lesion of oesophagus NEC
+G202,G20.2: Fibreoptic endoscopic coagulation of bleeding lesion of oesophagus using haemostatic spray
+G208,G20.8: Other specified therapeutic fibreoptic endoscopic operations on oesophagus
+G209,G20.9: Unspecified therapeutic fibreoptic endoscopic operations on oesophagus
+G211,G21.1: Intubation of oesophagus for pH manometry
+G212,G21.2: Intubation of oesophagus for pressure manometry
+G213,G21.3: Intubation of oesophagus and instillation of acid or alkali HFQ
+G214,G21.4: Intubation of oesophagus NEC
+G215,G21.5: Insertion of stent into oesophagus NEC
+G216,G21.6: Cytology of oesophagus using ingestible sponge
+G218,G21.8: Other specified other operations on oesophagus
+G219,G21.9: Unspecified other operations on oesophagus
+G231,G23.1: Repair of oesophageal hiatus using thoracic approach
+G232,G23.2: Repair of diaphragmatic hernia using thoracic approach NEC
+G233,G23.3: Repair of oesophageal hiatus using abdominal approach
+G234,G23.4: Repair of diaphragmatic hernia using abdominal approach NEC
+G238,G23.8: Other specified repair of diaphragmatic hernia
+G239,G23.9: Unspecified repair of diaphragmatic hernia
+G241,G24.1: Antireflux fundoplication using thoracic approach
+G242,G24.2: Antireflux operation using thoracic approach NEC
+G243,G24.3: Antireflux fundoplication using abdominal approach
+G244,G24.4: Antireflux gastropexy
+G245,G24.5: Gastroplasty and antireflux procedure HFQ
+G246,G24.6: Insertion of Angelchick prosthesis
+G248,G24.8: Other specified antireflux operations
+G249,G24.9: Unspecified antireflux operations
+G251,G25.1: Revision of fundoplication of stomach
+G252,G25.2: Adjustment to Angelchick prosthesis
+G253,G25.3: Removal of Angelchick prosthesis
+G258,G25.8: Other specified revision of antireflux operations
+G259,G25.9: Unspecified revision of antireflux operations
+G261,G26.1: Allotransplantation of stomach
+G268,G26.8: Other specified transplantation of stomach
+G269,G26.9: Unspecified transplantation of stomach
+G271,G27.1: Total gastrectomy and excision of surrounding tissue
+G272,G27.2: Total gastrectomy and anastomosis of oesophagus to duodenum
+G273,G27.3: Total gastrectomy and interposition of jejunum
+G274,G27.4: Total gastrectomy and anastomosis of oesophagus to transposed jejunum
+G275,G27.5: Total gastrectomy and anastomosis of oesophagus to jejunum NEC
+G278,G27.8: Other specified total excision of stomach
+G279,G27.9: Unspecified total excision of stomach
+G281,G28.1: Partial gastrectomy and anastomosis of stomach to duodenum
+G282,G28.2: Partial gastrectomy and anastomosis of stomach to transposed jejunum
+G283,G28.3: Partial gastrectomy and anastomosis of stomach to jejunum NEC
+G284,G28.4: Sleeve gastrectomy and duodenal switch
+G285,G28.5: Sleeve gastrectomy NEC
+G288,G28.8: Other specified partial excision of stomach
+G289,G28.9: Unspecified partial excision of stomach
+G291,G29.1: Open excision of polyp of stomach
+G292,G29.2: Open excision of lesion of stomach NEC
+G293,G29.3: Open laser destruction of lesion of stomach
+G294,G29.4: Diathermy to lesion of stomach
+G295,G29.5: Cryotherapy to lesion of stomach
+G298,G29.8: Other specified open extirpation of lesion of stomach
+G299,G29.9: Unspecified open extirpation of lesion of stomach
+G301,G30.1: Gastroplasty NEC
+G302,G30.2: Partitioning of stomach NEC
+G303,G30.3: Partitioning of stomach using band
+G304,G30.4: Partitioning of stomach using staples
+G305,G30.5: Maintenance of gastric band
+G308,G30.8: Other specified plastic operations on stomach
+G309,G30.9: Unspecified plastic operations on stomach
+G311,G31.1: Bypass of stomach by anastomosis of oesophagus to duodenum
+G312,G31.2: Bypass of stomach by anastomosis of stomach to duodenum
+G313,G31.3: Revision of anastomosis of stomach to duodenum
+G314,G31.4: Conversion to anastomosis of stomach to duodenum
+G315,G31.5: Closure of connection of stomach to duodenum
+G316,G31.6: Attention to connection of stomach to duodenum
+G318,G31.8: Other specified connection of stomach to duodenum
+G319,G31.9: Unspecified connection of stomach to duodenum
+G310,G31.0: Conversion from previous anastomosis of stomach to duodenum
+G321,G32.1: Bypass of stomach by anastomosis of stomach to transposed jejunum
+G322,G32.2: Revision of anastomosis of stomach to transposed jejunum
+G323,G32.3: Conversion to anastomosis of stomach to transposed jejunum
+G324,G32.4: Closure of connection of stomach to transposed jejunum
+G325,G32.5: Attention to connection of stomach to transposed jejunum
+G328,G32.8: Other specified connection of stomach to transposed jejunum
+G329,G32.9: Unspecified connection of stomach to transposed jejunum
+G320,G32.0: Conversion from previous anastomosis of stomach to transposed jejunum
+G331,G33.1: Bypass of stomach by anastomosis of stomach to jejunum NEC
+G332,G33.2: Revision of anastomosis of stomach to jejunum NEC
+G333,G33.3: Conversion to anastomosis of stomach to jejunum NEC
+G334,G33.4: Open reduction of intussusception of gastroenterostomy
+G335,G33.5: Closure of connection of stomach to jejunum NEC
+G336,G33.6: Attention to connection of stomach to jejunum
+G338,G33.8: Other specified other connection of stomach to jejunum
+G339,G33.9: Unspecified other connection of stomach to jejunum
+G330,G33.0: Conversion from previous anastomosis of stomach to jejunum NEC
+G341,G34.1: Creation of permanent gastrostomy
+G342,G34.2: Creation of temporary gastrostomy
+G343,G34.3: Reconstruction of gastrostomy
+G344,G34.4: Closure of gastrostomy
+G345,G34.5: Attention to gastrostomy tube
+G348,G34.8: Other specified artificial opening into stomach
+G349,G34.9: Unspecified artificial opening into stomach
+G351,G35.1: Closure of perforated ulcer of stomach
+G352,G35.2: Closure of ulcer of stomach NEC
+G358,G35.8: Other specified operations on ulcer of stomach
+G359,G35.9: Unspecified operations on ulcer of stomach
+G361,G36.1: Gastropexy NEC
+G362,G36.2: Closure of perforation of stomach NEC
+G363,G36.3: Closure of abnormal opening of stomach NEC
+G368,G36.8: Other specified other repair of stomach
+G369,G36.9: Unspecified other repair of stomach
+G381,G38.1: Open biopsy of lesion of stomach
+G382,G38.2: Open insertion of prosthesis into stomach
+G383,G38.3: Open insertion of feeding tube into stomach
+G384,G38.4: Open removal of foreign body from stomach
+G385,G38.5: Incision of stomach NEC
+G386,G38.6: Reduction of volvulus of stomach
+G387,G38.7: Removal of gastric band
+G388,G38.8: Other specified other open operations on stomach
+G389,G38.9: Unspecified other open operations on stomach
+G401,G40.1: Pyloromyotomy
+G402,G40.2: Repair of congenital atresia of pylorus
+G403,G40.3: Pyloroplasty NEC
+G404,G40.4: Revision of pyloroplasty
+G405,G40.5: Closure of pyloroplasty
+G406,G40.6: Open dilation of pylorus
+G408,G40.8: Other specified incision of pylorus
+G409,G40.9: Unspecified incision of pylorus
+G411,G41.1: Open biopsy of lesion of pylorus
+G412,G41.2: Repair of perforation of pylorus
+G418,G41.8: Other specified other operations on pylorus
+G419,G41.9: Unspecified other operations on pylorus
+G421,G42.1: Fibreoptic endoscopic submucosal resection of lesion of upper gastrointestinal tract
+G422,G42.2: Fibreoptic endoscopic photodynamic therapy of lesion of upper gastrointestinal tract
+G423,G42.3: Fibreoptic endoscopic mucosal resection of lesion of upper gastrointestinal tract
+G428,G42.8: Other specified other fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract
+G429,G42.9: Unspecified other fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract
+G431,G43.1: Fibreoptic endoscopic snare resection of lesion of upper gastrointestinal tract
+G432,G43.2: Fibreoptic endoscopic laser destruction of lesion of upper gastrointestinal tract
+G433,G43.3: Fibreoptic endoscopic cauterisation of lesion of upper gastrointestinal tract
+G434,G43.4: Fibreoptic endoscopic sclerotherapy to lesion of upper gastrointestinal tract
+G435,G43.5: Fibreoptic endoscopic destruction of lesion of upper gastrointestinal tract NEC
+G436,G43.6: Fibreoptic endoscopic injection therapy to lesion of upper gastrointestinal tract NEC
+G437,G43.7: Fibreoptic endoscopic rubber band ligation of upper gastrointestinal tract varices
+G438,G43.8: Other specified fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract
+G439,G43.9: Unspecified fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract
+G441,G44.1: Fibreoptic endoscopic insertion of prosthesis into upper gastrointestinal tract
+G442,G44.2: Fibreoptic endoscopic removal of foreign body from upper gastrointestinal tract
+G443,G44.3: Fibreoptic endoscopic dilation of upper gastrointestinal tract NEC
+G444,G44.4: Fibreoptic endoscopic reduction of intussusception of gastroenterostomy
+G445,G44.5: Fibreoptic endoscopic percutaneous insertion of gastrostomy
+G446,G44.6: Fibreoptic endoscopic pressure controlled balloon dilation of lower oesophageal sphincter
+G447,G44.7: Fibreoptic endoscopic removal of gastrostomy tube
+G448,G44.8: Other specified other therapeutic fibreoptic endoscopic operations on upper gastrointestinal tract
+G449,G44.9: Unspecified other therapeutic fibreoptic endoscopic operations on upper gastrointestinal tract
+G451,G45.1: Fibreoptic endoscopic examination of upper gastrointestinal tract and biopsy of lesion of upper gastrointestinal tract
+G452,G45.2: Fibreoptic endoscopic ultrasound examination of upper gastrointestinal tract
+G453,G45.3: Fibreoptic endoscopic insertion of Bravo pH capsule into upper gastrointestinal tract
+G454,G45.4: Fibreoptic endoscopic examination of upper gastrointestinal tract and staining of gastric mucosa
+G458,G45.8: Other specified diagnostic fibreoptic endoscopic examination of upper gastrointestinal tract
+G459,G45.9: Unspecified diagnostic fibreoptic endoscopic examination of upper gastrointestinal tract
+G461,G46.1: Fibreoptic endoscopic endoluminal plication of gastro-oesophageal junction
+G462,G46.2: Fibreoptic endoscopic coagulation of bleeding lesion of upper gastrointestinal tract NEC
+G463,G46.3: Fibreoptic endoscopic coagulation of bleeding lesion of upper gastrointestinal tract using haemostatic spray
+G468,G46.8: Other specified therapeutic fibreoptic endoscopic operations on upper gastrointestinal tract
+G469,G46.9: Unspecified therapeutic fibreoptic endoscopic operations on upper gastrointestinal tract
+G471,G47.1: Intubation of stomach for pH manometry
+G472,G47.2: Intubation of stomach for pressure manometry
+G473,G47.3: Irrigation of stomach
+G474,G47.4: Intubation of stomach for study of gastric secretion
+G475,G47.5: Insertion of nasogastric tube
+G478,G47.8: Other specified intubation of stomach
+G479,G47.9: Unspecified intubation of stomach
+G481,G48.1: Insertion of gastric bubble
+G482,G48.2: Attention to gastric bubble
+G483,G48.3: Induction of emesis
+G484,G48.4: Administration of activated charcoal
+G485,G48.5: Insertion of gastric balloon
+G486,G48.6: Attention to gastric balloon
+G488,G48.8: Other specified other operations on stomach
+G489,G48.9: Unspecified other operations on stomach
+G491,G49.1: Gastroduodenectomy
+G492,G49.2: Total excision of duodenum
+G493,G49.3: Partial excision of duodenum
+G498,G49.8: Other specified excision of duodenum
+G499,G49.9: Unspecified excision of duodenum
+G501,G50.1: Excision of lesion of duodenum
+G502,G50.2: Open destruction of lesion of duodenum
+G508,G50.8: Other specified open extirpation of lesion of duodenum
+G509,G50.9: Unspecified open extirpation of lesion of duodenum
+G511,G51.1: Bypass of duodenum by anastomosis of stomach to jejunum
+G512,G51.2: Bypass of duodenum by anastomosis of duodenum to duodenum
+G513,G51.3: Bypass of duodenum by anastomosis of duodenum to jejunum
+G514,G51.4: Bypass of duodenum by anastomosis of duodenum to colon
+G518,G51.8: Other specified bypass of duodenum
+G519,G51.9: Unspecified bypass of duodenum
+G521,G52.1: Closure of perforated ulcer of duodenum
+G522,G52.2: Suture of ulcer of duodenum NEC
+G523,G52.3: Oversew of blood vessel of duodenal ulcer
+G528,G52.8: Other specified operations on ulcer of duodenum
+G529,G52.9: Unspecified operations on ulcer of duodenum
+G531,G53.1: Open biopsy of lesion of duodenum
+G532,G53.2: Closure of perforation of duodenum NEC
+G533,G53.3: Open removal of foreign body from duodenum
+G534,G53.4: Open insertion of tubal prosthesis into duodenum
+G535,G53.5: Incision of duodenum NEC
+G536,G53.6: Correction of malrotation of duodenum
+G538,G53.8: Other specified other open operations on duodenum
+G539,G53.9: Unspecified other open operations on duodenum
+G541,G54.1: Endoscopic extirpation of lesion of duodenum
+G542,G54.2: Endoscopic dilation of duodenum
+G543,G54.3: Endoscopic insertion of tubal prosthesis into duodenum
+G548,G54.8: Other specified therapeutic endoscopic operations on duodenum
+G549,G54.9: Unspecified therapeutic endoscopic operations on duodenum
+G551,G55.1: Diagnostic endoscopic examination of duodenum and biopsy of lesion of duodenum
+G558,G55.8: Other specified diagnostic endoscopic examination of duodenum
+G559,G55.9: Unspecified diagnostic endoscopic examination of duodenum
+G571,G57.1: Intubation of duodenum for studies of pancreatic function HFQ
+G572,G57.2: Intubation of duodenum NEC
+G578,G57.8: Other specified other operations on duodenum
+G579,G57.9: Unspecified other operations on duodenum
+G581,G58.1: Total jejunectomy and anastomosis of stomach to ileum
+G582,G58.2: Total jejunectomy and anastomosis of duodenum to ileum
+G583,G58.3: Total jejunectomy and anastomosis of duodenum to colon
+G584,G58.4: Partial jejunectomy and anastomosis of jejunum to ileum
+G585,G58.5: Partial jejunectomy and anastomosis of duodenum to colon
+G588,G58.8: Other specified excision of jejunum
+G589,G58.9: Unspecified excision of jejunum
+G591,G59.1: Excision of lesion of jejunum
+G592,G59.2: Open destruction of lesion of jejunum
+G598,G59.8: Other specified extirpation of lesion of jejunum
+G599,G59.9: Unspecified extirpation of lesion of jejunum
+G601,G60.1: Creation of jejunostomy
+G602,G60.2: Refashioning of jejunostomy
+G603,G60.3: Closure of jejunostomy
+G604,G60.4: Attention to jejunostomy tube
+G608,G60.8: Other specified artificial opening into jejunum
+G609,G60.9: Unspecified artificial opening into jejunum
+G611,G61.1: Bypass of jejunum by anastomosis of jejunum to jejunum
+G612,G61.2: Bypass of jejunum by anastomosis of jejunum to ileum
+G613,G61.3: Bypass of jejunum by anastomosis of jejunum to colon
+G618,G61.8: Other specified bypass of jejunum
+G619,G61.9: Unspecified bypass of jejunum
+G621,G62.1: Open jejunoscopy
+G628,G62.8: Other specified open endoscopic operations on jejunum
+G629,G62.9: Unspecified open endoscopic operations on jejunum
+G631,G63.1: Open biopsy of lesion of jejunum
+G632,G63.2: Incision of jejunum
+G633,G63.3: Closure of perforation of jejunum
+G634,G63.4: Open intubation of jejunum
+G638,G63.8: Other specified other open operations on jejunum
+G639,G63.9: Unspecified other open operations on jejunum
+G641,G64.1: Endoscopic extirpation of lesion of jejunum
+G642,G64.2: Endoscopic dilation of jejunum
+G643,G64.3: Endoscopic insertion of tubal prosthesis into jejunum
+G648,G64.8: Other specified therapeutic endoscopic operations on jejunum
+G649,G64.9: Unspecified therapeutic endoscopic operations on jejunum
+G651,G65.1: Diagnostic endoscopic examination of jejunum and biopsy of lesion of jejunum
+G658,G65.8: Other specified diagnostic endoscopic examination of jejunum
+G659,G65.9: Unspecified diagnostic endoscopic examination of jejunum
+G671,G67.1: Intubation of jejunum for decompression of intestine
+G672,G67.2: Intubation of jejunum for measurement of intestinal function
+G673,G67.3: Passage of Crosby capsule into jejunum for biopsy of mucosa of jejunum
+G674,G67.4: Intubation of jejunum NEC
+G675,G67.5: Insertion of nasojejunal tube
+G678,G67.8: Other specified other operations on jejunum
+G679,G67.9: Unspecified other operations on jejunum
+G681,G68.1: Allotransplantation of ileum
+G688,G68.8: Other specified transplantation of ileum
+G689,G68.9: Unspecified transplantation of ileum
+G691,G69.1: Ileectomy and anastomosis of stomach to ileum
+G692,G69.2: Ileectomy and anastomosis of duodenum to ileum
+G693,G69.3: Ileectomy and anastomosis of ileum to ileum
+G694,G69.4: Ileectomy and anastomosis of ileum to colon
+G698,G69.8: Other specified excision of ileum
+G699,G69.9: Unspecified excision of ileum
+G701,G70.1: Excision of Meckel's diverticulum
+G702,G70.2: Excision of lesion of ileum NEC
+G703,G70.3: Open destruction of lesion of ileum
+G708,G70.8: Other specified open extirpation of lesion of ileum
+G709,G70.9: Unspecified open extirpation of lesion of ileum
+G711,G71.1: Bypass of ileum by anastomosis of jejunum to ileum
+G712,G71.2: Bypass of ileum by anastomosis of ileum to ileum
+G713,G71.3: Bypass of ileum by anastomosis of ileum to caecum
+G714,G71.4: Bypass of ileum by anastomosis of ileum to transverse colon
+G715,G71.5: Bypass of ileum by anastomosis of ileum to colon NEC
+G716,G71.6: Duodenal switch
+G717,G71.7: Reversal of duodenal switch
+G718,G71.8: Other specified bypass of ileum
+G719,G71.9: Unspecified bypass of ileum
+G721,G72.1: Anastomosis of ileum to caecum
+G722,G72.2: Anastomosis of ileum to transverse colon
+G723,G72.3: Anastomosis of ileum to colon NEC
+G724,G72.4: Anastomosis of ileum to rectum
+G725,G72.5: Anastomosis of ileum to anus and creation of pouch HFQ
+G728,G72.8: Other specified other connection of ileum
+G729,G72.9: Unspecified other connection of ileum
+G731,G73.1: Revision of anastomosis of ileum
+G732,G73.2: Closure of anastomosis of ileum
+G733,G73.3: Resection of ileostomy
+G734,G73.4: Resection of ileocolic anastomosis
+G738,G73.8: Other specified attention to connection of ileum
+G739,G73.9: Unspecified attention to connection of ileum
+G741,G74.1: Creation of continent ileostomy
+G742,G74.2: Creation of temporary ileostomy
+G743,G74.3: Creation of defunctioning ileostomy
+G748,G74.8: Other specified creation of artificial opening into ileum
+G749,G74.9: Unspecified creation of artificial opening into ileum
+G751,G75.1: Refashioning of ileostomy
+G752,G75.2: Repair of prolapse of ileostomy
+G753,G75.3: Closure of ileostomy
+G754,G75.4: Dilation of ileostomy
+G755,G75.5: Reduction of prolapse of ileostomy
+G756,G75.6: Resiting of ileostomy
+G758,G75.8: Other specified attention to artificial opening into ileum
+G759,G75.9: Unspecified attention to artificial opening into ileum
+G761,G76.1: Open reduction of intussusception of ileum
+G762,G76.2: Open relief of strangulation of ileum
+G763,G76.3: Open relief of obstruction of ileum NEC
+G764,G76.4: Plication of ileum
+G768,G76.8: Other specified intra-abdominal manipulation of ileum
+G769,G76.9: Unspecified intra-abdominal manipulation of ileum
+G781,G78.1: Open biopsy of lesion of ileum
+G782,G78.2: Strictureplasty of ileum
+G783,G78.3: Removal of foreign body from ileum
+G784,G78.4: Closure of perforation of ileum
+G785,G78.5: Exclusion of segment of ileum
+G786,G78.6: Open intubation of ileum
+G788,G78.8: Other specified other open operations on ileum
+G789,G78.9: Unspecified other open operations on ileum
+G791,G79.1: Endoscopic extirpation of lesion of ileum
+G792,G79.2: Endoscopic dilation of ileum
+G793,G79.3: Endoscopic insertion of tubal prosthesis into ileum
+G798,G79.8: Other specified therapeutic endoscopic operations on ileum
+G799,G79.9: Unspecified therapeutic endoscopic operations on ileum
+G801,G80.1: Diagnostic endoscopic examination of ileum and biopsy of lesion of ileum
+G803,G80.3: Diagnostic endoscopic balloon examination of ileum
+G808,G80.8: Other specified diagnostic endoscopic examination of ileum
+G809,G80.9: Unspecified diagnostic endoscopic examination of ileum
+G821,G82.1: Radiological reduction of intussusception of ileum using barium enema
+G822,G82.2: Intubation of ileum for decompression of intestine
+G823,G82.3: Intubation of ileum for studies on function HFQ
+G824,G82.4: Intubation of ileum NEC
+G825,G82.5: Radiological reduction of intussusception of ileum using air enema
+G828,G82.8: Other specified other operations on ileum
+G829,G82.9: Unspecified other operations on ileum
+H011,H01.1: Emergency excision of abnormal appendix and drainage HFQ
+H012,H01.2: Emergency excision of abnormal appendix NEC
+H013,H01.3: Emergency excision of normal appendix
+H018,H01.8: Other specified emergency excision of appendix
+H019,H01.9: Unspecified emergency excision of appendix
+H021,H02.1: Interval appendicectomy
+H022,H02.2: Planned delayed appendicectomy NEC
+H023,H02.3: Prophylactic appendicectomy NEC
+H024,H02.4: Incidental appendicectomy
+H028,H02.8: Other specified other excision of appendix
+H029,H02.9: Unspecified other excision of appendix
+H031,H03.1: Drainage of abscess of appendix
+H032,H03.2: Drainage of appendix NEC
+H033,H03.3: Exteriorisation of appendix
+H038,H03.8: Other specified other operations on appendix
+H039,H03.9: Unspecified other operations on appendix
+H041,H04.1: Panproctocolectomy and ileostomy
+H042,H04.2: Panproctocolectomy and anastomosis of ileum to anus and creation of pouch HFQ
+H043,H04.3: Panproctocolectomy and anastomosis of ileum to anus NEC
+H048,H04.8: Other specified total excision of colon and rectum
+H049,H04.9: Unspecified total excision of colon and rectum
+H051,H05.1: Total colectomy and anastomosis of ileum to rectum
+H052,H05.2: Total colectomy and ileostomy and creation of rectal fistula HFQ
+H053,H05.3: Total colectomy and ileostomy NEC
+H058,H05.8: Other specified total excision of colon
+H059,H05.9: Unspecified total excision of colon
+H061,H06.1: Extended right hemicolectomy and end to end anastomosis
+H062,H06.2: Extended right hemicolectomy and anastomosis of ileum to colon
+H063,H06.3: Extended right hemicolectomy and anastomosis NEC
+H064,H06.4: Extended right hemicolectomy and ileostomy HFQ
+H065,H06.5: Extended right hemicolectomy and end to side anastomosis
+H068,H06.8: Other specified extended excision of right hemicolon
+H069,H06.9: Unspecified extended excision of right hemicolon
+H071,H07.1: Right hemicolectomy and end to end anastomosis of ileum to colon
+H072,H07.2: Right hemicolectomy and side to side anastomosis of ileum to transverse colon
+H073,H07.3: Right hemicolectomy and anastomosis NEC
+H074,H07.4: Right hemicolectomy and ileostomy HFQ
+H075,H07.5: Right hemicolectomy and end to side anastomosis
+H078,H07.8: Other specified other excision of right hemicolon
+H079,H07.9: Unspecified other excision of right hemicolon
+H081,H08.1: Transverse colectomy and end to end anastomosis
+H082,H08.2: Transverse colectomy and anastomosis of ileum to colon
+H083,H08.3: Transverse colectomy and anastomosis NEC
+H084,H08.4: Transverse colectomy and ileostomy HFQ
+H085,H08.5: Transverse colectomy and exteriorisation of bowel NEC
+H086,H08.6: Transverse colectomy and end to side anastomosis
+H088,H08.8: Other specified excision of transverse colon
+H089,H08.9: Unspecified excision of transverse colon
+H091,H09.1: Left hemicolectomy and end to end anastomosis of colon to rectum
+H092,H09.2: Left hemicolectomy and end to end anastomosis of colon to colon
+H093,H09.3: Left hemicolectomy and anastomosis NEC
+H094,H09.4: Left hemicolectomy and ileostomy HFQ
+H095,H09.5: Left hemicolectomy and exteriorisation of bowel NEC
+H096,H09.6: Left hemicolectomy and end to side anastomosis
+H098,H09.8: Other specified excision of left hemicolon
+H099,H09.9: Unspecified excision of left hemicolon
+H101,H10.1: Sigmoid colectomy and end to end anastomosis of ileum to rectum
+H102,H10.2: Sigmoid colectomy and anastomosis of colon to rectum
+H103,H10.3: Sigmoid colectomy and anastomosis NEC
+H104,H10.4: Sigmoid colectomy and ileostomy HFQ
+H105,H10.5: Sigmoid colectomy and exteriorisation of bowel NEC
+H106,H10.6: Sigmoid colectomy and end to side anastomosis
+H108,H10.8: Other specified excision of sigmoid colon
+H109,H10.9: Unspecified excision of sigmoid colon
+H111,H11.1: Colectomy and end to end anastomosis of colon to colon NEC
+H112,H11.2: Colectomy and side to side anastomosis of ileum to colon NEC
+H113,H11.3: Colectomy and anastomosis NEC
+H114,H11.4: Colectomy and ileostomy NEC
+H115,H11.5: Colectomy and exteriorisation of bowel NEC
+H116,H11.6: Colectomy and end to side anastomosis NEC
+H118,H11.8: Other specified other excision of colon
+H119,H11.9: Unspecified other excision of colon
+H121,H12.1: Excision of diverticulum of colon
+H122,H12.2: Excision of lesion of colon NEC
+H123,H12.3: Destruction of lesion of colon NEC
+H128,H12.8: Other specified extirpation of lesion of colon
+H129,H12.9: Unspecified extirpation of lesion of colon
+H131,H13.1: Bypass of colon by anastomosis of ileum to colon
+H132,H13.2: Bypass of colon by anastomosis of caecum to sigmoid colon
+H133,H13.3: Bypass of colon by anastomosis of transverse colon to sigmoid colon
+H134,H13.4: Bypass of colon by anastomosis of transverse colon to rectum
+H135,H13.5: Bypass of colon by anastomosis of colon to rectum NEC
+H138,H13.8: Other specified bypass of colon
+H139,H13.9: Unspecified bypass of colon
+H141,H14.1: Tube caecostomy
+H142,H14.2: Refashioning of caecostomy
+H143,H14.3: Closure of caecostomy
+H144,H14.4: Appendicocaecostomy
+H148,H14.8: Other specified exteriorisation of caecum
+H149,H14.9: Unspecified exteriorisation of caecum
+H151,H15.1: Loop colostomy
+H152,H15.2: End colostomy
+H153,H15.3: Refashioning of colostomy
+H154,H15.4: Closure of colostomy
+H155,H15.5: Dilation of colostomy
+H156,H15.6: Reduction of prolapse of colostomy
+H157,H15.7: Percutaneous endoscopic sigmoid colostomy
+H158,H15.8: Other specified other exteriorisation of colon
+H159,H15.9: Unspecified other exteriorisation of colon
+H161,H16.1: Drainage of colon
+H162,H16.2: Caecotomy
+H163,H16.3: Colotomy
+H168,H16.8: Other specified incision of colon
+H169,H16.9: Unspecified incision of colon
+H171,H17.1: Open reduction of intussusception of colon
+H172,H17.2: Open reduction of volvulus of caecum
+H173,H17.3: Open reduction of volvulus of sigmoid colon
+H174,H17.4: Open reduction of volvulus of colon NEC
+H175,H17.5: Open relief of strangulation of colon
+H176,H17.6: Open relief of obstruction of colon NEC
+H178,H17.8: Other specified intra-abdominal manipulation of colon
+H179,H17.9: Unspecified intra-abdominal manipulation of colon
+H181,H18.1: Open colonoscopy
+H188,H18.8: Other specified open endoscopic operations on colon
+H189,H18.9: Unspecified open endoscopic operations on colon
+H191,H19.1: Open biopsy of lesion of colon
+H192,H19.2: Fixation of colon
+H193,H19.3: Enterorrhaphy of colon
+H194,H19.4: Open removal of foreign body from colon
+H198,H19.8: Other specified other open operations on colon
+H199,H19.9: Unspecified other open operations on colon
+H201,H20.1: Fibreoptic endoscopic snare resection of lesion of colon
+H202,H20.2: Fibreoptic endoscopic cauterisation of lesion of colon
+H203,H20.3: Fibreoptic endoscopic laser destruction of lesion of colon
+H204,H20.4: Fibreoptic endoscopic destruction of lesion of colon NEC
+H205,H20.5: Fibreoptic endoscopic submucosal resection of lesion of colon
+H206,H20.6: Fibreoptic endoscopic resection of lesion of colon NEC
+H207,H20.7: Fibreoptic endoscopic mucosal resection of lesion of colon
+H208,H20.8: Other specified endoscopic extirpation of lesion of colon
+H209,H20.9: Unspecified endoscopic extirpation of lesion of colon
+H211,H21.1: Fibreoptic endoscopic dilation of colon
+H212,H21.2: Fibreoptic endoscopic coagulation of blood vessel of colon
+H213,H21.3: Fibreoptic endoscopic removal of foreign body from colon
+H214,H21.4: Fibreoptic endoscopic insertion of expanding metal stent into colon
+H215,H21.5: Fibreoptic endoscopic decompression of colon
+H216,H21.6: Fibreoptic endoscopic insertion of tubal prosthesis into colon
+H218,H21.8: Other specified other therapeutic endoscopic operations on colon
+H219,H21.9: Unspecified other therapeutic endoscopic operations on colon
+H221,H22.1: Diagnostic fibreoptic endoscopic examination of colon and biopsy of lesion of colon
+H228,H22.8: Other specified diagnostic endoscopic examination of colon
+H229,H22.9: Unspecified diagnostic endoscopic examination of colon
+H231,H23.1: Endoscopic snare resection of lesion of lower bowel using fibreoptic sigmoidoscope
+H232,H23.2: Endoscopic cauterisation of lesion of lower bowel using fibreoptic sigmoidoscope
+H233,H23.3: Endoscopic laser destruction of lesion of lower bowel using fibreoptic sigmoidoscope
+H234,H23.4: Endoscopic destruction of lesion of lower bowel using fibreoptic sigmoidoscope NEC
+H235,H23.5: Endoscopic submucosal resection of lesion of lower bowel using fibreoptic sigmoidoscope
+H236,H23.6: Endoscopic resection of lesion of lower bowel using fibreoptic sigmoidoscope NEC
+H237,H23.7: Endoscopic mucosal resection of lesion of lower bowel using fibreoptic sigmoidoscope
+H238,H23.8: Other specified endoscopic extirpation of lesion of lower bowel using fibreoptic sigmoidoscope
+H239,H23.9: Unspecified endoscopic extirpation of lesion of lower bowel using fibreoptic sigmoidoscope
+H241,H24.1: Endoscopic dilation of lower bowel using fibreoptic sigmoidoscope
+H242,H24.2: Endoscopic coagulation of blood vessel of lower bowel using fibreoptic sigmoidoscope
+H243,H24.3: Endoscopic insertion of tubal prosthesis into lower bowel using fibreoptic sigmoidoscope
+H244,H24.4: Endoscopic insertion of expanding metal stent into lower bowel using fibreoptic sigmoidoscope
+H245,H24.5: Endoscopic decompression of lower bowel using fibreoptic sigmoidoscope
+H248,H24.8: Other specified other therapeutic endoscopic operations on lower bowel using fibreoptic sigmoidoscope
+H249,H24.9: Unspecified other therapeutic endoscopic operations on lower bowel using fibreoptic sigmoidoscope
+H251,H25.1: Diagnostic endoscopic examination of lower bowel and biopsy of lesion of lower bowel using fibreoptic sigmoidoscope
+H252,H25.2: Diagnostic endoscopic examination of lower bowel and sampling for bacterial overgrowth using fibreoptic sigmoidoscope
+H258,H25.8: Other specified diagnostic endoscopic examination of lower bowel using fibreoptic sigmoidoscope
+H259,H25.9: Unspecified diagnostic endoscopic examination of lower bowel using fibreoptic sigmoidoscope
+H261,H26.1: Endoscopic snare resection of lesion of sigmoid colon using rigid sigmoidoscope
+H262,H26.2: Endoscopic cauterisation of lesion of sigmoid colon using rigid sigmoidoscope
+H263,H26.3: Endoscopic laser destruction of lesion of sigmoid colon using rigid sigmoidoscope
+H264,H26.4: Endoscopic cryotherapy to lesion of sigmoid colon using rigid sigmoidoscope
+H265,H26.5: Endoscopic destruction of lesion of sigmoid colon using rigid sigmoidoscope NEC
+H266,H26.6: Endoscopic submucosal resection of lesion of sigmoid colon using rigid sigmoidoscope
+H267,H26.7: Endoscopic resection of lesion of sigmoid colon using rigid sigmoidoscope NEC
+H268,H26.8: Other specified endoscopic extirpation of lesion of sigmoid colon using rigid sigmoidoscope
+H269,H26.9: Unspecified endoscopic extirpation of lesion of sigmoid colon using rigid sigmoidoscope
+H271,H27.1: Endoscopic dilation of sigmoid colon using rigid sigmoidoscope
+H272,H27.2: Endoscopic removal of foreign body from sigmoid colon using rigid sigmoidoscope
+H273,H27.3: Endoscopic insertion of tubal prosthesis into sigmoid colon using rigid sigmoidoscope
+H274,H27.4: Endoscopic insertion of expanding metal stent into sigmoid colon using rigid sigmoidoscope
+H275,H27.5: Endoscopic decompression of sigmoid colon using rigid sigmoidoscope
+H278,H27.8: Other specified other therapeutic endoscopic operations on sigmoid colon using rigid sigmoidoscope
+H279,H27.9: Unspecified other therapeutic endoscopic operations on sigmoid colon using rigid sigmoidoscope
+H281,H28.1: Diagnostic endoscopic examination of sigmoid colon and biopsy of lesion of sigmoid colon using rigid sigmoidoscope
+H288,H28.8: Other specified diagnostic endoscopic examination of sigmoid colon using rigid sigmoidoscope
+H289,H28.9: Unspecified diagnostic endoscopic examination of sigmoid colon using rigid sigmoidoscope
+H291,H29.1: Subtotal excision of colon and rectum and creation of colonic pouch and anastomosis of colon to anus
+H292,H29.2: Subtotal excision of colon and rectum and creation of colonic pouch NEC
+H293,H29.3: Subtotal excision of colon and creation of colonic pouch and anastomosis of colon to rectum
+H294,H29.4: Subtotal excision of colon and creation of colonic pouch NEC
+H295,H29.5: Subtotal excision of colon and anastomosis of colon to ileum
+H298,H29.8: Other specified subtotal excision of colon
+H299,H29.9: Unspecified subtotal excision of colon
+H301,H30.1: Radiological reduction of intussusception of colon using barium enema
+H302,H30.2: Intubation of colon for pressure manometry
+H303,H30.3: Passage of flatus tube to reduce volvulus of sigmoid colon
+H304,H30.4: Intubation of colon NEC
+H305,H30.5: Irrigation of colon
+H308,H30.8: Other specified other operations on colon
+H309,H30.9: Unspecified other operations on colon
+H311,H31.1: Image guided percutaneous occlusion of colorectal fistula
+H312,H31.2: Image guided transluminal occlusion of colorectal fistula
+H313,H31.3: Image guided balloon dilation of colorectal stricture
+H314,H31.4: Image guided insertion of colorectal stent
+H315,H31.5: Image guided removal of colorectal stent
+H318,H31.8: Other specified image guided colorectal therapeutic operations
+H319,H31.9: Unspecified image guided colorectal therapeutic operations
+H321,H32.1: Resiting of colostomy
+H328,H32.8: Other specified exteriorisation of colon
+H329,H32.9: Unspecified exteriorisation of colon
+H331,H33.1: Abdominoperineal excision of rectum and end colostomy
+H332,H33.2: Proctectomy and anastomosis of colon to anus
+H333,H33.3: Anterior resection of rectum and anastomosis of colon to rectum using staples
+H334,H33.4: Anterior resection of rectum and anastomosis NEC
+H335,H33.5: Rectosigmoidectomy and closure of rectal stump and exteriorisation of bowel
+H336,H33.6: Anterior resection of rectum and exteriorisation of bowel
+H337,H33.7: Perineal resection of rectum HFQ
+H338,H33.8: Other specified excision of rectum
+H339,H33.9: Unspecified excision of rectum
+H341,H34.1: Open excision of lesion of rectum
+H342,H34.2: Open cauterisation of lesion of rectum
+H343,H34.3: Open cryotherapy to lesion of rectum
+H344,H34.4: Open laser destruction of lesion of rectum
+H345,H34.5: Open destruction of lesion of rectum NEC
+H348,H34.8: Other specified open extirpation of lesion of rectum
+H349,H34.9: Unspecified open extirpation of lesion of rectum
+H351,H35.1: Anterior fixation of rectum NEC
+H352,H35.2: Posterior fixation of rectum using prosthetic material
+H353,H35.3: Posterior fixation of rectum NEC
+H354,H35.4: Fixation of rectum using fascia lata
+H355,H35.5: Anterior fixation of rectum using prosthetic material
+H358,H35.8: Other specified fixation of rectum for prolapse
+H359,H35.9: Unspecified fixation of rectum for prolapse
+H361,H36.1: Abdominal repair of levator ani muscles
+H368,H36.8: Other specified other abdominal operations for prolapse of rectum
+H369,H36.9: Unspecified other abdominal operations for prolapse of rectum
+H371,H37.1: Endoscopic mucosal resection of lesion of sigmoid colon using rigid sigmoidoscope
+H378,H37.8: Other specified other endoscopic extirpation of lesion of sigmoid colon using rigid sigmoidoscope
+H379,H37.9: Unspecified other endoscopic extirpation of lesion of sigmoid colon using rigid sigmoidoscope
+H381,H38.1: Fibreoptic endoscopic cryotherapy to lesion of colon
+H388,H38.8: Other specified other endoscopic extirpation of lesion of colon
+H389,H38.9: Unspecified other endoscopic extirpation of lesion of colon
+H401,H40.1: Trans-sphincteric excision of mucosa of rectum
+H402,H40.2: Trans-sphincteric excision of lesion of rectum
+H403,H40.3: Trans-sphincteric destruction of lesion of rectum
+H404,H40.4: Trans-sphincteric anastomosis of colon to anus
+H408,H40.8: Other specified operations on rectum through anal sphincter
+H409,H40.9: Unspecified operations on rectum through anal sphincter
+H411,H41.1: Rectosigmoidectomy and peranal anastomosis
+H412,H41.2: Peranal excision of lesion of rectum
+H413,H41.3: Peranal destruction of lesion of rectum
+H414,H41.4: Peranal mucosal proctectomy and endoanal anastomosis
+H415,H41.5: Peranal resection of rectum using staples
+H418,H41.8: Other specified other operations on rectum through anus
+H419,H41.9: Unspecified other operations on rectum through anus
+H421,H42.1: Insertion of encircling suture around perianal sphincter
+H422,H42.2: Perineal plication of levator ani muscles and anal sphincters
+H423,H42.3: Insertion of supralevator sling
+H424,H42.4: Removal of encircling suture from around perianal sphincter
+H425,H42.5: Excision of mucosal prolapse of rectum NEC
+H426,H42.6: Perineal repair of prolapse of rectum NEC
+H427,H42.7: Rubber band ligation of prolapsed rectal mucosa
+H428,H42.8: Other specified perineal operations for prolapse of rectum
+H429,H42.9: Unspecified perineal operations for prolapse of rectum
+H441,H44.1: Manual removal of foreign body from rectum
+H442,H44.2: Manual reduction of prolapse of rectum
+H443,H44.3: Manual evacuation of impacted faeces from rectum
+H444,H44.4: Examination of rectum under anaesthetic
+H445,H44.5: Massage of rectum
+H448,H44.8: Other specified manipulation of rectum
+H449,H44.9: Unspecified manipulation of rectum
+H461,H46.1: Radiological reduction of intussusception of rectum using barium enema
+H462,H46.2: Hydrostatic reduction of intussusception of rectum
+H463,H46.3: Intubation of rectum for pressure manometry
+H464,H46.4: Intubation of rectum NEC
+H468,H46.8: Other specified other operations on rectum
+H469,H46.9: Unspecified other operations on rectum
+H471,H47.1: Excision of sphincter of anus
+H478,H47.8: Other specified excision of anus
+H479,H47.9: Unspecified excision of anus
+H481,H48.1: Excision of polyp of anus
+H482,H48.2: Excision of skin tag of anus
+H483,H48.3: Excision of perianal wart
+H488,H48.8: Other specified excision of lesion of anus
+H489,H48.9: Unspecified excision of lesion of anus
+H491,H49.1: Cauterisation of lesion of anus
+H492,H49.2: Laser destruction of lesion of anus
+H493,H49.3: Cryotherapy to lesion of anus
+H498,H49.8: Other specified destruction of lesion of anus
+H499,H49.9: Unspecified destruction of lesion of anus
+H501,H50.1: Posterior repair of anal sphincter
+H502,H50.2: Anterior repair of anal sphincter
+H503,H50.3: Cutback of covered anus
+H504,H50.4: Reanastomosis of rectum to anal canal for correction of congenital atresia of rectum NEC
+H505,H50.5: Reanastomosis of rectum to anal canal and creation of anal sphincter
+H508,H50.8: Other specified repair of anus
+H509,H50.9: Unspecified repair of anus
+H511,H51.1: Haemorrhoidectomy
+H512,H51.2: Partial internal sphincterotomy for haemorrhoid
+H513,H51.3: Stapled haemorrhoidectomy
+H518,H51.8: Other specified excision of haemorrhoid
+H519,H51.9: Unspecified excision of haemorrhoid
+H521,H52.1: Cryotherapy to haemorrhoid
+H522,H52.2: Infrared photocoagulation of haemorrhoid
+H523,H52.3: Injection of sclerosing substance into haemorrhoid
+H524,H52.4: Rubber band ligation of haemorrhoid
+H528,H52.8: Other specified destruction of haemorrhoid
+H529,H52.9: Unspecified destruction of haemorrhoid
+H531,H53.1: Evacuation of perianal haematoma
+H532,H53.2: Forced manual dilation of anus for haemorrhoid
+H533,H53.3: Manual reduction of prolapsed haemorrhoid
+H538,H53.8: Other specified other operations on haemorrhoid
+H539,H53.9: Unspecified other operations on haemorrhoid
+H541,H54.1: Anorectal stretch
+H548,H54.8: Other specified dilation of anal sphincter
+H549,H54.9: Unspecified dilation of anal sphincter
+H551,H55.1: Laying open of low anal fistula
+H552,H55.2: Laying open of high anal fistula
+H553,H55.3: Laying open of anal fistula NEC
+H554,H55.4: Insertion of seton into high anal fistula and partial laying open of track HFQ
+H555,H55.5: Fistulography of anal fistula
+H556,H55.6: Probing of perineal fistula
+H557,H55.7: Repair of anal fistula using plug
+H558,H55.8: Other specified other operations on perianal region
+H559,H55.9: Unspecified other operations on perianal region
+H561,H56.1: Biopsy of lesion of anus
+H562,H56.2: Lateral sphincterotomy of anus
+H563,H56.3: Incision of septum of anus
+H564,H56.4: Excision of anal fissure
+H568,H56.8: Other specified other operations on anus
+H569,H56.9: Unspecified other operations on anus
+H571,H57.1: Placement of artificial anal sphincter NEC
+H572,H57.2: Maintenance of artificial anal sphincter NEC
+H573,H57.3: Removal of artificial anal sphincter NEC
+H574,H57.4: Creation of graciloplasty sphincter
+H575,H57.5: Placement of dynamic graciloplasty sphincter
+H576,H57.6: Maintenance of dynamic graciloplasty sphincter
+H577,H57.7: Removal of dynamic graciloplasty sphincter
+H578,H57.8: Other specified other operations on the anal sphincter to control continence
+H579,H57.9: Unspecified other operations on the anal sphincter to control continence
+H581,H58.1: Drainage of ischiorectal abscess
+H582,H58.2: Drainage of perianal abscess
+H583,H58.3: Drainage of perirectal abscess
+H588,H58.8: Other specified drainage through perineal region
+H589,H58.9: Unspecified drainage through perineal region
+H591,H59.1: Excision of pilonidal sinus and Z plasty skin flap HFQ
+H592,H59.2: Excision of pilonidal sinus and skin flap NEC
+H593,H59.3: Excision of pilonidal sinus and skin graft HFQ
+H594,H59.4: Excision of pilonidal sinus and suture HFQ
+H598,H59.8: Other specified excision of pilonidal sinus
+H599,H59.9: Unspecified excision of pilonidal sinus
+H601,H60.1: Destruction of pilonidal sinus
+H602,H60.2: Laying open of pilonidal sinus
+H603,H60.3: Drainage of pilonidal sinus
+H604,H60.4: Injection of radiocontrast substance into pilonidal sinus
+H608,H60.8: Other specified other operations on pilonidal sinus
+H609,H60.9: Unspecified other operations on pilonidal sinus
+H621,H62.1: Laser recanalisation of bowel NEC
+H622,H62.2: Mobilisation of bowel NEC
+H623,H62.3: Dilation of bowel NEC
+H624,H62.4: Intubation of bowel NEC
+H625,H62.5: Irrigation of bowel NEC
+H626,H62.6: Proctoscopy
+H627,H62.7: Endoanal ultrasound examination of lower bowel
+H628,H62.8: Other specified other operations on bowel
+H629,H62.9: Unspecified other operations on bowel
+H661,H66.1: Excision of ileoanal pouch
+H662,H66.2: Revision of ileoanal pouch
+H668,H66.8: Other specified therapeutic operations on ileoanal pouch
+H669,H66.9: Unspecified therapeutic operations on ileoanal pouch
+H681,H68.1: Diagnostic endoscopic examination of colonic pouch and biopsy of colonic pouch using colonoscope
+H682,H68.2: Diagnostic endoscopic examination of colonic pouch using colonoscope NEC
+H683,H68.3: Diagnostic endoscopic examination of ileoanal pouch and biopsy of ileoanal pouch using colonoscope
+H684,H68.4: Diagnostic endoscopic examination of ileoanal pouch using colonoscope NEC
+H688,H68.8: Other specified diagnostic endoscopic examination of enteric pouch using colonoscope
+H689,H68.9: Unspecified diagnostic endoscopic examination of enteric pouch using colonoscope
+H691,H69.1: Diagnostic endoscopic examination of colonic pouch and biopsy of colonic pouch using fibreoptic sigmoidoscope
+H692,H69.2: Diagnostic endoscopic examination of colonic pouch using fibreoptic sigmoidoscope NEC
+H693,H69.3: Diagnostic endoscopic examination of ileoanal pouch and biopsy of ileoanal pouch using fibreoptic sigmoidoscope
+H694,H69.4: Diagnostic endoscopic examination of ileoanal pouch using fibreoptic sigmoidoscope NEC
+H698,H69.8: Other specified diagnostic endoscopic examination of enteric pouch using fibreoptic sigmoidoscope
+H699,H69.9: Unspecified diagnostic endoscopic examination of enteric pouch using fibreoptic sigmoidoscope
+H701,H70.1: Diagnostic endoscopic examination of colonic pouch and biopsy of colonic pouch using rigid sigmoidoscope
+H702,H70.2: Diagnostic endoscopic examination of colonic pouch using rigid sigmoidoscope NEC
+H703,H70.3: Diagnostic endoscopic examination of ileoanal pouch and biopsy of ileoanal pouch using rigid sigmoidoscope
+H704,H70.4: Diagnostic endoscopic examination of ileoanal pouch using rigid sigmoidoscope NEC
+H708,H70.8: Other specified diagnostic endoscopic examination of enteric pouch using rigid sigmoidoscope
+H709,H70.9: Unspecified diagnostic endoscopic examination of enteric pouch using rigid sigmoidoscope
+H711,H71.1: Fibreoptic endoscopic balloon dilation of colonic pouch NEC
+H718,H71.8: Other specified therapeutic endoscopic operations on enteric pouch
+H719,H71.9: Unspecified therapeutic endoscopic operations on enteric pouch
+H721,H72.1: Excision of lesion of anus using high resolution anoscope
+H722,H72.2: Destruction of lesion of anus using high resolution anoscope
+H728,H72.8: Other specified therapeutic operations on anus using high resolution anoscope
+H729,H72.9: Unspecified therapeutic operations on anus using high resolution anoscope
+H731,H73.1: Diagnostic examination of anus and biopsy of anus using high resolution anoscope
+H738,H73.8: Other specified diagnostic operations on anus using high resolution anoscope
+H739,H73.9: Unspecified diagnostic operations on anus using high resolution anoscope
+J011,J01.1: Orthotopic transplantation of liver NEC
+J012,J01.2: Heterotopic transplantation of liver
+J013,J01.3: Replacement of previous liver transplant
+J014,J01.4: Transplantation of liver cells
+J015,J01.5: Orthotopic transplantation of whole liver
+J018,J01.8: Other specified transplantation of liver
+J019,J01.9: Unspecified transplantation of liver
+J021,J02.1: Right hemihepatectomy NEC
+J022,J02.2: Left hemihepatectomy NEC
+J023,J02.3: Resection of segment of liver
+J024,J02.4: Wedge excision of liver
+J025,J02.5: Marsupialisation of lesion of liver
+J026,J02.6: Extended right hemihepatectomy
+J027,J02.7: Extended left hemihepatectomy
+J028,J02.8: Other specified partial excision of liver
+J029,J02.9: Unspecified partial excision of liver
+J031,J03.1: Excision of lesion of liver NEC
+J032,J03.2: Destruction of lesion of liver NEC
+J033,J03.3: Thermal ablation of single lesion of liver
+J034,J03.4: Thermal ablation of multiple lesions of liver
+J035,J03.5: Excision of multiple lesions of liver
+J038,J03.8: Other specified extirpation of lesion of liver
+J039,J03.9: Unspecified extirpation of lesion of liver
+J041,J04.1: Removal of lacerated fragment of liver
+J042,J04.2: Repair of laceration of liver
+J043,J04.3: Packing of laceration of liver
+J048,J04.8: Other specified repair of liver
+J049,J04.9: Unspecified repair of liver
+J051,J05.1: Open drainage of liver
+J052,J05.2: Open removal of calculus from liver
+J053,J05.3: Open wedge biopsy of lesion of liver
+J058,J05.8: Other specified incision of liver
+J059,J05.9: Unspecified incision of liver
+J061,J06.1: Transjugular intrahepatic insertion of stent into portal vein
+J062,J06.2: Transjugular intrahepatic insertion of stent graft into portal vein
+J068,J06.8: Other specified other transjugular intrahepatic operations on blood vessel of liver
+J069,J06.9: Unspecified other transjugular intrahepatic operations on blood vessel of liver
+J071,J07.1: Open devascularisation of liver
+J072,J07.2: Open insertion of cannula for perfusion of liver
+J073,J07.3: Exploration of liver
+J074,J07.4: Transection of liver
+J078,J07.8: Other specified other open operations on liver
+J079,J07.9: Unspecified other open operations on liver
+J081,J08.1: Endoscopic removal of calculus from liver using laparoscope
+J082,J08.2: Endoscopic insertion of cannula into gall bladder using laparoscope
+J083,J08.3: Endoscopic microwave ablation of lesion of liver using laparoscope
+J088,J08.8: Other specified therapeutic endoscopic operations on liver using laparoscope
+J089,J08.9: Unspecified therapeutic endoscopic operations on liver using laparoscope
+J091,J09.1: Diagnostic endoscopic examination of liver and biopsy of lesion of liver using laparoscope
+J092,J09.2: Laparoscopic ultrasound examination of liver and biopsy of lesion of liver
+J093,J09.3: Laparoscopic ultrasound examination of liver NEC
+J098,J09.8: Other specified diagnostic endoscopic examination of liver using laparoscope
+J099,J09.9: Unspecified diagnostic endoscopic examination of liver using laparoscope
+J101,J10.1: Percutaneous transluminal embolisation of hepatic artery
+J102,J10.2: Percutaneous transluminal embolisation of portal vein
+J103,J10.3: Percutaneous transluminal injection of therapeutic substance into liver
+J104,J10.4: Percutaneous transluminal angioplasty of blood vessel of liver
+J105,J10.5: Percutaneous transluminal thrombectomy of blood vessel of liver
+J106,J10.6: Percutaneous transluminal thrombolysis of blood vessel of liver
+J107,J10.7: Arteriography of hepatic artery
+J108,J10.8: Other specified transluminal operations on blood vessel of liver
+J109,J10.9: Unspecified transluminal operations on blood vessel of liver
+J111,J11.1: Transjugular intrahepatic angioplasty of portal vein
+J112,J11.2: Transjugular intrahepatic thrombectomy of portal vein
+J113,J11.3: Transjugular intrahepatic thrombolysis of portal vein
+J114,J11.4: Transjugular intrahepatic creation of portosystemic shunt
+J115,J11.5: Transjugular intrahepatic venography of portal vein
+J116,J11.6: Transjugular intrahepatic pressure measurements of portal vein
+J117,J11.7: Transjugular intrahepatic pressure measurements of hepatic vein
+J118,J11.8: Other specified transjugular intrahepatic operations on blood vessel of liver
+J119,J11.9: Unspecified transjugular intrahepatic operations on blood vessel of liver
+J121,J12.1: Percutaneous drainage of liver
+J122,J12.2: Percutaneous removal of calculus from liver
+J123,J12.3: Selective internal radiotherapy with microspheres to lesion of liver
+J124,J12.4: Percutaneous radiofrequency ablation of lesion of liver
+J125,J12.5: Percutaneous thermal ablation of lesion of liver NEC
+J126,J12.6: Percutaneous chemical ablation of lesion of liver
+J127,J12.7: Percutaneous microwave ablation of lesion of liver
+J128,J12.8: Other specified other therapeutic percutaneous operations on liver
+J129,J12.9: Unspecified other therapeutic percutaneous operations on liver
+J131,J13.1: Percutaneous transvascular biopsy of lesion of liver
+J132,J13.2: Percutaneous biopsy of lesion of liver NEC
+J138,J13.8: Other specified diagnostic percutaneous operations on liver
+J139,J13.9: Unspecified diagnostic percutaneous operations on liver
+J141,J14.1: Biopsy of liver NEC
+J142,J14.2: Aspiration of liver NEC
+J148,J14.8: Other specified other puncture of liver
+J149,J14.9: Unspecified other puncture of liver
+J151,J15.1: Percutaneous transluminal insertion of stent graft into hepatic artery
+J152,J15.2: Percutaneous transluminal insertion of stent into hepatic artery NEC
+J153,J15.3: Percutaneous transluminal insertion of stent graft into blood vessel of liver NEC
+J154,J15.4: Percutaneous transluminal insertion of stent into portal vein
+J155,J15.5: Percutaneous transluminal insertion of stent graft into portal vein
+J158,J15.8: Other specified transluminal insertion of prosthesis into blood vessel of liver
+J159,J15.9: Unspecified transluminal insertion of prosthesis into blood vessel of liver
+J161,J16.1: Localised perfusion of liver
+J162,J16.2: Extracorporeal assistance to liver
+J168,J16.8: Other specified other operations on liver
+J169,J16.9: Unspecified other operations on liver
+J171,J17.1: Endoscopic ultrasound examination of liver and biopsy of lesion of liver
+J178,J17.8: Other specified endoscopic ultrasound examination of liver
+J179,J17.9: Unspecified endoscopic ultrasound examination of liver
+J181,J18.1: Total cholecystectomy and excision of surrounding tissue
+J182,J18.2: Total cholecystectomy and exploration of common bile duct
+J183,J18.3: Total cholecystectomy NEC
+J184,J18.4: Partial cholecystectomy and exploration of common bile duct
+J185,J18.5: Partial cholecystectomy NEC
+J188,J18.8: Other specified excision of gall bladder
+J189,J18.9: Unspecified excision of gall bladder
+J191,J19.1: Anastomosis of gall bladder to stomach
+J192,J19.2: Anastomosis of gall bladder to duodenum
+J193,J19.3: Anastomosis of gall bladder to jejunum
+J194,J19.4: Anastomosis of gall bladder to intestine NEC
+J195,J19.5: Revision of anastomosis of gall bladder
+J196,J19.6: Closure of anastomosis of gall bladder
+J198,J19.8: Other specified connection of gall bladder
+J199,J19.9: Unspecified connection of gall bladder
+J201,J20.1: Closure of fistula of gall bladder
+J202,J20.2: Closure of cholecystotomy
+J203,J20.3: Repair of perforation of gall bladder
+J208,J20.8: Other specified repair of gall bladder
+J209,J20.9: Unspecified repair of gall bladder
+J211,J21.1: Open removal of calculus from gall bladder
+J212,J21.2: Drainage of gall bladder
+J213,J21.3: Drainage of tissue surrounding gall bladder
+J218,J21.8: Other specified incision of gall bladder
+J219,J21.9: Unspecified incision of gall bladder
+J231,J23.1: Excision of lesion of gall bladder
+J232,J23.2: Open biopsy of lesion of gall bladder
+J233,J23.3: Exploration of gall bladder
+J238,J23.8: Other specified other open operations on gall bladder
+J239,J23.9: Unspecified other open operations on gall bladder
+J241,J24.1: Percutaneous drainage of gall bladder
+J242,J24.2: Percutaneous fragmentation of calculus in gall bladder
+J243,J24.3: Percutaneous dissolution therapy to calculus in gall bladder
+J248,J24.8: Other specified therapeutic percutaneous operations on gall bladder
+J249,J24.9: Unspecified therapeutic percutaneous operations on gall bladder
+J251,J25.1: Percutaneous biopsy of lesion of gall bladder
+J258,J25.8: Other specified diagnostic percutaneous operations on gall bladder
+J259,J25.9: Unspecified diagnostic percutaneous operations on gall bladder
+J261,J26.1: Extracorporeal fragmentation of calculus in gall bladder
+J268,J26.8: Other specified other operations on gall bladder
+J269,J26.9: Unspecified other operations on gall bladder
+J271,J27.1: Excision of ampulla of Vater and replantation of common bile duct into duodenum
+J272,J27.2: Partial excision of bile duct and anastomosis of bile duct to duodenum
+J273,J27.3: Partial excision of bile duct and anastomosis of bile duct to jejunum
+J274,J27.4: Partial excision of bile duct and end to end anastomosis of bile duct
+J275,J27.5: Excision of extrahepatic bile ducts HFQ
+J278,J27.8: Other specified excision of bile duct
+J279,J27.9: Unspecified excision of bile duct
+J281,J28.1: Excision of lesion of bile duct
+J282,J28.2: Destruction of lesion of bile duct
+J288,J28.8: Other specified extirpation of lesion of bile duct
+J289,J28.9: Unspecified extirpation of lesion of bile duct
+J291,J29.1: Anastomosis of hepatic duct to transposed jejunum and insertion of tubal prosthesis HFQ
+J292,J29.2: Anastomosis of hepatic duct to jejunum NEC
+J293,J29.3: Revision of anastomosis of hepatic duct
+J294,J29.4: Open dilation of anastomosis of hepatic duct
+J298,J29.8: Other specified connection of hepatic duct
+J299,J29.9: Unspecified connection of hepatic duct
+J301,J30.1: Anastomosis of common bile duct to duodenum
+J302,J30.2: Anastomosis of common bile duct to transposed jejunum
+J303,J30.3: Anastomosis of common bile duct to jejunum NEC
+J304,J30.4: Revision of anastomosis of common bile duct
+J305,J30.5: Open dilation of anastomosis of common bile duct
+J308,J30.8: Other specified connection of common bile duct
+J309,J30.9: Unspecified connection of common bile duct
+J311,J31.1: Open insertion of tubal prosthesis into both hepatic ducts and common bile duct
+J312,J31.2: Open insertion of tubal prosthesis into one hepatic duct and common bile duct
+J313,J31.3: Open renewal of tubal prosthesis in bile duct
+J314,J31.4: Open removal of tubal prosthesis from bile duct
+J318,J31.8: Other specified open introduction of prosthesis into bile duct
+J319,J31.9: Unspecified open introduction of prosthesis into bile duct
+J321,J32.1: Reconstruction of bile duct
+J322,J32.2: Reanastomosis of bile duct
+J328,J32.8: Other specified repair of bile duct
+J329,J32.9: Unspecified repair of bile duct
+J331,J33.1: Open removal of calculus from bile duct and drainage of bile duct
+J332,J33.2: Open removal of calculus from bile duct NEC
+J333,J33.3: Drainage of bile duct NEC
+J338,J33.8: Other specified incision of bile duct
+J339,J33.9: Unspecified incision of bile duct
+J341,J34.1: Sphincteroplasty of bile duct and pancreatic duct using duodenal approach
+J342,J34.2: Sphincteroplasty of bile duct using duodenal approach NEC
+J343,J34.3: Sphincteroplasty of pancreatic duct using duodenal approach NEC
+J348,J34.8: Other specified plastic repair of sphincter of Oddi using duodenal approach
+J349,J34.9: Unspecified plastic repair of sphincter of Oddi using duodenal approach
+J351,J35.1: Sphincterotomy of bile duct and pancreatic duct using duodenal approach
+J352,J35.2: Sphincterotomy of bile duct using duodenal approach NEC
+J353,J35.3: Sphincterotomy of pancreatic duct using duodenal approach NEC
+J358,J35.8: Other specified incision of sphincter of Oddi using duodenal approach
+J359,J35.9: Unspecified incision of sphincter of Oddi using duodenal approach
+J361,J36.1: Excision of ampulla of Vater using duodenal approach
+J362,J36.2: Biopsy of lesion of ampulla of Vater using duodenal approach
+J368,J36.8: Other specified other operations on ampulla of Vater using duodenal approach
+J369,J36.9: Unspecified other operations on ampulla of Vater using duodenal approach
+J371,J37.1: Open biopsy of lesion of bile duct
+J372,J37.2: Operative cholangiography through cystic duct
+J373,J37.3: Direct puncture operative cholangiography
+J374,J37.4: Operative choledochoscopy NEC
+J378,J37.8: Other specified other open operations on bile duct
+J379,J37.9: Unspecified other open operations on bile duct
+J381,J38.1: Endoscopic sphincterotomy of sphincter of Oddi and removal of calculus HFQ
+J382,J38.2: Endoscopic sphincterotomy of sphincter of Oddi and insertion of tubal prosthesis into bile duct
+J388,J38.8: Other specified endoscopic incision of sphincter of Oddi
+J389,J38.9: Unspecified endoscopic incision of sphincter of Oddi
+J391,J39.1: Endoscopic sphincterotomy of accessory ampulla of Vater
+J392,J39.2: Endoscopic sphincteroplasty of ampulla of Vater NEC
+J393,J39.3: Endoscopic sphincteroplasty of ampulla of Vater and removal of calculus HFQ
+J394,J39.4: Endoscopic sphincteroplasty of ampulla of Vater and insertion of tubal prosthesis into bile duct
+J398,J39.8: Other specified other therapeutic endoscopic operations on ampulla of Vater
+J399,J39.9: Unspecified other therapeutic endoscopic operations on ampulla of Vater
+J401,J40.1: Endoscopic retrograde insertion of tubal prosthesis into both hepatic ducts
+J402,J40.2: Endoscopic retrograde insertion of tubal prosthesis into bile duct NEC
+J403,J40.3: Endoscopic retrograde renewal of tubal prosthesis in bile duct NEC
+J404,J40.4: Endoscopic retrograde removal of tubal prosthesis from bile duct
+J405,J40.5: Endoscopic retrograde insertion of expanding covered metal stent into bile duct
+J406,J40.6: Endoscopic retrograde insertion of expanding metal stent into bile duct NEC
+J407,J40.7: Endoscopic retrograde renewal of expanding metal stent in bile duct
+J408,J40.8: Other specified endoscopic retrograde placement of prosthesis in bile duct
+J409,J40.9: Unspecified endoscopic retrograde placement of prosthesis in bile duct
+J411,J41.1: Endoscopic retrograde extraction of calculus from bile duct
+J412,J41.2: Endoscopic dilation of bile duct NEC
+J413,J41.3: Endoscopic retrograde lithotripsy of calculus of bile duct
+J414,J41.4: Endoscopic retrograde photodynamic laser therapy of lesion of bile duct
+J418,J41.8: Other specified other therapeutic endoscopic retrograde operations on bile duct
+J419,J41.9: Unspecified other therapeutic endoscopic retrograde operations on bile duct
+J421,J42.1: Endoscopic retrograde insertion of tubal prosthesis into pancreatic duct
+J422,J42.2: Endoscopic retrograde renewal of tubal prosthesis in pancreatic duct
+J423,J42.3: Endoscopic retrograde removal of calculus from pancreatic duct
+J424,J42.4: Endoscopic retrograde drainage of lesion of pancreas
+J425,J42.5: Endoscopic retrograde dilation of pancreatic duct
+J428,J42.8: Other specified therapeutic endoscopic retrograde operations on pancreatic duct
+J429,J42.9: Unspecified therapeutic endoscopic retrograde operations on pancreatic duct
+J431,J43.1: Endoscopic retrograde cholangiopancreatography and biopsy of lesion of ampulla of Vater
+J432,J43.2: Endoscopic retrograde cholangiopancreatography and biopsy of lesion of biliary or pancreatic system NEC
+J433,J43.3: Endoscopic retrograde cholangiopancreatography and collection of bile
+J438,J43.8: Other specified diagnostic endoscopic retrograde examination of bile duct and pancreatic duct
+J439,J43.9: Unspecified diagnostic endoscopic retrograde examination of bile duct and pancreatic duct
+J441,J44.1: Endoscopic retrograde cholangiography and biopsy of lesion of bile duct
+J448,J44.8: Other specified diagnostic endoscopic retrograde examination of bile duct
+J449,J44.9: Unspecified diagnostic endoscopic retrograde examination of bile duct
+J451,J45.1: Endoscopic retrograde pancreatography and biopsy of lesion of pancreas
+J452,J45.2: Endoscopic retrograde pancreatography and collection of pancreatic juice
+J453,J45.3: Endoscopic retrograde pancreatography through accessory ampulla of Vater
+J458,J45.8: Other specified diagnostic endoscopic retrograde examination of pancreatic duct
+J459,J45.9: Unspecified diagnostic endoscopic retrograde examination of pancreatic duct
+J461,J46.1: Percutaneous dilation of anastomosis of bile duct and insertion of tubal prosthesis HFQ
+J462,J46.2: Percutaneous dilation of anastomosis of bile duct NEC
+J468,J46.8: Other specified therapeutic percutaneous attention to connection of bile duct
+J469,J46.9: Unspecified therapeutic percutaneous attention to connection of bile duct
+J471,J47.1: Percutaneous insertion of tubal prosthesis into both hepatic ducts
+J472,J47.2: Percutaneous insertion of tubal prosthesis into right hepatic duct NEC
+J473,J47.3: Percutaneous insertion of tubal prosthesis into left hepatic duct NEC
+J474,J47.4: Percutaneous insertion of tubal prosthesis into hepatic duct NEC
+J475,J47.5: Percutaneous insertion of tubal prosthesis into common bile duct
+J478,J47.8: Other specified therapeutic percutaneous insertion of prosthesis into bile duct
+J479,J47.9: Unspecified therapeutic percutaneous insertion of prosthesis into bile duct
+J481,J48.1: Renewal of percutaneously inserted tubal prosthesis in bile duct
+J482,J48.2: Removal of percutaneously inserted tubal prosthesis from bile duct
+J483,J48.3: Attention to percutaneously inserted tubal prosthesis in bile duct NEC
+J484,J48.4: Percutaneous photodynamic therapy of lesion of bile duct
+J485,J48.5: Percutaneous transhepatic biliary drainage multiple
+J486,J48.6: Percutaneous transhepatic biliary drainage single
+J487,J48.7: Percutaneous brachytherapy of lesion of bile duct
+J488,J48.8: Other specified other therapeutic percutaneous operations on bile duct
+J489,J48.9: Unspecified other therapeutic percutaneous operations on bile duct
+J491,J49.1: Endoscopic removal of calculus from bile duct along T tube track
+J492,J49.2: Percutaneous removal of calculus from bile duct along T tube track
+J498,J49.8: Other specified therapeutic operations on bile duct along T tube track
+J499,J49.9: Unspecified therapeutic operations on bile duct along T tube track
+J501,J50.1: T tube cholangiography
+J502,J50.2: Percutaneous cholangiography NEC
+J503,J50.3: Percutaneous transbiliary biopsy of lesion of bile duct
+J504,J50.4: Percutaneous transjejunal cholangiography
+J505,J50.5: Percutaneous transhepatic cholangiography
+J506,J50.6: Percutaneous transjejunal examination of bile duct NEC
+J507,J50.7: Percutaneous transhepatic cholangioscopy
+J508,J50.8: Other specified percutaneous examination of bile duct
+J509,J50.9: Unspecified percutaneous examination of bile duct
+J511,J51.1: Laparoscopic ultrasound examination of bile duct and biopsy of lesion of bile duct
+J518,J51.8: Other specified laparoscopic ultrasound examination of bile duct
+J519,J51.9: Unspecified laparoscopic ultrasound examination of bile duct
+J521,J52.1: Extracorporeal lithotripsy of calculus in bile duct
+J528,J52.8: Other specified other operations on bile duct
+J529,J52.9: Unspecified other operations on bile duct
+J531,J53.1: Endoscopic ultrasound examination of bile duct and biopsy of lesion of bile duct
+J538,J53.8: Other specified endoscopic ultrasound examination of bile duct
+J539,J53.9: Unspecified endoscopic ultrasound examination of bile duct
+J541,J54.1: Transplantation of pancreas and duodenum
+J542,J54.2: Transplantation of whole pancreas
+J543,J54.3: Transplantation of tail of pancreas
+J544,J54.4: Transplantation of islet of Langerhans
+J545,J54.5: Renewal of transplanted pancreatic tissue
+J548,J54.8: Other specified transplantation of pancreas
+J549,J54.9: Unspecified transplantation of pancreas
+J551,J55.1: Total pancreatectomy and excision of surrounding tissue
+J552,J55.2: Total pancreatectomy NEC
+J553,J55.3: Excision of transplanted pancreas
+J558,J55.8: Other specified total excision of pancreas
+J559,J55.9: Unspecified total excision of pancreas
+J561,J56.1: Pancreaticoduodenectomy and excision of surrounding tissue
+J562,J56.2: Pancreaticoduodenectomy and resection of antrum of stomach
+J563,J56.3: Pancreaticoduodenectomy NEC
+J564,J56.4: Subtotal excision of head of pancreas with preservation of duodenum and drainage HFQ
+J568,J56.8: Other specified excision of head of pancreas
+J569,J56.9: Unspecified excision of head of pancreas
+J571,J57.1: Subtotal pancreatectomy
+J572,J57.2: Left pancreatectomy and drainage of pancreatic duct
+J573,J57.3: Left pancreatectomy NEC
+J574,J57.4: Excision of tail of pancreas and drainage of pancreatic duct
+J575,J57.5: Excision of tail of pancreas NEC
+J576,J57.6: Pancreatic necrosectomy
+J578,J57.8: Other specified other partial excision of pancreas
+J579,J57.9: Unspecified other partial excision of pancreas
+J581,J58.1: Excision of lesion of islet of Langerhans
+J582,J58.2: Excision of lesion of pancreas NEC
+J583,J58.3: Destruction of lesion of pancreas
+J588,J58.8: Other specified extirpation of lesion of pancreas
+J589,J58.9: Unspecified extirpation of lesion of pancreas
+J591,J59.1: Anastomosis of pancreatic duct to stomach
+J592,J59.2: Anastomosis of pancreatic duct to duodenum
+J593,J59.3: Anastomosis of pancreatic duct to transposed jejunum
+J594,J59.4: Anastomosis of pancreatic duct to jejunum NEC
+J595,J59.5: Revision of anastomosis of pancreatic duct
+J596,J59.6: Closure of anastomosis of pancreatic duct
+J598,J59.8: Other specified connection of pancreatic duct
+J599,J59.9: Unspecified connection of pancreatic duct
+J601,J60.1: Drainage of pancreatic duct
+J602,J60.2: Open removal of calculus from pancreatic duct
+J603,J60.3: Insertion of T tube into pancreatic duct
+J604,J60.4: Open insertion of tubal prosthesis into pancreatic duct
+J605,J60.5: Open dilation of pancreatic duct
+J608,J60.8: Other specified other open operations on pancreatic duct
+J609,J60.9: Unspecified other open operations on pancreatic duct
+J611,J61.1: Open cystogastrotomy of pancreas
+J612,J61.2: Drainage of cyst of pancreas into transposed jejunum
+J613,J61.3: Drainage of cyst of pancreas into jejunum NEC
+J614,J61.4: Drainage of cyst of pancreas NEC
+J618,J61.8: Other specified open drainage of lesion of pancreas
+J619,J61.9: Unspecified open drainage of lesion of pancreas
+J621,J62.1: Division of annular pancreas
+J628,J62.8: Other specified incision of pancreas
+J629,J62.9: Unspecified incision of pancreas
+J631,J63.1: Open pancreatography through tail of pancreas
+J632,J63.2: Open pancreatography through papilla of Vater
+J633,J63.3: Open pancreatography NEC
+J638,J63.8: Other specified open examination of pancreas
+J639,J63.9: Unspecified open examination of pancreas
+J651,J65.1: Open biopsy of lesion of pancreas
+J658,J65.8: Other specified other open operations on pancreas
+J659,J65.9: Unspecified other open operations on pancreas
+J661,J66.1: Percutaneous drainage of lesion of pancreas and insertion of cystogastrostomy tube NEC
+J662,J66.2: Percutaneous drainage of lesion of pancreas and insertion of temporary external drain HFQ
+J663,J66.3: Percutaneous drainage of lesion of pancreas NEC
+J664,J66.4: Percutaneous aspiration of lesion of pancreas
+J665,J66.5: Percutaneous chemical ablation of lesion of pancreas
+J668,J66.8: Other specified therapeutic percutaneous operations on pancreas
+J669,J66.9: Unspecified therapeutic percutaneous operations on pancreas
+J671,J67.1: Diagnostic percutaneous aspiration of lesion of pancreas
+J672,J67.2: Percutaneous puncture of pancreatic duct and pancreatography
+J673,J67.3: Percutaneous biopsy of lesion of pancreas
+J678,J67.8: Other specified diagnostic percutaneous operations on pancreas
+J679,J67.9: Unspecified diagnostic percutaneous operations on pancreas
+J681,J68.1: Extracorporeal shockwave lithotripsy of calculus of pancreas
+J688,J68.8: Other specified other operations on pancreas
+J689,J68.9: Unspecified other operations on pancreas
+J691,J69.1: Total excision of spleen and replantation of fragments of spleen
+J692,J69.2: Total splenectomy
+J693,J69.3: Excision of accessory spleen
+J698,J69.8: Other specified total excision of spleen
+J699,J69.9: Unspecified total excision of spleen
+J701,J70.1: Partial splenectomy
+J702,J70.2: Marsupialisation of lesion of spleen
+J708,J70.8: Other specified other excision of spleen
+J709,J70.9: Unspecified other excision of spleen
+J721,J72.1: Transplantation of spleen
+J722,J72.2: Embolisation of spleen
+J723,J72.3: Biopsy of lesion of spleen
+J724,J72.4: Repair of spleen
+J725,J72.5: Banding of spleen
+J728,J72.8: Other specified other operations on spleen
+J729,J72.9: Unspecified other operations on spleen
+J731,J73.1: Laparoscopic ultrasound examination of pancreas and biopsy of lesion of pancreas
+J738,J73.8: Other specified laparoscopic ultrasound examination of pancreas
+J739,J73.9: Unspecified laparoscopic ultrasound examination of pancreas
+J741,J74.1: Endoscopic ultrasound examination of pancreas and biopsy of lesion of pancreas
+J748,J74.8: Other specified endoscopic ultrasound examination of pancreas
+J749,J74.9: Unspecified endoscopic ultrasound examination of pancreas
+J761,J76.1: Percutaneous transhepatic removal of calculus from bile duct
+J762,J76.2: Percutaneous balloon dilation of bile duct
+J768,J76.8: Other specified therapeutic percutaneous operations on bile duct
+J769,J76.9: Unspecified therapeutic percutaneous operations on bile duct
+J771,J77.1: Percutaneous transhepatic portal venous sampling
+J778,J77.8: Other specified other transluminal operations on blood vessel of liver
+J779,J77.9: Unspecified other transluminal operations on blood vessel of liver

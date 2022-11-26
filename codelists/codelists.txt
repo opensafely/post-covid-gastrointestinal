@@ -57,23 +57,28 @@ bristol/bloody-stools-icd10/6ad32563
 bristol/bloody-stools-snomed/70ff58de
 bristol/bowel-ischaemia-icd10/38b43ef9
 bristol/bowel-ischaemia-snomed/6140505d
-bristol/diarrhoea-icd-10/6d85e559
+bristol/diarrhoea-icd10/6d85e559
 bristol/diarrhoea-snomed/7e7d18ac
 bristol/ibs-icd10/220bb86b
 bristol/ibs-snomed/5d556595
 bristol/intestinal-obstruction-icd10/3ab31d5a
 bristol/intestinal-obstruction-snomed/2b367f2b
-bristol/nausea-icd-10/09c2f8c5
+bristol/nausea-icd10/09c2f8c5
 bristol/nausea-snomed/62bae581
 bristol/vomiting-snomed/791798c0
-bristol/vomititing-icd-10/089436f0
+bristol/vomiting-icd10/2430c627
+#Chronic diseases
+bristol/cirrhosis-icd10/2244b9c0
+bristol/cirrhosis-snomed/3b542cf5
 bristol/coeliac-disease-snomed/6e00c599
 bristol/coeliac-disease-icd10/3dc48299
+bristol/crohn-icd10/57166020
+bristol/crohn-snomed/7025d355
 #missing IBS
 bristol/appendicitis-snomed/729628f9
 bristol/appendicitis-icd10/0e61c522
 bristol/gallstones-disease-snomed/1300917f
-bristol/gallstone-disease-icd10/6cd203c4
+bristol/gallstones-disease-icd10/6cd203c4
 bristol/nonalcoholic-steatohepatitis-snomed/46f8b256
 bristol/nonalcoholic-steatohepatitis-icd10/22578bba
 bristol/acute-pancreatitis-snomed/075c0c1e
@@ -81,7 +86,15 @@ bristol/acute-pancreatitis-icd10/67d4921e
 bristol/gastro-oesophageal-reflux-disease-snomed/11148518
 bristol/gastro-oesophageal-reflux-disease-icd10/35b5abb4
 bristol/dyspepsia-snomed/4193326a
-bristol/dyspesia-icd10/3b66feef
+bristol/dyspepsia-icd10/3b66feef/
+bristol/peptic-ulcer-snomed/3e06eceb
+bristol/peptic-ulcer-icd10/24f779b6
+bristol/upper-gi-bleeding-snomed/1ecb463b
+bristol/upper-gi-bleeding-icd10/3527f97a
+bristol/lower-gi-bleeding-snomed/50ea2ca5
+bristol/lower-gi-bleeding-icd10/37dab970
+bristol/variceal-gi-bleeding-snomed/539cec9b
+bristol/variceal-gi-bleeding-icd10/05bbd306
 #Covars
 opensafely/systolic-blood-pressure-qof/3572b5fb
 bristol/diastolic-blood-pressure-snomed/4ccfa985
@@ -98,6 +111,7 @@ bristol/history-of-liver-disease/14848fa0
 bristol/history-of-pancreas-diseases-snomed/6265a935
 bristol/h-pylori-infection-snomed/481e0b2e
 bristol/h-pylori-infection-icd10/2f0e97f9
+bristol/gi-operations-opcs4/6f5f1fc6
 #Medications
 bristol/nsaids-bnf/05cea500
 bristol/aspirin-bnf/6cbf31ca

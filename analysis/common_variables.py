@@ -26,11 +26,31 @@ import study_definition_helper_functions as helpers
 
 # Define pandemic_start
 pandemic_start = study_dates["pandemic_start"]
+
+#Define all gi bleedings, combined codelists
+all_gi_bleeding_snomed = combine_codelists(
+lower_gi_bleeding_snomed,
+upper_gi_bleeding_snomed
+)
+all_gi_bleeding_hes = combine_codelists(
+lower_gi_bleeding_icd10,
+upper_gi_bleeding_icd10
+)
+
+#Define all gi symptoms, combined codelists
+all_gi_symptoms_snomed =  combine_codelists(
+ibs_snomed, diarrhoea_snomed, nausea_snomed, vomiting_snomed, abdominal_paindiscomfort_snomed,
+bowel_ischaemia_snomed, intestinal_obstruction_snomed, belching_snomed, abdominal_distension_snomed, bloody_stools_snomed
+)
+all_gi_symptoms_icd10 =  combine_codelists(
+ibs_icd10, diarrhoea_icd10, nausea_icd10, vomiting_icd10, abdominal_paindiscomfort_icd10,
+bowel_ischaemia_icd10, intestinal_obstruction_icd10, belching_icd10, abdominal_distension_icd10, bloody_stools_icd10
+)
+
 # Define common variables function
 
 def generate_common_variables(index_date_variable,end_date_variable):
     dynamic_variables = dict(
-    
 # DEFINE EXPOSURES ------------------------------------------------------
 
     ## Date of positive SARS-COV-2 PCR antigen test
@@ -467,7 +487,66 @@ def generate_common_variables(index_date_variable,end_date_variable):
         return_expectations={"incidence": 0.01},
     ),
 
-    #GI outcomes
+    #GI Variables
+    ##chronic ouctomes to be excluded from the population: Crohn,Cirrhosis & Coeliac
+    tmp_bin_crohn_snomed = patients.with_these_clinical_events(
+        crohn_snomed,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        return_expectations={"incidence": 0.1},
+    
+    ),
+    tmp_bin_crohn_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= crohn_icd10,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    out_bin_crohn = patients.maximum_of(
+        "tmp_bin_crohn_snomed","tmp_bin_crohn_hes"
+        ),
+    
+    tmp_bin_coeliac_disease_snomed = patients.with_these_clinical_events(
+        coeliac_disease_snomed,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        return_expectations={"incidence": 0.1},
+    
+    ),
+    tmp_bin_coeliac_disease_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= coeliac_disease_icd10,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    out_bin_coeliac_disease = patients.maximum_of(
+        "tmp_bin_coeliac_disease_snomed","tmp_bin_coeliac_disease_hes"
+        ),
+    
+    tmp_bin_cirrhosis_snomed = patients.with_these_clinical_events(
+        cirrhosis_snomed,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        return_expectations={"incidence": 0.1},
+    
+    ),
+    tmp_bin_cirrhosis_hes = patients.admitted_to_hospital(
+        with_these_diagnoses= cirrhosis_icd10,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    out_bin_cirrhosis = patients.maximum_of(
+        "tmp_bin_cirrhosis_snomed","tmp_bin_cirrhosis_hes"
+        ),
+    
+     #GI outocomes
         ## Symptoms
     tmp_out_date_ibs_snomed = patients.with_these_clinical_events(
         ibs_snomed,
@@ -508,14 +587,14 @@ def generate_common_variables(index_date_variable,end_date_variable):
      return_expectations = {"incidence": 0.1},
     ),
     tmp_out_date_diarrhoea_hes = patients.admitted_to_hospital(
-        with_these_diagnoses = diarrhoea_icd_10,#todo fix this
+        with_these_diagnoses = diarrhoea_icd10,
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
         return_expectations = {"incidence": 0.1},
     ),
     tmp_out_date_diarrhoea_death=patients.with_these_codes_on_death_certificate(
-        diarrhoea_icd_10,
+        diarrhoea_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
@@ -538,14 +617,14 @@ def generate_common_variables(index_date_variable,end_date_variable):
      return_expectations={"incidence": 0.1},
     ),
     tmp_out_date_nausea_hes = patients.admitted_to_hospital(
-        with_these_diagnoses= nausea_icd_10, # todo fix this
+        with_these_diagnoses= nausea_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1},
     ),
     tmp_out_date_nausea_death=patients.with_these_codes_on_death_certificate(
-        nausea_icd_10,
+        nausea_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
@@ -569,14 +648,14 @@ def generate_common_variables(index_date_variable,end_date_variable):
      return_expectations={"incidence": 0.1},
     ),
     tmp_out_date_vomiting_hes = patients.admitted_to_hospital(
-        with_these_diagnoses= vomititing_icd_10, #todo fix this
+        with_these_diagnoses= vomiting_icd10, 
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1},
-    ),#todo repair vomititing icd10 name 
+    ), 
     tmp_out_date_vomiting_death=patients.with_these_codes_on_death_certificate(
-        vomititing_icd_10,
+        vomiting_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
@@ -775,7 +854,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     
     ##Small bowel and colon
      tmp_out_date_coeliac_disease_snomed = patients.with_these_clinical_events(
-     coeliac_disease_snomed, #TOdo fix this
+     coeliac_disease_snomed, 
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
@@ -843,14 +922,14 @@ def generate_common_variables(index_date_variable,end_date_variable):
      return_expectations={"incidence": 0.1},
     ),
     tmp_out_date_gallstones_disease_hes = patients.admitted_to_hospital(
-        with_these_diagnoses= gallstone_disease_icd10, #TOdo fix this add s 
+        with_these_diagnoses= gallstones_disease_icd10, 
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1},
     ),
     tmp_out_date_gallstones_disease_death=patients.with_these_codes_on_death_certificate(
-       gallstone_disease_icd10,
+       gallstones_disease_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
@@ -926,7 +1005,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         "tmp_out_date_acute_pancreatitis_hes","tmp_out_date_acute_pancreatitis_snomed","tmp_out_date_acute_pancreatitis_death"
         ), 
     
-    ##Oesophagous 
+    ##Oesophagous & stomach
     tmp_out_date_gastro_oesophageal_reflux_disease_snomed = patients.with_these_clinical_events(
      gastro_oesophageal_reflux_disease_snomed,
      returning = 'date', 
@@ -965,14 +1044,14 @@ def generate_common_variables(index_date_variable,end_date_variable):
      return_expectations = {"incidence": 0.1},
     ),
     tmp_out_date_dyspepsia_hes = patients.admitted_to_hospital(
-        with_these_diagnoses = dyspesia_icd10, #TODO fix this add p
+        with_these_diagnoses = dyspepsia_icd10, 
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
         return_expectations = {"incidence": 0.1},
     ),
     tmp_out_date_dyspepsia_death=patients.with_these_codes_on_death_certificate(
-        dyspesia_icd10,
+        dyspepsia_icd10,
         returning="date_of_death",
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
@@ -986,6 +1065,161 @@ def generate_common_variables(index_date_variable,end_date_variable):
     out_date_dyspepsia = patients.minimum_of(
         "tmp_out_date_dyspepsia_hes","tmp_out_date_dyspepsia_snomed","tmp_out_date_dyspepsia_death"
         ), 
+
+tmp_out_date_peptic_ulcer_snomed = patients.with_these_clinical_events(
+     peptic_ulcer_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     date_format="YYYY-MM-DD",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_peptic_ulcer_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = peptic_ulcer_icd10, 
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_peptic_ulcer_death=patients.with_these_codes_on_death_certificate(
+        peptic_ulcer_icd10,
+        returning="date_of_death",
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
+    ), 
+    out_date_peptic_ulcer = patients.minimum_of(
+        "tmp_out_date_peptic_ulcer_hes","tmp_out_date_peptic_ulcer_snomed","tmp_out_date_peptic_ulcer_death"
+        ), 
+#GI bleedings
+ tmp_out_date_upper_gi_bleeding_snomed = patients.with_these_clinical_events(
+     upper_gi_bleeding_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     date_format="YYYY-MM-DD",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_upper_gi_bleeding_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = upper_gi_bleeding_icd10, 
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_upper_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
+        upper_gi_bleeding_icd10,
+        returning="date_of_death",
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
+    ), 
+    out_date_upper_gi_bleeding = patients.minimum_of(
+        "tmp_out_date_upper_gi_bleeding_hes","tmp_out_date_upper_gi_bleeding_snomed","tmp_out_date_upper_gi_bleeding_death"
+        ), 
+
+    tmp_out_date_lower_gi_bleeding_snomed = patients.with_these_clinical_events(
+     lower_gi_bleeding_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     date_format="YYYY-MM-DD",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_lower_gi_bleeding_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = lower_gi_bleeding_icd10, 
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_lower_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
+        lower_gi_bleeding_icd10,
+        returning="date_of_death",
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
+    ), 
+    out_date_lower_gi_bleeding = patients.minimum_of(
+        "tmp_out_date_lower_gi_bleeding_snomed","tmp_out_date_lower_gi_bleeding_death","tmp_out_date_lower_gi_bleeding_hes"
+        ), 
+    
+    tmp_out_date_variceal_gi_bleeding_snomed = patients.with_these_clinical_events(
+     variceal_gi_bleeding_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     date_format="YYYY-MM-DD",
+     return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_variceal_gi_bleeding_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = variceal_gi_bleeding_icd10, 
+        returning = 'date_admitted',
+        on_or_after = f"{index_date_variable}",
+        date_format="YYYY-MM-DD",
+        return_expectations = {"incidence": 0.1},
+    ),
+    tmp_out_date_variceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
+        variceal_gi_bleeding_icd10,
+        returning="date_of_death",
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
+    ), 
+    out_date_variceal_gi_bleeding = patients.minimum_of(
+        "tmp_out_date_variceal_gi_bleeding_hes","tmp_out_date_variceal_gi_bleeding_snomed","tmp_out_date_variceal_gi_bleeding_death"
+        ), 
+    ###non variceal bleeding
+    tmp_out_date_nonvariceal_gi_bleeding_snomed = patients.with_these_clinical_events(
+     all_gi_bleeding_snomed,
+     ignore_days_where_these_codes_occur = variceal_gi_bleeding_snomed,
+     returning = 'date', 
+     on_or_after = f"{index_date_variable}",
+     date_format="YYYY-MM-DD",
+     return_expectations = {"incidence": 0.1},
+    ),
+    # tmp_out_date_nonvariceal_gi_bleeding_hes = patients.admitted_to_hospital(
+    #     with_these_diagnoses = all_gi_bleeding_snomed, 
+    #     ignore_days_where_these_codes_occur = variceal_gi_bleeding_icd10,
+    #     returning = 'date_admitted',
+    #     on_or_after = f"{index_date_variable}",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations = {"incidence": 0.1},
+    # ),
+    # tmp_out_date_nonvariceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
+    #     all_gi_bleeding_icd10,
+    #     ignore_days_where_these_codes_occur = variceal_gi_bleeding_icd10,
+    #     returning="date_of_death",
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+    #         "rate": "uniform",
+    #         "incidence": 0.1,
+    #     },
+    # ), 
+    # out_date_nonariceal_gi_bleeding = patients.minimum_of(
+    #     "tmp_out_date_variceal_gi_bleeding_hes","tmp_out_date_variceal_gi_bleeding_snomed","tmp_out_date_variceal_gi_bleeding_death"
+    #     ), 
+
+
 
 
 #GI Covars
@@ -1101,32 +1335,56 @@ def generate_common_variables(index_date_variable,end_date_variable):
     cov_bin_h_pylori_infection = patients.maximum_of(
         "tmp_cov_bin_h_pylori_infection_hes","tmp_cov_bin_h_pylori_infection_snomed", "tmp_cov_bin_h_pylori_infection_death"
         ), 
-
-    ##History of GI diseases
-      ##Bowel and colon 
-     tmp_cov_bin_coeliac_disease_snomed = patients.with_these_clinical_events(
-        coeliac_disease_snomed,
+    #All GI symptoms
+     tmp_cov_bin_all_gi_symptoms_snomed = patients.with_these_clinical_events(
+        all_gi_symptoms,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
 
-    tmp_cov_bin_coeliac_disease_hes = patients.admitted_to_hospital(
-        with_these_diagnoses =coeliac_disease_icd10,
+    tmp_cov_bin_all_gi_symptoms_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = all_gi_symptoms_icd10,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    tmp_cov_bin_coeliac_disease_death=patients.with_these_codes_on_death_certificate(
-        coeliac_disease_icd10,
+    tmp_cov_bin_all_gi_symptoms_death=patients.with_these_codes_on_death_certificate(
+        all_gi_symptoms_icd10,
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
         returning='binary_flag',
         return_expectations={"incidence": 0.1},
         ),
-    cov_bin_coeliac_disease = patients.maximum_of(
-        "tmp_cov_bin_coeliac_disease_hes","tmp_cov_bin_coeliac_disease_snomed","tmp_cov_bin_coeliac_disease_death"
+    cov_bin_all_gi_symptoms = patients.maximum_of(
+        "tmp_cov_bin_all_gi_symptoms_hes","tmp_cov_bin_all_gi_symptoms_snomed","tmp_cov_bin_all_gi_symptoms_death"
         ), 
+
+    ##History of GI diseases
+      ##Bowel and colon 
+    #  tmp_cov_bin_coeliac_disease_snomed = patients.with_these_clinical_events(
+    #     coeliac_disease_snomed,
+    #     returning = 'binary_flag',
+    #     on_or_before = f"{index_date_variable} - 1 day" ,
+    #     return_expectations = {"incidence": 0.1},
+    #     ),
+
+    # tmp_cov_bin_coeliac_disease_hes = patients.admitted_to_hospital(
+    #     with_these_diagnoses =coeliac_disease_icd10,
+    #     returning = 'binary_flag',
+    #     on_or_before = f"{index_date_variable} - 1 day" ,
+    #     return_expectations = {"incidence": 0.1},
+    #     ),
+    # tmp_cov_bin_coeliac_disease_death=patients.with_these_codes_on_death_certificate(
+    #     coeliac_disease_icd10,
+    #     on_or_after=f"{index_date_variable}",
+    #     match_only_underlying_cause=True,
+    #     returning='binary_flag',
+    #     return_expectations={"incidence": 0.1},
+    #     ),
+    # cov_bin_coeliac_disease = patients.maximum_of(
+    #     "tmp_cov_bin_coeliac_disease_hes","tmp_cov_bin_coeliac_disease_snomed","tmp_cov_bin_coeliac_disease_death"
+    #     ), 
     
     tmp_cov_bin_appendicitis_snomed = patients.with_these_clinical_events(
         appendicitis_snomed,
@@ -1161,13 +1419,13 @@ def generate_common_variables(index_date_variable,end_date_variable):
         ),
 
     tmp_cov_bin_gallstones_disease_hes = patients.admitted_to_hospital(
-        with_these_diagnoses = gallstone_disease_icd10,
+        with_these_diagnoses = gallstones_disease_icd10,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
     tmp_cov_bin_gallstones_disease_death=patients.with_these_codes_on_death_certificate(
-        gallstone_disease_icd10,
+        gallstones_disease_icd10,
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
         returning='binary_flag',
@@ -1226,7 +1484,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         "tmp_cov_bin_acute_pancreatitis_hes","tmp_cov_bin_acute_pancreatitis_snomed","tmp_cov_bin_acute_pancreatitis_death"
         ), 
 
-    ##Oesophagous
+    ##Oesophagous and stomach
     tmp_cov_bin_gastro_oesophageal_reflux_disease_snomed = patients.with_these_clinical_events(
        gastro_oesophageal_reflux_disease_snomed,
         returning = 'binary_flag',
@@ -1259,13 +1517,13 @@ def generate_common_variables(index_date_variable,end_date_variable):
         ),
 
     tmp_cov_bin_dyspepsia_hes = patients.admitted_to_hospital(
-        with_these_diagnoses = dyspesia_icd10,
+        with_these_diagnoses = dyspepsia_icd10,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
     tmp_cov_bin_dyspepsia_death=patients.with_these_codes_on_death_certificate(
-        dyspesia_icd10,
+        dyspepsia_icd10,
         on_or_after=f"{index_date_variable}",
         match_only_underlying_cause=True,
         returning='binary_flag',
@@ -1274,10 +1532,147 @@ def generate_common_variables(index_date_variable,end_date_variable):
     cov_bin_dyspepsia = patients.maximum_of(
         "tmp_cov_bin_dyspepsia_hes","tmp_cov_bin_dyspepsia_snomed","tmp_cov_bin_dyspepsia_death"
         ), 
+
+    tmp_cov_bin_peptic_ulcer_snomed = patients.with_these_clinical_events(
+        peptic_ulcer_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_peptic_ulcer_hes = patients.admitted_to_hospital(
+        with_these_diagnoses =peptic_ulcer_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_peptic_ulcer_death=patients.with_these_codes_on_death_certificate(
+        peptic_ulcer_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_peptic_ulcer = patients.maximum_of(
+        "tmp_cov_bin_peptic_ulcer_hes","tmp_cov_bin_peptic_ulcer_snomed","tmp_cov_bin_peptic_ulcer_death"
+        ),
+##GI bleeds covars
+###upper
+
+    tmp_cov_bin_upper_gi_bleeding_snomed = patients.with_these_clinical_events(
+        upper_gi_bleeding_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_upper_gi_bleeding_hes = patients.admitted_to_hospital(
+        with_these_diagnoses =upper_gi_bleeding_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_upper_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
+        upper_gi_bleeding_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_upper_gi_bleeding = patients.maximum_of(
+        "tmp_cov_bin_upper_gi_bleeding_hes","tmp_cov_bin_upper_gi_bleeding_snomed","tmp_cov_bin_upper_gi_bleeding_death"
+        ), 
+###lower
+    tmp_cov_bin_lower_gi_bleeding_snomed = patients.with_these_clinical_events(
+        lower_gi_bleeding_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_lower_gi_bleeding_hes = patients.admitted_to_hospital(
+        with_these_diagnoses =lower_gi_bleeding_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_lower_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
+        lower_gi_bleeding_icd10,
+        on_or_after=f"{index_date_variable}",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_lower_gi_bleeding = patients.maximum_of(
+        "tmp_cov_bin_lower_gi_bleeding_hes","tmp_cov_bin_lower_gi_bleeding_snomed","tmp_cov_bin_lower_gi_bleeding_death"
+        ), 
+###variceal
+    tmp_cov_bin_variceal_gi_bleeding_snomed = patients.with_these_clinical_events(
+        variceal_gi_bleeding_snomed,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+
+    tmp_cov_bin_variceal_gi_bleeding_hes = patients.admitted_to_hospital(
+        with_these_diagnoses = 
+        variceal_gi_bleeding_icd10,
+        returning = 'binary_flag',
+        on_or_before = f"{index_date_variable} - 1 day" ,
+        return_expectations = {"incidence": 0.1},
+        ),
+    tmp_cov_bin_variceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
+        variceal_gi_bleeding_icd10,
+        on_or_before=f"{index_date_variable} -1 day",
+        match_only_underlying_cause=True,
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1},
+        ),
+    cov_bin_variceal_gi_bleeding = patients.maximum_of(
+        "tmp_cov_bin_variceal_gi_bleeding_hes","tmp_cov_bin_variceal_gi_bleeding_snomed","tmp_cov_bin_variceal_gi_bleeding_death"
+        ), 
+
+
+###non variceal
+cov_bin_nonvariceal_gi_bleeding = patients.satisfying(
+  """
+    NOT cov_bin_variceal_gi_bleeding AND (cov_bin_upper_gi_bleeding OR cov_bin_lower_gi_bleeding)
+   """,
+    # cov_bin_variceal_gi_bleeding = patients.maximum_of(
+    # "tmp_cov_bin_variceal_gi_bleeding_hes","tmp_cov_bin_variceal_gi_bleeding_snomed","tmp_cov_bin_variceal_gi_bleeding_death"
+    #     ),
+    # cov_bin_lower_gi_bleeding = patients.maximum_of(
+    #     "tmp_cov_bin_lower_gi_bleeding_hes","tmp_cov_bin_lower_gi_bleeding_snomed","tmp_cov_bin_lower_gi_bleeding_death"
+    #     ), 
+    # cov_bin_upper_gi_bleeding = patients.maximum_of(
+    #     "tmp_cov_bin_upper_gi_bleeding_hes","tmp_cov_bin_upper_gi_bleeding_snomed","tmp_cov_bin_upper_gi_bleeding_death"
+    #     ), 
+ ),
+# #       
      ###TODO add   History of symptoms? 
-    cov_bin_GI = patients.maximum_of(
-        "cov_bin_dyspepsia","cov_bin_gastro_oesophageal_reflux_disease","cov_bin_acute_pancreatitis","cov_bin_nonalcoholic_steatohepatitis","cov_bin_gallstones_disease","cov_bin_appendicitis","cov_bin_coeliac_disease"
-    )
+    cov_bin_gi = patients.maximum_of(
+        "cov_bin_dyspepsia",
+        "cov_bin_gastro_oesophageal_reflux_disease",
+        "cov_bin_acute_pancreatitis",
+        "cov_bin_nonalcoholic_steatohepatitis",
+         "cov_bin_gallstones_disease",
+         "cov_bin_peptic_ulcer",
+        "cov_bin_upper_gi_bleeding",
+        "cov_bin_lower_gi_bleeding",
+        "cov_bin_variceal_gi_bleeding",
+        "cov_bin_all_gi_symptoms"
+
+    ),
+
+  ##GI operations 
+  cov_bin_gi_operations = patients.admitted_to_hospital(
+    returning="binary_flag",
+    on_or_before = f"{index_date_variable} - 1 day" ,
+    with_these_procedures = gi_operations_opcs4,
+    return_expectations={
+      "incidence": 0.1
+    },
+  ),  
    
     
     )   
