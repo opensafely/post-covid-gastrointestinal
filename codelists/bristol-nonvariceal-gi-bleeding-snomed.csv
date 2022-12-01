@@ -1,13 +1,22 @@
 code,term
 1082701000119105,Duodenal hemorrhage due to angiodysplasia of duodenum
+1085171000119108,Rectal hemorrhage due to chronic ulcerative pancolitis
 1086031000119101,Duodenal hemorrhage due to Dieulafoy vascular malformation of duodenum
+1086461000119101,Hemorrhage of small intestine due to diverticulitis
+1086481000119105,Perforation of small intestine co-occurrent with hemorrhage due to diverticulitis
+1086551000119102,Hemorrhage of cecum due to diverticulosis
 1086561000119100,Hemorrhage of duodenum co-occurrent and due to diverticulosis
+1086571000119106,Hemorrhage of ileum co-occurrent and due to diverticulosis
+1086591000119107,Hemorrhage of sigmoid colon co-occurrent and due to diverticulosis
+1086601000119100,Intestinal hemorrhage co-occurrent and due to diverticulosis
 1086951000119108,Gastric hemorrhage due to vascular ectasia of gastric antrum
 1087161000119105,Gastric hemorrhage due to hypertrophic gastritis
 1087811000119103,Gastric hemorrhage due to irritant gastritis
 1090361000119108,Gastric hemorrhage due to pyloric gastritis
+1092881000119105,Rectal hemorrhage due to ulcerative colitis
 1092941000119109,Gastric hemorrhage due to viral gastritis
 111353003,Acute peptic ulcer with hemorrhage and perforation
+12063002,Rectal hemorrhage
 121491000000105,Endoscopic injection haemostasis of duodenal ulcer
 12274003,Acute peptic ulcer with hemorrhage
 123411000119106,Gastric hemorrhage due to eosinophilic gastritis
@@ -24,8 +33,12 @@ code,term
 155678004,Mallory-Weiss syndrome
 155838009,Haematemesis
 155839001,Melaena
+15720001,Hemorrhagic enteropathy of terminal ileum
 15902003,Gastric ulcer with hemorrhage
 15970005,Intramural esophageal hematoma
+15970021000119103,Bleeding internal hemorrhoid grade III
+15970261000119101,Bleeding internal hemorrhoid grade I
+15970301000119109,Bleeding internal hemorrhoid grade II
 162064009,Blood in vomit: [symptom] or [fresh blood]
 162092004,(Black faeces [& symptom]) or (C/O melaena)
 16694003,Gastric ulcer with hemorrhage but without obstruction
@@ -34,32 +47,46 @@ code,term
 17067009,Acute gastric ulcer with hemorrhage AND with perforation but without obstruction
 173778009,Gastrotomy and ligation of bleeding point of stomach
 17593008,"Gastric ulcer with hemorrhage, with perforation and with obstruction"
-17709002,Bleeding esophageal varices
 18367003,Duodenal ulcer with hemorrhage AND obstruction
-195475003,"Esophageal varices with bleeding, associated with another disorder"
+190191000119107,Hemorrhage of colon due to diverticulosis
 196620006,Mallory-Weiss tear
+197092000,Hemorrhage of large intestine co-occurrent and due to diverticular disease of large intestine
 197471006,Gastrointestinal bleeding (& [unspecified])
+197473009,Intestinal hemorrhage NOS
 2066005,Gastric ulcer with hemorrhage AND perforation but without obstruction
 218541000119109,Gastric hemorrhage co-occurrent with and due to idiopathic erosive gastritis
 22157005,Acute peptic ulcer with hemorrhage but without obstruction
 226891000000104,Oversew of blood vessel of duodenal ulcer
+235224000,Hemorrhagic enteritis
+236016008,Acute hemorrhagic enterocolitis
+236096007,Small intestine anastomotic hemorrhage
+236097003,Large intestine anastomotic hemorrhage
 2367005,Acute hemorrhagic gastritis
 23812009,Duodenal ulcer with hemorrhage AND perforation
-24807004,Bleeding gastric varices
 249498003,Haematemesis
 257111000000102,Oversew of blood vessel of duodenal ulcer 
 26221006,"Peptic ulcer with hemorrhage, with perforation AND with obstruction"
 262790002,Esophageal hematoma
 262838003,Stomach hematoma
 262843005,Duodenal hematoma
+262852001,Small intestinal hematoma
+262858002,Appendix hematoma
+262865005,Cecal hematoma
+262870003,Colonic hematoma
+262876009,Rectal hematoma
+26421009,Bleeding external hemorrhoids
+266464001,Hemorrhage of rectum and anus
 267051003,Vomiting blood - fresh
 272045003,Complaining of melena
 27281001,Duodenal ulcer with hemorrhage
 275782008,Melena on examination of feces
 275786006,Blood in vomit on examination
 276229008,Sepsis-associated gastrointestinal hemorrhage
+276465001,Anal margin hematoma
 27719009,Acute gastrointestinal hemorrhage
 281102003,Blood in vomit - symptom
+282065004,Hematoma of ileum
+282074002,Hematoma of anus
 28945005,"Acute peptic ulcer with hemorrhage, with perforation AND with obstruction"
 2901004,Melena
 307131005,Mallory-Weiss tear
@@ -75,7 +102,9 @@ code,term
 36975000,Chronic duodenal ulcer with hemorrhage AND perforation
 37372002,Upper gastrointestinal hemorrhage
 38938002,Acute upper gastrointestinal hemorrhage
+40271000119102,Hemorrhage of small intestine co-occurrent and due to diverticulosis
 40835002,Coffee ground vomiting
+409506009,Hemorrhagic gastroenteritis
 413212000,Hemorrhagic duodenopathy
 413218001,Hemorrhagic gastropathy
 414390000,Hemorrhagic mucosa of duodenum
@@ -85,20 +114,30 @@ code,term
 430349003,Upper gastrointestinal hemorrhage associated with hypercoagulability state
 43406003,Acute peptic ulcer with hemorrhage AND obstruction
 439442003,Esophageal bleeding due to ulcerative esophagitis
+445162006,Bleeding Meckel's diverticulitis
+445163001,Bleeding Meckel's diverticulum
+453720571000119100,Acute ulcerative rectosigmoiditis
 46708007,Acute gastric ulcer with hemorrhage and obstruction
 47064007,Acute peptic ulcer with hemorrhage AND with perforation but without obstruction
 48658001,Peptic ulcer with hemorrhage but without obstruction
 48974009,Acute gastric ulcer with hemorrhage and perforation
 49232000,Chronic peptic ulcer with hemorrhage
+51551000,Bleeding hemorrhoids
 51847008,Acute duodenal ulcer with hemorrhage AND with perforation but without obstruction
 53337006,"Acute gastric ulcer with hemorrhage, with perforation and with obstruction"
 53877005,Gastric ulcer with hemorrhage and obstruction
 55617001,Peptic ulcer with hemorrhage AND perforation
 55746001,Chronic peptic ulcer with hemorrhage AND with perforation but without obstruction
+55957000,Proximal colon ulcer
 56461008,Chronic peptic ulcer with hemorrhage AND obstruction
 57246001,Chronic gastric ulcer with hemorrhage
 57748001,Bleeding ulcer of esophagus
+606711000000108,Intestinal hemorrhage NOS
 60698006,Hemorrhagic esophagitis
+6072007,Bleeding from anus
+609200008,Endoscopic procedure on small intestine for control of hemorrhage
+609287009,Endoscopic thermocoagulation of small intestine for control of hemorrhage
+609288004,Endoscopic injection of small intestine for control of hemorrhage
 61300005,Chronic peptic ulcer with hemorrhage AND perforation
 61401005,Gastric hemorrhage
 62341002,Chronic duodenal ulcer with hemorrhage but without obstruction
@@ -106,29 +145,44 @@ code,term
 64121000,Peptic ulcer with hemorrhage
 64398008,Peptic ulcer with hemorrhage AND obstruction
 66767006,Acute duodenal ulcer with hemorrhage but without obstruction
+70375006,Small intestinal hemorrhage
 70418001,Acute gastric ulcer with hemorrhage but without obstruction
 7071000119102,Gastric hemorrhage due to erosive gastritis
+709424004,Postoperative hemorrhage of anus
+711441008,Hemorrhage of cecum
+712510007,Intestinal hemorrhage
 717868009,Intramural hemorrhage of stomach
 717882009,Intramural hemorrhage of duodenum
 721179009,Intramural hemorrhage of esophagus
+721690003,Acute hemorrhagic ulcer of rectum
 722886001,Obscure gastrointestinal hemorrhage
+735727004,Diverticulum of small intestine co-occurrent with hemorrhage of small intestine
+735729001,Diverticulum of large intestine co-occurrent with hemorrhage of large intestine
 74341002,Chronic gastric ulcer with hemorrhage AND with perforation but without obstruction
 74474003,Gastrointestinal hemorrhage
+75884004,Bleeding internal hemorrhoids
 76078009,Chronic gastric ulcer with hemorrhage but without obstruction
 76181002,Chronic gastric ulcer with hemorrhage and with perforation
 771623009,Fiberoptic endoscopic coagulation of hemorrhage of esophagus
 77661009,"Chronic peptic ulcer with hemorrhage, with perforation AND with obstruction"
+799008,Sigmoid colon ulcer
 81142005,Chronic duodenal ulcer with hemorrhage AND with perforation but without obstruction
+81318004,Hemorrhagic colitis
 81518000,Chronic peptic ulcer with hemorrhage but without obstruction
+85521005,Acute lower gastrointestinal hemorrhage
 85787009,"Chronic gastric ulcer with hemorrhage, with perforation and with obstruction"
 85859006,Chronic gastric ulcer with hemorrhage and with obstruction
 86258000,"Chronic duodenal ulcer with hemorrhage, with perforation AND with obstruction"
 86895006,Acute duodenal ulcer with hemorrhage AND perforation
 8765009,Hematemesis
 87756006,Acute duodenal ulcer with hemorrhage AND obstruction
+87763006,Lower gastrointestinal hemorrhage
 89469000,Chronic duodenal ulcer with hemorrhage
 89748001,Acute gastric ulcer with hemorrhage
 90489006,Peptic ulcer with hemorrhage AND with perforation but without obstruction
 95531001,Hemorrhagic duodenitis
 95533003,Duodenal hemorrhage
+95535005,Ileal hemorrhage
+95540002,Hemorrhage of colon
 97801000119102,Upper gastrointestinal hemorrhage co-occurrent and due to gastritis
+981008,Hemorrhagic proctitis

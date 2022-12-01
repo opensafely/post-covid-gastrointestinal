@@ -326,7 +326,7 @@ stage1 <- function(cohort_name){
 
      #Remove chronic people with Coelia, IBD and Cirrhosis
      input <- input %>% 
-     filter_at(vars(ut_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), any_vars(!is.na(.)))
+     filter_at(vars(out_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), all_vars(.== FALSE))
 
     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Crietera 11: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)")
     

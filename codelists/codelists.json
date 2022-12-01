@@ -523,28 +523,28 @@
       "sha": "ffd3a99c77c6f162bd9e4ce3fb69cc059c21fb48"
     },
     "bristol-upper-gi-bleeding-snomed.csv": {
-      "id": "bristol/upper-gi-bleeding-snomed/1ecb463b",
-      "url": "https://codelists.opensafely.org/codelist/bristol/upper-gi-bleeding-snomed/1ecb463b/",
-      "downloaded_at": "2022-11-24 16:03:41.187141Z",
-      "sha": "0045ef79c52d0927f78d4a7de9a10837e504b8c4"
+      "id": "bristol/upper-gi-bleeding-snomed/2c490609",
+      "url": "https://codelists.opensafely.org/codelist/bristol/upper-gi-bleeding-snomed/2c490609/",
+      "downloaded_at": "2022-12-01 14:30:10.128137Z",
+      "sha": "bc997b53e384abc2e0b55d8e2cb58e419b7d8ef7"
     },
     "bristol-upper-gi-bleeding-icd10.csv": {
-      "id": "bristol/upper-gi-bleeding-icd10/3527f97a",
-      "url": "https://codelists.opensafely.org/codelist/bristol/upper-gi-bleeding-icd10/3527f97a/",
-      "downloaded_at": "2022-11-24 15:49:42.305735Z",
-      "sha": "251bcff0eebcc7ed74698763c10290506d4cb413"
+      "id": "bristol/upper-gi-bleeding-icd10/77775fa8",
+      "url": "https://codelists.opensafely.org/codelist/bristol/upper-gi-bleeding-icd10/77775fa8/",
+      "downloaded_at": "2022-12-01 14:30:10.369721Z",
+      "sha": "99f0a81cc5dd2cd43e4ea4383e4b1b0be334ff95"
     },
     "bristol-lower-gi-bleeding-snomed.csv": {
-      "id": "bristol/lower-gi-bleeding-snomed/50ea2ca5",
-      "url": "https://codelists.opensafely.org/codelist/bristol/lower-gi-bleeding-snomed/50ea2ca5/",
-      "downloaded_at": "2022-11-24 15:49:42.444592Z",
-      "sha": "d0537839aa00e672960b3fb7277a41b42325a55c"
+      "id": "bristol/lower-gi-bleeding-snomed/31ae85f5",
+      "url": "https://codelists.opensafely.org/codelist/bristol/lower-gi-bleeding-snomed/31ae85f5/",
+      "downloaded_at": "2022-12-01 14:30:10.606641Z",
+      "sha": "93219f2b9fea0d0f597fa685284c957c48f61ad9"
     },
     "bristol-lower-gi-bleeding-icd10.csv": {
-      "id": "bristol/lower-gi-bleeding-icd10/37dab970",
-      "url": "https://codelists.opensafely.org/codelist/bristol/lower-gi-bleeding-icd10/37dab970/",
-      "downloaded_at": "2022-11-24 15:49:42.589028Z",
-      "sha": "420792f480d4dd8c874c996bf293e9d6018e10fd"
+      "id": "bristol/lower-gi-bleeding-icd10/6e986c37",
+      "url": "https://codelists.opensafely.org/codelist/bristol/lower-gi-bleeding-icd10/6e986c37/",
+      "downloaded_at": "2022-12-01 14:30:10.779857Z",
+      "sha": "2c6e0e9a71c0ba8bebd4143ca305ebfb1c5752cf"
     },
     "bristol-variceal-gi-bleeding-snomed.csv": {
       "id": "bristol/variceal-gi-bleeding-snomed/539cec9b",
@@ -557,6 +557,30 @@
       "url": "https://codelists.opensafely.org/codelist/bristol/variceal-gi-bleeding-icd10/05bbd306/",
       "downloaded_at": "2022-11-24 15:49:42.886569Z",
       "sha": "fac5cd5acf5f381940cc84f81b7b4af826b9e802"
+    },
+    "bristol-nonvariceal-gi-bleeding-icd10.csv": {
+      "id": "bristol/nonvariceal-gi-bleeding-icd10/02425f81",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nonvariceal-gi-bleeding-icd10/02425f81/",
+      "downloaded_at": "2022-12-01 14:30:11.351072Z",
+      "sha": "af606278e2cba4b50cb503f2c5df178dee126c78"
+    },
+    "bristol-nonvariceal-gi-bleeding-snomed.csv": {
+      "id": "bristol/nonvariceal-gi-bleeding-snomed/50237916",
+      "url": "https://codelists.opensafely.org/codelist/bristol/nonvariceal-gi-bleeding-snomed/50237916/",
+      "downloaded_at": "2022-12-01 14:30:11.640615Z",
+      "sha": "6f4bb2b8e59533a596219aea0a3472c03e997df3"
+    },
+    "bristol-alcohol-snomed.csv": {
+      "id": "bristol/alcohol-snomed/261cd28e",
+      "url": "https://codelists.opensafely.org/codelist/bristol/alcohol-snomed/261cd28e/",
+      "downloaded_at": "2022-12-01 14:30:11.818681Z",
+      "sha": "e5d79d93f19e90acc4062f8be8146ad7cf47e81b"
+    },
+    "opensafely-hazardous-alcohol-drinking.csv": {
+      "id": "opensafely/hazardous-alcohol-drinking/6364474b",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/hazardous-alcohol-drinking/6364474b/",
+      "downloaded_at": "2022-12-01 14:30:12.014638Z",
+      "sha": "db9ef41fd8bbd00b01c2669a69812dbb884adea6"
     },
     "opensafely-systolic-blood-pressure-qof.csv": {
       "id": "opensafely/systolic-blood-pressure-qof/3572b5fb",

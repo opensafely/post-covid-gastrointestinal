@@ -1,0 +1,37 @@
+pwd
+getwd()
+setwd("projects/GI/IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+")
+setwd("projects/GI/IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+IsMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce ''#
+'sMenuKeyEvent: found no unichar data in event; retranslated without deadkeys to produce 'code/")
+getwd("projects/GI/code/post-covid-gastrointestinal/")
+setwd("projects/GI/code/post-covid-gastrointestinal/")
+feather
+libray("readr")
+library("readr")
+read_feather("output/input_vax.rds")
+feather::read_feather("output/input_vax.rds")
+feather::read_feather("output/input_vax.feather")
+getwd()
+feather::read_feather("output/input_vax.feather")
+feather::read_feather("output/input_unvax.feather")
+feather::read_feather("output/input_prevax.feather")
+arrow::read_feather("output/input_prevax.feather")
+arrow::read_feather("output/input_vax.feather")
+arrow::read_feather("output/input_vax.feather")%>%View()
+library(dplyr)
+arrow::read_feather("output/input_vax.feather")%>%View()
