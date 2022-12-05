@@ -1281,56 +1281,81 @@ def generate_common_variables(index_date_variable,end_date_variable):
     #     },
     # ),
 #Blood pressure copied from https://github.com/opensafely/covid_mortality_over_time/blob/4a51b47923cc186360cd3a8a6baf6b4544e6fc98/analysis/study_definition.py
-# Blood pressure
-    # filtering on >0 as missing values are returned as 0
-    bp=patients.categorised_as(
-        {
-            "0": "DEFAULT",
-            "1": """
-                    (bp_sys > 0 AND bp_sys < 120) AND
-                        (bp_dia > 0 AND bp_dia < 80)
-            """,
-            "2": """
-                    ((bp_sys >= 120 AND bp_sys < 130) AND
-                        (bp_dia > 0 AND bp_dia < 80)) OR
-                    ((bp_sys >= 130) OR
-                        (bp_dia >= 80))
-            """,
-        },
-        return_expectations={
-                                "category": {
-                                    "ratios": {
-                                        "0": 0.8,
-                                        "1": 0.1,
-                                        "2": 0.1
-                                        }
-                                    },
-                                },
-        bp_sys=patients.mean_recorded_value(
-            systolic_blood_pressure_codes,
-            on_most_recent_day_of_measurement=True,
-            between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
-            include_measurement_date=True,
-            include_month=True,
-            return_expectations={
-                "incidence": 0.6,
-                "float": {"distribution": "normal", "mean": 80, "stddev": 10},
-            },
-        ),
-        bp_dia=patients.mean_recorded_value(
-            diastolic_blood_pressure_codes,
-            on_most_recent_day_of_measurement=True,
-            between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
-            include_measurement_date=True,
-            include_month=True,
-            return_expectations={
-                "incidence": 0.6,
-                "float": {"distribution": "normal", "mean": 120, "stddev": 10},
-            },
-        ),
+# # Blood pressure
+#     # filtering on >0 as missing values are returned as 0
+#     bp_categorical=patients.categorised_as(
+#         {
+#             "0": "DEFAULT",
+#             "1": """
+#                     (bp_sys > 0 AND bp_sys < 120) AND
+#                         (bp_dia > 0 AND bp_dia < 80)
+#             """,
+#             "2": """
+#                     ((bp_sys >= 120 AND bp_sys < 130) AND
+#                         (bp_dia > 0 AND bp_dia < 80)) OR
+#                     ((bp_sys >= 130) OR
+#                         (bp_dia >= 80))
+#             """,
+#         },
+#         return_expectations={
+#                                 "category": {
+#                                     "ratios": {
+#                                         "0": 0.8,
+#                                         "1": 0.1,
+#                                         "2": 0.1
+#                                         }
+#                                     },
+#                                 },
+#         bp_sys=patients.mean_recorded_value(
+#             systolic_blood_pressure_codes,
+#             on_most_recent_day_of_measurement=True,
+#             between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+#             include_measurement_date=True,
+#             include_month=True,
+#             return_expectations={
+#                 "incidence": 0.6,
+#                 "float": {"distribution": "normal", "mean": 80, "stddev": 10},
+#             },
+#         ),
+#         bp_dia=patients.mean_recorded_value(
+#             diastolic_blood_pressure_codes,
+#             on_most_recent_day_of_measurement=True,
+#             between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+#             include_measurement_date=True,
+#             include_month=True,
+#             return_expectations={
+#                 "incidence": 0.6,
+#                 "float": {"distribution": "normal", "mean": 120, "stddev": 10},
+#             },
+#         ),
+#     ),
+
+    ## Hypertension
+    ### Primary care
+    tmp_cov_bin_hypertension_snomed=patients.with_these_clinical_events(
+        hypertension_snomed_clinical,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        return_expectations={"incidence": 0.1},
     ),
-
-
+    ### HES APC
+    tmp_cov_bin_hypertension_hes=patients.admitted_to_hospital(
+       returning='binary_flag',
+       with_these_diagnoses=hypertension_icd10,
+       on_or_before=f"{index_date_variable} - 1 day",
+       return_expectations={"incidence": 0.1},
+    ),
+    ### DMD
+    tmp_cov_bin_hypertension_drugs_dmd=patients.with_these_medications(
+        hypertension_drugs_dmd,
+        returning='binary_flag',
+        on_or_before=f"{index_date_variable} - 1 day",
+        return_expectations={"incidence": 0.1},
+    ),
+    ### Combined
+    cov_bin_hypertension=patients.maximum_of(
+        "tmp_cov_bin_hypertension_snomed", "tmp_cov_bin_hypertension_hes", "tmp_cov_bin_hypertension_drugs_dmd",
+    ),
 #Medications
     ##NSAIDS
     cov_bin_nsaid_bnf = patients.with_these_medications(

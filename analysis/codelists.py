@@ -317,12 +317,29 @@ hrt_dmd = codelist_from_csv(
 
 #GI outcomes 
 # Blood pressure
-systolic_blood_pressure_codes = codelist(
-    ["2469."],
-    system="ctv3",)
-diastolic_blood_pressure_codes = codelist(
-    ["246A."],
-    system="ctv3")
+# systolic_blood_pressure_codes = codelist(
+#     ["2469."],
+#     system="ctv3",)
+# diastolic_blood_pressure_codes = codelist(
+#     ["246A."],
+#     system="ctv3")
+
+# HYpertension
+hypertension_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-hypertension_icd10.csv",
+    system="icd10",
+    column="code",
+)
+hypertension_drugs_dmd = codelist_from_csv(
+    "codelists/user-elsie_horne-hypertension_drugs_dmd.csv",
+    system="snomed",
+    column="dmd_id",
+)
+hypertension_snomed_clinical = codelist_from_csv(
+    "codelists/nhsd-primary-care-domain-refsets-hyp_cod.csv",
+    system="snomed",
+    column="code",
+)
 '''
 This script reads in the codelists from codelists.txt file and generate 
 the python code similar to the code above automatically! '''
