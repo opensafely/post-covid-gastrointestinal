@@ -1449,7 +1449,7 @@ cov_bin_alcohol_above_limits = patients.maximum_of(
         ), 
 
 #All GI symptoms
-     tmp_cov_bin_all_gi_symptoms_snomed = patients.with_these_clinical_events(
+     tmp_cov_bin_history_all_gi_symptoms_snomed = patients.with_these_clinical_events(
         all_gi_symptoms_snomed,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
