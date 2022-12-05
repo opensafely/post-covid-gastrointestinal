@@ -316,6 +316,13 @@ hrt_dmd = codelist_from_csv(
 )
 
 #GI outcomes 
+# Blood pressure
+systolic_blood_pressure_codes = codelist(
+    ["2469."],
+    system="ctv3",)
+diastolic_blood_pressure_codes = codelist(
+    ["246A."],
+    system="ctv3")
 '''
 This script reads in the codelists from codelists.txt file and generate 
 the python code similar to the code above automatically! '''

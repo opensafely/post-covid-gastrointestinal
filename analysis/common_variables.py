@@ -1234,7 +1234,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
             "incidence": 0.1,
         },
     ), 
-    out_date_nonariceal_gi_bleeding = patients.minimum_of(
+    out_date_nonvariceal_gi_bleeding = patients.minimum_of(
         "tmp_out_date_nonvariceal_gi_bleeding_hes","tmp_out_date_nonvariceal_gi_bleeding_snomed","tmp_out_date_nonvariceal_gi_bleeding_death"
         ), 
 
@@ -1243,42 +1243,91 @@ def generate_common_variables(index_date_variable,end_date_variable):
 #-----------
 ##Biomarkers just for ischaemic colitis, pencreatitis and NAFLD (Todo distinguish from other covars)
     ##Hypercalcemia
-    cov_bin_hypercalcemia_snomed = patients.with_these_clinical_events(
+    cov_bin_hypercalcemia= patients.with_these_clinical_events(
         hypercalcemia_snomed,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
     ##Hypertriglyceridemia
-    cov_bin_hypertriglyceridemia_snomed = patients.with_these_clinical_events(
+    cov_bin_hypertriglyceridemia = patients.with_these_clinical_events(
         hypertriglyceridemia_snomed,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
     ##Systolic blood pressure
-    tmp_cov_num_systolic_blood_pressure_qof=patients.max_recorded_value( #todo fix the name
-        systolic_blood_pressure_qof,
-        on_most_recent_day_of_measurement=True, 
-        between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
-            "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
-            "incidence": 0.80,
+    # tmp_cov_num_systolic_blood_pressure_qof=patients.max_recorded_value( #todo fix the name
+    #     systolic_blood_pressure_qof,
+    #     on_most_recent_day_of_measurement=True, 
+    #     between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
+    #         "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
+    #         "incidence": 0.80,
+    #     },
+    # ),
+    # ##Diastolic blood pressure
+    # tmp_cov_num_diastolic_blood_pressure_qof=patients.max_recorded_value( 
+    #     diastolic_blood_pressure_snomed,
+    #     on_most_recent_day_of_measurement=True, 
+    #     between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
+    #         "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
+    #         "incidence": 0.80,
+    #     },
+    # ),
+#Blood pressure copied from https://github.com/opensafely/covid_mortality_over_time/blob/4a51b47923cc186360cd3a8a6baf6b4544e6fc98/analysis/study_definition.py
+# Blood pressure
+    # filtering on >0 as missing values are returned as 0
+    bp=patients.categorised_as(
+        {
+            "0": "DEFAULT",
+            "1": """
+                    (bp_sys > 0 AND bp_sys < 120) AND
+                        (bp_dia > 0 AND bp_dia < 80)
+            """,
+            "2": """
+                    ((bp_sys >= 120 AND bp_sys < 130) AND
+                        (bp_dia > 0 AND bp_dia < 80)) OR
+                    ((bp_sys >= 130) OR
+                        (bp_dia >= 80))
+            """,
         },
-    ),
-    ##Diastolic blood pressure
-    tmp_cov_num_diastolic_blood_pressure_qof=patients.max_recorded_value( 
-        diastolic_blood_pressure_snomed,
-        on_most_recent_day_of_measurement=True, 
-        between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
-        date_format="YYYY-MM-DD",
         return_expectations={
-            "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
-            "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
-            "incidence": 0.80,
-        },
+                                "category": {
+                                    "ratios": {
+                                        "0": 0.8,
+                                        "1": 0.1,
+                                        "2": 0.1
+                                        }
+                                    },
+                                },
+        bp_sys=patients.mean_recorded_value(
+            systolic_blood_pressure_codes,
+            on_most_recent_day_of_measurement=True,
+            between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+            include_measurement_date=True,
+            include_month=True,
+            return_expectations={
+                "incidence": 0.6,
+                "float": {"distribution": "normal", "mean": 80, "stddev": 10},
+            },
+        ),
+        bp_dia=patients.mean_recorded_value(
+            diastolic_blood_pressure_codes,
+            on_most_recent_day_of_measurement=True,
+            between=[f"{index_date_variable}- 5years", f"{index_date_variable} -1 day"],
+            include_measurement_date=True,
+            include_month=True,
+            return_expectations={
+                "incidence": 0.6,
+                "float": {"distribution": "normal", "mean": 120, "stddev": 10},
+            },
+        ),
     ),
 
 
@@ -1327,9 +1376,9 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         find_last_match_in_period = True,
          return_expectations = {"incidence": 0.1}
 ),
-# cov_bin_alcohol_above_limits = patients.maximum_of(
-#     cov_bin_alcohol_above_limits_ctv3,cov_bin_alcohol_above_limits_snomed
-#     ),
+cov_bin_alcohol_above_limits = patients.maximum_of(
+    cov_bin_alcohol_above_limits_ctv3,cov_bin_alcohol_above_limits_snomed
+    ),
 
   #Diseases
     ##Cholelisthiasis
@@ -1369,12 +1418,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_h_pylori_infection_death=patients.with_these_codes_on_death_certificate(
-    #    h_pylori_infection_icd10,
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+  
     cov_bin_h_pylori_infection = patients.maximum_of(
         "tmp_cov_bin_h_pylori_infection_hes","tmp_cov_bin_h_pylori_infection_snomed" #, "tmp_cov_bin_h_pylori_infection_death"
         ), 
@@ -1393,13 +1437,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_all_gi_symptoms_death=patients.with_these_codes_on_death_certificate(
-    #     all_gi_symptoms_icd10,
-    #     on_or_before=f"{index_date_variable} - 1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+ 
     cov_bin_all_gi_symptoms = patients.maximum_of(
         "tmp_cov_bin_all_gi_symptoms_hes","tmp_cov_bin_all_gi_symptoms_snomed" #,"tmp_cov_bin_all_gi_symptoms_death"
         ), 
@@ -1443,13 +1481,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_appendicitis_death=patients.with_these_codes_on_death_certificate(
-    #     appendicitis_icd10,
-    #     on_or_before=f"{index_date_variable} - 1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+   
     cov_bin_appendicitis = patients.maximum_of(
         "tmp_cov_bin_appendicitis_hes","tmp_cov_bin_appendicitis_snomed" #,"tmp_cov_bin_appendicitis_death"
         ), 
@@ -1468,13 +1500,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_gallstones_disease_death=patients.with_these_codes_on_death_certificate(
-    #     gallstones_disease_icd10,
-    #     on_or_before=f"{index_date_variable} - 1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+ 
     cov_bin_gallstones_disease = patients.maximum_of(
         "tmp_cov_bin_gallstones_disease_hes","tmp_cov_bin_gallstones_disease_snomed" #,"tmp_cov_bin_gallstones_disease_death"
         ), 
@@ -1492,13 +1518,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_nonalcoholic_steatohepatitis_death=patients.with_these_codes_on_death_certificate(
-    #     nonalcoholic_steatohepatitis_icd10,
-    #     on_or_before=f"{index_date_variable} - 1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+ 
     cov_bin_nonalcoholic_steatohepatitis = patients.maximum_of(
         "tmp_cov_bin_nonalcoholic_steatohepatitis_hes","tmp_cov_bin_nonalcoholic_steatohepatitis_snomed",#"tmp_cov_bin_nonalcoholic_steatohepatitis_death"
         ), 
@@ -1517,13 +1537,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_acute_pancreatitis_death=patients.with_these_codes_on_death_certificate(
-    #     acute_pancreatitis_icd10,
-    #     on_or_before=f"{index_date_variable} - 1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+
     cov_bin_acute_pancreatitis = patients.maximum_of(
         "tmp_cov_bin_acute_pancreatitis_hes","tmp_cov_bin_acute_pancreatitis_snomed" #,"tmp_cov_bin_acute_pancreatitis_death"
         ), 
@@ -1542,13 +1556,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_gastro_oesophageal_reflux_disease_death=patients.with_these_codes_on_death_certificate(
-    #     gastro_oesophageal_reflux_disease_icd10,
-    #     on_or_before = f"{index_date_variable} - 1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+  
     cov_bin_gastro_oesophageal_reflux_disease = patients.maximum_of(
         "tmp_cov_bin_gastro_oesophageal_reflux_disease_hes","tmp_cov_bin_gastro_oesophageal_reflux_disease_snomed" #,"tmp_cov_bin_gastro_oesophageal_reflux_disease_death"
         ), 
@@ -1566,13 +1574,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_dyspepsia_death=patients.with_these_codes_on_death_certificate(
-    #     dyspepsia_icd10,
-    #     on_or_before=f"{index_date_variable} -1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+  
     cov_bin_dyspepsia = patients.maximum_of(
         "tmp_cov_bin_dyspepsia_hes","tmp_cov_bin_dyspepsia_snomed"#,"tmp_cov_bin_dyspepsia_death"
         ), 
@@ -1590,13 +1592,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_peptic_ulcer_death=patients.with_these_codes_on_death_certificate(
-    #     peptic_ulcer_icd10,
-    #     on_or_before=f"{index_date_variable} - 1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+  
     cov_bin_peptic_ulcer = patients.maximum_of(
         "tmp_cov_bin_peptic_ulcer_hes","tmp_cov_bin_peptic_ulcer_snomed" #,"tmp_cov_bin_peptic_ulcer_death"
         ),
@@ -1617,13 +1613,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_upper_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
-    #     upper_gi_bleeding_icd10,
-    #     on_or_before=f"{index_date_variable} -1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+    
     cov_bin_upper_gi_bleeding = patients.maximum_of(
         "tmp_cov_bin_upper_gi_bleeding_hes","tmp_cov_bin_upper_gi_bleeding_snomed" #,"tmp_cov_bin_upper_gi_bleeding_death"
         ), 
@@ -1641,13 +1631,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_lower_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
-    #     lower_gi_bleeding_icd10,
-    #     on_or_before=f"{index_date_variable} -1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+ 
     cov_bin_lower_gi_bleeding = patients.maximum_of(
         "tmp_cov_bin_lower_gi_bleeding_hes","tmp_cov_bin_lower_gi_bleeding_snomed"#,"tmp_cov_bin_lower_gi_bleeding_death"
         ), 
@@ -1667,13 +1651,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         on_or_before = f"{index_date_variable} - 1 day" ,
         return_expectations = {"incidence": 0.1},
         ),
-    # tmp_cov_bin_variceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
-    #     variceal_gi_bleeding_icd10,
-    #     on_or_before=f"{index_date_variable} -1 day",
-    #     match_only_underlying_cause=True,
-    #     returning='binary_flag',
-    #     return_expectations={"incidence": 0.1},
-    #     ),
+   
     cov_bin_variceal_gi_bleeding = patients.maximum_of(
         "tmp_cov_bin_variceal_gi_bleeding_hes","tmp_cov_bin_variceal_gi_bleeding_snomed" #,"tmp_cov_bin_variceal_gi_bleeding_death"
         ), 
