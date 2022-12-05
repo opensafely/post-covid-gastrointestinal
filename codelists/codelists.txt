@@ -46,6 +46,9 @@ user/RochelleKnight/prostate_cancer_icd10/6b27d648
 user/RochelleKnight/pregnancy_and_birth_snomed/1d46bcb3
 user/elsie_horne/cocp_dmd/1666a7a3
 user/elsie_horne/hrt_dmd/19196799
+user/elsie_horne/hypertension_icd10/1a48296e
+user/elsie_horne/hypertension_drugs_dmd/0009f464
+nhsd-primary-care-domain-refsets/hyp_cod/20210127
 #GI
 bristol/abdominal-distension-snomed/3e949f25
 bristol/abdominal-distension-icd10/1cf20bce
