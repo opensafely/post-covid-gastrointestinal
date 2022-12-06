@@ -558,7 +558,11 @@ def generate_common_variables(index_date_variable,end_date_variable):
         returning='date',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     
     ),
     tmp_out_date_ibs_hes = patients.admitted_to_hospital(
@@ -566,7 +570,12 @@ def generate_common_variables(index_date_variable,end_date_variable):
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
+    
     ),
     tmp_out_date_ibs_death=patients.with_these_codes_on_death_certificate(
         ibs_icd10,
@@ -590,14 +599,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+    return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_diarrhoea_hes = patients.admitted_to_hospital(
         with_these_diagnoses = diarrhoea_icd10,
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_diarrhoea_death=patients.with_these_codes_on_death_certificate(
         diarrhoea_icd10,
@@ -621,14 +638,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_nausea_hes = patients.admitted_to_hospital(
         with_these_diagnoses= nausea_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_nausea_death=patients.with_these_codes_on_death_certificate(
         nausea_icd10,
@@ -653,14 +678,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
       date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_vomiting_hes = patients.admitted_to_hospital(
         with_these_diagnoses= vomiting_icd10, 
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ), 
     tmp_out_date_vomiting_death=patients.with_these_codes_on_death_certificate(
         vomiting_icd10,
@@ -684,14 +717,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_abdominal_paindiscomfort_hes = patients.admitted_to_hospital(
         with_these_diagnoses= abdominal_paindiscomfort_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_abdominal_paindiscomfort_death=patients.with_these_codes_on_death_certificate(
         abdominal_paindiscomfort_icd10,
@@ -715,14 +756,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_intestinal_obstruction_hes = patients.admitted_to_hospital(
         with_these_diagnoses= intestinal_obstruction_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_intestinal_obstruction_death=patients.with_these_codes_on_death_certificate(
         intestinal_obstruction_icd10,
@@ -745,14 +794,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_bowel_ischaemia_hes = patients.admitted_to_hospital(
         with_these_diagnoses= bowel_ischaemia_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_bowel_ischaemia_death=patients.with_these_codes_on_death_certificate(
        bowel_ischaemia_icd10,
@@ -776,14 +833,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_belching_hes = patients.admitted_to_hospital(
         with_these_diagnoses= belching_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_belching_death=patients.with_these_codes_on_death_certificate(
         belching_icd10,
@@ -807,14 +872,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
         returning = 'date',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_abdominal_distension_hes = patients.admitted_to_hospital(
         with_these_diagnoses = abdominal_distension_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_abdominal_distension_death=patients.with_these_codes_on_death_certificate(
         abdominal_distension_icd10,
@@ -838,14 +911,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_bloody_stools_hes = patients.admitted_to_hospital(
         with_these_diagnoses= bloody_stools_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+       return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_bloody_stools_death=patients.with_these_codes_on_death_certificate(
         bloody_stools_icd10,
@@ -902,7 +983,11 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_appendicitis_hes = patients.admitted_to_hospital(
         with_these_diagnoses = appendicitis_icd10,
@@ -934,14 +1019,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after=f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations={"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_gallstones_disease_hes = patients.admitted_to_hospital(
         with_these_diagnoses= gallstones_disease_icd10, 
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_gallstones_disease_death=patients.with_these_codes_on_death_certificate(
        gallstones_disease_icd10,
@@ -964,14 +1057,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_nonalcoholic_steatohepatitis_hes = patients.admitted_to_hospital(
         with_these_diagnoses = nonalcoholic_steatohepatitis_icd10,
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+       return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_nonalcoholic_steatohepatitis_death=patients.with_these_codes_on_death_certificate(
         nonalcoholic_steatohepatitis_icd10,
@@ -996,14 +1097,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+    return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_acute_pancreatitis_hes = patients.admitted_to_hospital(
         with_these_diagnoses = acute_pancreatitis_icd10,
         returning='date_admitted',
         on_or_after=f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_acute_pancreatitis_death=patients.with_these_codes_on_death_certificate(
         acute_pancreatitis_icd10,
@@ -1028,14 +1137,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_gastro_oesophageal_reflux_disease_hes = patients.admitted_to_hospital(
         with_these_diagnoses = gastro_oesophageal_reflux_disease_icd10,
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_gastro_oesophageal_death=patients.with_these_codes_on_death_certificate(
         gastro_oesophageal_reflux_disease_icd10,
@@ -1059,14 +1176,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_dyspepsia_hes = patients.admitted_to_hospital(
         with_these_diagnoses = dyspepsia_icd10, 
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_dyspepsia_death=patients.with_these_codes_on_death_certificate(
         dyspepsia_icd10,
@@ -1090,14 +1215,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_peptic_ulcer_hes = patients.admitted_to_hospital(
         with_these_diagnoses = peptic_ulcer_icd10, 
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+       return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_peptic_ulcer_death=patients.with_these_codes_on_death_certificate(
         peptic_ulcer_icd10,
@@ -1122,14 +1255,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_upper_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = upper_gi_bleeding_icd10, 
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_upper_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         upper_gi_bleeding_icd10,
@@ -1152,14 +1293,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_lower_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = lower_gi_bleeding_icd10, 
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_lower_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         lower_gi_bleeding_icd10,
@@ -1182,14 +1331,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_variceal_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = variceal_gi_bleeding_icd10, 
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+        return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_variceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         variceal_gi_bleeding_icd10,
@@ -1213,14 +1370,22 @@ def generate_common_variables(index_date_variable,end_date_variable):
      returning = 'date', 
      on_or_after = f"{index_date_variable}",
      date_format="YYYY-MM-DD",
-     return_expectations = {"incidence": 0.1},
+     return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_nonvariceal_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = nonvariceal_gi_bleeding_icd10, 
         returning = 'date_admitted',
         on_or_after = f"{index_date_variable}",
         date_format="YYYY-MM-DD",
-        return_expectations = {"incidence": 0.1},
+       return_expectations={
+            "date": {"earliest": study_dates["earliest_expec"], "latest" : "today"},
+            "rate": "uniform",
+            "incidence": 0.1,
+        },
     ),
     tmp_out_date_nonvariceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         nonvariceal_gi_bleeding_icd10,
@@ -1401,9 +1566,9 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
         find_last_match_in_period = True,
          return_expectations = {"incidence": 0.1}
 ),
-cov_bin_alcohol_above_limits = patients.maximum_of(
-    cov_bin_alcohol_above_limits_ctv3,cov_bin_alcohol_above_limits_snomed
-    ),
+    cov_bin_alcohol_above_limits = patients.maximum_of(
+        "cov_bin_alcohol_above_limits_ctv3","cov_bin_alcohol_above_limits_snomed"
+        ),
 
   #Diseases
     ##Cholelisthiasis
@@ -1449,7 +1614,7 @@ cov_bin_alcohol_above_limits = patients.maximum_of(
         ), 
 
 #All GI symptoms
-     tmp_cov_bin_history_all_gi_symptoms_snomed = patients.with_these_clinical_events(
+     tmp_cov_bin_all_gi_symptoms_snomed = patients.with_these_clinical_events(
         all_gi_symptoms_snomed,
         returning = 'binary_flag',
         on_or_before = f"{index_date_variable} - 1 day" ,
@@ -1464,7 +1629,7 @@ cov_bin_alcohol_above_limits = patients.maximum_of(
         ),
  
     cov_bin_all_gi_symptoms = patients.maximum_of(
-        "tmp_cov_bin_all_gi_symptoms_hes","tmp_cov_bin_all_gi_symptoms_snomed" #,"tmp_cov_bin_all_gi_symptoms_death"
+        "tmp_cov_bin_all_gi_symptoms_hes","tmp_cov_bin_all_gi_symptoms_snomed" 
         ), 
 
     ##History of GI diseases

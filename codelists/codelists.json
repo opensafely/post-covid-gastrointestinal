@@ -282,6 +282,24 @@
       "downloaded_at": "2022-08-24 14:33:13.163735Z",
       "sha": "14aff592668a703f02cc68aa54c7ebab0774c62f"
     },
+    "user-elsie_horne-hypertension_icd10.csv": {
+      "id": "user/elsie_horne/hypertension_icd10/1a48296e",
+      "url": "https://codelists.opensafely.org/codelist/user/elsie_horne/hypertension_icd10/1a48296e/",
+      "downloaded_at": "2022-12-06 00:50:06.034756Z",
+      "sha": "196b2688d715a5265757642853d94f824741f783"
+    },
+    "user-elsie_horne-hypertension_drugs_dmd.csv": {
+      "id": "user/elsie_horne/hypertension_drugs_dmd/0009f464",
+      "url": "https://codelists.opensafely.org/codelist/user/elsie_horne/hypertension_drugs_dmd/0009f464/",
+      "downloaded_at": "2022-12-06 00:50:06.182301Z",
+      "sha": "09641b467bfb30b5d37852a65002a74d3d8a2217"
+    },
+    "nhsd-primary-care-domain-refsets-hyp_cod.csv": {
+      "id": "nhsd-primary-care-domain-refsets/hyp_cod/20210127",
+      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/hyp_cod/20210127/",
+      "downloaded_at": "2022-12-06 00:50:06.323406Z",
+      "sha": "2c1fb493d94ce1610482d575ef14c35bd09e47c1"
+    },
     "bristol-abdominal-distension-snomed.csv": {
       "id": "bristol/abdominal-distension-snomed/3e949f25",
       "url": "https://codelists.opensafely.org/codelist/bristol/abdominal-distension-snomed/3e949f25/",
