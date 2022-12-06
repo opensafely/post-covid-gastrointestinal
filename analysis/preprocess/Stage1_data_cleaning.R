@@ -324,12 +324,20 @@ stage1 <- function(cohort_name){
     #-------------------------------------------------#
      ####INSERT OUTCOME SPECIFIC EXCLUSION HERE#######    
 
-     #Remove chronic people with Coelia, IBD and Cirrhosis
+     #Remove chronic people with Coeliac, IBD and Cirrhosis
      input <- input %>% 
      filter_at(vars(out_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), all_vars(.== FALSE))
 
-    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Crietera 11: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)")
+     cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Crietera 11: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)")
     
+    #for appendicitis, exclude those with prior record of appendicitis
+    input_1 <- input %>%
+    mutate(out_date_appendicitis_1 = case_when(
+                                      (!is.na(out_date_appendicitis) & cov_bin_appendicitis==FALSE) ~ out_date_appendicitis,
+                                       TRUE ~ NA_real_))
+    
+    cohort_flow[nrow(cohort_flow)+1,] <- c(nrow(input), as.numeric(cohort_flow[nrow(cohort_flow),"N"]) - nrow(input), "Crietera 12: Remove those with previous appendicitis from appendicitis events")
+
     
     # NB: write.csv is not feasible to output list with uneven length
     sink(file = file.path("output/not-for-review", paste0("meta_data_factors_",cohort_name, ".csv")))
