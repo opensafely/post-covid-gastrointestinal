@@ -65,9 +65,9 @@ all_covars <- paste0("cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_stat
                      "cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;",
                      "cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;",
                      "cov_bin_aspirin_bnf;")
-                     
+
 #Specific covars below are only confounders for the specific outcomes below
-specific_covars <- "cov_bin_hypertriglyceridemia;cov_bin_hypercalcemia;cov_bin_hypertension;"
+specific_covars <- "cov_bin_hypertriglyceridemia;cov_bin_hypercalcemia;systolic_bp;"
 specific_outcomes <- c("out_date_bowel_ischaemia","out_date_nonalcoholic_steatohepatitis","out_date_acute_pancreatitis")
 
 
