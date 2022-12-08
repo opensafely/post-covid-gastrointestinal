@@ -67,7 +67,7 @@ all_covars <- paste0("cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_stat
                      "cov_bin_aspirin_bnf;")
 
 #Specific covars below are only confounders for the specific outcomes below
-specific_covars <- "cov_bin_hypertriglyceridemia;cov_bin_hypercalcemia;systolic_bp;"
+specific_covars <- "cov_bin_hypertriglyceridemia;cov_bin_hypercalcemia;cov_num_systolic_bp;"
 specific_outcomes <- c("out_date_bowel_ischaemia","out_date_nonalcoholic_steatohepatitis","out_date_acute_pancreatitis")
 
 

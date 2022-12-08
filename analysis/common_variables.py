@@ -1523,7 +1523,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     # ),
 
 #systolic blooc pressure
-    systolic_bp = patients.mean_recorded_value(
+    cov_num_systolic_bp = patients.mean_recorded_value(
         systolic_blood_pressure_codes,
         on_most_recent_day_of_measurement=True,
         include_measurement_date=True,
