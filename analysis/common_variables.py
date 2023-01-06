@@ -1880,7 +1880,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
     cov_bin_nonvariceal_gi_bleeding = patients.maximum_of(
         "tmp_cov_bin_variceal_gi_bleeding_hes","tmp_cov_bin_variceal_gi_bleeding_snomed"
         ), 
-
+### Overall gi and symptoms
     cov_bin_overall_gi_and_symptoms = patients.maximum_of(
         "cov_bin_dyspepsia",
         "cov_bin_gastro_oesophageal_reflux_disease",
