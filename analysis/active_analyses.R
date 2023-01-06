@@ -127,7 +127,7 @@ for (c in cohorts) {
                          cox_stop = cox_stop,
                          study_start = ifelse(c=="prevax", prevax_start, vax_unvax_start),
                          study_stop = ifelse(c=="prevax", prevax_stop, vax_unvax_stop),
-                         cut_points = fifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
+                         cut_points = ifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
                          controls_per_case = controls_per_case,
                          total_event_threshold = total_event_threshold,
                          episode_event_threshold = episode_event_threshold,
