@@ -104,9 +104,9 @@ bristol/nonvariceal-gi-bleeding-snomed/50237916
 bristol/alcohol-snomed/261cd28e
 opensafely/hazardous-alcohol-drinking/6364474b
 opensafely/systolic-blood-pressure-qof/3572b5fb
-bristol/diastolic-blood-pressure-snomed/4ccfa985
+#bristol/diastolic-blood-pressure-snomed/4ccfa985
 bristol/hdl-cholesterol/64775990
-bristol/crp-snomed/257bc2f3
+#bristol/crp-snomed/257bc2f3
 bristol/hypercalcemia-snomed/735cdc88
 bristol/hypertriglyceridemia-snomed/282e82e9
 bristol/cholelisthiasis-snomed/1fa4cbc4
