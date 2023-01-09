@@ -16,11 +16,11 @@ defaults_list <- list(
   expectations= list(population_size=10000L)
 )
 
-# active_analyses <- read_rds("lib/active_analyses.rds")
-# active_analyses_table <- subset(active_analyses, active_analyses$active =="TRUE")
-# outcomes_model <- active_analyses_table$outcome_variable %>% str_replace("out_date_", "")
-# cohort_to_run <- c("vaccinated", "electively_unvaccinated")
-# analyses <- c("main", "subgroups")
+active_analyses <- read_rds("lib/active_analyses.rds")
+active_analyses_table <- subset(active_analyses, active_analyses$active =="TRUE")
+outcomes_model <- active_analyses_table$outcome_variable %>% str_replace("out_date_", "")
+cohort_to_run <- c("vaccinated", "electively_unvaccinated")
+analyses <- c("main", "subgroups")
 
 # create action functions ----
 
@@ -73,6 +73,46 @@ convert_comment_actions <-function(yaml.txt){
     #str_replace_all("\\\n(\\s*)\\'", "\n\\1") %>%
     str_replace_all("([^\\'])\\\n(\\s*)\\#\\#", "\\1\n\n\\2\\#\\#") %>%
     str_replace_all("\\#\\#\\'\\\n", "\n")
+}
+
+ #################################################
+# ## Function for typical actions to analyse data #
+# #################################################
+
+# Updated to a typical action running Cox models for one outcome
+apply_model_function <- function(name, cohort, analysis, ipw, strata, 
+                                 covariate_sex, covariate_age, covariate_other, 
+                                 cox_start, cox_stop, study_start, study_stop,
+                                 cut_points, controls_per_case,
+                                 total_event_threshold, episode_event_threshold,
+                                 covariate_threshold, age_spline){
+  
+  splice(
+    action(
+      name = glue("make_model_input-{name}"),
+      run = glue("r:latest analysis/model/make_model_input.R {name}"),
+      needs = list("stage1_data_cleaning_all"),
+      highly_sensitive = list(
+        model_input = glue("output/model_input-{name}.rds")
+      )
+    ),
+    
+    action(
+      name = glue("describe_model_input-{name}"),
+      run = glue("r:latest analysis/describe_file.R model_input-{name} rds"),
+      needs = list(glue("make_model_input-{name}")),
+      moderately_sensitive = list(
+        describe_model_input = glue("output/describe-model_input-{name}.txt")
+      )
+    ),
+        action(
+      name = glue("cox_ipw-{name}"),
+      run = glue("cox-ipw:v0.0.13 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
+      needs = list(glue("make_model_input-{name}")),
+      moderately_sensitive = list(
+        model_output = glue("output/model_output-{name}.csv"))
+    )
+  )
 }
 
 
