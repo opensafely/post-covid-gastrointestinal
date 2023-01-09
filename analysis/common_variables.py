@@ -1013,7 +1013,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         ),  
 
 #Liver
-    ##Gallstomes disease
+    ##Gallstones disease
     tmp_out_date_gallstones_disease_snomed = patients.with_these_clinical_events(
      gallstones_disease_snomed,
      returning = 'date', 
@@ -1522,7 +1522,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     #     "tmp_cov_bin_hypertension_snomed", "tmp_cov_bin_hypertension_hes", "tmp_cov_bin_hypertension_drugs_dmd",
     # ),
 
-#systolic blooc pressure
+#systolic blood pressure
     systolic_bp = patients.mean_recorded_value(
         systolic_blood_pressure_codes,
         on_most_recent_day_of_measurement=True,
