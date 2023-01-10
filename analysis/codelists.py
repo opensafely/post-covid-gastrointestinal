@@ -1,5 +1,5 @@
 from cohortextractor import codelist_from_csv, combine_codelists, codelist
-
+import glob
 #Covid
 covid_codes = codelist_from_csv(
     "codelists/user-RochelleKnight-confirmed-hospitalised-covid-19.csv",
@@ -314,3 +314,72 @@ hrt_dmd = codelist_from_csv(
     system="snomed",
     column="dmd_id",
 )
+
+#GI outcomes 
+# Blood pressure
+systolic_blood_pressure_codes = codelist(
+    ["2469."],
+    system="ctv3",)
+diastolic_blood_pressure_codes = codelist(
+    ["246A."],
+    system="ctv3")
+
+# # HYpertension
+# hypertension_icd10 = codelist_from_csv(
+#     "codelists/user-elsie_horne-hypertension_icd10.csv",
+#     system="icd10",
+#     column="code",
+# )
+# hypertension_drugs_dmd = codelist_from_csv(
+#     "codelists/user-elsie_horne-hypertension_drugs_dmd.csv",
+#     system="snomed",
+#     column="dmd_id",
+# )
+# hypertension_snomed_clinical = codelist_from_csv(
+#     "codelists/nhsd-primary-care-domain-refsets-hyp_cod.csv",
+#     system="snomed",
+#     column="code",
+# )
+'''
+This script reads in the codelists from codelists.txt file and generate 
+the python code similar to the code above automatically! '''
+
+with open("codelists/codelists.txt") as f: 
+    lines = f.readlines()
+#parsing the lines which comes after the line '#GI'
+start_index = lines.index('#GI\n')
+s = ''
+for i in range(start_index + 1 , len(lines)):
+    if not lines[i].startswith("#"):
+        var = lines[i].rstrip().split("/")[1].replace("-","_")
+        column = "code"
+        if lines[i].startswith("opensafely"):
+            path = "codelists/opensafely-" + lines[i].rstrip().split("/")[1] + ".csv"
+        elif lines[i].startswith("bristol"):
+            path = "codelists/bristol-" + lines[i].rstrip().split("/")[1] + ".csv"
+        if ("snomed" in var):
+            sys = "snomed"
+        elif ("icd" in var): 
+            sys = "icd10"
+        elif ("bnf" in var): 
+            sys = "snomed"
+            #get path from local_codelists folder for dmd codes
+            path = glob.glob("local_codelists/bristol-"+lines[i].rstrip().split("/")[1]+"*dmd.csv")[0]
+            column = "dmd_id"
+        elif ("opcs4" in var):
+            sys = "opcs4"
+        if var.startswith("systolic_blood_pressure"): 
+            sys = "snomed"
+        if var.startswith("hazardous"): 
+            sys = "ctv3"
+        s += var + " = codelist_from_csv('" + path + "' , system = '" + sys + "' , column = '"+ column + "' )\n"
+
+
+exec(s)
+
+
+    
+
+
+            
+        

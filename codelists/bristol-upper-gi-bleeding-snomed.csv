@@ -1,0 +1,134 @@
+code,term
+1082701000119105,Duodenal hemorrhage due to angiodysplasia of duodenum
+1086031000119101,Duodenal hemorrhage due to Dieulafoy vascular malformation of duodenum
+1086561000119100,Hemorrhage of duodenum co-occurrent and due to diverticulosis
+1086951000119108,Gastric hemorrhage due to vascular ectasia of gastric antrum
+1087161000119105,Gastric hemorrhage due to hypertrophic gastritis
+1087811000119103,Gastric hemorrhage due to irritant gastritis
+1090361000119108,Gastric hemorrhage due to pyloric gastritis
+1092941000119109,Gastric hemorrhage due to viral gastritis
+111353003,Acute peptic ulcer with hemorrhage and perforation
+121491000000105,Endoscopic injection haemostasis of duodenal ulcer
+12274003,Acute peptic ulcer with hemorrhage
+123411000119106,Gastric hemorrhage due to eosinophilic gastritis
+12355008,"Duodenal ulcer with hemorrhage, with perforation AND with obstruction"
+12847006,Acute duodenal ulcer with hemorrhage
+138807001,H/O: haematemesis
+138808006,H/O: melaena
+139339008,Blood in vomit: [symptom] or [fresh blood]
+139368009,(Black faeces [& symptom]) or (C/O melaena)
+144837001,Faeces: [tarry colour] or [O/E melaena]
+145057005,Vomit: blood present &/or frank
+15115006,Duodenal ulcer with hemorrhage AND with perforation but without obstruction
+15238002,Esophageal bleeding
+155678004,Mallory-Weiss syndrome
+155838009,Haematemesis
+155839001,Melaena
+15902003,Gastric ulcer with hemorrhage
+15970005,Intramural esophageal hematoma
+162064009,Blood in vomit: [symptom] or [fresh blood]
+162092004,(Black faeces [& symptom]) or (C/O melaena)
+16694003,Gastric ulcer with hemorrhage but without obstruction
+167611003,Faeces: [tarry colour] or [O/E melaena]
+167829006,Vomit: blood present &/or frank
+17067009,Acute gastric ulcer with hemorrhage AND with perforation but without obstruction
+173778009,Gastrotomy and ligation of bleeding point of stomach
+17593008,"Gastric ulcer with hemorrhage, with perforation and with obstruction"
+17709002,Bleeding esophageal varices
+18367003,Duodenal ulcer with hemorrhage AND obstruction
+195475003,"Esophageal varices with bleeding, associated with another disorder"
+196620006,Mallory-Weiss tear
+197471006,Gastrointestinal bleeding (& [unspecified])
+2066005,Gastric ulcer with hemorrhage AND perforation but without obstruction
+218541000119109,Gastric hemorrhage co-occurrent with and due to idiopathic erosive gastritis
+22157005,Acute peptic ulcer with hemorrhage but without obstruction
+226891000000104,Oversew of blood vessel of duodenal ulcer
+2367005,Acute hemorrhagic gastritis
+23812009,Duodenal ulcer with hemorrhage AND perforation
+24807004,Bleeding gastric varices
+249498003,Haematemesis
+257111000000102,Oversew of blood vessel of duodenal ulcer 
+26221006,"Peptic ulcer with hemorrhage, with perforation AND with obstruction"
+262790002,Esophageal hematoma
+262838003,Stomach hematoma
+262843005,Duodenal hematoma
+267051003,Vomiting blood - fresh
+272045003,Complaining of melena
+27281001,Duodenal ulcer with hemorrhage
+275782008,Melena on examination of feces
+275786006,Blood in vomit on examination
+276229008,Sepsis-associated gastrointestinal hemorrhage
+27719009,Acute gastrointestinal hemorrhage
+281102003,Blood in vomit - symptom
+28945005,"Acute peptic ulcer with hemorrhage, with perforation AND with obstruction"
+2901004,Melena
+307131005,Mallory-Weiss tear
+307233002,Bleeding gastric erosion
+307296008,Recurrent gastrointestinal bleeding
+307297004,Massive gastrointestinal bleed
+308882008,Bleeding stress ulcer of stomach
+308904008,Hematemesis - cause unknown
+314627002,Endoscopic injection hemostasis of duodenal ulcer
+34021006,Chronic duodenal ulcer with hemorrhage AND obstruction
+35265002,Mallory-Weiss syndrome
+35560008,Duodenal ulcer with hemorrhage but without obstruction
+36975000,Chronic duodenal ulcer with hemorrhage AND perforation
+37372002,Upper gastrointestinal hemorrhage
+38938002,Acute upper gastrointestinal hemorrhage
+40835002,Coffee ground vomiting
+413212000,Hemorrhagic duodenopathy
+413218001,Hemorrhagic gastropathy
+414390000,Hemorrhagic mucosa of duodenum
+414391001,Hemorrhagic mucosa of stomach
+414663001,Melena due to gastrointestinal hemorrhage
+41986000,"Acute duodenal ulcer with hemorrhage, with perforation AND with obstruction"
+430349003,Upper gastrointestinal hemorrhage associated with hypercoagulability state
+43406003,Acute peptic ulcer with hemorrhage AND obstruction
+439442003,Esophageal bleeding due to ulcerative esophagitis
+46708007,Acute gastric ulcer with hemorrhage and obstruction
+47064007,Acute peptic ulcer with hemorrhage AND with perforation but without obstruction
+48658001,Peptic ulcer with hemorrhage but without obstruction
+48974009,Acute gastric ulcer with hemorrhage and perforation
+49232000,Chronic peptic ulcer with hemorrhage
+51847008,Acute duodenal ulcer with hemorrhage AND with perforation but without obstruction
+53337006,"Acute gastric ulcer with hemorrhage, with perforation and with obstruction"
+53877005,Gastric ulcer with hemorrhage and obstruction
+55617001,Peptic ulcer with hemorrhage AND perforation
+55746001,Chronic peptic ulcer with hemorrhage AND with perforation but without obstruction
+56461008,Chronic peptic ulcer with hemorrhage AND obstruction
+57246001,Chronic gastric ulcer with hemorrhage
+57748001,Bleeding ulcer of esophagus
+60698006,Hemorrhagic esophagitis
+61300005,Chronic peptic ulcer with hemorrhage AND perforation
+61401005,Gastric hemorrhage
+62341002,Chronic duodenal ulcer with hemorrhage but without obstruction
+62366003,Gastric ulcer with hemorrhage and perforation
+64121000,Peptic ulcer with hemorrhage
+64398008,Peptic ulcer with hemorrhage AND obstruction
+66767006,Acute duodenal ulcer with hemorrhage but without obstruction
+70418001,Acute gastric ulcer with hemorrhage but without obstruction
+7071000119102,Gastric hemorrhage due to erosive gastritis
+717868009,Intramural hemorrhage of stomach
+717882009,Intramural hemorrhage of duodenum
+721179009,Intramural hemorrhage of esophagus
+722886001,Obscure gastrointestinal hemorrhage
+74341002,Chronic gastric ulcer with hemorrhage AND with perforation but without obstruction
+74474003,Gastrointestinal hemorrhage
+76078009,Chronic gastric ulcer with hemorrhage but without obstruction
+76181002,Chronic gastric ulcer with hemorrhage and with perforation
+771623009,Fiberoptic endoscopic coagulation of hemorrhage of esophagus
+77661009,"Chronic peptic ulcer with hemorrhage, with perforation AND with obstruction"
+81142005,Chronic duodenal ulcer with hemorrhage AND with perforation but without obstruction
+81518000,Chronic peptic ulcer with hemorrhage but without obstruction
+85787009,"Chronic gastric ulcer with hemorrhage, with perforation and with obstruction"
+85859006,Chronic gastric ulcer with hemorrhage and with obstruction
+86258000,"Chronic duodenal ulcer with hemorrhage, with perforation AND with obstruction"
+86895006,Acute duodenal ulcer with hemorrhage AND perforation
+8765009,Hematemesis
+87756006,Acute duodenal ulcer with hemorrhage AND obstruction
+89469000,Chronic duodenal ulcer with hemorrhage
+89748001,Acute gastric ulcer with hemorrhage
+90489006,Peptic ulcer with hemorrhage AND with perforation but without obstruction
+95531001,Hemorrhagic duodenitis
+95533003,Duodenal hemorrhage
+97801000119102,Upper gastrointestinal hemorrhage co-occurrent and due to gastritis

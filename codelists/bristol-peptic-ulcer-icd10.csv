@@ -1,0 +1,11 @@
+code,term
+K27,"Peptic ulcer, site unspecified"
+K270,"Peptic ulcer, site unspecified : Acute with haemorrhage"
+K271,"Peptic ulcer, site unspecified : Acute with perforation"
+K272,"Peptic ulcer, site unspecified : Acute with both haemorrhage and perforation"
+K273,"Peptic ulcer, site unspecified : Acute without haemorrhage or perforation"
+K274,"Peptic ulcer, site unspecified : Chronic or unspecified with haemorrhage"
+K275,"Peptic ulcer, site unspecified : Chronic or unspecified with perforation"
+K276,"Peptic ulcer, site unspecified : Chronic or unspecified with both haemorrhage and perforation"
+K277,"Peptic ulcer, site unspecified : Chronic without haemorrhage or perforation"
+K279,"Peptic ulcer, site unspecified : Unspecified as acute or chronic, without haemorrhage or perforation"
