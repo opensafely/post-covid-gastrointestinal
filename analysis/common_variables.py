@@ -1522,8 +1522,8 @@ def generate_common_variables(index_date_variable,end_date_variable):
     #     "tmp_cov_bin_hypertension_snomed", "tmp_cov_bin_hypertension_hes", "tmp_cov_bin_hypertension_drugs_dmd",
     # ),
 
-#systolic blood pressure
-    systolic_bp = patients.mean_recorded_value(
+#systolic blooc pressure
+    cov_num_systolic_bp = patients.mean_recorded_value(
         systolic_blood_pressure_codes,
         on_most_recent_day_of_measurement=True,
         include_measurement_date=True,
@@ -1880,7 +1880,8 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
     cov_bin_nonvariceal_gi_bleeding = patients.maximum_of(
         "tmp_cov_bin_variceal_gi_bleeding_hes","tmp_cov_bin_variceal_gi_bleeding_snomed"
         ), 
-
+        
+### Overall gi and symptoms
     cov_bin_overall_gi_and_symptoms = patients.maximum_of(
         "cov_bin_dyspepsia",
         "cov_bin_gastro_oesophageal_reflux_disease",

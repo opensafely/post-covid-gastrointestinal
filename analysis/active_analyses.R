@@ -67,7 +67,7 @@ all_covars <- paste0("cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_stat
                      "cov_bin_aspirin_bnf;")
 
 #Specific covars below are only confounders for the specific outcomes below
-specific_covars <- "cov_bin_hypertriglyceridemia;cov_bin_hypercalcemia;systolic_bp;"
+specific_covars <- "cov_bin_hypertriglyceridemia;cov_bin_hypercalcemia;cov_num_systolic_bp;"
 specific_outcomes <- c("out_date_bowel_ischaemia","out_date_nonalcoholic_steatohepatitis","out_date_acute_pancreatitis")
 
 
@@ -127,7 +127,7 @@ for (c in cohorts) {
                          cox_stop = cox_stop,
                          study_start = ifelse(c=="prevax", prevax_start, vax_unvax_start),
                          study_stop = ifelse(c=="prevax", prevax_stop, vax_unvax_stop),
-                         cut_points = fifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
+                         cut_points = ifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
                          controls_per_case = controls_per_case,
                          total_event_threshold = total_event_threshold,
                          episode_event_threshold = episode_event_threshold,

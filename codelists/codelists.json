@@ -606,23 +606,11 @@
       "downloaded_at": "2022-10-31 17:21:56.999477Z",
       "sha": "f2bc461e351499f4e5573a6f94e760b99979491e"
     },
-    "bristol-diastolic-blood-pressure-snomed.csv": {
-      "id": "bristol/diastolic-blood-pressure-snomed/4ccfa985",
-      "url": "https://codelists.opensafely.org/codelist/bristol/diastolic-blood-pressure-snomed/4ccfa985/",
-      "downloaded_at": "2022-10-31 17:21:57.148830Z",
-      "sha": "f29de51d5630ab4df0decfe73d87f90989be8291"
-    },
     "bristol-hdl-cholesterol.csv": {
       "id": "bristol/hdl-cholesterol/64775990",
       "url": "https://codelists.opensafely.org/codelist/bristol/hdl-cholesterol/64775990/",
       "downloaded_at": "2022-06-06 14:46:29.996825Z",
       "sha": "ce9f10f91453a33d5de195b7d02656bf11782760"
-    },
-    "bristol-crp-snomed.csv": {
-      "id": "bristol/crp-snomed/257bc2f3",
-      "url": "https://codelists.opensafely.org/codelist/bristol/crp-snomed/257bc2f3/",
-      "downloaded_at": "2022-10-31 17:21:57.526050Z",
-      "sha": "24f581ac695058db74ca3cf4060eecf2b0fb76b7"
     },
     "bristol-hypercalcemia-snomed.csv": {
       "id": "bristol/hypercalcemia-snomed/735cdc88",
