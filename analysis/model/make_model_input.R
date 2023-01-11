@@ -340,56 +340,8 @@ for (i in 1:nrow(active_analyses)) {
     rm(df)
     
   }
-  
-  # Make model input: sub_priorhistory_none --------------------------------------
 
-  if (active_analyses$analysis[i]=="sub_priorhistory_none") {
-    
-    print('Make model input: sub_priorhistory_none')
-    
-    df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
-    df <- dplyr::rename(df, "priorhistory" = gsub("out_date","cov_bin_priorhistory",active_analyses$outcome[i]))
-    df <- df[df$priorhistory=="none",]
-    
-    df[,c("sub_bin_covid19_confirmed_history","priorhistory")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
-    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
-    rm(df)
-    
-  }
   
-  # Make model input: sub_priorhistory_recent --------------------------------------
   
-  if (active_analyses$analysis[i]=="sub_priorhistory_recent") {
-    
-    print('Make model input: sub_priorhistory_recent')
-    
-    df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
-    df <- dplyr::rename(df, "priorhistory" = gsub("out_date","cov_bin_priorhistory",active_analyses$outcome[i]))
-    df <- df[df$priorhistory=="recent",]
-    
-    df[,c("sub_bin_covid19_confirmed_history","priorhistory")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
-    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
-    rm(df)
-    
-  }
-    
-  # Make model input: sub_priorhistory_notrecent --------------------------------------
-  
-  if (active_analyses$analysis[i]=="sub_priorhistory_notrecent") {
-    
-    print('Make model input: sub_priorhistory_notrecent')
-    
-    df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
-    df <- dplyr::rename(df, "priorhistory" = gsub("out_date","cov_bin_priorhistory",active_analyses$outcome[i]))
-    df <- df[df$priorhistory=="notrecent",]
-    
-    df[,c("sub_bin_covid19_confirmed_history","priorhistory")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
-    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
-    rm(df)
-    
-  }
   
 }
