@@ -142,7 +142,7 @@ follow_up_end_dates <- function(cohort_name){
                     colnames(input)[grepl("follow_up",colnames(input))],
                     colnames(input)[grepl("censor",colnames(input))])] 
   
-  saveRDS(input, paste0("output/follow_up_end_dates_",cohort_name,".rds"))
+  saveRDS(input, paste0("output/follow_up_end_dates_",cohort_name,".rds"), compress = "gzip")
 }
 
 # Run function using specified commandArgs

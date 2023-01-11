@@ -115,7 +115,7 @@ df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
 
 # Repo specific preprocessing 
 
-saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"))
+saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"), compress = "gzip")
 
 message(paste0("Input data saved successfully with N = ", nrow(df1), " rows"))
 
@@ -135,7 +135,7 @@ sink(paste0("output/not-for-review/describe_venn_",cohort_name,".txt"))
 print(Hmisc::describe(df2))
 sink()
 
-saveRDS(df2, file = paste0("output/venn_",cohort_name,".rds"))
+saveRDS(df2, file = paste0("output/venn_",cohort_name,".rds"), compress="gzip")
 
 message("Venn diagram data saved successfully")
 tictoc::toc()

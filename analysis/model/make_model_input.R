@@ -97,7 +97,7 @@ for (i in 1:nrow(active_analyses)) {
     
     print('Make model input: main')
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -118,7 +118,7 @@ for (i in 1:nrow(active_analyses)) {
     
     df <- df[df$end_date>=df$index_date,]
     
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -139,7 +139,7 @@ for (i in 1:nrow(active_analyses)) {
     
     df <- df[df$end_date>=df$index_date,]
     
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -154,7 +154,7 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==TRUE,]
     
     df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -171,7 +171,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_cat_sex=="Female",]
     
     df[,c("sub_bin_covid19_confirmed_history","cov_cat_sex")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -187,7 +187,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_cat_sex=="Male",]
     
     df[,c("sub_bin_covid19_confirmed_history","cov_cat_sex")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -204,7 +204,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age<40,]
     
     df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -221,7 +221,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age<60,]
     
     df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -238,7 +238,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age<80,]
     
     df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -255,7 +255,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age<111,]
     
     df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -271,7 +271,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_cat_ethnicity=="White",]
     
     df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -287,7 +287,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_cat_ethnicity=="Black",]
     
     df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -303,7 +303,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_cat_ethnicity=="Mixed",]
     
     df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -319,7 +319,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_cat_ethnicity=="South Asian",]
     
     df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -335,7 +335,7 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_cat_ethnicity=="Other",]
     
     df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
