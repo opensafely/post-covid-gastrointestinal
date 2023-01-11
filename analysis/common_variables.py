@@ -1013,7 +1013,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         ),  
 
 #Liver
-    ##Gallstomes disease
+    ##Gallstones disease
     tmp_out_date_gallstones_disease_snomed = patients.with_these_clinical_events(
      gallstones_disease_snomed,
      returning = 'date', 
