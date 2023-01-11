@@ -22,12 +22,12 @@ actions:
 
   generate_study_population_prelim:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_prelim
-      --output-format feather
+      --output-format csv.gz
     needs:
     - vax_eligibility_inputs
     outputs:
       highly_sensitive:
-        cohort: output/input_prelim.feather
+        cohort: output/input_prelim.csv.gz
 
   generate_index_dates:
     run: r:latest analysis/prelim.R
@@ -40,13 +40,13 @@ actions:
 
   generate_study_population_prevax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax
-      --output-format feather
+      --output-format csv.gz
     needs:
     - vax_eligibility_inputs
     - generate_index_dates
     outputs:
       highly_sensitive:
-        cohort: output/input_prevax.feather
+        cohort: output/input_prevax.csv.gz
 
   generate_study_population_vax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_vax
