@@ -21,7 +21,7 @@ fs::dir_create(here::here("output", "review"))
 
 # Read cohort dataset ---------------------------------------------------------- 
 
-df <- arrow::read_feather(file = paste0("output/input_",cohort_name,".feather") )
+df <-  readr::read_csv(file = paste0("output/input_",cohort_name,".csv.gz") )
 
 message(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
@@ -135,7 +135,7 @@ sink(paste0("output/not-for-review/describe_venn_",cohort_name,".txt"))
 print(Hmisc::describe(df2))
 sink()
 
-saveRDS(df2, file = paste0("output/venn_",cohort_name,".rds"), compress="gzip")
+saveRDS(df2, file = paste0("output/venn_",cohort_name,".rds"))
 
 message("Venn diagram data saved successfully")
 tictoc::toc()
