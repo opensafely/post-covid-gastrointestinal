@@ -30,4 +30,4 @@ prelim_data <- prelim_data %>%
 
 
 #Write data to csv file 
-write_csv(prelim_data, "output/index_dates.csv")
+write_csv(prelim_data, "output/index_dates.csv.gz")

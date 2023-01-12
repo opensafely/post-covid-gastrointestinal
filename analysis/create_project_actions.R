@@ -214,7 +214,7 @@ actions_list <- splice(
     run = "r:latest analysis/prelim.R",
     needs = list("vax_eligibility_inputs","generate_study_population_prelim"),
     highly_sensitive = list(
-      index_dates = glue("output/index_dates.csv")
+      index_dates = glue("output/index_dates.csv.gz")
     )
   ),
   #comment("Generate dummy data for study_definition - prevax"),
