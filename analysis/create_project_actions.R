@@ -112,7 +112,7 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
     ),
     action(
       name = glue("cox_ipw-{name}"),
-      run = glue("cox-ipw:v0.0.18 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
+      run = glue("cox-ipw:v0.0.20 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
       needs = list(glue("make_model_input-{name}")),
       moderately_sensitive = list(
         model_output = glue("output/model_output-{name}.csv"))
@@ -202,10 +202,10 @@ actions_list <- splice(
   #comment("Generate dummy data for study_definition - population_prelim"),
   action(
     name = "generate_study_population_prelim",
-    run = "cohortextractor:latest generate_cohort --study-definition study_definition_prelim --output-format feather",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_prelim --output-format csv.gz",
     needs = list("vax_eligibility_inputs"),
     highly_sensitive = list(
-      cohort = glue("output/input_prelim.feather")
+      cohort = glue("output/input_prelim.csv.gz")
     )
   ),
   #comment("Generate dates for all study cohorts"),
@@ -214,34 +214,34 @@ actions_list <- splice(
     run = "r:latest analysis/prelim.R",
     needs = list("vax_eligibility_inputs","generate_study_population_prelim"),
     highly_sensitive = list(
-      index_dates = glue("output/index_dates.csv")
+      index_dates = glue("output/index_dates.csv.gz")
     )
   ),
   #comment("Generate dummy data for study_definition - prevax"),
   action(
     name = "generate_study_population_prevax",
-    run = "cohortextractor:latest generate_cohort --study-definition study_definition_prevax --output-format feather",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_prevax --output-format csv.gz",
     needs = list("vax_eligibility_inputs","generate_index_dates"),
     highly_sensitive = list(
-      cohort = glue("output/input_prevax.feather")
+      cohort = glue("output/input_prevax.csv.gz")
     )
   ),
   #comment("Generate dummy data for study_definition - vax"),
   action(
     name = "generate_study_population_vax",
-    run = "cohortextractor:latest generate_cohort --study-definition study_definition_vax --output-format feather",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_vax --output-format csv.gz",
     needs = list("generate_index_dates","vax_eligibility_inputs"),
     highly_sensitive = list(
-      cohort = glue("output/input_vax.feather")
+      cohort = glue("output/input_vax.csv.gz")
     )
   ),
   #comment("Generate dummy data for study_definition - unvax"),
   action(
     name = "generate_study_population_unvax",
-    run = "cohortextractor:latest generate_cohort --study-definition study_definition_unvax --output-format feather",
+    run = "cohortextractor:latest generate_cohort --study-definition study_definition_unvax --output-format csv.gz",
     needs = list("vax_eligibility_inputs","generate_index_dates"),
     highly_sensitive = list(
-      cohort = glue("output/input_unvax.feather")
+      cohort = glue("output/input_unvax.csv.gz")
     )
   ),
   
@@ -306,35 +306,7 @@ actions_list <- splice(
     )
   ),
   
-  #comment("Stage 1 - End date table - prevax"),
-  action(
-    name = "stage1_end_date_table_prevax",
-    run = "r:latest analysis/preprocess/create_follow_up_end_date.R prevax",
-    needs = list("preprocess_data_prevax","preprocess_data_vax", "preprocess_data_unvax", "stage1_data_cleaning_all","vax_eligibility_inputs"),
-    highly_sensitive = list(
-      end_date_table = glue("output/follow_up_end_dates_prevax_*.rds")
-    )
-  ),
-  
-  #comment("Stage 1 - End date table - vax"),
-  action(
-    name = "stage1_end_date_table_vax",
-    run = "r:latest analysis/preprocess/create_follow_up_end_date.R vax",
-    needs = list("preprocess_data_prevax","preprocess_data_vax", "preprocess_data_unvax", "stage1_data_cleaning_all","vax_eligibility_inputs"),
-    highly_sensitive = list(
-      end_date_table = glue("output/follow_up_end_dates_vax_*.rds")
-    )
-  ),
-  
-  #comment("Stage 1 - End date table - unvax"),
-  action(
-    name = "stage1_end_date_table_unvax",
-    run = "r:latest analysis/preprocess/create_follow_up_end_date.R unvax",
-    needs = list("preprocess_data_prevax","preprocess_data_vax", "preprocess_data_unvax", "stage1_data_cleaning_all","vax_eligibility_inputs"),
-    highly_sensitive = list(
-      end_date_table = glue("output/follow_up_end_dates_unvax_*.rds")
-    )
-  ),
+
   comment("Stage 4a - Venn diagrams prevax"),
   
   action(

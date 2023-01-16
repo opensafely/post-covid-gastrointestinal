@@ -21,12 +21,12 @@ fs::dir_create(here::here("output", "review"))
 
 # Read cohort dataset ---------------------------------------------------------- 
 
-df <- arrow::read_feather(file = paste0("output/input_",cohort_name,".feather") )
+df <-  readr::read_csv(file = paste0("output/input_",cohort_name,".csv.gz") )
 
 message(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
 #Add death_date from prelim data
-prelim_data <- read_csv("output/index_dates.csv") %>%
+prelim_data <- read_csv("output/index_dates.csv.gz") %>%
   select(c(patient_id,death_date))
 df <- df %>% inner_join(prelim_data,by="patient_id")
 
@@ -38,9 +38,9 @@ message("Death date added!")
 
 df <- df %>%
   mutate(across(c(contains("_date")),
-                ~ floor_date(as.Date(., format="%Y-%m-%d"), unit = "days")),
+                ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
          across(contains('_birth_year'),
-                ~ format(as.Date(.), "%Y")),
+                ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
          across(contains('_num') & !contains('date'), ~ as.numeric(.)),
          across(contains('_cat'), ~ as.factor(.)),
          across(contains('_bin'), ~ as.logical(.)))
@@ -115,7 +115,7 @@ df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
 
 # Repo specific preprocessing 
 
-saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"))
+saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"), compress = "gzip")
 
 message(paste0("Input data saved successfully with N = ", nrow(df1), " rows"))
 
