@@ -3,6 +3,7 @@
 ## 
 ## Programmed by:   Yinghui Wei, Venexia Walker, Kurt Taylor
 ## Updated by: Jose Ignacio Cuitun Coronado
+## Updated by: Marwa Al-Arab 17 Jan 2023
 ## Reviewer: Renin Toms, Venexia Walker, Yinghui Wei
 ##
 ## Date:     07 July 2022
@@ -26,18 +27,28 @@ if(length(args)==0){
   cohort <- "all"
   #model <- "model_input-cohort_"
   #analysis <- "depression"
-  group <- "depression"
+  # group <- "out_date_bloody_stools"
 } else {
   cohort <- args[[1]]
   #group <- args[[2]]
 }
 
-fs::dir_create(here::here("output", "not-for-review"))
-fs::dir_create(here::here("output", "review", "venn-diagrams"))
+#fs::dir_create(here::here("output", "not-for-review"))
+path1 <- file.path("output","not-for-review")
+if (!file.exists(path1)) {
+  dir.create(path1,recursive = TRUE)
+}
+
+path2 <- file.path("output","review","venn-diagrams")
+if (!file.exists(path2)) {
+  dir.create(path2,recursive = TRUE)
+}
+
+
 
 #cohorts <- c("vax","unvax","prevax")
 
-venn_output <- function(cohort, group){
+venn_output <- function(cohort){
   
   # Identify active outcomes ---------------------------------------------------
   
@@ -47,20 +58,10 @@ venn_output <- function(cohort, group){
   outcomes <- unique(active_analyses[active_analyses$analysis == "main" & grepl("out_date_", active_analyses$outcome),]$outcome)
   #outcomes <- active_analyses %>% select(outcome) %>% unique() 
   
-  if(length(outcomes) == 0){
-    print(paste0("No venn diagram generated for outcome group ", group))
-  } else{  
+  #Load data
+  input <- readr::read_rds(paste0("output/venn_", cohort, ".rds"))
     
-    #Load data
-    input <- readr::read_rds(paste0("output/venn_", cohort, ".rds"))
     
-    #follow up end dates variables
-    model_input <- readr::read_rds(paste0("output/model_input-cohort_", cohort,"-main-", group, ".rds"))
-    
-    #input<- input %>% left_join(end_dates, by="patient_id")
-    input <- left_join(input, model_input, by = "patient_id")
-    
-    rm(model_input)
     
     # Create empty table ---------------------------------------------------------
     
@@ -80,13 +81,19 @@ venn_output <- function(cohort, group){
     
     # Populate table and make Venn for each outcome ------------------------------
     for (i in outcomes) {
-      outcome_save_name <- i
-      
+
       print(paste0("Working on ", i))
       
-      outcome <- outcomes #Ask
-      #outcome_save_name <- outcome
+      print(paste0("output/model_input-cohort_", cohort,"-main-", gsub("out_date_","",i), ".rds"))
+      #outcome_save_name <- outcome 
+      #follow up end dates variables
+      model_input <- readr::read_rds(paste0("output/model_input-cohort_", cohort,"-main-", gsub("out_date_","",i), ".rds"))
+      #Load data
+      input <- readr::read_rds(paste0("output/venn_", cohort, ".rds"))
+      #input<- input %>% left_join(end_dates, by="patient_id")
+      input <- left_join(input, model_input, by = "patient_id")
       
+      rm(model_input)
       tmp <- input[!is.na(input[,i]), c("patient_id", "index_date", "end_date", colnames(input)[grepl(i, colnames(input))])] 
       
       colnames(tmp) <- gsub(paste0("tmp_",i,"_"),"",colnames(tmp)) 
@@ -140,7 +147,7 @@ venn_output <- function(cohort, group){
         !is.na(tmp$hes) & 
         !is.na(tmp$death)
       
-      df[nrow(df)+1,] <- c(outcome_save_name,
+      df[nrow(df)+1,] <- c(i,
                            only_snomed = nrow(tmp %>% filter(snomed_contributing==T)),
                            only_hes = nrow(tmp %>% filter(hes_contributing==T)),
                            only_death = nrow(tmp %>% filter(death_contributing==T)),
@@ -159,16 +166,16 @@ venn_output <- function(cohort, group){
       source_consid <- source_combos
       
       if (!is.null(notused)) {
-        for (i in notused) {
+        for (n in notused) {
           
           # Add variables to consider for Venn plot to vector
           
-          source_consid <- source_combos[!grepl(i,source_combos)]
+          source_consid <- source_combos[!grepl(n,source_combos)]
           
           # Replace unused sources with NA in summary table
           
           for (j in setdiff(source_combos,source_consid)) {
-            df[df$outcome==outcome,j] <- NA
+            df[df$outcome==i,j] <- NA
           }
         }
       }
@@ -194,7 +201,7 @@ venn_output <- function(cohort, group){
       
       write.csv(df, file = paste0("output/review/venn-diagrams/venn_diagram_number_check_", cohort, ".csv"), row.names = F)#"_", group, 
     }
-  }
+  
 }
 
 # Run function using specified commandArgs and active analyses for group
@@ -225,9 +232,9 @@ venn_output <- function(cohort, group){
 # }
 
 if (cohort == "all") {
-  venn_output("prevax", i)
-  venn_output("vax", i)
-  venn_output("unvax", i)
+  venn_output("prevax")
+  venn_output("vax")
+  venn_output("unvax")
 } else{
-  venn_output(cohort, i)
+  venn_output(cohort)
 }
