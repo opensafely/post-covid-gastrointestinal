@@ -10,6 +10,7 @@
 ## Authors: Genevieve Cezard, Rochelle Knight
 ## Combined by: Genevieve Cezard
 ## Reviewer: Yinghui Wei
+## Updated : Marwa Al-Arab 18 Jan 2023
 ## 
 ## Content: 
 ## 0. Load relevant libraries and read data/arguments
@@ -38,7 +39,6 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   cohort_name <- "vax" # interactive testing
-  group <- "out_date_depression"
   #group <- "Mental_health"
 } else {
   cohort_name <- args[[1]]
@@ -49,8 +49,7 @@ fs::dir_create(here::here("output", "review", "descriptives"))
 
 # Determine which outcome groups are active
 active_analyses <- read_rds("lib/active_analyses.rds")
-active_analyses <- active_analyses #%>% filter(active == TRUE)
-outcome_groups <- unique(active_analyses$outcome_group)
+#outcome_groups <- unique(active_analyses$outcome_group)
 
 cohort_start_date_prevax <- as.Date("2020-01-01")
 cohort_end_date_prevax <- as.Date("2021-06-18")
@@ -60,7 +59,7 @@ cohort_end_date_delta <- as.Date("2021-12-14")
 
 # Define stage2 function -------------------------------------------------------
 
-stage2 <- function(cohort_name, covid_history, group) {#, group
+stage2 <- function(cohort_name, covid_history,out) {#, group
   
   # Load relevant data
   input <- readr::read_rds(file.path("output", paste0("input_",cohort_name,"_stage1",".rds")))#cohort_name,"_stage1_",group,
@@ -186,7 +185,7 @@ stage2 <- function(cohort_name, covid_history, group) {#, group
   }
   
   # Populate table 1 
-  covar_names <- active_analyses %>% filter(outcome==group) #CHECK (outcome_group==group)
+  covar_names <- active_analyses %>% filter(outcome==out) #CHECK (outcome_group==group)
   covar_names<-str_split(active_analyses$covariate_other, ";")[[1]] #CHECK active_analyses$covariates
   
   #categorical_cov <- colnames(input)[grep("cov_cat", colnames(input))]
@@ -360,9 +359,9 @@ stage2 <- function(cohort_name, covid_history, group) {#, group
   table1_suppressed$Covariate <- str_to_sentence(table1_suppressed$Covariate)
   
   # Save table 1
-  write.csv(table1_suppressed, file = file.path("output/review/descriptives", paste0("Table1_",cohort_name, "_",covid_history,"_",group,".csv")) , row.names=F)#covid_history,"_",group, 
+  write.csv(table1_suppressed, file = file.path("output/review/descriptives", paste0("Table1_",cohort_name, "_",covid_history,"_",out,".csv")) , row.names=F)#covid_history,"_",group, 
   
-  print(paste0("Table 1 ran and saved succesfully for ", cohort_name, " ", group, " ", covid_history))
+  print(paste0("Table 1 ran and saved succesfully for ", cohort_name, " ", out," ", covid_history))
   
 }
 
@@ -383,18 +382,19 @@ stage2 <- function(cohort_name, covid_history, group) {#, group
   #   stage2(cohort_name, "with_covid_history")
   #   stage2(cohort_name, "without_covid_history")
   # }
+outcomes<-unique(active_analyses$outcome)
 
-for(group in outcome_groups){
+for(out in outcomes){
   if(cohort_name == "all"){
-    stage2("prevax", "with_covid_history", group)
-    stage2("prevax", "without_covid_history", group)
-    stage2("vax", "with_covid_history", group)
-    stage2("vax", "without_covid_history", group)
-    stage2("unvax", "with_covid_history", group)
-    stage2("unvax", "without_covid_history", group)
+    stage2("prevax", "with_covid_history",out)
+    stage2("prevax", "without_covid_history",out)
+    stage2("vax", "with_covid_history",out)
+    stage2("vax", "without_covid_history",out)
+    stage2("unvax", "with_covid_history",out)
+    stage2("unvax", "without_covid_history",out)
   }else{
-    stage2(cohort_name, "with_covid_history", group)
-    stage2(cohort_name, "without_covid_history", group)
+    stage2(cohort_name, "with_covid_history",out)
+    stage2(cohort_name, "without_covid_history",out)
   }
-
 }
+
