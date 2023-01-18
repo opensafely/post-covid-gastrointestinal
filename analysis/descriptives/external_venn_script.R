@@ -33,6 +33,7 @@ outcomes <- df$outcome
 # Create Venn for each outcome --------------------------------------------
 
 for(i in outcomes) {
+  print(i)
   
   df <- read.csv("output/review/venn-diagrams/venn_diagram_number_check_prevax.csv")
   
