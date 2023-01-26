@@ -22,11 +22,8 @@ names_prevax <- active_analyses[active_analyses$analysis == "main" & grepl("_pre
 names_vax <- active_analyses[active_analyses$analysis == "main" & grepl("_vax-main-", active_analyses$name),]$name
 names_unvax <- active_analyses[active_analyses$analysis == "main" & grepl("_unvax-main-", active_analyses$name),]$name
 
-# active_analyses <- read_rds("lib/active_analyses.rds")
-# active_analyses_table <- subset(active_analyses, active_analyses$active =="TRUE")
 # outcomes_model <- active_analyses_table$outcome_variable %>% str_replace("out_date_", "")
-# cohort_to_run <- c("vaccinated", "electively_unvaccinated")
-# analyses <- c("main", "subgroups")
+
 
 # create action functions ----
 
@@ -143,20 +140,22 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
 #   )
 # }
 
-# table2 <- function(cohort){
-#   splice(
-#     comment(glue("Stage 4 - Table 2 - {cohort} cohort")),
-#     action(
-#       name = glue("stage4_table_2_{cohort}"),
-#       run = "r:latest analysis/descriptives/table_2.R",
-#       arguments = c(cohort),
-#       needs = list("stage1_data_cleaning_both",glue("stage1_end_date_table_{cohort}")),
-#       moderately_sensitive = list(
-#         input_table_2 = glue("output/review/descriptives/table2_{cohort}.csv")
-#       )
-#     )
-#   )
-# }
+table2 <- function(cohort){
+  splice(
+    comment(glue("Stage 3 - Table 2 - {cohort} cohort")),
+    action(
+      name = glue("stage3_table_2_{cohort}"),
+      run = "r:latest analysis/descriptives/table_2.R",
+      arguments = c(cohort),
+      #needs = list("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort)))),
+      needs = as.list(c("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort))))),
+      
+      moderately_sensitive = list(
+        input_table_2 = glue("output/review/descriptives/table2_{cohort}.csv")
+      )
+    )
+  )
+}
 
 # hosp_event_counts_by_covariate_level <- function(cohort){
 #   splice(
@@ -305,7 +304,22 @@ actions_list <- splice(
       cohort = glue("output/input_*.rds")
     )
   ),
-  
+  # #comment("Stage 2 - Missing - Table 1"),
+  action(
+    name = "stage2_missing_table1_all",
+    run = "r:latest analysis/descriptives/Stage2_missing_table1.R all",
+    needs = list("stage1_data_cleaning_all"),
+    moderately_sensitive = list(
+      Missing_RangeChecks = glue("output/not-for-review/Check_missing_range_*.csv"),
+      DateChecks = glue("output/not-for-review/Check_dates_range_*.csv"),
+      Descriptive_Table = glue("output/review/descriptives/Table1_*.csv")
+    )
+  ),
+  # #comment("Stage 3 - Create input for table2"),
+  splice(
+    # over outcomes
+    unlist(lapply(cohorts, function(x) table2(cohort = x)), recursive = FALSE)
+  ),
 
   comment("Stage 4a - Venn diagrams prevax"),
   
@@ -367,21 +381,13 @@ actions_list <- splice(
     
   )
 )
+
   
   
   
   
-  # #comment("Stage 2 - Missing - Table 1"),
-  # action(
-  #   name = "stage2_missing_table1_both",
-  #   run = "r:latest analysis/descriptives/Stage2_missing_table1.R both",
-  #   needs = list("stage1_data_cleaning_both"),
-  #   moderately_sensitive = list(
-  #     Missing_RangeChecks = glue("output/not-for-review/Check_missing_range_*.csv"),
-  #     DateChecks = glue("output/not-for-review/Check_dates_range_*.csv"),
-  #     Descriptive_Table = glue("output/review/descriptives/Table1_*.csv")
-  #   )
-  # ),
+
+
   
   # #comment("Stage 3 - No action there for CVD outcomes"),  
   
@@ -410,12 +416,8 @@ actions_list <- splice(
   # ),
   
   
-  # #comment("Stage 4 - Create input for table2"),
-  # splice(
-  #   # over outcomes
-  #   unlist(lapply(cohort_to_run, function(x) table2(cohort = x)), recursive = FALSE)
-  # ),
-  
+
+
   # #comment("Stage 4 - Venn diagrams"),
   # action(
   #   name = "stage4_venn_diagram_both",

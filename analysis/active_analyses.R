@@ -82,9 +82,8 @@ cohorts <- c("vax","unvax","prevax")
 #                      "out_date_anxiety_general", 
 #                      "out_date_serious_mental_illness", 
 #                      "out_date_self_harm")
-outcomes_runall <- c("")
+outcomes_runall <- c("out_date_diarrhoea")
 outcomes_runmain <- c("out_date_ibs",
-                      "out_date_diarrhoea", 
                       "out_date_nausea", 
                       "out_date_vomiting",
                       "out_date_abdominal_paindiscomfort",
@@ -112,6 +111,7 @@ outcomes_runmain <- c("out_date_ibs",
 for (c in cohorts) {
   
   for (i in c(outcomes_runmain, outcomes_runall)) {
+    
     
     ## analysis: main ----------------------------------------------------------
     
