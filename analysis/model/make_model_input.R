@@ -4,10 +4,16 @@ print('Load packages')
 library(magrittr)
 library(data.table)
 
+# Source functions -------------------------------------------------------------
+print('Source functions')
+
+source("analysis/model/fn-check_vitals.R")
+
 # Make directory ---------------------------------------------------------------
 print('Make directory')
 
 fs::dir_create(here::here("output", "model_input"))
+
 
 # Specify arguments ------------------------------------------------------------
 print('Specify arguments')
@@ -16,8 +22,7 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   # name <- "all" # prepare datasets for all active analyses 
-  name <- "cohort_prevax-sub_priorhistory" # prepare datasets for all active analyses whose name contains X
-  # name <- "vax-depression-main;vax-depression-sub_covid_hospitalised;vax-depression-sub_covid_nonhospitalised" # prepare datasets for specific active analyses
+  name <- "cohort_unvax-main-abdominal_distension" # prepare datasets for all active analyses whose name contains X
 } else {
   name <- args[[1]]
 }
@@ -53,7 +58,6 @@ for (i in 1:nrow(active_analyses)) {
   # Restrict to required variables -----------------------------------------------
   print('Restrict to required variables')
   
-  history_components <- colnames(input)[grepl("cov_bin_recent",colnames(input)) | grepl("cov_bin_history",colnames(input))]
   
   input <- input[,unique(c("patient_id",
                            "index_date",
@@ -67,7 +71,8 @@ for (i in 1:nrow(active_analyses)) {
                            "cov_cat_sex",
                            "cov_num_age",
                            "cov_cat_ethnicity",
-                           history_components))]
+                           "cov_bin_overall_gi_and_symptoms",
+                           "cov_bin_gi_operations"))]
   
   
   # Remove outcomes outside of follow-up time ------------------------------------
@@ -97,7 +102,10 @@ for (i in 1:nrow(active_analyses)) {
     
     print('Make model input: main')
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    check_vitals(df)
+
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -117,6 +125,10 @@ for (i in 1:nrow(active_analyses)) {
                     out_date = replace(out_date, which(out_date>end_date), NA))
     
     df <- df[df$end_date>=df$index_date,]
+
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)
     
     readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
@@ -138,8 +150,10 @@ for (i in 1:nrow(active_analyses)) {
                     out_date = replace(out_date, which(out_date>end_date), NA))
     
     df <- df[df$end_date>=df$index_date,]
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -153,8 +167,10 @@ for (i in 1:nrow(active_analyses)) {
     
     df <- input[input$sub_bin_covid19_confirmed_history==TRUE,]
     
-    df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -170,8 +186,10 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
                   input$cov_cat_sex=="Female",]
     
-    df[,c("sub_bin_covid19_confirmed_history","cov_cat_sex")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_cat_sex")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -186,8 +204,10 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
                   input$cov_cat_sex=="Male",]
     
-    df[,c("sub_bin_covid19_confirmed_history","cov_cat_sex")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_cat_sex")] <- NULL
+    
+    check_vitals(df)    
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -203,8 +223,10 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age>=18 &
                   input$cov_num_age<40,]
     
-    df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+  check_vitals(df)
+  readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -220,8 +242,10 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age>=40 &
                   input$cov_num_age<60,]
     
-    df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)    
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -237,8 +261,10 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age>=60 &
                   input$cov_num_age<80,]
     
-    df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)    
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -254,8 +280,10 @@ for (i in 1:nrow(active_analyses)) {
                   input$cov_num_age>=80 &
                   input$cov_num_age<111,]
     
-    df[,c("sub_bin_covid19_confirmed_history")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -270,8 +298,10 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
                   input$cov_cat_ethnicity=="White",]
     
-    df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -286,8 +316,10 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
                   input$cov_cat_ethnicity=="Black",]
     
-    df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -302,8 +334,10 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
                   input$cov_cat_ethnicity=="Mixed",]
     
-    df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_cat_ethnicity")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -318,8 +352,10 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
                   input$cov_cat_ethnicity=="South Asian",]
     
-    df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_cat_ethnicity")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
@@ -334,12 +370,84 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
                   input$cov_cat_ethnicity=="Other",]
     
-    df[,c("sub_bin_covid19_confirmed_history","cov_cat_ethnicity")] <- NULL
-    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_cat_ethnicity")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
   }
+  # Make model input: sub_priorhistory_true----------------------------------------
+  
+  if (active_analyses$analysis[i]=="sub_priorhistory_true") {
+    
+    print('Make model input: sub_priorhistory_true')
+    
+    df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
+                  input$cov_bin_overall_gi_and_symptoms==TRUE,]
+    
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_bin_overall_gi_and_symptoms")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
+    rm(df)
+    
+  }
+  # Make model input: sub_priorhistory_false----------------------------------------
+  
+  if (active_analyses$analysis[i]=="sub_priorhistory_false") {
+    
+    print('Make model input: sub_priorhistory_false')
+    
+    df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
+                  input$cov_bin_overall_gi_and_symptoms==FALSE,]
+    
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_bin_overall_gi_and_symptoms")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
+    rm(df)
+    
+  }
+  # Make model input: sub_prioroperations_true
+----------------------------------------
+  
+  if (active_analyses$analysis[i]=="sub_prioroperations_true") {
+    
+    print('Make model input: sub_prioroperations_true')
+    
+    df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
+                  input$cov_bin_gi_operations==TRUE,]
+    
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_bin_gi_operations")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
+    rm(df)
+    
+  }
+  # Make model input: sub_prioroperations_false----------------------------------------
+  
+  if (active_analyses$analysis[i]=="sub_prioroperations_false") {
+    
+    print('Make model input: sub_prioroperations_false')
+    
+    df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
+                  input$cov_bin_gi_operations==FALSE,]
+    
+    df[,c(colnames(df)[grepl("sub_",colnames(df))],"cov_bin_gi_operations")] <- NULL
+    
+    check_vitals(df)
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")))
+    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
+    rm(df)
+    
+  }
+
 
   
   
