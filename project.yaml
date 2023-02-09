@@ -8638,12 +8638,12 @@ actions:
     - cox_ipw-cohort_prevax-main-nonvariceal_gi_bleeding
     - cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-main-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_prevax-main-accute_pancreatitis
-    - cox_ipw-cohort_vax-main-accute_pancreatitis
+    - cox_ipw-cohort_prevax-main-acute_pancreatitis
+    - cox_ipw-cohort_vax-main-acute_pancreatitis
     - cox_ipw-cohort_unvax-main-accute_pancreatitis
-    - cox_ipw-cohort_prevax-main-peptipc_ulcer
-    - cox_ipw-cohort_vax-main-peptipc_ulcer
-    - cox_ipw-cohort_unvax-main-peptipc_ulcer
+    - cox_ipw-cohort_prevax-main-peptic_ulcer
+    - cox_ipw-cohort_vax-main-peptic_ulcer
+    - cox_ipw-cohort_unvax-main-peptic_ulcer
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
