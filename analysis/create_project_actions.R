@@ -23,6 +23,23 @@ names_vax <- active_analyses[active_analyses$analysis == "main" & grepl("_vax-ma
 names_unvax <- active_analyses[active_analyses$analysis == "main" & grepl("_unvax-main-", active_analyses$name),]$name
 
 # outcomes_model <- active_analyses_table$outcome_variable %>% str_replace("out_date_", "")
+# Determine which outputs are ready --------------------------------------------
+
+success <- readxl::read_excel("../post-covid-outcome-tracker.xlsx",
+                              sheet = "gastrointestinal",
+                              col_types = c("text","text", "text", "text", "text", "text",
+                                            "text", "text", "text", "text", "text",
+                                            "text", "text", "text", "text", "text",
+                                            "text", "text", "text", "text","text","text","text","text",
+                                            "skip", "skip"))
+
+success <- tidyr::pivot_longer(success,
+                               cols = setdiff(colnames(success),c("outcome","cohort")),
+                               names_to = "analysis")
+
+success$name <- paste0("cohort_",success$cohort, "-",success$analysis, "-",success$outcome)
+
+success <- success[grepl("success",success$value, ignore.case = TRUE),]
 
 
 # create action functions ----
@@ -381,16 +398,16 @@ actions_list <- splice(
     )
     
   ),
-# comment("Stage 6 - make model output"),
+comment("Stage 6 - make model output"),
   
-#   action(
-#     name = "make_model_output",
-#     run = "r:latest analysis/model/make_model_output.R",
-#     needs = as.list(paste0("cox_ipw-",success$name)),
-#     moderately_sensitive = list(
-#       model_output = glue("output/model_output.csv")
-#     )
-#   ),
+  action(
+    name = "make_model_output",
+    run = "r:latest analysis/model/make_model_output.R",
+    needs = as.list(paste0("cox_ipw-",success$name)),
+    moderately_sensitive = list(
+      model_output = glue("output/model_output.csv")
+    )
+  )
 )
 
   

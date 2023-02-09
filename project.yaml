@@ -8591,3 +8591,60 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_vax-sub_sex_male-diarrhoea.csv
 
+  ## Stage 6 - make model output 
+
+  make_model_output:
+    run: r:latest analysis/model/make_model_output.R
+    needs:
+    - cox_ipw-cohort_prevax-main-abdominal_distension
+    - cox_ipw-cohort_vax-main-abdominal_distension
+    - cox_ipw-cohort_unvax-main-abdominal_distension
+    - cox_ipw-cohort_prevax-main-abdominal_paindiscomfort
+    - cox_ipw-cohort_vax-main-abdominal_paindiscomfort
+    - cox_ipw-cohort_unvax-main-abdominal_paindiscomfort
+    - cox_ipw-cohort_prevax-main-diarrhoea
+    - cox_ipw-cohort_vax-main-diarrhoea
+    - cox_ipw-cohort_unvax-main-diarrhoea
+    - cox_ipw-cohort_prevax-main-dyspepsia
+    - cox_ipw-cohort_vax-main-dyspepsia
+    - cox_ipw-cohort_unvax-main-dyspepsia
+    - cox_ipw-cohort_prevax-main-nausea
+    - cox_ipw-cohort_vax-main-nausea
+    - cox_ipw-cohort_unvax-main-nausea
+    - cox_ipw-cohort_prevax-main-vomiting
+    - cox_ipw-cohort_vax-main-vomiting
+    - cox_ipw-cohort_unvax-main-vomiting
+    - cox_ipw-cohort_prevax-main-bloody_stools
+    - cox_ipw-cohort_vax-main-bloody_stools
+    - cox_ipw-cohort_unvax-main-bloody_stools
+    - cox_ipw-cohort_prevax-main-ibs
+    - cox_ipw-cohort_vax-main-ibs
+    - cox_ipw-cohort_unvax-main-ibs
+    - cox_ipw-cohort_prevax-main-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_vax-main-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_unvax-main-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_prevax-main-appendicitis
+    - cox_ipw-cohort_vax-main-appendicitis
+    - cox_ipw-cohort_unvax-main-appendicitis
+    - cox_ipw-cohort_prevax-main-gallstones_disease
+    - cox_ipw-cohort_vax-main-gallstones_disease
+    - cox_ipw-cohort_unvax-main-gallstones_disease
+    - cox_ipw-cohort_prevax-main-lower_gi_bleeding
+    - cox_ipw-cohort_vax-main-lower_gi_bleeding
+    - cox_ipw-cohort_unvax-main-lower_gi_bleeding
+    - cox_ipw-cohort_prevax-main-upper_gi_bleeding
+    - cox_ipw-cohort_vax-main-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-main-upper_gi_bleeding
+    - cox_ipw-cohort_prevax-main-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-main-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_prevax-main-accute_pancreatitis
+    - cox_ipw-cohort_vax-main-accute_pancreatitis
+    - cox_ipw-cohort_unvax-main-accute_pancreatitis
+    - cox_ipw-cohort_prevax-main-peptipc_ulcer
+    - cox_ipw-cohort_vax-main-peptipc_ulcer
+    - cox_ipw-cohort_unvax-main-peptipc_ulcer
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output.csv
+
