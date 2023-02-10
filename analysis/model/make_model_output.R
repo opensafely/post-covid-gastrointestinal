@@ -88,7 +88,7 @@ disclosure_threshold <- 5
 redact <- df[df$error=="",] %>%
   dplyr::group_by(name) %>%
   dplyr::mutate(min_total = min(N_total, na.rm = TRUE),
-                min_exposed = min(N_total, na.rm = TRUE),
+                min_exposed = min(N_exposed, na.rm = TRUE),
                 min_events = min(N_events, na.rm = TRUE)) %>%
   dplyr::ungroup() %>%
   dplyr::select(name, min_total, min_exposed, min_events) %>%
