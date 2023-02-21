@@ -15,7 +15,8 @@ defaults_list <- list(
   version = "3.0",
   expectations= list(population_size=10000L)
 )
-active_analyses <- read_rds("lib/active_analyses.rds")
+active_analyses <- read_rds("lib/active_analyses.rds")%>%
+  filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding")) 
 active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
 cohorts <- unique(active_analyses$cohort)
 names_prevax <- active_analyses[active_analyses$analysis == "main" & grepl("_prevax-main-", active_analyses$name),]$name
@@ -29,7 +30,7 @@ success <- readxl::read_excel("../post-covid-outcome-tracker.xlsx",
                               sheet = "gastrointestinal",
                               col_types = c("text","text", "text", "text", "text", "text",
                                             "text", "text", "text", "text", "text",
-                                            "text", "text", "text", "text", "text",
+                                            "text", "text", 
                                             "text", "text", "text", "text","text","text","text","text",
                                             "skip", "skip"))
 
@@ -166,7 +167,7 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
 #       arguments = c(cohort),
 #       #needs = list("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort)))),
 #       needs = as.list(c("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort))))),
-      
+
 #       moderately_sensitive = list(
 #         input_table_2 = glue("output/review/descriptives/table2_{cohort}.csv")
 #       )
@@ -332,12 +333,8 @@ actions_list <- splice(
       Descriptive_Table = glue("output/review/descriptives/Table1_*.csv")
     )
   ),
-  # #comment("Stage 3 - Create input for table2"),
-  splice(
-    # over outcomes
-    unlist(lapply(cohorts, function(x) table2(cohort = x)), recursive = FALSE)
-  ),
-
+  
+  
   comment("Stage 4a - Venn diagrams prevax"),
   
   action(
@@ -393,12 +390,12 @@ actions_list <- splice(
                                                    total_event_threshold = active_analyses$total_event_threshold[x],
                                                    episode_event_threshold = active_analyses$episode_event_threshold[x],
                                                    covariate_threshold = active_analyses$covariate_threshold[x],
-                                                  priorhistory_var = active_analyses$priorhistory_var[x],
+                                                   priorhistory_var = active_analyses$priorhistory_var[x],
                                                    age_spline = active_analyses$age_spline[x])), recursive = FALSE
     )
     
   ),
-comment("Stage 6 - make model output"),
+  comment("Stage 6 - make model output"),
   
   action(
     name = "make_model_output",
@@ -408,9 +405,9 @@ comment("Stage 6 - make model output"),
       model_output = glue("output/model_output.csv")
     )
   ),
-
+  
   comment("Make Table 2"),
-
+  
   action(
     name = "table2",
     run = "r:latest analysis/descriptives/table2.R",
@@ -419,110 +416,110 @@ comment("Stage 6 - make model output"),
       table2 = glue("output/table2.csv"),
       table2_rounded = glue("output/table2_rounded.csv")
     )
-)
-)
-  
-  
-  
-  
-
-
-  
-  # #comment("Stage 3 - No action there for CVD outcomes"),  
-  
-  # #comment("Stage 3 - Diabetes flow - vaccinated"),  
-  
-  # action(
-  #   name = "stage3_diabetes_flow_vaccinated",
-  #   run = "r:latest analysis/descriptives/diabetes_flowchart.R vaccinated",
-  #   needs = list("stage1_data_cleaning_both"),
-  #   moderately_sensitive = list(
-  #     flow_df = glue("output/review/figure-data/diabetes_flow_values_vaccinated.csv")
-  #     # flow_fig = glue("output/diabetes_flow.png"),
-  #   ),
-  # ),
-  
-  # #comment("Stage 3 - Diabetes flow - electively_unvaccinated"),  
-  
-  # action(
-  #   name = "stage3_diabetes_flow_electively_unvaccinated",
-  #   run = "r:latest analysis/descriptives/diabetes_flowchart.R electively_unvaccinated",
-  #   needs = list("stage1_data_cleaning_both"),
-  #   moderately_sensitive = list(
-  #     flow_df = glue("output/review/figure-data/diabetes_flow_values_electively_unvaccinated.csv")
-  #     # flow_fig = glue("output/diabetes_flow.png"),
-  #   ),
-  # ),
-  
-  
-
-
-  # #comment("Stage 4 - Venn diagrams"),
-  # action(
-  #   name = "stage4_venn_diagram_both",
-  #   run = "r:latest analysis/descriptives/venn_diagram.R both",
-  #   needs = list("preprocess_data_vaccinated","preprocess_data_electively_unvaccinated","stage1_data_cleaning_both","stage1_end_date_table_vaccinated","stage1_end_date_table_electively_unvaccinated"),
-  #   moderately_sensitive = list(
-  #     venn_diagram = glue("output/review/venn-diagrams/venn_diagram_*"))
-  # ),
-  
-  # #comment("Stage 5 - Apply models"),
-  # splice(
-  #   # over outcomes
-  #   unlist(lapply(outcomes_model, function(x) splice(unlist(lapply(cohort_to_run, function(y) apply_model_function(outcome = x, cohort = y)), recursive = FALSE))
-  #     ),recursive = FALSE)),
-  
-  # #comment("Split hospitalised COVID by region - vaccinated"),
-  # action(
-  #   name = "split_hosp_covid_by_region_vaccinated",
-  #   run = "r:latest analysis/descriptives/hospitalised_covid_events_by_region.R vaccinated",
-  #   needs = list("stage1_data_cleaning_both","stage1_end_date_table_vaccinated"),
-  #   moderately_sensitive = list(
-  #     hosp_events_by_region_non_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_vaccinated_non_suppressed.csv",
-  #     hosp_events_by_region_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_vaccinated_suppressed.csv")),
-  
-  # #comment("Split hospitalised COVID by region - electively unvaccinated"),
-  # action(
-  #   name = "split_hosp_covid_by_region_electively_unvaccinated",
-  #   run = "r:latest analysis/descriptives/hospitalised_covid_events_by_region.R electively_unvaccinated",
-  #   needs = list("stage1_data_cleaning_both","stage1_end_date_table_electively_unvaccinated"),
-  #   moderately_sensitive = list(
-  #   hosp_events_by_region_non_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_electively_unvaccinated_non_suppressed.csv",
-  #   hosp_events_by_region_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_electively_unvaccinated_suppressed.csv")),
-  
-  # #comment("Hospitalised event counts by covariate level"),
-  # splice(
-  #   # over cohort
-  #   unlist(lapply(cohort_to_run, function(x) hosp_event_counts_by_covariate_level(cohort = x)), recursive = FALSE)
-  # ),
-  
-  # #comment("Select covariates for hosp COVID)
-  # action(
-  #   name = "select_covariates_for_hosp_covid",
-  #   run = "r:latest analysis/descriptives/determine_covariates_for_hosp_covid.R both",
-  #   needs = list("hosp_event_counts_by_covariate_level_vaccinated","hosp_event_counts_by_covariate_level_electively_unvaccinated"),
-  #   moderately_sensitive = list(
-  #     covariates_for_hosp_covid_vacc = "output/not-for-review/covariates_to_adjust_for_hosp_covid_vaccinated.csv",
-  #     covariates_for_hosp_covid_electively_unvacc = "output/not-for-review/covariates_to_adjust_for_hosp_covid_electively_unvaccinated.csv")
-  
-  # )
-  
-  
-  
-  ## combine everything ----
-  project_list <- splice(
-    defaults_list,
-    list(actions = actions_list)
   )
-  
-  #####################################################################################
-  ## convert list to yaml, reformat comments and white space, and output a .yaml file #
-  #####################################################################################
-  as.yaml(project_list, indent=2) %>%
-    # convert comment actions to comments
-    convert_comment_actions() %>%
-    # add one blank line before level 1 and level 2 keys
-    str_replace_all("\\\n(\\w)", "\n\n\\1") %>%
-    str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%
-    writeLines("project.yaml")
-  
+)
+
+
+
+
+
+
+
+# #comment("Stage 3 - No action there for CVD outcomes"),  
+
+# #comment("Stage 3 - Diabetes flow - vaccinated"),  
+
+# action(
+#   name = "stage3_diabetes_flow_vaccinated",
+#   run = "r:latest analysis/descriptives/diabetes_flowchart.R vaccinated",
+#   needs = list("stage1_data_cleaning_both"),
+#   moderately_sensitive = list(
+#     flow_df = glue("output/review/figure-data/diabetes_flow_values_vaccinated.csv")
+#     # flow_fig = glue("output/diabetes_flow.png"),
+#   ),
+# ),
+
+# #comment("Stage 3 - Diabetes flow - electively_unvaccinated"),  
+
+# action(
+#   name = "stage3_diabetes_flow_electively_unvaccinated",
+#   run = "r:latest analysis/descriptives/diabetes_flowchart.R electively_unvaccinated",
+#   needs = list("stage1_data_cleaning_both"),
+#   moderately_sensitive = list(
+#     flow_df = glue("output/review/figure-data/diabetes_flow_values_electively_unvaccinated.csv")
+#     # flow_fig = glue("output/diabetes_flow.png"),
+#   ),
+# ),
+
+
+
+
+# #comment("Stage 4 - Venn diagrams"),
+# action(
+#   name = "stage4_venn_diagram_both",
+#   run = "r:latest analysis/descriptives/venn_diagram.R both",
+#   needs = list("preprocess_data_vaccinated","preprocess_data_electively_unvaccinated","stage1_data_cleaning_both","stage1_end_date_table_vaccinated","stage1_end_date_table_electively_unvaccinated"),
+#   moderately_sensitive = list(
+#     venn_diagram = glue("output/review/venn-diagrams/venn_diagram_*"))
+# ),
+
+# #comment("Stage 5 - Apply models"),
+# splice(
+#   # over outcomes
+#   unlist(lapply(outcomes_model, function(x) splice(unlist(lapply(cohort_to_run, function(y) apply_model_function(outcome = x, cohort = y)), recursive = FALSE))
+#     ),recursive = FALSE)),
+
+# #comment("Split hospitalised COVID by region - vaccinated"),
+# action(
+#   name = "split_hosp_covid_by_region_vaccinated",
+#   run = "r:latest analysis/descriptives/hospitalised_covid_events_by_region.R vaccinated",
+#   needs = list("stage1_data_cleaning_both","stage1_end_date_table_vaccinated"),
+#   moderately_sensitive = list(
+#     hosp_events_by_region_non_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_vaccinated_non_suppressed.csv",
+#     hosp_events_by_region_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_vaccinated_suppressed.csv")),
+
+# #comment("Split hospitalised COVID by region - electively unvaccinated"),
+# action(
+#   name = "split_hosp_covid_by_region_electively_unvaccinated",
+#   run = "r:latest analysis/descriptives/hospitalised_covid_events_by_region.R electively_unvaccinated",
+#   needs = list("stage1_data_cleaning_both","stage1_end_date_table_electively_unvaccinated"),
+#   moderately_sensitive = list(
+#   hosp_events_by_region_non_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_electively_unvaccinated_non_suppressed.csv",
+#   hosp_events_by_region_suppressed = "output/not-for-review/hospitalised_covid_event_counts_by_region_electively_unvaccinated_suppressed.csv")),
+
+# #comment("Hospitalised event counts by covariate level"),
+# splice(
+#   # over cohort
+#   unlist(lapply(cohort_to_run, function(x) hosp_event_counts_by_covariate_level(cohort = x)), recursive = FALSE)
+# ),
+
+# #comment("Select covariates for hosp COVID)
+# action(
+#   name = "select_covariates_for_hosp_covid",
+#   run = "r:latest analysis/descriptives/determine_covariates_for_hosp_covid.R both",
+#   needs = list("hosp_event_counts_by_covariate_level_vaccinated","hosp_event_counts_by_covariate_level_electively_unvaccinated"),
+#   moderately_sensitive = list(
+#     covariates_for_hosp_covid_vacc = "output/not-for-review/covariates_to_adjust_for_hosp_covid_vaccinated.csv",
+#     covariates_for_hosp_covid_electively_unvacc = "output/not-for-review/covariates_to_adjust_for_hosp_covid_electively_unvaccinated.csv")
+
+# )
+
+
+
+## combine everything ----
+project_list <- splice(
+  defaults_list,
+  list(actions = actions_list)
+)
+
+#####################################################################################
+## convert list to yaml, reformat comments and white space, and output a .yaml file #
+#####################################################################################
+as.yaml(project_list, indent=2) %>%
+  # convert comment actions to comments
+  convert_comment_actions() %>%
+  # add one blank line before level 1 and level 2 keys
+  str_replace_all("\\\n(\\w)", "\n\n\\1") %>%
+  str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%
+  writeLines("project.yaml")
+
