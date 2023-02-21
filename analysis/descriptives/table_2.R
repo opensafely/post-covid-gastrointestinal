@@ -15,7 +15,7 @@ source("analysis/utility.R")
 print('Load active analyses')
 
 active_analyses <- readr::read_rds("lib/active_analyses.rds")%>%
-filter(analysis=="main" & cohort!="unvax" & !outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding"))
+filter(analysis=="main" & !outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding"))
 # Make empty table 2 -----------------------------------------------------------
 print('Make empty table 2')
 
@@ -41,6 +41,7 @@ for (i in 1:nrow(active_analyses)) {
   
   ## Load data -----------------------------------------------------------------
   print(paste0("Load data for ",active_analyses$name[i]))
+
   
   df <- read_rds(paste0("output/model_input-",active_analyses$name[i],".rds"))
   df <- df[,c("patient_id","index_date","exp_date","out_date","end_date")]
