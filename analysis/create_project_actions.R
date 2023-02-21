@@ -157,22 +157,22 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
 #   )
 # }
 
-table2 <- function(cohort){
-  splice(
-    comment(glue("Stage 3 - Table 2 - {cohort} cohort")),
-    action(
-      name = glue("stage3_table_2_{cohort}"),
-      run = "r:latest analysis/descriptives/table_2.R",
-      arguments = c(cohort),
-      #needs = list("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort)))),
-      needs = as.list(c("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort))))),
+# table2 <- function(cohort){
+#   splice(
+#     comment(glue("Stage 3 - Table 2 - {cohort} cohort")),
+#     action(
+#       name = glue("stage3_table_2_{cohort}"),
+#       run = "r:latest analysis/descriptives/table_2.R",
+#       arguments = c(cohort),
+#       #needs = list("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort)))),
+#       needs = as.list(c("stage1_data_cleaning_all",paste0("make_model_input-", get(paste0("names_",cohort))))),
       
-      moderately_sensitive = list(
-        input_table_2 = glue("output/review/descriptives/table2_{cohort}.csv")
-      )
-    )
-  )
-}
+#       moderately_sensitive = list(
+#         input_table_2 = glue("output/review/descriptives/table2_{cohort}.csv")
+#       )
+#     )
+#   )
+# }
 
 # hosp_event_counts_by_covariate_level <- function(cohort){
 #   splice(
@@ -407,9 +407,20 @@ comment("Stage 6 - make model output"),
     moderately_sensitive = list(
       model_output = glue("output/model_output.csv")
     )
-  )
-)
+  ),
 
+  comment("Make Table 2"),
+
+  action(
+    name = "table2",
+    run = "r:latest analysis/descriptives/table2.R",
+    needs = as.list(paste0("make_model_input-",active_analyses$name)),
+    moderately_sensitive = list(
+      table2 = glue("output/table2.csv"),
+      table2_rounded = glue("output/table2_rounded.csv")
+    )
+)
+)
   
   
   

@@ -133,99 +133,6 @@ actions:
         DateChecks: output/not-for-review/Check_dates_range_*.csv
         Descriptive_Table: output/review/descriptives/Table1_*.csv
 
-  ## Stage 3 - Table 2 - prevax cohort 
-
-  stage3_table_2_prevax:
-    run: r:latest analysis/descriptives/table_2.R prevax
-    needs:
-    - stage1_data_cleaning_all
-    - make_model_input-cohort_prevax-main-abdominal_distension
-    - make_model_input-cohort_prevax-main-abdominal_paindiscomfort
-    - make_model_input-cohort_prevax-main-acute_pancreatitis
-    - make_model_input-cohort_prevax-main-appendicitis
-    - make_model_input-cohort_prevax-main-belching
-    - make_model_input-cohort_prevax-main-bloody_stools
-    - make_model_input-cohort_prevax-main-bowel_ischaemia
-    - make_model_input-cohort_prevax-main-diarrhoea
-    - make_model_input-cohort_prevax-main-dyspepsia
-    - make_model_input-cohort_prevax-main-gallstones_disease
-    - make_model_input-cohort_prevax-main-gastro_oesophageal_reflux_disease
-    - make_model_input-cohort_prevax-main-ibs
-    - make_model_input-cohort_prevax-main-intestinal_obstruction
-    - make_model_input-cohort_prevax-main-lower_gi_bleeding
-    - make_model_input-cohort_prevax-main-nausea
-    - make_model_input-cohort_prevax-main-nonalcoholic_steatohepatitis
-    - make_model_input-cohort_prevax-main-nonvariceal_gi_bleeding
-    - make_model_input-cohort_prevax-main-peptic_ulcer
-    - make_model_input-cohort_prevax-main-upper_gi_bleeding
-    - make_model_input-cohort_prevax-main-variceal_gi_bleeding
-    - make_model_input-cohort_prevax-main-vomiting
-    outputs:
-      moderately_sensitive:
-        input_table_2: output/review/descriptives/table2_prevax.csv
-
-  ## Stage 3 - Table 2 - unvax cohort 
-
-  stage3_table_2_unvax:
-    run: r:latest analysis/descriptives/table_2.R unvax
-    needs:
-    - stage1_data_cleaning_all
-    - make_model_input-cohort_unvax-main-abdominal_distension
-    - make_model_input-cohort_unvax-main-abdominal_paindiscomfort
-    - make_model_input-cohort_unvax-main-acute_pancreatitis
-    - make_model_input-cohort_unvax-main-appendicitis
-    - make_model_input-cohort_unvax-main-belching
-    - make_model_input-cohort_unvax-main-bloody_stools
-    - make_model_input-cohort_unvax-main-bowel_ischaemia
-    - make_model_input-cohort_unvax-main-diarrhoea
-    - make_model_input-cohort_unvax-main-dyspepsia
-    - make_model_input-cohort_unvax-main-gallstones_disease
-    - make_model_input-cohort_unvax-main-gastro_oesophageal_reflux_disease
-    - make_model_input-cohort_unvax-main-ibs
-    - make_model_input-cohort_unvax-main-intestinal_obstruction
-    - make_model_input-cohort_unvax-main-lower_gi_bleeding
-    - make_model_input-cohort_unvax-main-nausea
-    - make_model_input-cohort_unvax-main-nonalcoholic_steatohepatitis
-    - make_model_input-cohort_unvax-main-nonvariceal_gi_bleeding
-    - make_model_input-cohort_unvax-main-peptic_ulcer
-    - make_model_input-cohort_unvax-main-upper_gi_bleeding
-    - make_model_input-cohort_unvax-main-variceal_gi_bleeding
-    - make_model_input-cohort_unvax-main-vomiting
-    outputs:
-      moderately_sensitive:
-        input_table_2: output/review/descriptives/table2_unvax.csv
-
-  ## Stage 3 - Table 2 - vax cohort 
-
-  stage3_table_2_vax:
-    run: r:latest analysis/descriptives/table_2.R vax
-    needs:
-    - stage1_data_cleaning_all
-    - make_model_input-cohort_vax-main-abdominal_distension
-    - make_model_input-cohort_vax-main-abdominal_paindiscomfort
-    - make_model_input-cohort_vax-main-acute_pancreatitis
-    - make_model_input-cohort_vax-main-appendicitis
-    - make_model_input-cohort_vax-main-belching
-    - make_model_input-cohort_vax-main-bloody_stools
-    - make_model_input-cohort_vax-main-bowel_ischaemia
-    - make_model_input-cohort_vax-main-diarrhoea
-    - make_model_input-cohort_vax-main-dyspepsia
-    - make_model_input-cohort_vax-main-gallstones_disease
-    - make_model_input-cohort_vax-main-gastro_oesophageal_reflux_disease
-    - make_model_input-cohort_vax-main-ibs
-    - make_model_input-cohort_vax-main-intestinal_obstruction
-    - make_model_input-cohort_vax-main-lower_gi_bleeding
-    - make_model_input-cohort_vax-main-nausea
-    - make_model_input-cohort_vax-main-nonalcoholic_steatohepatitis
-    - make_model_input-cohort_vax-main-nonvariceal_gi_bleeding
-    - make_model_input-cohort_vax-main-peptic_ulcer
-    - make_model_input-cohort_vax-main-upper_gi_bleeding
-    - make_model_input-cohort_vax-main-variceal_gi_bleeding
-    - make_model_input-cohort_vax-main-vomiting
-    outputs:
-      moderately_sensitive:
-        input_table_2: output/review/descriptives/table2_vax.csv
-
   ## Stage 4a - Venn diagrams prevax 
 
   stage4_venn_diagram_prevax:
@@ -8647,4 +8554,290 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
+
+  ## Make Table 2 
+
+  table2:
+    run: r:latest analysis/descriptives/table2.R
+    needs:
+    - make_model_input-cohort_prevax-main-abdominal_distension
+    - make_model_input-cohort_prevax-main-abdominal_paindiscomfort
+    - make_model_input-cohort_prevax-main-acute_pancreatitis
+    - make_model_input-cohort_prevax-main-appendicitis
+    - make_model_input-cohort_prevax-main-belching
+    - make_model_input-cohort_prevax-main-bloody_stools
+    - make_model_input-cohort_prevax-main-bowel_ischaemia
+    - make_model_input-cohort_prevax-main-diarrhoea
+    - make_model_input-cohort_prevax-main-dyspepsia
+    - make_model_input-cohort_prevax-main-gallstones_disease
+    - make_model_input-cohort_prevax-main-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_prevax-main-ibs
+    - make_model_input-cohort_prevax-main-intestinal_obstruction
+    - make_model_input-cohort_prevax-main-lower_gi_bleeding
+    - make_model_input-cohort_prevax-main-nausea
+    - make_model_input-cohort_prevax-main-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_prevax-main-nonvariceal_gi_bleeding
+    - make_model_input-cohort_prevax-main-peptic_ulcer
+    - make_model_input-cohort_prevax-main-upper_gi_bleeding
+    - make_model_input-cohort_prevax-main-variceal_gi_bleeding
+    - make_model_input-cohort_prevax-main-vomiting
+    - make_model_input-cohort_unvax-main-abdominal_distension
+    - make_model_input-cohort_unvax-main-abdominal_paindiscomfort
+    - make_model_input-cohort_unvax-main-acute_pancreatitis
+    - make_model_input-cohort_unvax-main-appendicitis
+    - make_model_input-cohort_unvax-main-belching
+    - make_model_input-cohort_unvax-main-bloody_stools
+    - make_model_input-cohort_unvax-main-bowel_ischaemia
+    - make_model_input-cohort_unvax-main-diarrhoea
+    - make_model_input-cohort_unvax-main-dyspepsia
+    - make_model_input-cohort_unvax-main-gallstones_disease
+    - make_model_input-cohort_unvax-main-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_unvax-main-ibs
+    - make_model_input-cohort_unvax-main-intestinal_obstruction
+    - make_model_input-cohort_unvax-main-lower_gi_bleeding
+    - make_model_input-cohort_unvax-main-nausea
+    - make_model_input-cohort_unvax-main-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_unvax-main-nonvariceal_gi_bleeding
+    - make_model_input-cohort_unvax-main-peptic_ulcer
+    - make_model_input-cohort_unvax-main-upper_gi_bleeding
+    - make_model_input-cohort_unvax-main-variceal_gi_bleeding
+    - make_model_input-cohort_unvax-main-vomiting
+    - make_model_input-cohort_vax-main-abdominal_distension
+    - make_model_input-cohort_vax-main-abdominal_paindiscomfort
+    - make_model_input-cohort_vax-main-acute_pancreatitis
+    - make_model_input-cohort_vax-main-appendicitis
+    - make_model_input-cohort_vax-main-belching
+    - make_model_input-cohort_vax-main-bloody_stools
+    - make_model_input-cohort_vax-main-bowel_ischaemia
+    - make_model_input-cohort_vax-main-diarrhoea
+    - make_model_input-cohort_vax-main-dyspepsia
+    - make_model_input-cohort_vax-main-gallstones_disease
+    - make_model_input-cohort_vax-main-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_vax-main-ibs
+    - make_model_input-cohort_vax-main-intestinal_obstruction
+    - make_model_input-cohort_vax-main-lower_gi_bleeding
+    - make_model_input-cohort_vax-main-nausea
+    - make_model_input-cohort_vax-main-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_vax-main-nonvariceal_gi_bleeding
+    - make_model_input-cohort_vax-main-peptic_ulcer
+    - make_model_input-cohort_vax-main-upper_gi_bleeding
+    - make_model_input-cohort_vax-main-variceal_gi_bleeding
+    - make_model_input-cohort_vax-main-vomiting
+    - make_model_input-cohort_prevax-sub_age_18_39-diarrhoea
+    - make_model_input-cohort_unvax-sub_age_18_39-diarrhoea
+    - make_model_input-cohort_vax-sub_age_18_39-diarrhoea
+    - make_model_input-cohort_prevax-sub_age_40_59-diarrhoea
+    - make_model_input-cohort_unvax-sub_age_40_59-diarrhoea
+    - make_model_input-cohort_vax-sub_age_40_59-diarrhoea
+    - make_model_input-cohort_prevax-sub_age_60_79-diarrhoea
+    - make_model_input-cohort_unvax-sub_age_60_79-diarrhoea
+    - make_model_input-cohort_vax-sub_age_60_79-diarrhoea
+    - make_model_input-cohort_prevax-sub_age_80_110-diarrhoea
+    - make_model_input-cohort_unvax-sub_age_80_110-diarrhoea
+    - make_model_input-cohort_vax-sub_age_80_110-diarrhoea
+    - make_model_input-cohort_unvax-sub_covid_history-abdominal_distension
+    - make_model_input-cohort_unvax-sub_covid_history-abdominal_paindiscomfort
+    - make_model_input-cohort_unvax-sub_covid_history-acute_pancreatitis
+    - make_model_input-cohort_unvax-sub_covid_history-appendicitis
+    - make_model_input-cohort_unvax-sub_covid_history-belching
+    - make_model_input-cohort_unvax-sub_covid_history-bloody_stools
+    - make_model_input-cohort_unvax-sub_covid_history-bowel_ischaemia
+    - make_model_input-cohort_unvax-sub_covid_history-diarrhoea
+    - make_model_input-cohort_unvax-sub_covid_history-dyspepsia
+    - make_model_input-cohort_unvax-sub_covid_history-gallstones_disease
+    - make_model_input-cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_unvax-sub_covid_history-ibs
+    - make_model_input-cohort_unvax-sub_covid_history-intestinal_obstruction
+    - make_model_input-cohort_unvax-sub_covid_history-lower_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_history-nausea
+    - make_model_input-cohort_unvax-sub_covid_history-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_history-peptic_ulcer
+    - make_model_input-cohort_unvax-sub_covid_history-upper_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_history-variceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_history-vomiting
+    - make_model_input-cohort_vax-sub_covid_history-abdominal_distension
+    - make_model_input-cohort_vax-sub_covid_history-abdominal_paindiscomfort
+    - make_model_input-cohort_vax-sub_covid_history-acute_pancreatitis
+    - make_model_input-cohort_vax-sub_covid_history-appendicitis
+    - make_model_input-cohort_vax-sub_covid_history-belching
+    - make_model_input-cohort_vax-sub_covid_history-bloody_stools
+    - make_model_input-cohort_vax-sub_covid_history-bowel_ischaemia
+    - make_model_input-cohort_vax-sub_covid_history-diarrhoea
+    - make_model_input-cohort_vax-sub_covid_history-dyspepsia
+    - make_model_input-cohort_vax-sub_covid_history-gallstones_disease
+    - make_model_input-cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_vax-sub_covid_history-ibs
+    - make_model_input-cohort_vax-sub_covid_history-intestinal_obstruction
+    - make_model_input-cohort_vax-sub_covid_history-lower_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_history-nausea
+    - make_model_input-cohort_vax-sub_covid_history-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_vax-sub_covid_history-nonvariceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_history-peptic_ulcer
+    - make_model_input-cohort_vax-sub_covid_history-upper_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_history-variceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_history-vomiting
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-abdominal_distension
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-abdominal_paindiscomfort
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-appendicitis
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-belching
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-bloody_stools
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-bowel_ischaemia
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-diarrhoea
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-dyspepsia
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-intestinal_obstruction
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nausea
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-vomiting
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-abdominal_distension
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-abdominal_paindiscomfort
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-appendicitis
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-belching
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-bloody_stools
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-bowel_ischaemia
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-diarrhoea
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-dyspepsia
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-gallstones_disease
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-ibs
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-intestinal_obstruction
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nausea
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-peptic_ulcer
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-vomiting
+    - make_model_input-cohort_vax-sub_covid_hospitalised-abdominal_distension
+    - make_model_input-cohort_vax-sub_covid_hospitalised-abdominal_paindiscomfort
+    - make_model_input-cohort_vax-sub_covid_hospitalised-acute_pancreatitis
+    - make_model_input-cohort_vax-sub_covid_hospitalised-appendicitis
+    - make_model_input-cohort_vax-sub_covid_hospitalised-belching
+    - make_model_input-cohort_vax-sub_covid_hospitalised-bloody_stools
+    - make_model_input-cohort_vax-sub_covid_hospitalised-bowel_ischaemia
+    - make_model_input-cohort_vax-sub_covid_hospitalised-diarrhoea
+    - make_model_input-cohort_vax-sub_covid_hospitalised-dyspepsia
+    - make_model_input-cohort_vax-sub_covid_hospitalised-gallstones_disease
+    - make_model_input-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_vax-sub_covid_hospitalised-ibs
+    - make_model_input-cohort_vax-sub_covid_hospitalised-intestinal_obstruction
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nausea
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-peptic_ulcer
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-vomiting
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-abdominal_distension
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-appendicitis
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-belching
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-bloody_stools
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-bowel_ischaemia
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-diarrhoea
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-dyspepsia
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-ibs
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-intestinal_obstruction
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-nausea
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-vomiting
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-abdominal_distension
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-appendicitis
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-belching
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-bloody_stools
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-bowel_ischaemia
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-diarrhoea
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-dyspepsia
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-ibs
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-intestinal_obstruction
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-nausea
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-vomiting
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-abdominal_distension
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-appendicitis
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-belching
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-bloody_stools
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-bowel_ischaemia
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-diarrhoea
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-dyspepsia
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-gallstones_disease
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-ibs
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-intestinal_obstruction
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-nausea
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-vomiting
+    - make_model_input-cohort_prevax-sub_ethnicity_asian-diarrhoea
+    - make_model_input-cohort_unvax-sub_ethnicity_asian-diarrhoea
+    - make_model_input-cohort_vax-sub_ethnicity_asian-diarrhoea
+    - make_model_input-cohort_prevax-sub_ethnicity_black-diarrhoea
+    - make_model_input-cohort_unvax-sub_ethnicity_black-diarrhoea
+    - make_model_input-cohort_vax-sub_ethnicity_black-diarrhoea
+    - make_model_input-cohort_prevax-sub_ethnicity_mixed-diarrhoea
+    - make_model_input-cohort_unvax-sub_ethnicity_mixed-diarrhoea
+    - make_model_input-cohort_vax-sub_ethnicity_mixed-diarrhoea
+    - make_model_input-cohort_prevax-sub_ethnicity_other-diarrhoea
+    - make_model_input-cohort_unvax-sub_ethnicity_other-diarrhoea
+    - make_model_input-cohort_vax-sub_ethnicity_other-diarrhoea
+    - make_model_input-cohort_prevax-sub_ethnicity_white-diarrhoea
+    - make_model_input-cohort_unvax-sub_ethnicity_white-diarrhoea
+    - make_model_input-cohort_vax-sub_ethnicity_white-diarrhoea
+    - make_model_input-cohort_prevax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
+    - make_model_input-cohort_unvax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
+    - make_model_input-cohort_vax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
+    - make_model_input-cohort_prevax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
+    - make_model_input-cohort_unvax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
+    - make_model_input-cohort_vax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
+    - make_model_input-cohort_prevax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
+    - make_model_input-cohort_unvax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
+    - make_model_input-cohort_vax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
+    - make_model_input-cohort_prevax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
+    - make_model_input-cohort_unvax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
+    - make_model_input-cohort_vax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
+    - make_model_input-cohort_prevax-sub_sex_female-diarrhoea
+    - make_model_input-cohort_unvax-sub_sex_female-diarrhoea
+    - make_model_input-cohort_vax-sub_sex_female-diarrhoea
+    - make_model_input-cohort_prevax-sub_sex_male-diarrhoea
+    - make_model_input-cohort_unvax-sub_sex_male-diarrhoea
+    - make_model_input-cohort_vax-sub_sex_male-diarrhoea
+    outputs:
+      moderately_sensitive:
+        table2: output/table2.csv
+        table2_rounded: output/table2_rounded.csv
 
