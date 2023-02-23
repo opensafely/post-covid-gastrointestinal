@@ -7285,3 +7285,12 @@ actions:
         table2: output/table2.csv
         table2_rounded: output/table2_rounded.csv
 
+table2_test:
+    run: r:latest analysis/descriptives/table2.R
+    needs:
+    - make_model_input-cohort_vax-main-ibs
+   
+    outputs:
+      moderately_sensitive:
+        table2: output/table2_test.csv
+        table2_rounded: output/table2_rounded_test.csv
