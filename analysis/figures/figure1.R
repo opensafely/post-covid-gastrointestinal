@@ -50,16 +50,19 @@ estimates <- estimates %>%
 # Rename adjustment groups
 levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
 
-
+####################
+#3-Data to plot
+####################
 estimates_symptoms<-estimates %>%
   filter(outcome%in% symptoms)
 
 estimates_others<-estimates%>%
   anti_join(estimates_symptoms)
-# Plot estimates
 
+####################
+#3-Plotting functio
+####################
 plot_estimates <- function(df,name) {
-  
   pd <- position_dodge(width = 0.5)
   
   p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort, linetype = linetype)) +
@@ -79,7 +82,6 @@ plot_estimates <- function(df,name) {
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals
-
     theme(panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(),
           panel.spacing.x = unit(0.5, "lines"),
