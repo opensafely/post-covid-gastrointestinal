@@ -34,7 +34,7 @@ estimates <- estimates %>%
     cohort == "unvax" ~ "#0018a8",
     TRUE ~ ""
   ) %>% 
-    factor(levels = c("#0018a8", "#58764c", "#d2ac47"))
+    factor(levels = c("#d2ac47", "#58764c", "#0018a8"))
   )
 
 # Specify group colors and line types
@@ -48,7 +48,7 @@ estimates <- estimates %>%
          linetype = factor(analysis_linetypes[analysis], levels = c("solid", "dashed")))
 
 # Rename adjustment groups
-levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="pre_vaccination", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vaccinated","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="electively_unvaccinated")
+levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
 
 
 estimates_symptoms<-estimates %>%
@@ -58,11 +58,11 @@ estimates_others<-estimates%>%
   anti_join(estimates_symptoms)
 # Plot estimates
 
-plot_estimates <- function(df) {
+plot_estimates <- function(df,name) {
   
-  pd <- position_dodge(width = 0.2)
+  pd <- position_dodge(width = 0.5)
   
-  p <- ggplot(df, aes(x = outcome_time_median, y = hr, color = colour_cohort, linetype = linetype)) +
+  p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort, linetype = linetype)) +
     geom_line() +
     geom_point(size = 2, position = pd) +
     geom_hline(mapping = aes(yintercept = 1), colour = "#A9A9A9") +
@@ -72,15 +72,14 @@ plot_estimates <- function(df) {
                                 width = 0),
                   position = pd) + 
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
-    
-    # scale_color_manual(values = c("#0018a8", "#58764c", "#d2ac47"), 
-    #                    labels = c("Unvaccinated", "Vaccinated", "Pre-vaccination")) +
     #labs(x = "Time (days)", y = "Hazard ratio", color = "Cohort", linetype = "Analysis")+
-    guides(linetype = "none") +
+    guides(linetype = "none", color = guide_legend(nrow = 3)) +
+    guides(fill=ggplot2::guide_legend(ncol = 1, byrow = TRUE) ) +
     facet_wrap(~outcome) +
     theme_minimal() +
-    labs(x = "\nDays since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
-    
+    labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
+    scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals
+
     theme(panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(),
           panel.spacing.x = unit(0.5, "lines"),
@@ -92,10 +91,12 @@ plot_estimates <- function(df) {
           plot.margin = margin(1, 1, 1, 1, "cm"),
           text = element_text(size = 12),
     )
+  ggsave(paste0("output/Figure_1_all_cohorts_",name,"_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
   
-  return(p)
+  #return(p)
 }
 
-p_symptoms <- plot_estimates(estimates_symptoms)
-p_others<- plot_estimates(estimates_others)
+
+p_symptoms <- plot_estimates(estimates_symptoms,"Symptoms")
+p_others<- plot_estimates(estimates_others,"Others")
 
