@@ -14,8 +14,7 @@ source("analysis/utility.R")
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds")%>%
-filter(analysis=="main" & !outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding"))
+active_analyses <- readr::read_rds("lib/active_analyses.rds") 
 # Make empty table 2 -----------------------------------------------------------
 print('Make empty table 2')
 
@@ -76,18 +75,16 @@ for (i in 1:nrow(active_analyses)) {
 }
 
 
+
+write.csv(table2, "output/table2.csv")
 # Perform redaction ------------------------------------------------------------
 
 table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))] <- lapply(table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))],
                                             FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
 
-# Save Table 2 -----------------------------------------------------------------
-print('Save Table 2')
 
-write.csv(table2, "output/table2.csv")
+# Save Table 2 rounded -----------------------------------------------------------------
+print('Save Table 2 rounded')
+write.csv(table2, paste0("output/table2","_rounded.csv"))
 
-table2_rounded <- table2[,c("name","cohort","exposure","outcome","analysis",
-                            colnames(table2)[grepl("_rounded",colnames(table2))])]
-
-write.csv(table2_rounded, "output/table2_rounded.csv")
 
