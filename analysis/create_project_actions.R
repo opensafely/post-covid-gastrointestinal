@@ -16,10 +16,11 @@ defaults_list <- list(
   expectations= list(population_size=10000L)
 )
 active_analyses <- read_rds("lib/active_analyses.rds")%>%
-  filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding")) 
+  filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding","out_date_belching")) %>% 
+  filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
 active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
 cohorts <- unique(active_analyses$cohort)
-names_prevax <- active_analyses[active_analyses$analysis == "main" & grepl("_prevax-main-", active_analyses$name),]$name
+f <- active_analyses[active_analyses$analysis == "main" & grepl("_prevax-main-", active_analyses$name),]$name
 names_vax <- active_analyses[active_analyses$analysis == "main" & grepl("_vax-main-", active_analyses$name),]$name
 names_unvax <- active_analyses[active_analyses$analysis == "main" & grepl("_unvax-main-", active_analyses$name),]$name
 
@@ -335,38 +336,38 @@ actions_list <- splice(
   ),
   
   
-  comment("Stage 4a - Venn diagrams prevax"),
+  # comment("Stage 4a - Venn diagrams prevax"),
   
-  action(
-    name = "stage4_venn_diagram_prevax",
-    run = "r:latest analysis/descriptives/venn_diagram.R prevax",
-    needs = as.list(c("preprocess_data_prevax", glue("make_model_input-{names_prevax}"))),
-    moderately_sensitive = list(
-      venn_diagram = glue("output/review/venn-diagrams/venn_diagram_number_check_prevax.csv")
-    )
-  ),
+  # action(
+  #   name = "stage4_venn_diagram_prevax",
+  #   run = "r:latest analysis/descriptives/venn_diagram.R prevax",
+  #   needs = as.list(c("preprocess_data_prevax", glue("make_model_input-{names_prevax}"))),
+  #   moderately_sensitive = list(
+  #     venn_diagram = glue("output/review/venn-diagrams/venn_diagram_number_check_prevax.csv")
+  #   )
+  # ),
   
-  comment("Stage 4b - Venn diagrams vax"),
+  # comment("Stage 4b - Venn diagrams vax"),
   
-  action(
-    name = "stage4_venn_diagram_vax",
-    run = "r:latest analysis/descriptives/venn_diagram.R vax",
-    needs = as.list(c("preprocess_data_vax", glue("make_model_input-{names_vax}"))),
-    moderately_sensitive = list(
-      venn_diagram = glue("output/review/venn-diagrams/venn_diagram_number_check_vax.csv")
-    )
-  ),
+  # action(
+  #   name = "stage4_venn_diagram_vax",
+  #   run = "r:latest analysis/descriptives/venn_diagram.R vax",
+  #   needs = as.list(c("preprocess_data_vax", glue("make_model_input-{names_vax}"))),
+  #   moderately_sensitive = list(
+  #     venn_diagram = glue("output/review/venn-diagrams/venn_diagram_number_check_vax.csv")
+  #   )
+  # ),
   
-  comment("Stage 4c - Venn diagrams unvax"),
+  # comment("Stage 4c - Venn diagrams unvax"),
   
-  action(
-    name = "stage4_venn_diagram_unvax",
-    run = glue("r:latest analysis/descriptives/venn_diagram.R unvax"),
-    needs = as.list(c("preprocess_data_unvax", glue("make_model_input-{names_unvax}"))),
-    moderately_sensitive = list(
-      venn_diagram = glue("output/review/venn-diagrams/venn_diagram_number_check_unvax.csv")
-    )
-  ),
+  # action(
+  #   name = "stage4_venn_diagram_unvax",
+  #   run = glue("r:latest analysis/descriptives/venn_diagram.R unvax"),
+  #   needs = as.list(c("preprocess_data_unvax", glue("make_model_input-{names_unvax}"))),
+  #   moderately_sensitive = list(
+  #     venn_diagram = glue("output/review/venn-diagrams/venn_diagram_number_check_unvax.csv")
+  #   )
+  # ),
   
   comment("Stage 5 - Run models"),
   
