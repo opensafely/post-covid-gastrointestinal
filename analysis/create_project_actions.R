@@ -37,7 +37,7 @@ success <- readxl::read_excel("../post-covid-outcome-tracker.xlsx",
 
 success <- tidyr::pivot_longer(success,
                                cols = setdiff(colnames(success),c("outcome","cohort")),
-                               names_to = "analysis")
+                               names_to = "analysis") %>% filter(analysis!="main")
 
 success$name <- paste0("cohort_",success$cohort, "-",success$analysis, "-",success$outcome)
 
