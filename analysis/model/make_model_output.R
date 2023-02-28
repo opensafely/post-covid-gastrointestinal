@@ -2,6 +2,7 @@
 print('Load packages')
 
 library(magrittr)
+library(dplyr)
 
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
