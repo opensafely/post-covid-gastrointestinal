@@ -14,7 +14,7 @@ filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstructi
 # List available model outputs -------------------------------------------------
 print('List available model outputs')
 
-files <- list.files("output", pattern = "model_output-sub_covid")
+files <- list.files("output", pattern = "model_output-.+sub_covid")
 
 # Combine model outputs --------------------------------------------------------
 print('Combine model outputs')
