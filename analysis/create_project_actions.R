@@ -20,7 +20,7 @@ active_analyses <- read_rds("lib/active_analyses.rds")%>%
   filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
 active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
 cohorts <- unique(active_analyses$cohort)
-f <- active_analyses[active_analyses$analysis == "main" & grepl("_prevax-main-", active_analyses$name),]$name
+names_prevax <- active_analyses[active_analyses$analysis == "main" & grepl("_prevax-main-", active_analyses$name),]$name
 names_vax <- active_analyses[active_analyses$analysis == "main" & grepl("_vax-main-", active_analyses$name),]$name
 names_unvax <- active_analyses[active_analyses$analysis == "main" & grepl("_unvax-main-", active_analyses$name),]$name
 
