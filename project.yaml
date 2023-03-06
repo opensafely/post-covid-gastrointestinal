@@ -3982,100 +3982,148 @@ actions:
     needs:
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-abdominal_distension
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-abdominal_distension
+    - cox_ipw-cohort_prevax-sub_covid_history-abdominal_distension
     - cox_ipw-cohort_vax-sub_covid_hospitalised-abdominal_distension
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-abdominal_distension
+    - cox_ipw-cohort_vax-sub_covid_history-abdominal_distension
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-abdominal_distension
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-abdominal_distension
+    - cox_ipw-cohort_unvax-sub_covid_history-abdominal_distension
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-abdominal_paindiscomfort
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_prevax-sub_covid_history-abdominal_paindiscomfort
     - cox_ipw-cohort_vax-sub_covid_hospitalised-abdominal_paindiscomfort
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_vax-sub_covid_history-abdominal_paindiscomfort
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-abdominal_paindiscomfort
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_unvax-sub_covid_history-abdominal_paindiscomfort
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-diarrhoea
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-diarrhoea
+    - cox_ipw-cohort_prevax-sub_covid_history-diarrhoea
     - cox_ipw-cohort_vax-sub_covid_hospitalised-diarrhoea
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-diarrhoea
+    - cox_ipw-cohort_vax-sub_covid_history-diarrhoea
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-diarrhoea
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-diarrhoea
+    - cox_ipw-cohort_unvax-sub_covid_history-diarrhoea
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-dyspepsia
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-dyspepsia
+    - cox_ipw-cohort_prevax-sub_covid_history-dyspepsia
     - cox_ipw-cohort_vax-sub_covid_hospitalised-dyspepsia
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-dyspepsia
+    - cox_ipw-cohort_vax-sub_covid_history-dyspepsia
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-dyspepsia
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-dyspepsia
+    - cox_ipw-cohort_unvax-sub_covid_history-dyspepsia
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-nausea
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nausea
+    - cox_ipw-cohort_prevax-sub_covid_history-nausea
     - cox_ipw-cohort_vax-sub_covid_hospitalised-nausea
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-nausea
+    - cox_ipw-cohort_vax-sub_covid_history-nausea
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-nausea
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-nausea
+    - cox_ipw-cohort_unvax-sub_covid_history-nausea
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-vomiting
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-vomiting
+    - cox_ipw-cohort_prevax-sub_covid_history-vomiting
     - cox_ipw-cohort_vax-sub_covid_hospitalised-vomiting
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-vomiting
+    - cox_ipw-cohort_vax-sub_covid_history-vomiting
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-vomiting
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-vomiting
+    - cox_ipw-cohort_unvax-sub_covid_history-vomiting
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-bloody_stools
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-bloody_stools
+    - cox_ipw-cohort_prevax-sub_covid_history-bloody_stools
     - cox_ipw-cohort_vax-sub_covid_hospitalised-bloody_stools
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-bloody_stools
+    - cox_ipw-cohort_vax-sub_covid_history-bloody_stools
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-bloody_stools
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-bloody_stools
+    - cox_ipw-cohort_unvax-sub_covid_history-bloody_stools
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-ibs
+    - cox_ipw-cohort_prevax-sub_covid_history-ibs
     - cox_ipw-cohort_vax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-ibs
+    - cox_ipw-cohort_vax-sub_covid_history-ibs
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-ibs
+    - cox_ipw-cohort_unvax-sub_covid_history-ibs
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_prevax-sub_covid_history-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-appendicitis
+    - cox_ipw-cohort_prevax-sub_covid_history-appendicitis
     - cox_ipw-cohort_vax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-appendicitis
+    - cox_ipw-cohort_vax-sub_covid_history-appendicitis
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-appendicitis
+    - cox_ipw-cohort_unvax-sub_covid_history-appendicitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
+    - cox_ipw-cohort_prevax-sub_covid_history-gallstones_disease
     - cox_ipw-cohort_vax-sub_covid_hospitalised-gallstones_disease
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gallstones_disease
+    - cox_ipw-cohort_vax-sub_covid_history-gallstones_disease
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-gallstones_disease
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
+    - cox_ipw-cohort_unvax-sub_covid_history-gallstones_disease
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_history-lower_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_history-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_history-upper_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_history-upper_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-upper_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_history-nonvariceal_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_history-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
+    - cox_ipw-cohort_prevax-sub_covid_history-acute_pancreatitis
     - cox_ipw-cohort_vax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
+    - cox_ipw-cohort_vax-sub_covid_history-acute_pancreatitis
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
+    - cox_ipw-cohort_unvax-sub_covid_history-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_prevax-sub_covid_history-peptic_ulcer
     - cox_ipw-cohort_vax-sub_covid_hospitalised-peptic_ulcer
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_covid_history-peptic_ulcer
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-peptic_ulcer
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_covid_history-peptic_ulcer
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
