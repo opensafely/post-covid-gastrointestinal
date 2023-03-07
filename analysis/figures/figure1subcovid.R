@@ -23,7 +23,8 @@ estimates <-read.csv(paste0(results_dir, "/model_output_sub_covid.csv"))  %>%
   mutate(outcome = str_remove(outcome, "out_date_")) %>%
   mutate(outcome = str_to_title(outcome)) %>%
   filter(outcome_time_median!="[redact]")%>%
-  mutate(conf_high = ifelse(grepl("Inf", conf_high), NA_real_, conf_high))%>%
+ # mutate(conf_high = ifelse(grepl("Inf", conf_high), NA_real_, conf_high))%>%
+  filter(conf_high!="Inf")%>%
   mutate(across(lnhr:outcome_time_median, as.numeric)) 
 
 
@@ -84,7 +85,7 @@ plot_estimates <- function(df,name) {
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals
-    scale_y_continuous(lim = c(0.25,32), breaks = c(0.25,0.5,1,2,4,8,16,32), trans = "log") +
+    scale_y_continuous(lim = c(0.25,32), breaks = c(0.25,0.5,1,2,4,8,16,32), trans = "log")+ 
     
     theme(panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(),
@@ -93,12 +94,13 @@ plot_estimates <- function(df,name) {
           legend.key = element_rect(colour = NA, fill = NA),
           legend.title = element_blank(),
           legend.position = "bottom",
+          legend.direction = "vertical",
           plot.background = element_rect(fill = "white", colour = "white"),
           plot.margin = margin(1, 1, 1, 1, "cm"),
           text = element_text(size = 12),
     )
   
-  #ggsave(paste0("output/Figure_1_all_cohorts_",name,"_subcovseverity.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
+  ggsave(paste0("output/Figure_1_all_cohorts_",name,"_subcovseverity.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
   
   return(p)
 }
@@ -107,3 +109,50 @@ plot_estimates <- function(df,name) {
 p_symptoms <- plot_estimates(estimates_symptoms,"Symptoms")
 p_others<- plot_estimates(estimates_others,"Others")
 
+plot_estimates_one_outcome <- function(df) {
+  pd <- position_dodge(width = 0.5)
+  outcomes <- unique(df$outcome)
+  
+  for (i in seq_along(outcomes)) {
+    outcome <- outcomes[i]
+    df_outcome <- df[df$outcome == outcome, ]
+    
+    p <- ggplot(df_outcome, aes(x = outcome_time_median/7, y = hr, color = colour_cohort, linetype = linetype)) +
+      geom_line() +
+      geom_point(size = 2, position = pd) +
+      geom_hline(mapping = aes(yintercept = 1), colour = "#A9A9A9") +
+      geom_errorbar(size = 1.2,
+                    mapping = aes(ymin = ifelse(conf_low < 0.25, 0.25, conf_low), 
+                                  ymax = ifelse(conf_high > 64, 64, conf_high),
+                                  width = 0),
+                    position = pd) + 
+      scale_color_manual(values = levels(df_outcome$colour_cohort), labels = levels(df_outcome$cohort)) +
+      scale_linetype_manual(values =c("solid","dashed"), labels = levels(df_outcome$analysis)) + # Add linetype legend
+      guides(fill=ggplot2::guide_legend(ncol = 1, byrow = TRUE) ) +
+      theme_minimal() +
+      labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
+      scale_x_continuous(breaks = seq(0, max(df_outcome$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals
+      scale_y_continuous(lim = c(0.25,128), breaks = c(0.25,0.5,1,2,4,8,16,32,64,128), trans = "log")+ 
+      ggtitle(str_to_title(str_replace_all(outcome,"_"," ")))+
+      
+      theme(panel.grid.major.x = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.spacing.x = unit(0.5, "lines"),
+            panel.spacing.y = unit(0, "lines"),
+            plot.title=element_text(face='bold', size=20,hjust=0.5),
+            legend.key = element_rect(colour = NA, fill = NA),
+            legend.title = element_blank(),
+            legend.position = "bottom",
+            legend.direction = "vertical",
+            plot.background = element_rect(fill = "white", colour = "white"),
+            plot.margin = margin(1, 1, 1, 1, "cm"),
+            text = element_text(size = 12),
+      )
+    
+    ggsave(paste0("output/", outcome, "_subcovseverity", ".png"), 
+           height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
+  }
+}
+
+plot_estimates_one_outcome(estimates_others)
+plot_estimates_one_outcome(estimates_symptoms)
