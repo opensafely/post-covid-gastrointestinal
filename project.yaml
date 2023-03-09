@@ -68,6 +68,16 @@ actions:
       highly_sensitive:
         cohort: output/input_unvax.csv.gz
 
+  count_study_def_variables:
+    run: r:latest analysis/descriptives/intitial_input_counts.R
+    needs:
+    - generate_study_population_prevax
+    - generate_study_population_unvax
+    - generate_study_population_vax
+    outputs:
+      moderately_sensitive:
+        counts: output/study_counts.txt
+
   preprocess_data_prevax:
     run: r:latest analysis/preprocess/preprocess_data.R prevax
     needs:

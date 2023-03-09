@@ -262,7 +262,17 @@ actions_list <- splice(
       cohort = glue("output/input_unvax.csv.gz")
     )
   ),
-  
+
+    
+  #comment("Count outcomes and binary covars")
+  action(
+    name = "count_study_def_variables",
+    run = "r:latest analysis/descriptives/intitial_input_counts.R"
+    needs = list("generate_study_population_prevax","generate_study_population_unvax","generate_study_population_vax"),
+    moderately_sensitive=list(
+      counts = glue("output/study_counts.txt")
+  )
+  ),
   
   # #comment("Preprocess data -prevax"),
   action(
