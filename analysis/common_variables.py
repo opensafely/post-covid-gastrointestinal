@@ -1100,7 +1100,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.4,
         },
     ),
     tmp_out_date_acute_pancreatitis_hes = patients.admitted_to_hospital(
@@ -1111,7 +1111,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.4,
         },
     ),
     tmp_out_date_acute_pancreatitis_death=patients.with_these_codes_on_death_certificate(
@@ -1123,7 +1123,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.4,
         },
     ), 
     out_date_acute_pancreatitis = patients.minimum_of(
