@@ -267,10 +267,14 @@ actions_list <- splice(
   #comment("Count outcomes and binary covars")
   action(
     name = "count_study_def_variables",
-    run = "r:latest analysis/descriptives/intitial_input_counts.R"
+    run = "r:latest analysis/descriptives/intitial_input_counts.R",
     needs = list("generate_study_population_prevax","generate_study_population_unvax","generate_study_population_vax"),
     moderately_sensitive=list(
-      counts = glue("output/study_counts.txt")
+      counts = glue("output/study_counts.txt"),
+      vax_summary = glue("output/describe_vax.txt"),
+      prevax_summary = glue("output/describe_prevax.txt"),
+      unvax_summary = glue("output/describe_unvax.txt")
+
   )
   ),
   

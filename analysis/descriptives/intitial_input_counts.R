@@ -22,3 +22,18 @@ count_df <- t(data.frame(do.call(rbind, count_list)))
 
 colnames(count_df) <- c("prevax", "vax", "unvax")
 write.table(count_df,quote=F,row.names=T,col.names=T,"output/study_counts.txt")
+
+#summary data 
+describe_data <- function(data) {
+  file_name <- paste0("output/describe_", deparse(substitute(data)), ".txt")
+  sink(file_name)
+  print(Hmisc::describe(data))
+  sink()
+  message(paste0("Description of ", deparse(substitute(data)), " written to ", file_name, " successfully!"))
+}
+
+describe_data(prevax)
+describe_data(vax)
+describe_data(unvax)
+
+
