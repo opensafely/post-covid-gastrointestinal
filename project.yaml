@@ -79,10 +79,10 @@ actions:
     - preprocess_data_prevax
     outputs:
       moderately_sensitive:
-        counts: output/study_counts.txt
-        vax_summary: output/describe_vax.txt
-        prevax_summary: output/describe_prevax.txt
-        unvax_summary: output/describe_unvax.txt
+        counts: output/study_counts_prepro.txt
+        vax_summary: output/describe_prepro_vax.txt
+        prevax_summary: output/describe_prepro_prevax.txt
+        unvax_summary: output/describe_prepro_unvax.txt
 
   preprocess_data_prevax:
     run: r:latest analysis/preprocess/preprocess_data.R prevax
