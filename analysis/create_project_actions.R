@@ -15,9 +15,9 @@ defaults_list <- list(
   version = "3.0",
   expectations= list(population_size=10000L)
 )
-active_analyses <- read_rds("lib/active_analyses.rds")%>%
-  filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding","out_date_belching")) %>% 
-  filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
+active_analyses <- read_rds("lib/active_analyses.rds")
+  # filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding","out_date_belching")) %>% 
+  # filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
 active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
 cohorts <- unique(active_analyses$cohort)
 names_prevax <- active_analyses[active_analyses$analysis == "main" & grepl("_prevax-main-", active_analyses$name),]$name
