@@ -74,6 +74,9 @@ actions:
     - generate_study_population_prevax
     - generate_study_population_unvax
     - generate_study_population_vax
+    - preprocess_data_vax
+    - preprocess_data_unvax
+    - preprocess_data_prevax
     outputs:
       moderately_sensitive:
         counts: output/study_counts.txt
