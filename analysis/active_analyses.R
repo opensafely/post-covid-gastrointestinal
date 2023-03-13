@@ -39,7 +39,7 @@ strata <- "cov_cat_region"
 covariate_sex <- "cov_cat_sex"
 covariate_age <- "cov_num_age"
 cox_start <- "index_date"
-cox_stop <- "end_date"
+cox_stop <- "end_date_outcome"
 controls_per_case <- 20L
 total_event_threshold <- 50L
 episode_event_threshold <- 5L
@@ -48,11 +48,11 @@ covariate_threshold <- 5L
 study_dates <- fromJSON("output/study_dates.json")
 
 prevax_start <- "2020-01-01"
-prevax_stop<- "2021-06-01"
+prevax_stop<- "2021-12-14"
 vax_unvax_start<-"2021-06-01"
 vax_unvax_stop <-"2021-12-14"
 ##Cut points 
-prevax_cuts <- "28;197;535"
+prevax_cuts <- "28;197;365;714"
 vax_unvax_cuts <- "28;197"
 # all_covars <- paste0("cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;",
 #                      "cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;",
