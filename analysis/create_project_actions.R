@@ -268,12 +268,12 @@ actions_list <- splice(
   action(
     name = "count_study_def_variables",
     run = "r:latest analysis/descriptives/intitial_input_counts.R",
-    needs = list("generate_study_population_prevax","generate_study_population_unvax","generate_study_population_vax"),
+    needs = list("generate_study_population_prevax","generate_study_population_unvax","generate_study_population_vax","preprocess_data_prevax","preprocess_data_unvax","preprocess_data_vax"),
     moderately_sensitive=list(
-      counts = glue("output/study_counts.txt"),
-      vax_summary = glue("output/describe_vax.txt"),
-      prevax_summary = glue("output/describe_prevax.txt"),
-      unvax_summary = glue("output/describe_unvax.txt")
+      counts = glue("output/study_counts_prepro.txt"),
+      vax_summary = glue("output/describe_prepro_vax.txt"),
+      prevax_summary = glue("output/describe_prepro_prevax.txt"),
+      unvax_summary = glue("output/describe_prepro_unvax.txt")
 
   )
   ),
