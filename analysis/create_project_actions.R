@@ -537,4 +537,5 @@ as.yaml(project_list, indent=2) %>%
   str_replace_all("\\\n(\\w)", "\n\n\\1") %>%
   str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%
   writeLines("project.yaml")
+  print("YAML file printed!")
 
