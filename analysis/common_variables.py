@@ -136,7 +136,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
   
     dereg_date=patients.date_deregistered_from_all_supported_practices(
         
-        between=[f"{index_date_variable}",f"{end_date_variable}"],
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format = 'YYYY-MM-DD',
         return_expectations={
         "date": {"earliest": study_dates["pandemic_start"], "latest": "today"},
@@ -1542,7 +1542,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
     cov_bin_nsaid_bnf = patients.with_these_medications(
         nsaids_bnf,
         returning='binary_flag',
-        between = [f"{index_date_variable} - 2 years",f"{end_date_variable} - 1 day"],
+        between = [f"{index_date_variable} - 2 years",f"{outcome_end_date_variable} - 1 day"],
         return_expectations={"incidence": 0.1},
     ),
     ##Aspirin
