@@ -44,14 +44,20 @@ from common_variables import generate_common_variables
 study = StudyDefinition(
 
     # Read in index date for study from the output of prelim.R file 
-    index_date_vax = patients.with_value_from_file(
+    index_date = patients.with_value_from_file(
         f_path = 'output/index_dates.csv.gz', 
         returning = 'index_vax', 
         returning_type = 'date', 
         date_format = 'YYYY-MM-DD',     
     ),
 
-    end_date_vax = patients.with_value_from_file(
+    end_date_exposure = patients.with_value_from_file(
+        f_path = 'output/index_dates.csv.gz',
+        returning = 'end_vax',
+        returning_type = 'date', 
+        date_format = 'YYYY-MM-DD',
+    ),
+    end_date_outcome = patients.with_value_from_file(
         f_path = 'output/index_dates.csv.gz',
         returning = 'end_vax',
         returning_type = 'date', 
