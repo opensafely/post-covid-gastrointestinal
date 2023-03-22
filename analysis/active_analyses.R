@@ -1,6 +1,7 @@
 
-# Create output directory ------------------------------------------------------
+library(jsonlite)
 
+# Create output directory ------------------------------------------------------
 fs::dir_create(here::here("lib"))
 
 
@@ -581,3 +582,6 @@ if (length(unique(df$name))==nrow(df)) {
 } else {
   stop(paste0("ERROR: names must be unique in active analyses table"))
 }
+
+
+
