@@ -97,6 +97,7 @@ plot_estimates <- function(df,name) {
           legend.direction = "vertical",
           plot.background = element_rect(fill = "white", colour = "white"),
           plot.margin = margin(1, 1, 1, 1, "cm"),
+          strip.text = element_text(size = 13, face = "bold", vjust = 1.5),
           text = element_text(size = 12),
     )
   
