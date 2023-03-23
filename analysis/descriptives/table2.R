@@ -14,9 +14,9 @@ source("analysis/utility.R")
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds") %>% 
-filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding","out_date_belching")) %>% 
-filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
+active_analyses <- readr::read_rds("lib/active_analyses.rds") 
+# filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding","out_date_belching")) %>% 
+# filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
 # Make empty table 2 -----------------------------------------------------------
 print('Make empty table 2')
 
@@ -45,14 +45,14 @@ for (i in 1:nrow(active_analyses)) {
 
   
   df <- read_rds(paste0("output/model_input-",active_analyses$name[i],".rds"))
-  df <- df[,c("patient_id","index_date","exp_date","out_date","end_date")]
+  df <- df[,c("patient_id","index_date","exp_date","out_date","end_date_exposure","end_date_outcome")]
 
   ## Calculate person days -----------------------------------------------------
   print('Calculate person days')
   
   df <- df %>% 
-    dplyr::mutate(total_person_days = as.numeric((end_date - index_date))+1,
-                  fup_end_unexposed = min(end_date, exp_date, na.rm = TRUE),
+    dplyr::mutate(total_person_days = as.numeric((end_date_outcome - index_date))+1,
+                  fup_end_unexposed = min(end_date_outcome, exp_date, na.rm = TRUE),
                   unexposed_person_days = as.numeric((fup_end_unexposed - index_date))+1,
                   exposed_person_days = as.numeric((exp_date - index_date))+1)
   
