@@ -82,7 +82,7 @@ actions:
   ## Preprocess data - prevax 
 
   preprocess_data_prevax:
-    run: r:latest analysis/preprocess_data.R prevax
+    run: r:latest analysis/preprocess/preprocess_data.R prevax
     needs:
     - generate_index_dates
     - generate_study_population_prevax
@@ -97,7 +97,7 @@ actions:
   ## Preprocess data - unvax 
 
   preprocess_data_unvax:
-    run: r:latest analysis/preprocess_data.R unvax
+    run: r:latest analysis/preprocess/preprocess_data.R unvax
     needs:
     - generate_index_dates
     - generate_study_population_unvax
@@ -112,7 +112,7 @@ actions:
   ## Preprocess data - vax 
 
   preprocess_data_vax:
-    run: r:latest analysis/preprocess_data.R vax
+    run: r:latest analysis/preprocess/preprocess_data.R vax
     needs:
     - generate_index_dates
     - generate_study_population_vax
@@ -143,7 +143,7 @@ actions:
   ## Stage 1 - data cleaning - prevax 
 
   stage1_data_cleaning_prevax:
-    run: r:latest analysis/stage1_data_cleaning.R prevax
+    run: r:latest analysis/preprocess/stage1_data_cleaning.R prevax
     needs:
     - vax_eligibility_inputs
     - preprocess_data_prevax
@@ -157,7 +157,7 @@ actions:
   ## Stage 1 - data cleaning - unvax 
 
   stage1_data_cleaning_unvax:
-    run: r:latest analysis/stage1_data_cleaning.R unvax
+    run: r:latest analysis/preprocess/stage1_data_cleaning.R unvax
     needs:
     - vax_eligibility_inputs
     - preprocess_data_unvax
@@ -171,7 +171,7 @@ actions:
   ## Stage 1 - data cleaning - vax 
 
   stage1_data_cleaning_vax:
-    run: r:latest analysis/stage1_data_cleaning.R vax
+    run: r:latest analysis/preprocess/stage1_data_cleaning.R vax
     needs:
     - vax_eligibility_inputs
     - preprocess_data_vax
@@ -185,7 +185,7 @@ actions:
   ## Run models 
 
   make_model_input-cohort_prevax-main-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-abdominal_distension
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -206,7 +206,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-abdominal_distension.csv
 
   make_model_input-cohort_prevax-main-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -227,7 +227,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_prevax-main-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-acute_pancreatitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -248,7 +248,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-acute_pancreatitis.csv
 
   make_model_input-cohort_prevax-main-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-appendicitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -269,7 +269,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-appendicitis.csv
 
   make_model_input-cohort_prevax-main-belching:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-belching
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-belching
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -290,7 +290,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-belching.csv
 
   make_model_input-cohort_prevax-main-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-bloody_stools
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -311,7 +311,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-bloody_stools.csv
 
   make_model_input-cohort_prevax-main-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-bowel_ischaemia
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -332,7 +332,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-bowel_ischaemia.csv
 
   make_model_input-cohort_prevax-main-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -353,7 +353,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-diarrhoea.csv
 
   make_model_input-cohort_prevax-main-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-dyspepsia
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -374,7 +374,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-dyspepsia.csv
 
   make_model_input-cohort_prevax-main-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-gallstones_disease
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -395,7 +395,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-gallstones_disease.csv
 
   make_model_input-cohort_prevax-main-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -416,7 +416,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_prevax-main-ibs:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-ibs
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -437,7 +437,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-ibs.csv
 
   make_model_input-cohort_prevax-main-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-intestinal_obstruction
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -458,7 +458,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-intestinal_obstruction.csv
 
   make_model_input-cohort_prevax-main-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -479,7 +479,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-lower_gi_bleeding.csv
 
   make_model_input-cohort_prevax-main-nausea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-nausea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -500,7 +500,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-nausea.csv
 
   make_model_input-cohort_prevax-main-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -521,7 +521,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_prevax-main-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -542,7 +542,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_prevax-main-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-peptic_ulcer
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -563,7 +563,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-peptic_ulcer.csv
 
   make_model_input-cohort_prevax-main-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -584,7 +584,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-upper_gi_bleeding.csv
 
   make_model_input-cohort_prevax-main-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -605,7 +605,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-variceal_gi_bleeding.csv
 
   make_model_input-cohort_prevax-main-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_prevax-main-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-main-vomiting
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -626,7 +626,7 @@ actions:
         model_output: output/model_output-cohort_prevax-main-vomiting.csv
 
   make_model_input-cohort_unvax-main-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-abdominal_distension
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -647,7 +647,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-abdominal_distension.csv
 
   make_model_input-cohort_unvax-main-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -668,7 +668,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_unvax-main-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-acute_pancreatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -689,7 +689,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-acute_pancreatitis.csv
 
   make_model_input-cohort_unvax-main-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-appendicitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -710,7 +710,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-appendicitis.csv
 
   make_model_input-cohort_unvax-main-belching:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-belching
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-belching
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -731,7 +731,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-belching.csv
 
   make_model_input-cohort_unvax-main-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-bloody_stools
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -752,7 +752,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-bloody_stools.csv
 
   make_model_input-cohort_unvax-main-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-bowel_ischaemia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -773,7 +773,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-bowel_ischaemia.csv
 
   make_model_input-cohort_unvax-main-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -794,7 +794,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-diarrhoea.csv
 
   make_model_input-cohort_unvax-main-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-dyspepsia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -815,7 +815,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-dyspepsia.csv
 
   make_model_input-cohort_unvax-main-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-gallstones_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -836,7 +836,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-gallstones_disease.csv
 
   make_model_input-cohort_unvax-main-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -857,7 +857,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_unvax-main-ibs:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-ibs
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -878,7 +878,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-ibs.csv
 
   make_model_input-cohort_unvax-main-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-intestinal_obstruction
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -899,7 +899,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-intestinal_obstruction.csv
 
   make_model_input-cohort_unvax-main-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -920,7 +920,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-lower_gi_bleeding.csv
 
   make_model_input-cohort_unvax-main-nausea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-nausea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -941,7 +941,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-nausea.csv
 
   make_model_input-cohort_unvax-main-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -962,7 +962,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_unvax-main-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -983,7 +983,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-main-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-peptic_ulcer
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1004,7 +1004,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-peptic_ulcer.csv
 
   make_model_input-cohort_unvax-main-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1025,7 +1025,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-upper_gi_bleeding.csv
 
   make_model_input-cohort_unvax-main-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1046,7 +1046,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-variceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-main-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_unvax-main-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-main-vomiting
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1067,7 +1067,7 @@ actions:
         model_output: output/model_output-cohort_unvax-main-vomiting.csv
 
   make_model_input-cohort_vax-main-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-abdominal_distension
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1088,7 +1088,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-abdominal_distension.csv
 
   make_model_input-cohort_vax-main-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1109,7 +1109,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_vax-main-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-acute_pancreatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1130,7 +1130,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-acute_pancreatitis.csv
 
   make_model_input-cohort_vax-main-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-appendicitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1151,7 +1151,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-appendicitis.csv
 
   make_model_input-cohort_vax-main-belching:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-belching
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-belching
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1172,7 +1172,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-belching.csv
 
   make_model_input-cohort_vax-main-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-bloody_stools
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1193,7 +1193,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-bloody_stools.csv
 
   make_model_input-cohort_vax-main-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-bowel_ischaemia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1214,7 +1214,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-bowel_ischaemia.csv
 
   make_model_input-cohort_vax-main-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1235,7 +1235,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-diarrhoea.csv
 
   make_model_input-cohort_vax-main-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-dyspepsia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1256,7 +1256,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-dyspepsia.csv
 
   make_model_input-cohort_vax-main-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-gallstones_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1277,7 +1277,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-gallstones_disease.csv
 
   make_model_input-cohort_vax-main-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1298,7 +1298,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_vax-main-ibs:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-ibs
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1319,7 +1319,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-ibs.csv
 
   make_model_input-cohort_vax-main-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-intestinal_obstruction
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1340,7 +1340,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-intestinal_obstruction.csv
 
   make_model_input-cohort_vax-main-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1361,7 +1361,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-lower_gi_bleeding.csv
 
   make_model_input-cohort_vax-main-nausea:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-nausea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1382,7 +1382,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-nausea.csv
 
   make_model_input-cohort_vax-main-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1403,7 +1403,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_vax-main-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1424,7 +1424,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-main-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-peptic_ulcer
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1445,7 +1445,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-peptic_ulcer.csv
 
   make_model_input-cohort_vax-main-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1466,7 +1466,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-upper_gi_bleeding.csv
 
   make_model_input-cohort_vax-main-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1487,7 +1487,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-variceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-main-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_vax-main-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_vax-main-vomiting
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1508,7 +1508,7 @@ actions:
         model_output: output/model_output-cohort_vax-main-vomiting.csv
 
   make_model_input-cohort_prevax-sub_age_18_39-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_age_18_39-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_18_39-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -1529,7 +1529,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_age_18_39-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_age_18_39-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_age_18_39-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_age_18_39-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1550,7 +1550,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_age_18_39-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_age_18_39-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_age_18_39-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_age_18_39-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1571,7 +1571,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_age_18_39-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_age_40_59-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_age_40_59-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_40_59-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -1592,7 +1592,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_age_40_59-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_age_40_59-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_age_40_59-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_age_40_59-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1613,7 +1613,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_age_40_59-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_age_40_59-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_age_40_59-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_age_40_59-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1634,7 +1634,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_age_40_59-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_age_60_79-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_age_60_79-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_60_79-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -1655,7 +1655,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_age_60_79-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_age_60_79-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_age_60_79-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_age_60_79-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1676,7 +1676,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_age_60_79-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_age_60_79-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_age_60_79-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_age_60_79-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1697,7 +1697,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_age_60_79-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_age_80_110-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_age_80_110-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_80_110-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -1718,7 +1718,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_age_80_110-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_age_80_110-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_age_80_110-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_age_80_110-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1739,7 +1739,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_age_80_110-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_age_80_110-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_age_80_110-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_age_80_110-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -1760,7 +1760,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_age_80_110-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_covid_history-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-abdominal_distension
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1781,7 +1781,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-abdominal_distension.csv
 
   make_model_input-cohort_unvax-sub_covid_history-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1802,7 +1802,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_unvax-sub_covid_history-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-acute_pancreatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1823,7 +1823,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-acute_pancreatitis.csv
 
   make_model_input-cohort_unvax-sub_covid_history-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-appendicitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1844,7 +1844,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-appendicitis.csv
 
   make_model_input-cohort_unvax-sub_covid_history-belching:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-belching
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-belching
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1865,7 +1865,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-belching.csv
 
   make_model_input-cohort_unvax-sub_covid_history-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-bloody_stools
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1886,7 +1886,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-bloody_stools.csv
 
   make_model_input-cohort_unvax-sub_covid_history-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-bowel_ischaemia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1907,7 +1907,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-bowel_ischaemia.csv
 
   make_model_input-cohort_unvax-sub_covid_history-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1928,7 +1928,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_covid_history-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-dyspepsia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1949,7 +1949,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-dyspepsia.csv
 
   make_model_input-cohort_unvax-sub_covid_history-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-gallstones_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1970,7 +1970,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-gallstones_disease.csv
 
   make_model_input-cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -1991,7 +1991,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_unvax-sub_covid_history-ibs:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-ibs
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2012,7 +2012,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-ibs.csv
 
   make_model_input-cohort_unvax-sub_covid_history-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-intestinal_obstruction
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2033,7 +2033,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-intestinal_obstruction.csv
 
   make_model_input-cohort_unvax-sub_covid_history-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2054,7 +2054,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-lower_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_history-nausea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-nausea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2075,7 +2075,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-nausea.csv
 
   make_model_input-cohort_unvax-sub_covid_history-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2096,7 +2096,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2117,7 +2117,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_history-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-peptic_ulcer
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2138,7 +2138,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-peptic_ulcer.csv
 
   make_model_input-cohort_unvax-sub_covid_history-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2159,7 +2159,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-upper_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_history-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2180,7 +2180,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-variceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_history-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_history-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_history-vomiting
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -2201,7 +2201,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_history-vomiting.csv
 
   make_model_input-cohort_vax-sub_covid_history-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-abdominal_distension
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2222,7 +2222,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-abdominal_distension.csv
 
   make_model_input-cohort_vax-sub_covid_history-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2243,7 +2243,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_vax-sub_covid_history-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-acute_pancreatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2264,7 +2264,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-acute_pancreatitis.csv
 
   make_model_input-cohort_vax-sub_covid_history-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-appendicitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2285,7 +2285,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-appendicitis.csv
 
   make_model_input-cohort_vax-sub_covid_history-belching:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-belching
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-belching
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2306,7 +2306,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-belching.csv
 
   make_model_input-cohort_vax-sub_covid_history-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-bloody_stools
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2327,7 +2327,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-bloody_stools.csv
 
   make_model_input-cohort_vax-sub_covid_history-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-bowel_ischaemia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2348,7 +2348,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-bowel_ischaemia.csv
 
   make_model_input-cohort_vax-sub_covid_history-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2369,7 +2369,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_covid_history-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-dyspepsia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2390,7 +2390,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-dyspepsia.csv
 
   make_model_input-cohort_vax-sub_covid_history-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-gallstones_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2411,7 +2411,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-gallstones_disease.csv
 
   make_model_input-cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2432,7 +2432,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_vax-sub_covid_history-ibs:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-ibs
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2453,7 +2453,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-ibs.csv
 
   make_model_input-cohort_vax-sub_covid_history-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-intestinal_obstruction
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2474,7 +2474,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-intestinal_obstruction.csv
 
   make_model_input-cohort_vax-sub_covid_history-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2495,7 +2495,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-lower_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_history-nausea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-nausea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2516,7 +2516,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-nausea.csv
 
   make_model_input-cohort_vax-sub_covid_history-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2537,7 +2537,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_vax-sub_covid_history-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2558,7 +2558,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_history-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-peptic_ulcer
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2579,7 +2579,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-peptic_ulcer.csv
 
   make_model_input-cohort_vax-sub_covid_history-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2600,7 +2600,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-upper_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_history-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2621,7 +2621,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-variceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_history-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_history-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_history-vomiting
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -2642,7 +2642,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_history-vomiting.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-abdominal_distension
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2663,7 +2663,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-abdominal_distension.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2684,7 +2684,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2705,7 +2705,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-appendicitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2726,7 +2726,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-appendicitis.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-belching:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-belching
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-belching
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2747,7 +2747,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-belching.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-bloody_stools
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2768,7 +2768,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-bloody_stools.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-bowel_ischaemia
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2789,7 +2789,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-bowel_ischaemia.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2810,7 +2810,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-dyspepsia
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2831,7 +2831,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-dyspepsia.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gallstones_disease
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2852,7 +2852,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2873,7 +2873,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-ibs:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-ibs
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2894,7 +2894,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-intestinal_obstruction
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2915,7 +2915,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-intestinal_obstruction.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2936,7 +2936,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-nausea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-nausea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2957,7 +2957,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nausea.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2978,7 +2978,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -2999,7 +2999,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-peptic_ulcer
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -3020,7 +3020,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-peptic_ulcer.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -3041,7 +3041,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -3062,7 +3062,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_hospitalised-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-vomiting
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -3083,7 +3083,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-vomiting.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-abdominal_distension
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3104,7 +3104,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-abdominal_distension.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3125,7 +3125,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3146,7 +3146,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-appendicitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3167,7 +3167,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-appendicitis.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-belching:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-belching
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-belching
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3188,7 +3188,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-belching.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-bloody_stools
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3209,7 +3209,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-bloody_stools.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-bowel_ischaemia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3230,7 +3230,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-bowel_ischaemia.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3251,7 +3251,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-dyspepsia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3272,7 +3272,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-dyspepsia.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-gallstones_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3293,7 +3293,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-gallstones_disease.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3314,7 +3314,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-ibs:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-ibs
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3335,7 +3335,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-ibs.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-intestinal_obstruction
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3356,7 +3356,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-intestinal_obstruction.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3377,7 +3377,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-nausea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-nausea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3398,7 +3398,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-nausea.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3419,7 +3419,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3440,7 +3440,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-peptic_ulcer
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3461,7 +3461,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-peptic_ulcer.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3482,7 +3482,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3503,7 +3503,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_hospitalised-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_hospitalised-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised-vomiting
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -3524,7 +3524,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-vomiting.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-abdominal_distension
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3545,7 +3545,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-abdominal_distension.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3566,7 +3566,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-acute_pancreatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3587,7 +3587,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-acute_pancreatitis.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-appendicitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3608,7 +3608,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-appendicitis.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-belching:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-belching
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-belching
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3629,7 +3629,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-belching.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-bloody_stools
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3650,7 +3650,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-bloody_stools.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-bowel_ischaemia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3671,7 +3671,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-bowel_ischaemia.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3692,7 +3692,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-dyspepsia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3713,7 +3713,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-dyspepsia.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-gallstones_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3734,7 +3734,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-gallstones_disease.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3755,7 +3755,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-ibs:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-ibs
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3776,7 +3776,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-ibs.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-intestinal_obstruction
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3797,7 +3797,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-intestinal_obstruction.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3818,7 +3818,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-nausea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-nausea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3839,7 +3839,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-nausea.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3860,7 +3860,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3881,7 +3881,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-peptic_ulcer
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3902,7 +3902,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-peptic_ulcer.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3923,7 +3923,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3944,7 +3944,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_hospitalised-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_hospitalised-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised-vomiting
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -3965,7 +3965,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_hospitalised-vomiting.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-abdominal_distension
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -3986,7 +3986,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-abdominal_distension.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4007,7 +4007,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4028,7 +4028,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-appendicitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4049,7 +4049,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-appendicitis.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-belching:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-belching
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-belching
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4070,7 +4070,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-belching.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-bloody_stools
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4091,7 +4091,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-bloody_stools.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-bowel_ischaemia
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4112,7 +4112,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-bowel_ischaemia.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4133,7 +4133,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-dyspepsia
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4154,7 +4154,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-dyspepsia.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4175,7 +4175,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4196,7 +4196,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-ibs:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-ibs
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4217,7 +4217,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-ibs.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-intestinal_obstruction
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4238,7 +4238,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-intestinal_obstruction.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4259,7 +4259,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-nausea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-nausea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4280,7 +4280,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-nausea.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4301,7 +4301,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4322,7 +4322,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4343,7 +4343,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4364,7 +4364,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4385,7 +4385,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-variceal_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_nonhospitalised-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_nonhospitalised-vomiting
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -4406,7 +4406,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_nonhospitalised-vomiting.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-abdominal_distension
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4427,7 +4427,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-abdominal_distension.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4448,7 +4448,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4469,7 +4469,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-appendicitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4490,7 +4490,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-appendicitis.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-belching:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-belching
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-belching
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4511,7 +4511,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-belching.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-bloody_stools
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4532,7 +4532,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-bloody_stools.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-bowel_ischaemia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4553,7 +4553,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-bowel_ischaemia.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4574,7 +4574,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-dyspepsia
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4595,7 +4595,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-dyspepsia.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4616,7 +4616,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4637,7 +4637,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-ibs:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-ibs
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4658,7 +4658,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-ibs.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-intestinal_obstruction
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4679,7 +4679,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-intestinal_obstruction.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4700,7 +4700,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-nausea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-nausea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4721,7 +4721,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-nausea.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4742,7 +4742,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4763,7 +4763,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4784,7 +4784,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4805,7 +4805,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4826,7 +4826,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-variceal_gi_bleeding.csv
 
   make_model_input-cohort_unvax-sub_covid_nonhospitalised-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_nonhospitalised-vomiting
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -4847,7 +4847,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_nonhospitalised-vomiting.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-abdominal_distension:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-abdominal_distension
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-abdominal_distension
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -4868,7 +4868,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-abdominal_distension.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-abdominal_paindiscomfort:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-abdominal_paindiscomfort
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -4889,7 +4889,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-abdominal_paindiscomfort.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -4910,7 +4910,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-appendicitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-appendicitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-appendicitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -4931,7 +4931,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-appendicitis.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-belching:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-belching
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-belching
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -4952,7 +4952,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-belching.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-bloody_stools:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-bloody_stools
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-bloody_stools
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -4973,7 +4973,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-bloody_stools.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-bowel_ischaemia:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-bowel_ischaemia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-bowel_ischaemia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -4994,7 +4994,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-bowel_ischaemia.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5015,7 +5015,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-dyspepsia:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-dyspepsia
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-dyspepsia
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5036,7 +5036,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-dyspepsia.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-gallstones_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-gallstones_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-gallstones_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5057,7 +5057,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-gallstones_disease.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5078,7 +5078,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-ibs:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-ibs
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-ibs
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5099,7 +5099,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-ibs.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-intestinal_obstruction:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-intestinal_obstruction
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-intestinal_obstruction
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5120,7 +5120,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-intestinal_obstruction.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5141,7 +5141,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-nausea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-nausea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-nausea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5162,7 +5162,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-nausea.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5183,7 +5183,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5204,7 +5204,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5225,7 +5225,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5246,7 +5246,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-variceal_gi_bleeding:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-variceal_gi_bleeding
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5267,7 +5267,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-variceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_covid_nonhospitalised-vomiting:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_covid_nonhospitalised-vomiting
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_nonhospitalised-vomiting
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5288,7 +5288,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_covid_nonhospitalised-vomiting.csv
 
   make_model_input-cohort_prevax-sub_ethnicity_asian-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_ethnicity_asian-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_asian-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5309,7 +5309,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_ethnicity_asian-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_ethnicity_asian-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_ethnicity_asian-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_asian-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5330,7 +5330,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_asian-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_ethnicity_asian-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_ethnicity_asian-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_asian-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5351,7 +5351,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_ethnicity_asian-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_ethnicity_black-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_ethnicity_black-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_black-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5372,7 +5372,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_ethnicity_black-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_ethnicity_black-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_ethnicity_black-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_black-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5393,7 +5393,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_black-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_ethnicity_black-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_ethnicity_black-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_black-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5414,7 +5414,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_ethnicity_black-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_ethnicity_mixed-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_ethnicity_mixed-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_mixed-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5435,7 +5435,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_ethnicity_mixed-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_ethnicity_mixed-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_ethnicity_mixed-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_mixed-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5456,7 +5456,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_mixed-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_ethnicity_mixed-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_ethnicity_mixed-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_mixed-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5477,7 +5477,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_ethnicity_mixed-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_ethnicity_other-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_ethnicity_other-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_other-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5498,7 +5498,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_ethnicity_other-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_ethnicity_other-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_ethnicity_other-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_other-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5519,7 +5519,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_other-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_ethnicity_other-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_ethnicity_other-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_other-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5540,7 +5540,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_ethnicity_other-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_ethnicity_white-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_ethnicity_white-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_white-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5561,7 +5561,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_ethnicity_white-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_ethnicity_white-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_ethnicity_white-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_white-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5582,7 +5582,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_white-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_ethnicity_white-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_ethnicity_white-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_white-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5603,7 +5603,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_ethnicity_white-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5624,7 +5624,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms.csv
 
   make_model_input-cohort_unvax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5645,7 +5645,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms.csv
 
   make_model_input-cohort_vax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5666,7 +5666,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_priorhistory_false-diarrhoea-cov_bin_overall_gi_and_symptoms.csv
 
   make_model_input-cohort_prevax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5687,7 +5687,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms.csv
 
   make_model_input-cohort_unvax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5708,7 +5708,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms.csv
 
   make_model_input-cohort_vax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5729,7 +5729,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_priorhistory_true-diarrhoea-cov_bin_overall_gi_and_symptoms.csv
 
   make_model_input-cohort_prevax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5750,7 +5750,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations.csv
 
   make_model_input-cohort_unvax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5771,7 +5771,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations.csv
 
   make_model_input-cohort_vax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5792,7 +5792,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_prioroperations_false-diarrhoea-cov_bin_gi_operations.csv
 
   make_model_input-cohort_prevax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5813,7 +5813,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations.csv
 
   make_model_input-cohort_unvax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5834,7 +5834,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations.csv
 
   make_model_input-cohort_vax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5855,7 +5855,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_prioroperations_true-diarrhoea-cov_bin_gi_operations.csv
 
   make_model_input-cohort_prevax-sub_sex_female-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_sex_female-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_female-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5876,7 +5876,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_sex_female-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_sex_female-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_sex_female-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_sex_female-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5897,7 +5897,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_sex_female-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_sex_female-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_sex_female-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_sex_female-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5918,7 +5918,7 @@ actions:
         model_output: output/model_output-cohort_vax-sub_sex_female-diarrhoea.csv
 
   make_model_input-cohort_prevax-sub_sex_male-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_prevax-sub_sex_male-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_male-diarrhoea
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -5939,7 +5939,7 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_sex_male-diarrhoea.csv
 
   make_model_input-cohort_unvax-sub_sex_male-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_unvax-sub_sex_male-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_sex_male-diarrhoea
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -5960,7 +5960,7 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_sex_male-diarrhoea.csv
 
   make_model_input-cohort_vax-sub_sex_male-diarrhoea:
-    run: r:latest analysis/make_model_input.R cohort_vax-sub_sex_male-diarrhoea
+    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_sex_male-diarrhoea
     needs:
     - stage1_data_cleaning_vax
     outputs:
@@ -5983,7 +5983,7 @@ actions:
   ## Table 2 - prevax 
 
   table2_prevax:
-    run: r:latest analysis/table2.R prevax
+    run: r:latest analysis/descriptives/table2.R prevax
     needs:
     - make_model_input-cohort_prevax-main-abdominal_distension
     - make_model_input-cohort_prevax-main-abdominal_paindiscomfort
@@ -6071,7 +6071,7 @@ actions:
   ## Table 2 - unvax 
 
   table2_unvax:
-    run: r:latest analysis/table2.R unvax
+    run: r:latest analysis/descriptives/table2.R unvax
     needs:
     - make_model_input-cohort_unvax-main-abdominal_distension
     - make_model_input-cohort_unvax-main-abdominal_paindiscomfort
@@ -6180,7 +6180,7 @@ actions:
   ## Table 2 - vax 
 
   table2_vax:
-    run: r:latest analysis/table2.R vax
+    run: r:latest analysis/descriptives/table2.R vax
     needs:
     - make_model_input-cohort_vax-main-abdominal_distension
     - make_model_input-cohort_vax-main-abdominal_paindiscomfort
@@ -6289,7 +6289,7 @@ actions:
   ## Venn - prevax 
 
   venn_prevax:
-    run: r:latest analysis/venn.R prevax
+    run: r:latest analysis/descriptives/venn.R prevax
     needs:
     - preprocess_data_prevax
     - make_model_input-cohort_prevax-main-abdominal_distension
@@ -6321,7 +6321,7 @@ actions:
   ## Venn - unvax 
 
   venn_unvax:
-    run: r:latest analysis/venn.R unvax
+    run: r:latest analysis/descriptives/venn.R unvax
     needs:
     - preprocess_data_unvax
     - make_model_input-cohort_unvax-main-abdominal_distension
@@ -6353,7 +6353,7 @@ actions:
   ## Venn - vax 
 
   venn_vax:
-    run: r:latest analysis/venn.R vax
+    run: r:latest analysis/descriptives/venn.R vax
     needs:
     - preprocess_data_vax
     - make_model_input-cohort_vax-main-abdominal_distension
@@ -6385,9 +6385,136 @@ actions:
   ## Stage 6 - make model output 
 
   make_model_output:
-    run: r:latest analysis/make_model_output.R
+    run: r:latest analysis/model/make_model_output.R
     needs:
-    - cox_ipw-
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-abdominal_distension
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-abdominal_distension
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-abdominal_distension
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-abdominal_distension
+    - cox_ipw-cohort_vax-sub_covid_history-abdominal_distension
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-abdominal_distension
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-abdominal_distension
+    - cox_ipw-cohort_unvax-sub_covid_history-abdominal_distension
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_vax-sub_covid_history-abdominal_paindiscomfort
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-abdominal_paindiscomfort
+    - cox_ipw-cohort_unvax-sub_covid_history-abdominal_paindiscomfort
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-diarrhoea
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-diarrhoea
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-diarrhoea
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-diarrhoea
+    - cox_ipw-cohort_vax-sub_covid_history-diarrhoea
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-diarrhoea
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-diarrhoea
+    - cox_ipw-cohort_unvax-sub_covid_history-diarrhoea
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-dyspepsia
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-dyspepsia
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-dyspepsia
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-dyspepsia
+    - cox_ipw-cohort_vax-sub_covid_history-dyspepsia
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-dyspepsia
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-dyspepsia
+    - cox_ipw-cohort_unvax-sub_covid_history-dyspepsia
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nausea
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nausea
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-nausea
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-nausea
+    - cox_ipw-cohort_vax-sub_covid_history-nausea
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-nausea
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-nausea
+    - cox_ipw-cohort_unvax-sub_covid_history-nausea
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-vomiting
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-vomiting
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-vomiting
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-vomiting
+    - cox_ipw-cohort_vax-sub_covid_history-vomiting
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-vomiting
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-vomiting
+    - cox_ipw-cohort_unvax-sub_covid_history-vomiting
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-bloody_stools
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-bloody_stools
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-bloody_stools
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-bloody_stools
+    - cox_ipw-cohort_vax-sub_covid_history-bloody_stools
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-bloody_stools
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-bloody_stools
+    - cox_ipw-cohort_unvax-sub_covid_history-bloody_stools
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-ibs
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-ibs
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-ibs
+    - cox_ipw-cohort_vax-sub_covid_history-ibs
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-ibs
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-ibs
+    - cox_ipw-cohort_unvax-sub_covid_history-ibs
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-appendicitis
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-appendicitis
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-appendicitis
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-appendicitis
+    - cox_ipw-cohort_vax-sub_covid_history-appendicitis
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-appendicitis
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-appendicitis
+    - cox_ipw-cohort_unvax-sub_covid_history-appendicitis
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-gallstones_disease
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gallstones_disease
+    - cox_ipw-cohort_vax-sub_covid_history-gallstones_disease
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-gallstones_disease
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
+    - cox_ipw-cohort_unvax-sub_covid_history-gallstones_disease
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_history-lower_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-lower_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_history-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-upper_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_history-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-acute_pancreatitis
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
+    - cox_ipw-cohort_vax-sub_covid_history-acute_pancreatitis
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
+    - cox_ipw-cohort_unvax-sub_covid_history-acute_pancreatitis
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_covid_history-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_covid_history-peptic_ulcer
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv

@@ -109,7 +109,7 @@ preprocess_data <- function(cohort){
     comment(glue("Preprocess data - {cohort}")),
     action(
       name = glue("preprocess_data_{cohort}"),
-      run = glue("r:latest analysis/preprocess_data.R"),
+      run = glue("r:latest analysis/preprocess/preprocess_data.R"),
       arguments = c(cohort),
       needs = list("generate_index_dates",glue("generate_study_population_{cohort}")),
       moderately_sensitive = list(
@@ -131,7 +131,7 @@ stage1_data_cleaning <- function(cohort){
     comment(glue("Stage 1 - data cleaning - {cohort}")),
     action(
       name = glue("stage1_data_cleaning_{cohort}"),
-      run = glue("r:latest analysis/stage1_data_cleaning.R"),
+      run = glue("r:latest analysis/preprocess/stage1_data_cleaning.R"),
       arguments = c(cohort),
       needs = list("vax_eligibility_inputs",glue("preprocess_data_{cohort}")),
       moderately_sensitive = list(
@@ -157,21 +157,14 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
   splice(
     action(
       name = glue("make_model_input-{name}"),
-      run = glue("r:latest analysis/make_model_input.R {name}"),
+      run = glue("r:latest analysis/model/make_model_input.R {name}"),
       needs = list(glue("stage1_data_cleaning_{cohort}")),
       highly_sensitive = list(
         model_input = glue("output/model_input-{name}.rds")
       )
     ),
     
-    # action(
-    #   name = glue("describe_model_input-{name}"),
-    #   run = glue("r:latest analysis/describe_file.R model_input-{name} rds"),
-    #   needs = list(glue("make_model_input-{name}")),
-    #   moderately_sensitive = list(
-    #     describe_model_input = glue("output/describe-model_input-{name}.txt")
-    #   )
-    # ),
+ 
     
     action(
       name = glue("cox_ipw-{name}"),
@@ -193,7 +186,7 @@ table2 <- function(cohort){
     comment(glue("Table 2 - {cohort}")),
     action(
       name = glue("table2_{cohort}"),
-      run = "r:latest analysis/table2.R",
+      run = "r:latest analysis/descriptives/table2.R",
       arguments = c(cohort),
       needs = c(as.list(paste0("make_model_input-",table2_names))),
       moderately_sensitive = list(
@@ -214,7 +207,7 @@ venn <- function(cohort){
     comment(glue("Venn - {cohort}")),
     action(
       name = glue("venn_{cohort}"),
-      run = "r:latest analysis/venn.R",
+      run = "r:latest analysis/descriptives/venn.R",
       arguments = c(cohort),
       needs = c(as.list(glue("preprocess_data_{cohort}")),
                 as.list(paste0(glue("make_model_input-cohort_{cohort}-main-"),venn_outcomes))),
@@ -364,7 +357,7 @@ actions_list <- splice(
 
   action(
     name = "make_model_output",
-    run = "r:latest analysis/make_model_output.R",
+    run = "r:latest analysis/model/make_model_output.R",
     needs = as.list(paste0("cox_ipw-",success$name)),
     moderately_sensitive = list(
       model_output = glue("output/model_output.csv")
