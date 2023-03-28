@@ -193,7 +193,8 @@ consort[nrow(consort)+1,] <- c("Quality assurance: Pregnancy/birth codes for men
 
 print('Quality assurance: HRT or COCP meds for men')
 
-input <- input[!(input$cov_cat_sex=="Male" & input$qa_bin_hrtcocp==TRUE),]
+#input <- input[!(input$cov_cat_sex=="Male" & input$qa_bin_hrtcocp==TRUE),]
+input <- input[!(input$cov_cat_sex == "Male" & (input$cov_bin_combined_oral_contraceptive_pill | input$cov_bin_hormone_replacement_therapy) == TRUE),]
 
 consort[nrow(consort)+1,] <- c("Quality assurance: HRT or COCP meds for men",
                                nrow(input))
