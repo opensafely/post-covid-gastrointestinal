@@ -296,23 +296,24 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
             on_or_before=f"{index_date_variable} - 1 day",
         ),
     ),
-## Combined oral contraceptive pill
-    ### dmd: dictionary of medicines and devices
-    cov_bin_combined_oral_contraceptive_pill=patients.with_these_medications(
-        cocp_dmd, 
-        returning='binary_flag',
-        on_or_before=f"{index_date_variable} - 1 day",
-        return_expectations={"incidence": 0.3},
-    ),
 
-    ## Hormone replacement therapy
-    cov_bin_hormone_replacement_therapy=patients.with_these_medications(
-        hrt_dmd, 
-        returning='binary_flag',
-        on_or_before=f"{index_date_variable} - 1 day",
+    tmp_cocp=patients.with_these_medications(
+                        cocp_dmd, 
+                        returning='binary_flag',
+                        on_or_before=f"{index_date_variable}",
+                        return_expectations={"incidence": 0.1},
+                    ),
 
-        return_expectations={"incidence": 0.3},
-    ),
+                tmp_hrt=patients.with_these_medications(
+                        hrt_dmd, 
+                        returning='binary_flag',
+                        on_or_before=f"{index_date_variable}",
+                        return_expectations={"incidence": 0.1},
+                    ),
+                
+                qa_bin_hrtcocp=patients.maximum_of(
+                    "tmp_cocp", "tmp_hrt"
+                ),
 
  
     ## Care home status
