@@ -323,7 +323,7 @@ if (cohort == "vax") {
   consort[nrow(consort)+1,] <- c("Inclusion criteria: Index date is before cohort end date",
                                  nrow(input))
   
-} else if (cohort %in% c("unvax","unvax_extf")){
+} else if (cohort %in% c("unvax")){
   
   print('Inclusion criteria: Does not have a record of one or more vaccination prior index date')
   
@@ -353,6 +353,25 @@ if (cohort == "vax") {
   
 }
 
+#Apply outcome specific exclusions criteria
+#-------------------------------------------------#
+
+#Remove chronic people with Coeliac, IBD and Cirrhosis
+input <- input %>% 
+filter_at(vars(out_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), all_vars(.== FALSE))
+
+consort[nrow(consort)+1,] <- c(nrow(input), as.numeric( "Exclusion criteria: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)",
+                              nrow(input))
+    
+#for appendicitis, exclude those with prior record of appendicitis
+input <- input %>%
+mutate(out_date_appendicitis = case_when(
+                                      (!is.na(out_date_appendicitis) & cov_bin_appendicitis==FALSE) ~ out_date_appendicitis,
+                                       TRUE ~ NA_real_))
+    
+consort[nrow(consort)+1,] <- c( "Exclusion Criteria: Remove those with previous appendicitis from appendicitis events",nrow(input))
+
+    
 # Save consort data ------------------------------------------------------------
 print('Save consort data')
 
