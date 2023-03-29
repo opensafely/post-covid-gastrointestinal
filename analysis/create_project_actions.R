@@ -3,6 +3,7 @@ library(here)
 library(glue)
 library(readr)
 library(dplyr)
+library(tidyverse)
 
 # Specify defaults -------------------------------------------------------------
 
@@ -131,7 +132,7 @@ stage1_data_cleaning <- function(cohort){
     comment(glue("Stage 1 - data cleaning - {cohort}")),
     action(
       name = glue("stage1_data_cleaning_{cohort}"),
-      run = glue("r:latest analysis/preprocess/stage1_data_cleaning.R"),
+      run = glue("r:latest analysis/preprocess/Stage1_data_cleaning.R"),
       arguments = c(cohort),
       needs = list("vax_eligibility_inputs",glue("preprocess_data_{cohort}")),
       moderately_sensitive = list(
