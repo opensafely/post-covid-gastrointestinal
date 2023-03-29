@@ -360,7 +360,7 @@ if (cohort == "vax") {
 input <- input %>% 
 filter_at(vars(out_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), all_vars(.== FALSE))
 
-consort[nrow(consort)+1,] <- c(nrow(input), as.numeric( "Exclusion criteria: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)",
+consort[nrow(consort)+1,] <- c("Exclusion criteria: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)",
                               nrow(input))
     
 #for appendicitis, exclude those with prior record of appendicitis
