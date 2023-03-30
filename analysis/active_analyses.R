@@ -4,9 +4,6 @@
     # Create output directory ------------------------------------------------------
     fs::dir_create(here::here("lib"))
 
-
-
-
     # Create empty data frame ------------------------------------------------------
 
     df <- data.frame(cohort = character(),
