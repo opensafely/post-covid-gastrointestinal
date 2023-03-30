@@ -7,9 +7,7 @@ library(dplyr)
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds")%>% 
-filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding","out_date_belching")) %>% 
-  filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
+active_analyses <- readr::read_rds("lib/active_analyses.rds")
 
 # List available model outputs -------------------------------------------------
 print('List available model outputs')
