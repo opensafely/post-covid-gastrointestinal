@@ -76,20 +76,28 @@
 
     # Specify outcomes -------------------------------------------------------------
 
-    # outcomes_runall <- c("out_date_depression", 
-    #                      "out_date_anxiety_general", 
-    #                      "out_date_serious_mental_illness", 
-    #                      "out_date_self_harm")
-    outcomes_runall <- c("out_date_diarrhoea")
-    outcomes_runmain <- c("out_date_ibs",
-                          "out_date_nausea", 
-                          "out_date_vomiting",
-                          "out_date_abdominal_paindiscomfort",
-                          "out_date_intestinal_obstruction",
-                          "out_date_bowel_ischaemia",
-                          "out_date_belching",
-                          "out_date_abdominal_distension",
-                          "out_date_bloody_stools",
+    
+    outcomes_runall <- c("out_date_ibs",
+                          "out_date_appendicitis",
+                          "out_date_gallstones_disease",
+                          "out_date_nonalcoholic_steatohepatitis",
+                          "out_date_acute_pancreatitis",
+                          "out_date_gastro_oesophageal_reflux_disease",
+                          "out_date_dyspepsia",
+                          "out_date_peptic_ulcer",
+                          "out_date_upper_gi_bleeding",
+                          "out_date_lower_gi_bleeding",
+                          "out_date_variceal_gi_bleeding",
+                          "out_date_nonvariceal_gi_bleeding")
+    # outcomes_runmain <- c("out_date_ibs",
+                          # "out_date_nausea", 
+                          # "out_date_vomiting",
+                          # "out_date_abdominal_paindiscomfort",
+                          # "out_date_intestinal_obstruction",
+                          # "out_date_bowel_ischaemia",
+                          # "out_date_belching",
+                          # "out_date_abdominal_distension",
+                          # "out_date_bloody_stools",
                           "out_date_appendicitis",
                           "out_date_gallstones_disease",
                           "out_date_nonalcoholic_steatohepatitis",
@@ -108,7 +116,8 @@
 
     for (c in cohorts) {
       
-      for (i in c(outcomes_runmain, outcomes_runall)) {
+      # for (i in c(outcomes_runmain, outcomes_runall)) {
+        for (i in c( outcomes_runall)) {
         
         
         ## analysis: main ----------------------------------------------------------
