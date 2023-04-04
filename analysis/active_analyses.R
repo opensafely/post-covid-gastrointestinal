@@ -98,18 +98,18 @@
                           # "out_date_belching",
                           # "out_date_abdominal_distension",
                           # "out_date_bloody_stools",
-                          "out_date_appendicitis",
-                          "out_date_gallstones_disease",
-                          "out_date_nonalcoholic_steatohepatitis",
-                          "out_date_acute_pancreatitis",
-                          "out_date_gastro_oesophageal_reflux_disease",
-                          "out_date_dyspepsia",
-                          "out_date_peptic_ulcer",
-                          "out_date_upper_gi_bleeding",
-                          "out_date_lower_gi_bleeding",
-                          "out_date_variceal_gi_bleeding",
-                          "out_date_nonvariceal_gi_bleeding"
-    )
+                          # "out_date_appendicitis",
+                          # "out_date_gallstones_disease",
+                          # "out_date_nonalcoholic_steatohepatitis",
+                          # "out_date_acute_pancreatitis",
+                          # "out_date_gastro_oesophageal_reflux_disease",
+                          # "out_date_dyspepsia",
+                          # "out_date_peptic_ulcer",
+                          # "out_date_upper_gi_bleeding",
+                          # "out_date_lower_gi_bleeding",
+                          # "out_date_variceal_gi_bleeding",
+                          # "out_date_nonvariceal_gi_bleeding"
+    # )
 
 
     # Add active analyses ----------------------------------------------------------
