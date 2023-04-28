@@ -27,7 +27,7 @@ print('Load active analyses')
 active_analyses <- readr::read_rds("lib/active_analyses.rds") 
 
 # Restrit analysis to cohort_name 
-active_analyses <- active_analyses[grepl(paste0("^cohort_", cohort_name, "-?"), active_analyses$name),]
+active_analyses <- active_analyses[active_analyses$cohort==cohort_name,]
 
 # Make empty table 2 -----------------------------------------------------------
 print('Make empty table 2')
