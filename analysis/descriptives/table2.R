@@ -2,6 +2,16 @@ library(readr)
 library(dplyr)
 library(magrittr)
 
+# Specify command arguments ----------------------------------------------------
+
+args <- commandArgs(trailingOnly=TRUE)
+
+if(length(args)==0){
+  cohort_name <- "prevax"
+} else {
+  cohort_name <- args[[1]]
+}
+
 # Specify redaction threshold --------------------------------------------------
 
 threshold <- 6
@@ -15,8 +25,10 @@ source("analysis/utility.R")
 print('Load active analyses')
 
 active_analyses <- readr::read_rds("lib/active_analyses.rds") 
-# filter(!outcome %in% c("out_date_bowel_ischaemia","out_date_intestinal_obstruction","out_date_nonalcoholic_steatohepatitis","out_date_variceal_gi_bleeding","out_date_belching")) %>% 
-# filter(analysis %in% c("sub_covid_hospitalised","sub_covid_nonhospitalised","sub_covid_history"))
+
+# Restrit analysis to cohort_name 
+active_analyses <- active_analyses[active_analyses$cohort==cohort_name,]
+
 # Make empty table 2 -----------------------------------------------------------
 print('Make empty table 2')
 
@@ -78,7 +90,7 @@ for (i in 1:nrow(active_analyses)) {
 
 
 
-write.csv(table2, "output/table2.csv")
+write.csv(table2, paste0("output/table2_",cohort_name,".csv"))
 # Perform redaction ------------------------------------------------------------
 
 table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))] <- lapply(table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))],
@@ -87,6 +99,6 @@ table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysi
 
 # Save Table 2 rounded -----------------------------------------------------------------
 print('Save Table 2 rounded')
-write.csv(table2, paste0("output/table2","_rounded.csv"))
+write.csv(table2, paste0("output/table2_",cohort_name,"_rounded.csv"))
 
 
