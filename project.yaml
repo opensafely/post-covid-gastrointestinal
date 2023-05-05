@@ -182,6 +182,39 @@ actions:
       highly_sensitive:
         cohort: output/input_vax_stage1.rds
 
+  ## Table 1 - prevax 
+
+  table1_prevax:
+    run: r:latest analysis/descriptives/table1.R prevax
+    needs:
+    - stage1_data_cleaning_prevax
+    outputs:
+      moderately_sensitive:
+        table1: output/table1_prevax.csv
+        table1_rounded: output/table1_prevax_rounded.csv
+
+  ## Table 1 - unvax 
+
+  table1_unvax:
+    run: r:latest analysis/descriptives/table1.R unvax
+    needs:
+    - stage1_data_cleaning_unvax
+    outputs:
+      moderately_sensitive:
+        table1: output/table1_unvax.csv
+        table1_rounded: output/table1_unvax_rounded.csv
+
+  ## Table 1 - vax 
+
+  table1_vax:
+    run: r:latest analysis/descriptives/table1.R vax
+    needs:
+    - stage1_data_cleaning_vax
+    outputs:
+      moderately_sensitive:
+        table1: output/table1_vax.csv
+        table1_rounded: output/table1_vax_rounded.csv
+
   ## Run models 
 
   make_model_input-cohort_prevax-main-acute_pancreatitis:
@@ -15069,82 +15102,5 @@ actions:
 
   ## Stage 6 - make model output 
 
-  make_model_output:
-    run: r:latest analysis/model/make_model_output.R
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-ibs
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-ibs
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-ibs
-    - cox_ipw-cohort_vax-sub_covid_history-ibs
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-ibs
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-ibs
-    - cox_ipw-cohort_unvax-sub_covid_history-ibs
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_vax-sub_covid_history-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_covid_history-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-appendicitis
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-appendicitis
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-appendicitis
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-appendicitis
-    - cox_ipw-cohort_vax-sub_covid_history-appendicitis
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-appendicitis
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-appendicitis
-    - cox_ipw-cohort_unvax-sub_covid_history-appendicitis
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-gallstones_disease
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gallstones_disease
-    - cox_ipw-cohort_vax-sub_covid_history-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_covid_history-gallstones_disease
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_history-lower_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_history-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_history-upper_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_history-upper_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_vax-sub_covid_history-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_covid_history-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-acute_pancreatitis
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
-    - cox_ipw-cohort_vax-sub_covid_history-acute_pancreatitis
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
-    - cox_ipw-cohort_unvax-sub_covid_history-acute_pancreatitis
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
-    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
-    - cox_ipw-cohort_vax-sub_covid_hospitalised-peptic_ulcer
-    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
-    - cox_ipw-cohort_vax-sub_covid_history-peptic_ulcer
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-peptic_ulcer
-    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
-    - cox_ipw-cohort_unvax-sub_covid_history-peptic_ulcer
-    outputs:
-      moderately_sensitive:
-        model_output: output/model_output.csv
+  
 
