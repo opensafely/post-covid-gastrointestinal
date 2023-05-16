@@ -32,6 +32,15 @@ success <- tidyr::pivot_longer(success,
                                names_to = "analysis") %>% filter(analysis!="main")
 
 success$name <- paste0("cohort_",success$cohort, "-",success$analysis, "-",success$outcome)
+# add cov_bin_overall_gi_and_symptoms to priorhistory and prioroperations analysis
+success <- success %>%
+  mutate(suffix = case_when(
+    grepl("priorhistory", analysis) ~ "-cov_bin_overall_gi_and_symptoms",
+    grepl("prioroperations", analysis) ~ "-cov_bin_gi_operations",
+    TRUE ~ ""
+  )) %>%
+  unite(name, cohort, analysis, outcome, sep = "-") %>%
+  mutate(name = paste0("cohort_", name, suffix))
 
 success <- success[grepl("success",success$value, ignore.case = TRUE),]
 
