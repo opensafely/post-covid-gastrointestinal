@@ -29,7 +29,7 @@ success <- readxl::read_excel("../post-covid-outcome-tracker.xlsx",
 
 success <- tidyr::pivot_longer(success,
                                cols = setdiff(colnames(success),c("outcome","cohort")),
-                               names_to = "analysis") %>% filter(analysis!="main")
+                               names_to = "analysis") 
 
 success$name <- paste0("cohort_",success$cohort, "-",success$analysis, "-",success$outcome)
 # add cov_bin_overall_gi_and_symptoms to priorhistory and prioroperations analysis

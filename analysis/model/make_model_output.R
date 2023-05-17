@@ -12,7 +12,7 @@ active_analyses <- readr::read_rds("lib/active_analyses.rds")
 # List available model outputs -------------------------------------------------
 print('List available model outputs')
 
-files <- list.files("output", pattern = "model_output-.+sub_covid")
+files <- list.files("output", pattern = "model_output-")
 
 # Combine model outputs --------------------------------------------------------
 print('Combine model outputs')
