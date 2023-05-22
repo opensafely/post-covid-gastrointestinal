@@ -45,6 +45,8 @@ estimates <- estimates %>%
 # Rename adjustment groups
 levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
 
+estimates$outcome_label<- str_replace_all(estimates$outcome,"_"," ")
+# labels 
 
 ####################
 #3-Plotting function
@@ -64,7 +66,7 @@ plot_estimates <- function(df,name) {
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
     guides( color = guide_legend(nrow = 3)) +
     guides(fill=ggplot2::guide_legend(ncol = 1, byrow = TRUE) ) +
-    facet_wrap(~outcome,  ncol=2) +
+    facet_wrap(~outcome_label , ncol=2) +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals
@@ -80,6 +82,7 @@ plot_estimates <- function(df,name) {
           plot.background = element_rect(fill = "white", colour = "white"),
           plot.margin = margin(1, 1, 1, 1, "cm"),
           text = element_text(size = 12),
+          strip.text= element_text(size=12, face="bold")
     )
   ggsave(paste0(output_dir,"Figure_1_main_cohorts_extfup_",name,"_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
   

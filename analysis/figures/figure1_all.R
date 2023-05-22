@@ -83,7 +83,7 @@ labels <- c(
   `Non-hospitalised COVID-19-Gallstones_disease` = "",
   
   `All COVID-19-Gastro_oesophageal_reflux_disease` = "",
-  `Hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "Gastro-oesophageal reflux",
+  `Hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "Gastro oesophageal reflux",
   `Non-hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "",
   
   `All COVID-19-Ibs` = "",
