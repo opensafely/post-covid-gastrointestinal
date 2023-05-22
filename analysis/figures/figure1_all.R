@@ -49,45 +49,10 @@ levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="p
 # Filter data for the desired analyses
 estimates_sub <- estimates %>% filter(analysis %in% c("main", "sub_covid_hospitalised", "sub_covid_nonhospitalised"))
 
+# Change names for labelling purpose
 estimates_sub$analysis <- factor(estimates_sub$analysis,levels = c("main", "sub_covid_hospitalised","sub_covid_nonhospitalised"))
-
 levels(estimates_sub$analysis) <- list("All COVID-19"="main", "Hospitalised COVID-19"="sub_covid_hospitalised","Non-hospitalised COVID-19"="sub_covid_nonhospitalised")
-
 estimates_sub$grouping_name <- paste0(estimates_sub$analysis,"-", estimates_sub$outcome)
-
-
-unique(estimates_sub$grouping_name)
-
-# Set factor levels
-# estimates_sub$grouping_name <- factor(estimates_sub$grouping_name, levels = c(
-#   "All COVID-19-Acute_pancreatitis",
-#   "Hospitalised COVID-19-Acute_pancreatitis",
-#   "Non-hospitalised COVID-19-Acute_pancreatitis",
-#   "All COVID-19-Appendicitis",
-#   "Hospitalised COVID-19-Appendicitis",
-#   "Non-hospitalised COVID-19-Appendicitis",
-#   "All COVID-19-Gallstones_disease",
-#   "Hospitalised COVID-19-Gallstones_disease",
-#   "Non-hospitalised COVID-19-Gallstones_disease",
-#   "All COVID-19-Gastro_oesophageal_reflux_disease",
-#   "Hospitalised COVID-19-Gastro_oesophageal_reflux_disease",
-#   "Non-hospitalised COVID-19-Gastro_oesophageal_reflux_disease",
-#   "All COVID-19-Ibs",
-#   "Hospitalised COVID-19-Ibs",
-#   "Non-hospitalised COVID-19-Ibs",
-#   "All COVID-19-Lower_gi_bleeding",
-#   "Hospitalised COVID-19-Lower_gi_bleeding",
-#   "Non-hospitalised COVID-19-Lower_gi_bleeding",
-#   "All COVID-19-Nonvariceal_gi_bleeding",
-#   "Hospitalised COVID-19-Nonvariceal_gi_bleeding",
-#   "Non-hospitalised COVID-19-Nonvariceal_gi_bleeding",
-#   "All COVID-19-Peptic_ulcer",
-#   "Hospitalised COVID-19-Peptic_ulcer",
-#   "Non-hospitalised COVID-19-Peptic_ulcer",
-#   "All COVID-19-Upper_gi_bleeding",
-#   "Hospitalised COVID-19-Upper_gi_bleeding",
-#   "Non-hospitalised COVID-19-Upper_gi_bleeding"
-# ))
 
 outcomes <- unique(estimates_sub$outcome)
 factor_levels <- c()
@@ -97,11 +62,11 @@ for (i in 1:length(outcomes)) {
     factor_levels <- c(factor_levels, paste0(prefixes[j], outcomes[i]))
   }
 }
-# Set factor levels
+# Set factor levels 
 estimates_sub$grouping_name <- factor(estimates_sub$grouping_name, levels = factor_levels)
 
 
-
+# Set labels 
 labels <- c(
   `All COVID-19-Acute_pancreatitis` = "All COVID-19
   ",
@@ -143,7 +108,7 @@ labels <- c(
 )
 
 
-
+# Function to plot 
 plot_estimates <- function(df, name) {
   pd <- position_dodge(width = 0.5)
 
