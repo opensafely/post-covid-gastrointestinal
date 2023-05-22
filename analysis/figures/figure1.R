@@ -4,14 +4,14 @@ library(tidyverse)
 library(ggplot2)
 
 # Define results directory
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023"
-
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/"
+output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/Figures/"
 #################
 #1- Get data
 #################
 
-disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding", "out_date_belching"))
-estimates <-read.csv(paste0(results_dir,"/model_output.csv"))  %>%
+disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
+estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
   # Extract outcomes to plot
   filter(!outcome %in% disregard) %>%
   filter(model=="mdl_max_adj")%>%
@@ -46,8 +46,6 @@ estimates <- estimates %>%
 levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
 
 
-
-
 ####################
 #3-Plotting function
 ####################
@@ -64,10 +62,9 @@ plot_estimates <- function(df,name) {
                                 width = 0),
                   position = pd) + 
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
-    #labs(x = "Time (days)", y = "Hazard ratio", color = "Cohort", linetype = "Analysis")+
     guides( color = guide_legend(nrow = 3)) +
     guides(fill=ggplot2::guide_legend(ncol = 1, byrow = TRUE) ) +
-    facet_wrap(~outcome) +
+    facet_wrap(~outcome,  ncol=2) +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals
@@ -84,11 +81,12 @@ plot_estimates <- function(df,name) {
           plot.margin = margin(1, 1, 1, 1, "cm"),
           text = element_text(size = 12),
     )
-  # ggsave(paste0("output/Figure_1_all_cohorts_extfup_",name,"_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
+  ggsave(paste0(output_dir,"Figure_1_main_cohorts_extfup_",name,"_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
   
   return(p)
 }
 
+estimates_main <-estimates[estimates$analysis=="main",]
+ plot_estimates(estimates_main,"Others")
 
- plot_estimates(estimates,"Others")
 
