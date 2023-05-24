@@ -145,7 +145,6 @@ plot_estimates <- function(df, name) {
                  strip.text = element_text(face = "bold",size=12)) +
                  
   facet_wrap(grouping_name~.,labeller=as_labeller(labels), ncol=3)    
-#   change test 
   
   # Add annotations
   
