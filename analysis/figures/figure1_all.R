@@ -132,7 +132,7 @@ plot_estimates <- function(df, name) {
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 4)) +
-    scale_y_continuous(lim = c(0.25, 32), breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32), trans = "log") +
+    scale_y_continuous(lim = c(0.25, 64), breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 64), trans = "log") +
     theme(panel.grid.major.x = ggplot2::element_blank(),
                  panel.grid.minor = element_blank(),
                  panel.spacing.x = ggplot2::unit(0.5, "lines"),
@@ -144,7 +144,8 @@ plot_estimates <- function(df, name) {
                  text=element_text(size=13),
                  strip.text = element_text(face = "bold",size=12)) +
                  
-  facet_wrap(grouping_name~.,labeller=as_labeller(labels), ncol=3)
+  facet_wrap(grouping_name~.,labeller=as_labeller(labels), ncol=3)    
+#   change test 
   
   # Add annotations
   
@@ -158,6 +159,7 @@ plot_estimates <- function(df, name) {
 
 # Plotting for the three analyses
 plot_estimates(estimates_sub, "main_sub_covid_hosp_nonhosp")
+
 
 
 
