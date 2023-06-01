@@ -140,8 +140,27 @@ names <- c(
   `Sex - Unvaccinated` = ""
 )
 
+names_2col <- c(
+  `Age group - Pre-vaccination` = "Pre-vaccination\nAge group",
+  `Age group - Vaccinated` = "Vaccinated",
+  `Age group - Unvaccinated` = "Unvaccinated",
+  `Ethnicity - Pre-vaccination` = "Ethnicity",
+  `Ethnicity - Vaccinated` = "",
+  `Ethnicity - Unvaccinated` = "",
+  `Prior history of event - Pre-vaccination` = "Prior history of event",
+  `Prior history of event - Vaccinated` = "",
+  `Prior history of event - Unvaccinated` = "",
+  `Prior GI operations - Pre-vaccination` = "Prior GI operations",
+  `Prior GI operations - Vaccinated` = "",
+  `Prior GI operations - Unvaccinated` = "",
+  `Sex - Pre-vaccination` = "Sex",
+  `Sex - Vaccinated` = "",
+  `Sex - Unvaccinated` = ""
+)
 
 for (outcome_name in unique(subgroups$outcome)) {
+  
+
   df <- subgroups %>% filter(outcome == outcome_name)
 
   analysis_labels_levels <- unique(df$analysis_labels)
@@ -184,21 +203,25 @@ for (outcome_name in unique(subgroups$outcome)) {
     ) +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     theme_minimal() +
-    theme(panel.grid.major.x = ggplot2::element_blank(),
-                   panel.grid.minor = ggplot2::element_blank(),
-                   panel.spacing.x = ggplot2::unit(0.5, "lines"),
-                   panel.spacing.y = ggplot2::unit(0, "lines"),
-                   legend.key = ggplot2::element_rect(colour = NA, fill = NA),
-                   legend.title = ggplot2::element_blank(),
+    theme(panel.grid.major.x = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   panel.spacing.x = unit(0.5, "lines"),
+                   panel.spacing.y = unit(0, "lines"),
+                   legend.key = element_rect(colour = NA, fill = NA),
+                   legend.title = element_blank(),
                    legend.position="bottom",
-                   legend.box ="vertical",
+                   legend.box ="horizontal",
                legend.spacing.x = unit(0.5, 'cm'),
                    strip.text = element_text(face = "bold",size=12),
-                   plot.background = ggplot2::element_rect(fill = "white", colour = "white"),
+                   plot.background = element_rect(fill = "white", colour = "white"),
                    text=element_text(size=13)) +
-                     guides(color = guide_legend(ncol = 6, byrow = TRUE))+
+                     guides(color = guide_legend(ncol = 6, byrow = TRUE))
+      if (length(unique(df$cohort)) == 2) {
+    p <- p + facet_wrap(grouping_labels ~ ., labeller = as_labeller(names_2col), ncol = length(unique(df$cohort)))
+  } else {
+    p <- p + facet_wrap(grouping_labels ~ ., labeller = as_labeller(names), ncol = length(unique(df$cohort)))
+  }
 
-    facet_wrap(grouping_labels ~ ., labeller = as_labeller(names), ncol = 3)
                      
 
 
@@ -213,7 +236,7 @@ for (outcome_name in unique(subgroups$outcome)) {
     paste0(output_dir, "supplementary_figure_3_subgroups_", outcome_name, ".png"),
     height = 400, width = 500, unit = "mm", dpi = 600, scale = 1
   )
-  return (p)
 }
 
-p
+
+
