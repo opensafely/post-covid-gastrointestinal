@@ -45,26 +45,31 @@ generate_analysis_labels <- function(analysis) {
   )
 }
 
-generate_colour <- function(analysis) {
-  case_when(
-    analysis == "sub_age_18_39"             ~ "#0808c9",
-    analysis == "sub_age_40_59"             ~ "#0085ff",
-    analysis == "sub_age_60_79"             ~ "#00c9df",
-    analysis == "sub_age_80_110"            ~ "#73ffa6",
-    analysis == "sub_sex_male"              ~ "#cab2d6",
-    analysis == "sub_sex_female"            ~ "#6a3d9a",
-    analysis == "sub_ethnicity_white"       ~ "#444e86",
-    analysis == "sub_ethnicity_black"       ~ "#ff126b",
-    analysis == "sub_ethnicity_asian"       ~ "#ff4fae",
-    analysis == "sub_ethnicity_other"       ~ "#e97de1",
-    analysis == "sub_ethnicity_mixed"       ~ "#c3a1ff",
-    analysis == "sub_priorhistory_true"     ~ "#ff7f00",
-    analysis == "sub_priorhistory_false"    ~ "#fdbf6f",
-    analysis == "sub_prioroperations_true"  ~ "#388E3C",
-    analysis == "sub_prioroperations_false" ~ "#8BC34A",
-    TRUE ~ NA_character_
+generate_colour <- function(analysis, df) {
+  unique_analysis <- unique(df$analysis)
+  unique_colors <- case_when(
+    unique_analysis == "sub_age_18_39"             ~ "#0808c9",
+    unique_analysis == "sub_age_40_59"             ~ "#0085ff",
+    unique_analysis == "sub_age_60_79"             ~ "#00c9df",
+    unique_analysis == "sub_age_80_110"            ~ "#73ffa6",
+    unique_analysis == "sub_sex_male"              ~ "#cab2d6",
+    unique_analysis == "sub_sex_female"            ~ "#6a3d9a",
+    unique_analysis == "sub_ethnicity_white"       ~ "#444e86",
+    unique_analysis == "sub_ethnicity_black"       ~ "#ff126b",
+    unique_analysis == "sub_ethnicity_asian"       ~ "#ff4fae",
+    unique_analysis == "sub_ethnicity_other"       ~ "#e97de1",
+    unique_analysis == "sub_ethnicity_mixed"       ~ "#c3a1ff",
+    unique_analysis == "sub_priorhistory_true"     ~ "#ff7f00",
+    unique_analysis == "sub_priorhistory_false"    ~ "#fdbf6f",
+    unique_analysis == "sub_prioroperations_true"  ~ "#388E3C",
+    unique_analysis == "sub_prioroperations_false" ~ "#8BC34A",
+    TRUE                                          ~ NA_character_
   )
+  unique_colors[match(analysis, unique_analysis)]
 }
+
+
+
 
 generate_grouping <- function(analysis) {
   case_when(
@@ -87,12 +92,14 @@ generate_grouping_labels <- function(grouping, cohort) {
 }
 
 subgroups <- subgroups %>%
+  group_by(outcome) %>%
   mutate(
     analysis_labels = generate_analysis_labels(analysis),
-    colour = generate_colour(analysis),
+    colour = generate_colour(analysis, .),  
     grouping = generate_grouping(analysis),
     grouping_labels = generate_grouping_labels(grouping, cohort)
   )
+
 
 subgroups$grouping_labels <- factor(
   subgroups$grouping_labels,
@@ -133,6 +140,7 @@ names <- c(
   `Sex - Unvaccinated` = ""
 )
 
+
 for (outcome_name in unique(subgroups$outcome)) {
   df <- subgroups %>% filter(outcome == outcome_name)
 
@@ -171,29 +179,41 @@ for (outcome_name in unique(subgroups$outcome)) {
       labels = levels(df$analysis_labels)
     ) +
     scale_shape_manual(
-      values = c(rep(21, length(unique(df$analysis)))),
+      values = c(rep(15, length(unique(df$analysis)))),
       labels = levels(df$analysis_labels)
     ) +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
-    guides(fill = guide_legend(ncol = 6, byrow = TRUE)) +
     theme_minimal() +
-    theme(
-      panel.grid.major.x = element_blank(),
-      panel.grid.minor = element_blank(),
-      panel.spacing.x = unit(0.5, "lines"),
-      panel.spacing.y = unit(0, "lines"),
-      legend.key = element_rect(colour = NA, fill = NA),
-      legend.title = element_blank(),
-      legend.position = "bottom",
-      plot.background = element_rect(fill = "white", colour = "white"),
-      text = element_text(size = 13),
-      strip.text = element_text(face = "bold",size=12)
-    ) +
+    theme(panel.grid.major.x = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   panel.spacing.x = ggplot2::unit(0.5, "lines"),
+                   panel.spacing.y = ggplot2::unit(0, "lines"),
+                   legend.key = ggplot2::element_rect(colour = NA, fill = NA),
+                   legend.title = ggplot2::element_blank(),
+                   legend.position="bottom",
+                   legend.box ="vertical",
+               legend.spacing.x = unit(0.5, 'cm'),
+                   strip.text = element_text(face = "bold",size=12),
+                   plot.background = ggplot2::element_rect(fill = "white", colour = "white"),
+                   text=element_text(size=13)) +
+                     guides(color = guide_legend(ncol = 6, byrow = TRUE))+
+
     facet_wrap(grouping_labels ~ ., labeller = as_labeller(names), ncol = 3)
+                     
+
+
+  # Get unique colors
+  unique_colors <- unique(df$colour)
+
+  # Pass unique colors to generate_colour function
+  
+  df$colour <- generate_colour(df$analysis, df)
 
   ggsave(
     paste0(output_dir, "supplementary_figure_3_subgroups_", outcome_name, ".png"),
-    height = 400, width = 400, unit = "mm", dpi = 600, scale = 1
+    height = 400, width = 500, unit = "mm", dpi = 600, scale = 1
   )
+  return (p)
 }
 
+p
