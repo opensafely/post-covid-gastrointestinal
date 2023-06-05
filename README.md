@@ -19,7 +19,7 @@ No clinical, policy or safety conclusions must be drawn from the contents of thi
 
 -   Analyses scripts are in the [`analysis`](./analysis) directory:
 
-    -   If you are interested in how we defined our variables, we use study definition scripts to define three cohorts: pre-vaccination, vaccinated and unvaccinated. Study start dates (i.e., index) and end dates differ by cohort and are all described in the protocol. Hence, we have a study definition for each; these are written in `python`. Extracted data is then combined to create our final cohorts, in the [preprocess data script](analysis/preprocess_data.R).
+    -   If you are interested in how we defined our variables, we use study definition scripts to define three cohorts: pre-vaccination, vaccinated and unvaccinated. Study start dates (i.e., index) and end dates differ by cohort and are all described in the protocol. Hence, we have a study definition for each; these are written in `python`. Extracted data is then combined to create our final cohorts, in the [preprocess data script](analysis/preprocess/preprocess_data.R).
     -   This directory also contains all the R scripts that process, describe, and analyse the extracted data.
 
 -   The [`lib/`](./lib) directory contains a list of active analyses.
