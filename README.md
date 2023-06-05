@@ -26,7 +26,6 @@ No clinical, policy or safety conclusions must be drawn from the contents of thi
 
 -   The [`project.yaml`](.project.yaml) defines run-order and dependencies for all the analysis scripts. This file should not be edited directly. To make changes to the yaml, edit and run the [`create_project.R`](./analysis/create_project.R) script which generates all the actions.
 
--   Descriptive and Model outputs, including figures and tables are in the [`released_outputs`](./release_outputs) directory.
 
 ## Manuscript
 
