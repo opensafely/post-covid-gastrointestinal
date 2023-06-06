@@ -84,7 +84,7 @@ plot_estimates <- function(df,name) {
           text = element_text(size = 12),
           strip.text= element_text(size=12, face="bold")
     )
-  ggsave(paste0(output_dir,"Figure_1_main_cohorts_extfup_",name,"_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
+  ggsave(paste0(output_dir,"Figure_2_main_cohorts_extfup_",name,"_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
   
   return(p)
 }
