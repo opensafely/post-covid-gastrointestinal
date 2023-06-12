@@ -35,7 +35,6 @@ estimates <- estimates %>%
     factor(levels = c("#d2ac47", "#58764c", "#0018a8"))
   )
 
-
 # Factor variables for ordering
 estimates <- estimates %>%
   mutate(cohort = factor(cohort, levels = c("prevax", "vax", "unvax")),

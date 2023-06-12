@@ -186,7 +186,7 @@ for (outcome_name in unique(subgroups$outcome)) {
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 4)) +
     scale_y_continuous(
       lim = c(0.25, 64),
-      breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 64),
+      breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32, 64),
       trans = "log"
     ) +
     scale_fill_manual(

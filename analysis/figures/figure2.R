@@ -132,7 +132,7 @@ plot_estimates <- function(df, name) {
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 4)) +
-    scale_y_continuous(lim = c(0.25, 64), breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 64), trans = "log") +
+    scale_y_continuous(lim = c(0.25, 64), breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32, 64), trans = "log") +
     theme(panel.grid.major.x = ggplot2::element_blank(),
                  panel.grid.minor = element_blank(),
                  panel.spacing.x = ggplot2::unit(0.5, "lines"),
