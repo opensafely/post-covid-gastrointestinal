@@ -16,3 +16,4 @@ venv/
 .Rapp.history
 analysis/workspace.code-workspace
 analysis/Untitled.ipynb
+.vscode/*

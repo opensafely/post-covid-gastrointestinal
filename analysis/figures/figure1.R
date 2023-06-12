@@ -35,7 +35,6 @@ estimates <- estimates %>%
     factor(levels = c("#d2ac47", "#58764c", "#0018a8"))
   )
 
-# Specify group colors and line types
 
 # Factor variables for ordering
 estimates <- estimates %>%
@@ -51,7 +50,7 @@ estimates$outcome_label<- str_replace_all(estimates$outcome,"_"," ")
 ####################
 #3-Plotting function
 ####################
-plot_estimates <- function(df,name) {
+plot_estimates <- function(df) {
   pd <- position_dodge(width = 0.5)
   
   p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort)) +
@@ -84,12 +83,12 @@ plot_estimates <- function(df,name) {
           text = element_text(size = 12),
           strip.text= element_text(size=12, face="bold")
     )
-  ggsave(paste0(output_dir,"Figure_1_main_",name,"_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
+   ggsave(paste0(output_dir,"Figure_1_main.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
   
   return(p)
 }
 
 estimates_main <-estimates[estimates$analysis=="main",]
- plot_estimates(estimates_main,"Others")
+ plot_estimates(estimates_main)
 
 
