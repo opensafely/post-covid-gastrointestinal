@@ -50,7 +50,7 @@ bowel_ischaemia_icd10, intestinal_obstruction_icd10, belching_icd10, abdominal_d
 
 # Define common variables function
 
-def generate_common_variables(index_date_variable,end_date_variable):
+def generate_common_variables(index_date_variable,exposure_end_date_variable,outcome_end_date_variable):
     dynamic_variables = dict(
 # DEFINE EXPOSURES ------------------------------------------------------
 
@@ -61,7 +61,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
         returning="date",
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
-        between=[f"{index_date_variable}",f"{end_date_variable}"],
+        between=[f"{index_date_variable}",f"{exposure_end_date_variable}"],
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
@@ -76,7 +76,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
             covid_primary_care_sequalae,
         ),
         returning="date",
-        between=[f"{index_date_variable}",f"{end_date_variable}"],
+        between=[f"{index_date_variable}",f"{exposure_end_date_variable}"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -89,7 +89,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_exp_date_covid19_confirmed_hes=patients.admitted_to_hospital(
         with_these_diagnoses=covid_codes,
         returning="date_admitted",
-        between=[f"{index_date_variable}",f"{end_date_variable}"],
+        between=[f"{index_date_variable}",f"{exposure_end_date_variable}"],
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
@@ -102,7 +102,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_exp_date_covid19_confirmed_death=patients.with_these_codes_on_death_certificate(
         covid_codes,
         returning="date_of_death",
-        between=[f"{index_date_variable}",f"{end_date_variable}"],
+        between=[f"{index_date_variable}",f"{exposure_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -115,6 +115,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     exp_date_covid19_confirmed=patients.minimum_of(
         "tmp_exp_date_covid19_confirmed_sgss","tmp_exp_date_covid19_confirmed_snomed","tmp_exp_date_covid19_confirmed_hes","tmp_exp_date_covid19_confirmed_death"
     ),
+
 # POPULATION SELECTION VARIABLES ------------------------------------------------------
 
     has_follow_up_previous_6months=patients.registered_with_one_practice_between(
@@ -135,7 +136,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
   
     dereg_date=patients.date_deregistered_from_all_supported_practices(
         
-        between=[f"{index_date_variable}",f"{end_date_variable}"],
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format = 'YYYY-MM-DD',
         return_expectations={
         "date": {"earliest": study_dates["pandemic_start"], "latest": "today"},
@@ -487,9 +488,9 @@ def generate_common_variables(index_date_variable,end_date_variable):
         returning='binary_flag', 
         return_expectations={"incidence": 0.01},
     ),
-    #---------------
+    #----------------------------------------------------------------------------------------
     #GI Variables
-    #---------------
+    #----------------------------------------------------------------------------------------
     ##chronic ouctomes to be excluded from the population: Crohn,Cirrhosis & Coeliac
     #Crohn's disease
     tmp_bin_crohn_snomed = patients.with_these_clinical_events(
@@ -556,7 +557,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_ibs_snomed = patients.with_these_clinical_events(
         ibs_snomed,
         returning='date',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -568,7 +569,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_ibs_hes = patients.admitted_to_hospital(
         with_these_diagnoses= ibs_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -580,7 +581,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_ibs_death=patients.with_these_codes_on_death_certificate(
         ibs_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -597,7 +598,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_diarrhoea_snomed = patients.with_these_clinical_events(
      diarrhoea_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
     return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -608,7 +609,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_diarrhoea_hes = patients.admitted_to_hospital(
         with_these_diagnoses = diarrhoea_icd10,
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -619,7 +620,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_diarrhoea_death=patients.with_these_codes_on_death_certificate(
         diarrhoea_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -636,7 +637,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nausea_snomed = patients.with_these_clinical_events(
      nausea_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -647,7 +648,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nausea_hes = patients.admitted_to_hospital(
         with_these_diagnoses= nausea_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -658,7 +659,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nausea_death=patients.with_these_codes_on_death_certificate(
         nausea_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -676,7 +677,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
  tmp_out_date_vomiting_snomed = patients.with_these_clinical_events(
      vomiting_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
       date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -687,7 +688,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_vomiting_hes = patients.admitted_to_hospital(
         with_these_diagnoses= vomiting_icd10, 
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -698,7 +699,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_vomiting_death=patients.with_these_codes_on_death_certificate(
         vomiting_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -715,7 +716,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_abdominal_paindiscomfort_snomed = patients.with_these_clinical_events(
      abdominal_paindiscomfort_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -726,7 +727,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_abdominal_paindiscomfort_hes = patients.admitted_to_hospital(
         with_these_diagnoses= abdominal_paindiscomfort_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -737,7 +738,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_abdominal_paindiscomfort_death=patients.with_these_codes_on_death_certificate(
         abdominal_paindiscomfort_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -754,7 +755,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_intestinal_obstruction_snomed = patients.with_these_clinical_events(
      intestinal_obstruction_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -765,7 +766,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_intestinal_obstruction_hes = patients.admitted_to_hospital(
         with_these_diagnoses= intestinal_obstruction_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -776,7 +777,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_intestinal_obstruction_death=patients.with_these_codes_on_death_certificate(
         intestinal_obstruction_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -792,7 +793,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_bowel_ischaemia_snomed = patients.with_these_clinical_events(
      bowel_ischaemia_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -803,7 +804,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_bowel_ischaemia_hes = patients.admitted_to_hospital(
         with_these_diagnoses= bowel_ischaemia_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -814,7 +815,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_bowel_ischaemia_death=patients.with_these_codes_on_death_certificate(
        bowel_ischaemia_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -831,7 +832,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
      tmp_out_date_belching_snomed = patients.with_these_clinical_events(
      belching_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -842,7 +843,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_belching_hes = patients.admitted_to_hospital(
         with_these_diagnoses= belching_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -853,7 +854,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_belching_death=patients.with_these_codes_on_death_certificate(
         belching_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -870,7 +871,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_abdominal_distension_snomed = patients.with_these_clinical_events(
         abdominal_distension_snomed,
         returning = 'date',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -881,7 +882,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_abdominal_distension_hes = patients.admitted_to_hospital(
         with_these_diagnoses = abdominal_distension_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -892,7 +893,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_abdominal_distension_death=patients.with_these_codes_on_death_certificate(
         abdominal_distension_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -909,7 +910,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_bloody_stools_snomed = patients.with_these_clinical_events(
      bloody_stools_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -920,7 +921,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_bloody_stools_hes = patients.admitted_to_hospital(
         with_these_diagnoses= bloody_stools_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -931,7 +932,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_bloody_stools_death=patients.with_these_codes_on_death_certificate(
         bloody_stools_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -950,21 +951,21 @@ def generate_common_variables(index_date_variable,end_date_variable):
     #  tmp_out_date_coeliac_disease_snomed = patients.with_these_clinical_events(
     #  coeliac_disease_snomed, 
     #  returning = 'date', 
-    #  on_or_after=f"{index_date_variable}",
+    #  between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
     #  date_format="YYYY-MM-DD",
     #  return_expectations={"incidence": 0.1},
     # ),
     # tmp_out_date_coeliac_disease_hes = patients.admitted_to_hospital(
     #     with_these_diagnoses= coeliac_disease_icd10,
     #     returning='date_admitted',
-    #     on_or_after=f"{index_date_variable}",
+    #     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
     #     date_format="YYYY-MM-DD",
     #     return_expectations={"incidence": 0.1},
     # ),
     # tmp_out_date_coeliac_disease_death=patients.with_these_codes_on_death_certificate(
     #     coeliac_disease_icd10,
     #     returning="date_of_death",
-    #     on_or_after=f"{index_date_variable}",
+    #     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
     #     match_only_underlying_cause=True,
     #     date_format="YYYY-MM-DD",
     #     return_expectations={
@@ -981,7 +982,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_appendicitis_snomed = patients.with_these_clinical_events(
      appendicitis_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -992,14 +993,14 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_appendicitis_hes = patients.admitted_to_hospital(
         with_these_diagnoses = appendicitis_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1},
     ),
     tmp_out_date_appendicitis_death=patients.with_these_codes_on_death_certificate(
         appendicitis_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1017,7 +1018,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_gallstones_disease_snomed = patients.with_these_clinical_events(
      gallstones_disease_snomed,
      returning = 'date', 
-     on_or_after=f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1028,7 +1029,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_gallstones_disease_hes = patients.admitted_to_hospital(
         with_these_diagnoses= gallstones_disease_icd10, 
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1039,7 +1040,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_gallstones_disease_death=patients.with_these_codes_on_death_certificate(
        gallstones_disease_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1055,7 +1056,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nonalcoholic_steatohepatitis_snomed = patients.with_these_clinical_events(
      nonalcoholic_steatohepatitis_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1066,7 +1067,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nonalcoholic_steatohepatitis_hes = patients.admitted_to_hospital(
         with_these_diagnoses = nonalcoholic_steatohepatitis_icd10,
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1077,7 +1078,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nonalcoholic_steatohepatitis_death=patients.with_these_codes_on_death_certificate(
         nonalcoholic_steatohepatitis_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1095,35 +1096,35 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_acute_pancreatitis_snomed = patients.with_these_clinical_events(
      acute_pancreatitis_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+    between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
     return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.4,
         },
     ),
     tmp_out_date_acute_pancreatitis_hes = patients.admitted_to_hospital(
         with_these_diagnoses = acute_pancreatitis_icd10,
         returning='date_admitted',
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.4,
         },
     ),
     tmp_out_date_acute_pancreatitis_death=patients.with_these_codes_on_death_certificate(
         acute_pancreatitis_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.4,
         },
     ), 
     out_date_acute_pancreatitis = patients.minimum_of(
@@ -1135,7 +1136,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_gastro_oesophageal_reflux_disease_snomed = patients.with_these_clinical_events(
      gastro_oesophageal_reflux_disease_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1146,7 +1147,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_gastro_oesophageal_reflux_disease_hes = patients.admitted_to_hospital(
         with_these_diagnoses = gastro_oesophageal_reflux_disease_icd10,
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1157,7 +1158,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_gastro_oesophageal_death=patients.with_these_codes_on_death_certificate(
         gastro_oesophageal_reflux_disease_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1174,7 +1175,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_dyspepsia_snomed = patients.with_these_clinical_events(
      dyspepsia_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1185,7 +1186,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_dyspepsia_hes = patients.admitted_to_hospital(
         with_these_diagnoses = dyspepsia_icd10, 
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1196,7 +1197,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_dyspepsia_death=patients.with_these_codes_on_death_certificate(
         dyspepsia_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1213,7 +1214,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_peptic_ulcer_snomed = patients.with_these_clinical_events(
      peptic_ulcer_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+    between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1224,7 +1225,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_peptic_ulcer_hes = patients.admitted_to_hospital(
         with_these_diagnoses = peptic_ulcer_icd10, 
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1235,7 +1236,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_peptic_ulcer_death=patients.with_these_codes_on_death_certificate(
         peptic_ulcer_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1253,7 +1254,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
      tmp_out_date_upper_gi_bleeding_snomed = patients.with_these_clinical_events(
      upper_gi_bleeding_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1264,7 +1265,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_upper_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = upper_gi_bleeding_icd10, 
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1275,7 +1276,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_upper_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         upper_gi_bleeding_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1291,7 +1292,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_lower_gi_bleeding_snomed = patients.with_these_clinical_events(
      lower_gi_bleeding_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1302,7 +1303,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_lower_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = lower_gi_bleeding_icd10, 
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1313,7 +1314,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_lower_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         lower_gi_bleeding_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1329,7 +1330,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_variceal_gi_bleeding_snomed = patients.with_these_clinical_events(
      variceal_gi_bleeding_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1340,7 +1341,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_variceal_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = variceal_gi_bleeding_icd10, 
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1351,7 +1352,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_variceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         variceal_gi_bleeding_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1368,7 +1369,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
      nonvariceal_gi_bleeding_snomed,
     #  ignore_days_where_these_codes_occur = variceal_gi_bleeding_snomed,
      returning = 'date', 
-     on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1379,7 +1380,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nonvariceal_gi_bleeding_hes = patients.admitted_to_hospital(
         with_these_diagnoses = nonvariceal_gi_bleeding_icd10, 
         returning = 'date_admitted',
-        on_or_after = f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
@@ -1390,7 +1391,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     tmp_out_date_nonvariceal_gi_bleeding_death=patients.with_these_codes_on_death_certificate(
         nonvariceal_gi_bleeding_icd10,
         returning="date_of_death",
-        on_or_after=f"{index_date_variable}",
+        between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -1541,7 +1542,7 @@ def generate_common_variables(index_date_variable,end_date_variable):
     cov_bin_nsaid_bnf = patients.with_these_medications(
         nsaids_bnf,
         returning='binary_flag',
-        between = [f"{index_date_variable} - 2 years",f"{end_date_variable} - 1 day"],
+        between = [f"{index_date_variable} - 2 years",f"{outcome_end_date_variable} - 1 day"],
         return_expectations={"incidence": 0.1},
     ),
     ##Aspirin
@@ -1664,7 +1665,7 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
     #     ),
     # tmp_cov_bin_coeliac_disease_death=patients.with_these_codes_on_death_certificate(
     #     coeliac_disease_icd10,
-    #     on_or_after=f"{index_date_variable}",
+    #     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
     #     match_only_underlying_cause=True,
     #     returning='binary_flag',
     #     return_expectations={"incidence": 0.1},
