@@ -24,18 +24,20 @@ adopath + "$projectdir/analysis/extra_ados"
 * Import and describe data
 
 import delim using "./output/`cpf'.csv", clear
+import delim using "./output/model_input_gallstones_stata.csv"
+
 
 des
 
 * Filter data
 
-keep patient_id age_at_cohort_start expo_date region_name follow_up_start event_date ethnicity follow_up_end cox_weights cov_cat* cov_num* cov_bin* sex
+keep patient_id cov_num_age exp_date cov_cat_region index_date out_date cov_cat_ethnicity end_date_outcome cox_weights end_date_exposure cov_cat* cov_num* cov_bin* cov_cat_sex
 
 * Rename variables
-rename age_at_cohort_start age
-rename expo_date exposure_date
-rename region_name region
-rename event_date outcome_date
+rename cov_num_age age
+rename exp_date exposure_date
+rename cov_cat_region region
+rename out_date outcome_date
 
 * Generate pre vaccination cohort dummy variable
 local prevax_cohort = regexm("`cpf'", "_pre")
@@ -49,7 +51,7 @@ foreach var of varlist `r(varlist)' {
 
 * Reformat variables
 
-foreach var of varlist exposure_date outcome_date follow_up_start follow_up_end {
+foreach var of varlist exposure_date outcome_date index_date end_date_outcome end_date_exposure {
 	split `var', gen(tmp_date) parse(-)
 	gen year = real(tmp_date1)
 	gen month = real(tmp_date2)
@@ -62,7 +64,7 @@ foreach var of varlist exposure_date outcome_date follow_up_start follow_up_end 
 
 * Shorten covariate names
 
-capture confirm variable cov_bin_other_arterial_embolism 
+/* capture confirm variable cov_bin_other_arterial_embolism 
 if !_rc {
 	rename cov_bin_other_arterial_embolism cov_bin_other_art_embol
 }
@@ -81,7 +83,7 @@ foreach var of varlist cov_bin* sex {
 	encode `var', gen(`var'_tmp)
 	drop `var'
 	rename `var'_tmp `var'
-}
+} */
 
 * Recode region
 
@@ -152,13 +154,13 @@ lab var cov_cat_bmi_groups_tmp cov_cat_bmi_groups_tmp
 drop cov_cat_bmi_groups
 rename cov_cat_bmi_groups_tmp cov_cat_bmi_groups
 
-* Recode HDL ratio
+/* * Recode HDL ratio
 
 gen cov_num_tc_hdl_ratio_tmp = cov_num_tc_hdl_ratio
 replace cov_num_tc_hdl_ratio_tmp = "." if cov_num_tc_hdl_ratio=="NA"
 destring cov_num_tc_hdl_ratio_tmp, replace
 drop cov_num_tc_hdl_ratio
-rename cov_num_tc_hdl_ratio_tmp cov_num_tc_hdl_ratio
+rename cov_num_tc_hdl_ratio_tmp cov_num_tc_hdl_ratio */
 
 * Summarize missingness following recoding
 
