@@ -17,6 +17,10 @@ defaults_list <- list(
 active_analyses <- read_rds("lib/active_analyses.rds")
 active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
 cohorts <- unique(active_analyses$cohort)
+
+# Define active analysis with failed models 
+active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
+
 # Determine which outputs are ready --------------------------------------------
 
 success <- readxl::read_excel("../post-covid-outcome-tracker.xlsx",
@@ -182,6 +186,28 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
       needs = list(glue("make_model_input-{name}")),
       moderately_sensitive = list(
         model_output = glue("output/model_output-{name}.csv"))
+    )
+  )
+}
+# Create function to make model and save sampled data input and run a model --------------------------
+
+apply_model_function_save_sample <- function(name, cohort, analysis, ipw, strata, 
+                                 covariate_sex, covariate_age, covariate_other, 
+                                 cox_start, cox_stop, study_start, study_stop,
+                                 cut_points, controls_per_case,
+                                 total_event_threshold, episode_event_threshold,
+                                 covariate_threshold, age_spline){
+  
+  splice(
+    
+    action(
+      name = glue("cox_ipw-sample-{name}"),
+      run = glue("cox-ipw:v0.0.20 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --save_analysis_ready=TRUE 
+ --df_output=model_output-{name}.csv"),
+      needs = list(glue("make_model_input-{name}")),
+      moderately_sensitive = list(
+        model_output = glue("output/model_output-sample-{name}.csv"),
+        sampled_data = glue("output/args-model_output-sample-{name}.csv"))
     )
   )
 }
@@ -366,6 +392,33 @@ actions_list <- splice(
                                                    episode_event_threshold = active_analyses$episode_event_threshold[x],
                                                    covariate_threshold = active_analyses$covariate_threshold[x],
                                                    age_spline = active_analyses$age_spline[x])), recursive = FALSE
+    )
+  ),
+ 
+  ## re-run failed models to save sampled data 
+
+comment("Run failed models"),
+  
+  splice(
+    unlist(lapply(1:nrow(active_analyses_failed), 
+                  function(x) apply_model_function_save_sample(name = active_analyses_failed$name[x],
+                                                   cohort = active_analyses_failed$cohort[x],
+                                                   analysis = active_analyses_failed$analysis[x],
+                                                   ipw = active_analyses_failed$ipw[x],
+                                                   strata = active_analyses_failed$strata[x],
+                                                   covariate_sex = active_analyses_failed$covariate_sex[x],
+                                                   covariate_age = active_analyses_failed$covariate_age[x],
+                                                   covariate_other = active_analyses_failed$covariate_other[x],
+                                                   cox_start = active_analyses_failed$cox_start[x],
+                                                   cox_stop = active_analyses_failed$cox_stop[x],
+                                                   study_start = active_analyses_failed$study_start[x],
+                                                   study_stop = active_analyses_failed$study_stop[x],
+                                                   cut_points = active_analyses_failed$cut_points[x],
+                                                   controls_per_case = active_analyses_failed$controls_per_case[x],
+                                                   total_event_threshold = active_analyses_failed$total_event_threshold[x],
+                                                   episode_event_threshold = active_analyses_failed$episode_event_threshold[x],
+                                                   covariate_threshold = active_analyses_failed$covariate_threshold[x],
+                                                   age_spline = active_analyses_failed$age_spline[x])), recursive = FALSE
     )
   ),
   
