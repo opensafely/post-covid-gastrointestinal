@@ -342,13 +342,18 @@ actions_list <- splice(
    #Count outcomes and binary covars
   action(
     name = "count_study_def_variables",
-    run = "r:latest analysis/descriptives/intitial_input_counts.R",
+    run = "r:latest analysis/descriptives/initial_input_counts.R",
     needs = list("generate_study_population_prevax","generate_study_population_unvax","generate_study_population_vax","preprocess_data_prevax","preprocess_data_unvax","preprocess_data_vax"),
     moderately_sensitive=list(
-      counts = glue("output/study_counts_prepro.txt"),
-      vax_summary = glue("output/describe_prepro_vax.txt"),
-      prevax_summary = glue("output/describe_prepro_prevax.txt"),
-      unvax_summary = glue("output/describe_prepro_unvax.txt")
+      counts_prepro = glue("output/not-for-review/study_counts_prepro.txt"),
+      counts_sd = glue("output/not-for-review/study_counts_prepro.txt"),
+      vax_summary = glue("output/not-for-review/describe_prepro_vax.txt"),
+      prevax_summary = glue("output/not-for-review/describe_prepro_prevax.txt"),
+      unvax_summary = glue("output/not-for-review/describe_prepro_unvax.txt"),
+      vax_summary_sd = glue("output/not-for-review/describe_sd_vax.txt"),
+      prevax_summary_sd = glue("output/not-for-review/describe_sd_prevax.txt"),
+      unvax_summary_sd = glue("output/not-for-review/describe_sd_unvax.txt")
+      
 
   )
   ),

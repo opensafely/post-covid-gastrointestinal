@@ -31,20 +31,20 @@ df_prepro_list <- lapply(dataset_names, function(name) readRDS(paste0("output/in
 count_list <- lapply(df_prepro_list, count_input)
 count_df <- t(data.frame(do.call(rbind, count_list)))
 colnames(count_df) <- dataset_names
-write.table(count_df, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/study_counts_prepro.txt")
+write.table(count_df, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/not-for-review/study_counts_prepro.txt")
 
 # Count non-NA outcome and covars events for raw data
 count_list_sd <- lapply(df_list_sd, count_input)
 count_df_sd <- t(data.frame(do.call(rbind, count_list_sd)))
 colnames(count_df_sd) <- dataset_names
-write.table(count_df_sd, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/study_counts_sd.txt")
+write.table(count_df_sd, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/not-for-review/study_counts_sd.txt")
 
 # Summary data
 for (i in seq_along(dataset_names)) {
-  file_name_prepro <- paste0("output/describe_prepro_", dataset_names[i], ".txt")
+  file_name_prepro <- paste0("output/not-for-review/describe_prepro_", dataset_names[i], ".txt")
   describe_data(df_prepro_list[[i]], file_name_prepro)
   
-  file_name_sd <- paste0("output/describe_sd_", dataset_names[i], ".txt")
+  file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_names[i], ".txt")
   describe_data(df_list[[i]], file_name_sd)
 }
 
