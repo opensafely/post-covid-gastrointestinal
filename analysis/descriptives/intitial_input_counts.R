@@ -2,12 +2,15 @@ library(data.table)
 library(dplyr)
 
 #count non na outcome and covars events 
-count_input<-function(df){
-    out_cov_df<-df%>% 
+count_input <- function(df) {
+  out_cov_df <- df %>% 
     select(matches("^(out_date|cov_bin)"))
-      sapply(out_cov_df, function(x) sum(!is.na(x) ))
-
+  sapply(out_cov_df, function(x) {
+    x <- ifelse(is.na(x), "", as.character(x))
+    sum(x != "", na.rm = TRUE)
+  })
 }
+
 
 #summary data 
 describe_data <- function(data,file_name) {
@@ -19,7 +22,7 @@ describe_data <- function(data,file_name) {
 }
 # Read datasets before preprocessing
 dataset_names <- c("prevax", "vax", "unvax")
-df_list <- lapply(dataset_names, function(name) fread(paste0("output/input_", name, ".csv.gz")))
+df_list_sd <- lapply(dataset_names, function(name) read.csv(paste0("output/input_", name, ".csv.gz")))
 
 # After preprocessing data
 df_prepro_list <- lapply(dataset_names, function(name) readRDS(paste0("output/input_", name, ".rds")))
