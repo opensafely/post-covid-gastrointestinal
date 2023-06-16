@@ -125,7 +125,7 @@ actions:
         venn: output/venn_vax.rds
 
   count_study_def_variables:
-    run: r:latest analysis/descriptives/intitial_input_counts.R
+    run: r:latest analysis/descriptives/initial_input_counts.R
     needs:
     - generate_study_population_prevax
     - generate_study_population_unvax
