@@ -31,6 +31,7 @@ prelim_data <- read_csv("output/index_dates.csv.gz") %>%
 df <- df %>% inner_join(prelim_data,by="patient_id")
 
 message("Death date added!")
+message(paste0("After adding death N = ", nrow(df), " rows"))
 
 
 # Format columns ---------------------------------------------------------------

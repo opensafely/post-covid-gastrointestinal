@@ -1,17 +1,6 @@
 library(data.table)
 library(dplyr)
 
-#read datasets 
-# prevax<-fread("output/input_prevax.csv.gz")
-# vax<-fread("output/input_vax.csv.gz")
-# unvax<-fread("output/input_unvax.csv.gz")
-
-#after preprocessing data 
-prevax<-readr::read_rds("output/input_prevax.rds")
-vax<-readr::read_rds("output/input_vax.rds")
-unvax<-readr::read_rds("output/input_unvax.rds")
-
-
 #count non na outcome and covars events 
 count_input<-function(df){
     out_cov_df<-df%>% 
@@ -20,26 +9,44 @@ count_input<-function(df){
 
 }
 
-# create a list of data frames
-df_list <- list(prevax, vax, unvax)
-count_list <- lapply(df_list, count_input)
-
-count_df <- t(data.frame(do.call(rbind, count_list)))
-
-colnames(count_df) <- c("prevax", "vax", "unvax")
-write.table(count_df,quote=F,row.names=T,col.names=T,"output/study_counts_prepro.txt")
-
 #summary data 
-describe_data <- function(data) {
-  file_name <- paste0("output/describe_prepro_", deparse(substitute(data)), ".txt")
+describe_data <- function(data,file_name) {
+  
   sink(file_name)
   print(Hmisc::describe(data))
   sink()
   message(paste0("Description of ", deparse(substitute(data)), " written to ", file_name, " successfully!"))
 }
+# Read datasets before preprocessing
+dataset_names <- c("prevax", "vax", "unvax")
+df_list <- lapply(dataset_names, function(name) fread(paste0("output/input_", name, ".csv.gz")))
 
-describe_data(prevax)
-describe_data(vax)
-describe_data(unvax)
+# After preprocessing data
+df_prepro_list <- lapply(dataset_names, function(name) readRDS(paste0("output/input_", name, ".rds")))
+
+# Count non-NA outcome and covars events for preprocessed data
+count_list <- lapply(df_prepro_list, count_input)
+count_df <- t(data.frame(do.call(rbind, count_list)))
+colnames(count_df) <- dataset_names
+write.table(count_df, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/study_counts_prepro.txt")
+
+# Count non-NA outcome and covars events for raw data
+count_list_sd <- lapply(df_list_sd, count_input)
+count_df_sd <- t(data.frame(do.call(rbind, count_list_sd)))
+colnames(count_df_sd) <- dataset_names
+write.table(count_df_sd, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/study_counts_sd.txt")
+
+# Summary data
+for (i in seq_along(dataset_names)) {
+  file_name_prepro <- paste0("output/describe_prepro_", dataset_names[i], ".txt")
+  describe_data(df_prepro_list[[i]], file_name_prepro)
+  
+  file_name_sd <- paste0("output/describe_sd_", dataset_names[i], ".txt")
+  describe_data(df_list[[i]], file_name_sd)
+}
+
+
+
+
 
 
