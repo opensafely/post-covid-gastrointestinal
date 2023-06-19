@@ -2,7 +2,7 @@ version: '3.0'
 
 expectations:
 
-  population_size: 200000
+  population_size: 20000
 
 actions:
 
@@ -125,7 +125,7 @@ actions:
         venn: output/venn_vax.rds
 
   count_study_def_variables:
-    run: r:latest analysis/descriptives/intitial_input_counts.R
+    run: r:latest analysis/descriptives/initial_input_counts.R
     needs:
     - generate_study_population_prevax
     - generate_study_population_unvax
@@ -135,10 +135,13 @@ actions:
     - preprocess_data_vax
     outputs:
       moderately_sensitive:
-        counts: output/study_counts_prepro.txt
-        vax_summary: output/describe_prepro_vax.txt
-        prevax_summary: output/describe_prepro_prevax.txt
-        unvax_summary: output/describe_prepro_unvax.txt
+        counts_prepro: output/not-for-review/study_counts_prepro.txt
+        vax_summary: output/not-for-review/describe_prepro_vax.txt
+        prevax_summary: output/not-for-review/describe_prepro_prevax.txt
+        unvax_summary: output/not-for-review/describe_prepro_unvax.txt
+        vax_summary_sd: output/not-for-review/describe_sd_vax.txt
+        prevax_summary_sd: output/not-for-review/describe_sd_prevax.txt
+        unvax_summary_sd: output/not-for-review/describe_sd_unvax.txt
 
   ## Stage 1 - data cleaning - prevax 
 
@@ -14328,6 +14331,68 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output-cohort_vax-sub_sex_male-variceal_gi_bleeding.csv
+
+  ## Run failed models 
+
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-ibs:
+    run: "cox-ipw:v0.0.20 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv"
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-ibs.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-ibs.csv
+
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
+    run: "cox-ipw:v0.0.20 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv"
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
+    run: "cox-ipw:v0.0.20 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv"
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
+
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
+    run: "cox-ipw:v0.0.20 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv"
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
 
   ## Table 2 - prevax 
 
