@@ -45,8 +45,9 @@ for (i in seq_along(dataset_names)) {
   describe_data(df_prepro_list[[i]], file_name_prepro)
   
   file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_names[i], ".txt")
-  describe_data(df_list[[i]], file_name_sd)
+  describe_data(df_list_sd[[i]], file_name_sd)
 }
+
 
 
 
