@@ -5,7 +5,7 @@ library(dplyr)
 count_input <- function(df) {
   out_df <- df %>% 
     select(matches("^(out_date)"))
-  sapply(out_cov_df, function(x) {
+  sapply(out_df, function(x) {
     x <- ifelse(is.na(x), "", as.character(x))
     sum(x != "", na.rm = TRUE)
   })
