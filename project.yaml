@@ -136,12 +136,12 @@ actions:
     outputs:
       moderately_sensitive:
         counts_prepro: output/not-for-review/study_counts_prepro.txt
-        vax_summary: output/not-for-review/describe_prepro_vax.txt
-        prevax_summary: output/not-for-review/describe_prepro_prevax.txt
-        unvax_summary: output/not-for-review/describe_prepro_unvax.txt
-        vax_summary_sd: output/not-for-review/describe_sd_vax.txt
-        prevax_summary_sd: output/not-for-review/describe_sd_prevax.txt
-        unvax_summary_sd: output/not-for-review/describe_sd_unvax.txt
+        # vax_summary: output/not-for-review/describe_prepro_vax.txt
+        # prevax_summary: output/not-for-review/describe_prepro_prevax.txt
+        # unvax_summary: output/not-for-review/describe_prepro_unvax.txt
+        # vax_summary_sd: output/not-for-review/describe_sd_vax.txt
+        # prevax_summary_sd: output/not-for-review/describe_sd_prevax.txt
+        # unvax_summary_sd: output/not-for-review/describe_sd_unvax.txt
 
   ## Stage 1 - data cleaning - prevax 
 
