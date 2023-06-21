@@ -21,7 +21,8 @@ describe_data <- function(data,file_name) {
   message(paste0("Description of ", deparse(substitute(data)), " written to ", file_name, " successfully!"))
 }
 # Read datasets before preprocessing
-dataset_names <- c("prevax", "vax", "unvax")
+# dataset_names <- c("prevax", "vax", "unvax")
+dataset_names<-c("prevax")
 df_list_sd <- lapply(dataset_names, function(name) read.csv(paste0("output/input_", name, ".csv.gz")))
 
 # After preprocessing data
@@ -40,13 +41,13 @@ colnames(count_df_sd) <- dataset_names
 write.table(count_df_sd, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/not-for-review/study_counts_sd.txt")
 
 # # Summary data
-# for (i in seq_along(dataset_names)) {
-#   file_name_prepro <- paste0("output/not-for-review/describe_prepro_", dataset_names[i], ".txt")
-#   describe_data(df_prepro_list[[i]], file_name_prepro)
+for (i in seq_along(dataset_names)) {
+  file_name_prepro <- paste0("output/not-for-review/describe_prepro_", dataset_names[i], ".txt")
+  describe_data(df_prepro_list[[i]], file_name_prepro)
   
-#   file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_names[i], ".txt")
-#   describe_data(df_list_sd[[i]], file_name_sd)
-# }
+  file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_names[i], ".txt")
+  describe_data(df_list_sd[[i]], file_name_sd)
+}
 
 
 
