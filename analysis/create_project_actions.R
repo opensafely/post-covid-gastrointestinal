@@ -137,6 +137,26 @@ preprocess_data <- function(cohort){
     )
   )
 }
+count_data <- function(cohort){
+ #Count outcomes and binary covars
+ splice(
+   comment(glue ("Count outcome variables - {cohort}")),
+  action(
+    name = glue("count_study_def_variables_{cohort}"),
+    run = "r:latest analysis/descriptives/initial_input_counts.R",
+    arguments = c(cohort),
+    needs = list(glue("generate_study_population_{cohort}"),glue("preprocess_data_{cohort}")),
+    moderately_sensitive=list(
+      counts_prepro = glue("output/not-for-review/study_counts_prepro_{cohort}.txt"),
+      counts_sd = glue("output/not-for-review/study_counts_sd_{cohort}.txt"),
+      summary_prepro = glue("output/not-for-review/describe_prepro_{cohort}.txt"),
+      summary_sd = glue("output/not-for-review/describe_sd_{cohort}.txt")
+      
+
+  )
+  )
+ )
+}
 
 # Create function for data cleaning --------------------------------------------
 
@@ -339,24 +359,14 @@ actions_list <- splice(
            recursive = FALSE
     )
   ),
-   #Count outcomes and binary covars
-  action(
-    name = "count_study_def_variables",
-    run = "r:latest analysis/descriptives/initial_input_counts.R",
-    needs = list("generate_study_population_prevax","generate_study_population_unvax","generate_study_population_vax","preprocess_data_prevax","preprocess_data_unvax","preprocess_data_vax"),
-    moderately_sensitive=list(
-      counts_prepro = glue("output/not-for-review/study_counts_prepro.txt"),
-      counts_sd = glue("output/not-for-review/study_counts_prepro.txt"),
-      vax_summary = glue("output/not-for-review/describe_prepro_vax.txt"),
-      prevax_summary = glue("output/not-for-review/describe_prepro_prevax.txt"),
-      unvax_summary = glue("output/not-for-review/describe_prepro_unvax.txt"),
-      vax_summary_sd = glue("output/not-for-review/describe_sd_vax.txt"),
-      prevax_summary_sd = glue("output/not-for-review/describe_sd_prevax.txt"),
-      unvax_summary_sd = glue("output/not-for-review/describe_sd_unvax.txt")
-      
 
-  )
+  splice(
+    unlist(lapply(cohorts, 
+                  function(x) count_data(cohort = x)), 
+           recursive = FALSE
+    )
   ),
+  
   ## Stage 1 - data cleaning -----------------------------------------------------------
   
   splice(

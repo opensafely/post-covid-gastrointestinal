@@ -2,7 +2,7 @@ version: '3.0'
 
 expectations:
 
-  population_size: 20000
+  population_size: 200000
 
 actions:
 
@@ -124,25 +124,47 @@ actions:
         cohort: output/input_vax.rds
         venn: output/venn_vax.rds
 
-  count_study_def_variables:
-    run: r:latest analysis/descriptives/initial_input_counts.R
+  ## Count outcome variables - prevax 
+
+  count_study_def_variables_prevax:
+    run: r:latest analysis/descriptives/initial_input_counts.R prevax
     needs:
     - generate_study_population_prevax
-    # - generate_study_population_unvax
-    # - generate_study_population_vax
     - preprocess_data_prevax
-    # - preprocess_data_unvax
-    # - preprocess_data_vax
     outputs:
       moderately_sensitive:
-        counts_prepro: output/not-for-review/study_counts_prepro.txt
-        counts_sd: output/not-for-review/study_counts_sd.txt
-        # vax_summary: output/not-for-review/describe_prepro_vax.txt
-        prevax_summary: output/not-for-review/describe_prepro_prevax.txt
-        # unvax_summary: output/not-for-review/describe_prepro_unvax.txt
-        # vax_summary_sd: output/not-for-review/describe_sd_vax.txt
-        prevax_summary_sd: output/not-for-review/describe_sd_prevax.txt
-        # unvax_summary_sd: output/not-for-review/describe_sd_unvax.txt
+        counts_prepro: output/not-for-review/study_counts_prepro_prevax.txt
+        counts_sd: output/not-for-review/study_counts_sd_prevax.txt
+        summary_prepro: output/not-for-review/describe_prepro_prevax.txt
+        summary_sd: output/not-for-review/describe_sd_prevax.txt
+
+  ## Count outcome variables - unvax 
+
+  count_study_def_variables_unvax:
+    run: r:latest analysis/descriptives/initial_input_counts.R unvax
+    needs:
+    - generate_study_population_unvax
+    - preprocess_data_unvax
+    outputs:
+      moderately_sensitive:
+        counts_prepro: output/not-for-review/study_counts_prepro_unvax.txt
+        counts_sd: output/not-for-review/study_counts_sd_unvax.txt
+        summary_prepro: output/not-for-review/describe_prepro_unvax.txt
+        summary_sd: output/not-for-review/describe_sd_unvax.txt
+
+  ## Count outcome variables - vax 
+
+  count_study_def_variables_vax:
+    run: r:latest analysis/descriptives/initial_input_counts.R vax
+    needs:
+    - generate_study_population_vax
+    - preprocess_data_vax
+    outputs:
+      moderately_sensitive:
+        counts_prepro: output/not-for-review/study_counts_prepro_vax.txt
+        counts_sd: output/not-for-review/study_counts_sd_vax.txt
+        summary_prepro: output/not-for-review/describe_prepro_vax.txt
+        summary_sd: output/not-for-review/describe_sd_vax.txt
 
   ## Stage 1 - data cleaning - prevax 
 
