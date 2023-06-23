@@ -562,7 +562,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.5,
         },
     
     ),
@@ -574,7 +574,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         return_expectations={
             "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
             "rate": "uniform",
-            "incidence": 0.1,
+            "incidence": 0.3,
         },
     
     ),
