@@ -63,7 +63,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         date_format="YYYY-MM-DD",
         between=[f"{index_date_variable}",f"{exposure_end_date_variable}"],
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -80,7 +80,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -93,7 +93,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -106,7 +106,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1
         },
@@ -139,7 +139,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format = 'YYYY-MM-DD',
         return_expectations={
-        "date": {"earliest": study_dates["pandemic_start"], "latest": "today"},
+        "date": {"earliest": study_dates["pandemic_start"], "latest": study_dates["omicron"]},
         "rate": "uniform",
         "incidence": 0.01
     },
@@ -153,7 +153,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.5,
         },
@@ -367,7 +367,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 5.0, "stddev": 2.5},
-            "date": {"earliest":study_dates["earliest_expec"], "latest": "today"}, ##return_expectations can't take dynamic variable se default are kept here! 
+            "date": {"earliest":study_dates["earliest_expec"], "latest": study_dates["omicron"]}, ##return_expectations can't take dynamic variable se default are kept here! 
             "incidence": 0.80,
         },
     ),
@@ -380,7 +380,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
-            "date": {"earliest": study_dates["earliest_expec"] , "latest": "today"},
+            "date": {"earliest": study_dates["earliest_expec"] , "latest": study_dates["omicron"]},
             "incidence": 0.80,
         },
     ),
@@ -467,7 +467,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         qa_num_birth_year=patients.date_of_birth(
             date_format="YYYY",
             return_expectations={
-                "date": {"earliest": study_dates["earliest_expec"], "latest": "today"},
+                "date": {"earliest": study_dates["earliest_expec"], "latest": study_dates["omicron"]},
                 "rate": "uniform",
             },
         ),
@@ -560,7 +560,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.5,
         },
@@ -572,7 +572,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.3,
         },
@@ -585,7 +585,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -601,7 +601,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
     return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -612,7 +612,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -624,7 +624,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -640,7 +640,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -651,7 +651,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -663,7 +663,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -680,7 +680,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
       date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -691,7 +691,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -703,7 +703,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -719,7 +719,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -730,7 +730,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -742,7 +742,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -758,7 +758,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -769,7 +769,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -781,7 +781,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -796,7 +796,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -807,7 +807,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -819,7 +819,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -835,7 +835,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -846,7 +846,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -858,7 +858,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -874,7 +874,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -885,7 +885,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -897,7 +897,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -913,7 +913,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -924,7 +924,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -936,7 +936,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -969,7 +969,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
     #     match_only_underlying_cause=True,
     #     date_format="YYYY-MM-DD",
     #     return_expectations={
-    #         "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+    #         "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
     #         "rate": "uniform",
     #         "incidence": 0.1,
     #     },
@@ -985,7 +985,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1004,7 +1004,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1021,7 +1021,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1032,7 +1032,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1044,7 +1044,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1059,7 +1059,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1070,7 +1070,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1082,7 +1082,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1099,7 +1099,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
     return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.4,
         },
@@ -1110,7 +1110,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.4,
         },
@@ -1122,7 +1122,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.4,
         },
@@ -1139,7 +1139,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1150,7 +1150,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1162,7 +1162,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1178,7 +1178,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
      between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1189,7 +1189,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1201,7 +1201,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1217,7 +1217,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
     between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1228,7 +1228,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1240,7 +1240,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1257,7 +1257,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1268,7 +1268,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1280,7 +1280,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1295,7 +1295,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1306,7 +1306,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1318,7 +1318,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1333,7 +1333,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1344,7 +1344,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1356,7 +1356,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1372,7 +1372,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
      date_format="YYYY-MM-DD",
      return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1383,7 +1383,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         between=[f"{index_date_variable}",f"{outcome_end_date_variable}"],
         date_format="YYYY-MM-DD",
        return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1395,7 +1395,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         match_only_underlying_cause=True,
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
             "incidence": 0.1,
         },
@@ -1430,7 +1430,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
     #     date_format="YYYY-MM-DD",
     #     return_expectations={
     #         "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
-    #         "date": {"earliest": study_dates["pandemic_start"] , "latest": "today"},
+    #         "date": {"earliest": study_dates["pandemic_start"] , "latest": study_dates["omicron"]},
     #         "incidence": 0.80,
     #     },
     # ),
@@ -1442,7 +1442,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
     #     date_format="YYYY-MM-DD",
     #     return_expectations={
     #         "float": {"distribution": "normal", "mean": 2.0, "stddev": 1.5},
-    #         "date": {"earliest": study_dates["pandemic_start"] , "latest": "today"},
+    #         "date": {"earliest": study_dates["pandemic_start"] , "latest": study_dates["omicron"]},
     #         "incidence": 0.80,
     #     },
     # ),
@@ -1533,7 +1533,7 @@ def generate_common_variables(index_date_variable,exposure_end_date_variable,out
         return_expectations={
             "incidence": 0.8,
             "float": {"distribution": "normal", "mean": 110, "stddev": 20},
-            "date": {"earliest": study_dates["pandemic_start"], "latest" : "today"},
+            "date": {"earliest": study_dates["pandemic_start"], "latest" : study_dates["omicron"]},
             "rate": "uniform",
         },
     ),
