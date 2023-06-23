@@ -1,6 +1,15 @@
 library(data.table)
 library(dplyr)
 
+args <- commandArgs(trailingOnly=TRUE)
+print(length(args))
+if(length(args)==0){
+  # use for interactive testing
+  cohort_name <- "prevax"
+} else {
+  cohort_name <- args[[1]]
+}
+
 #count non na outcome and covars events 
 count_input <- function(df) {
   out_df <- df %>% 
@@ -20,26 +29,28 @@ describe_data <- function(data,file_name) {
   sink()
   message(paste0("Description of ", deparse(substitute(data)), " written to ", file_name, " successfully!"))
 }
+
 # Read datasets before preprocessing
 # dataset_names <- c("prevax", "vax", "unvax")
-dataset_names<-c("prevax")
-df_list_sd <- lapply(dataset_names, function(name) read.csv(paste0("output/input_", name, ".csv.gz")))
-
+dataset_names<-c(cohort_name)
+df_list_sd <-  read.csv(paste0("output/input_", cohort_name, ".csv.gz"))
+message(paste0("Before preprocessing:\n",str(df_list_sd)) )
 # After preprocessing data
-df_prepro_list <- lapply(dataset_names, function(name) readRDS(paste0("output/input_", name, ".rds")))
+df_prepro_list <- readRDS(paste0("output/input_", cohort_name, ".rds"))
+message(paste0("After preprocessing:\n",str(df_prepro_list)))
+
 
 # Count non-NA outcome and covars events for preprocessed data
-count_list <- lapply(df_prepro_list, count_input)
-count_df <- t(data.frame(do.call(rbind, count_list)))
-colnames(count_df) <- dataset_names
-write.table(count_df, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/not-for-review/study_counts_prepro.txt")
+count_list <- count_input(df_prepro_list)
+count_df <- t(count_list)
+counts_prepro_file<- paste0("output/not-for-review/study_counts_prepro_",cohort_name,".txt")
+write.table(count_df, quote = FALSE, row.names = TRUE, col.names = TRUE, counts_prepro_file)
 rm(count_df)
 gc()
 # Count non-NA outcome and covars events for raw data
-count_list_sd <- lapply(df_list_sd, count_input)
-count_df_sd <- t(data.frame(do.call(rbind, count_list_sd)))
-colnames(count_df_sd) <- dataset_names
-write.table(count_df_sd, quote = FALSE, row.names = TRUE, col.names = TRUE, "output/not-for-review/study_counts_sd.txt")
+count_list_sd <- count_input(df_list_sd)
+count_df_sd <- t( count_list_sd)
+write.table(count_df_sd, quote = FALSE, row.names = TRUE, col.names = TRUE, paste0("output/not-for-review/study_counts_sd_",cohort_name,".txt"))
 rm(count_df_sd)
 gc()
 # # Summary data
