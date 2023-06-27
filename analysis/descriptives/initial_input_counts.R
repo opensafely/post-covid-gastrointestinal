@@ -35,7 +35,7 @@ describe_data <- function(data,file_name) {
 
 # Read datasets before preprocessing
 # dataset_names <- c("prevax", "vax", "unvax")
-dataset_names<-c(cohort_name)
+dataset_name<-cohort_name
 df_list_sd <-  read.csv(paste0("output/input_", cohort_name, ".csv.gz"))
 message(paste0("Before preprocessing:\n",str(df_list_sd)) )
 # After preprocessing data
@@ -43,7 +43,7 @@ df_prepro_list <- readRDS(paste0("output/input_", cohort_name, ".rds"))
 message(paste0("After preprocessing:\n",str(df_prepro_list)))
 
 
-# Count non-NA outcome and covars events for preprocessed data
+# Count non-NA outcome  events for preprocessed data
 count_list <- count_input(df_prepro_list)
 # count_df <- t(count_list)
 counts_prepro_file<- paste0("output/not-for-review/study_counts_prepro_",cohort_name,".txt")
@@ -57,17 +57,15 @@ write.table(count_list_sd, quote = FALSE, row.names = FALSE, col.names = TRUE, f
 rm(count_list_sd)
 gc()
 # # Summary data
-for (i in seq_along(dataset_names)) {
-  file_name_prepro <- paste0("output/not-for-review/describe_prepro_", dataset_names[i], ".txt")
-  describe_data(df_prepro_list[[i]], file_name_prepro)
-  rm (df_prepro_list[[i]])
-  gc()
-  file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_names[i], ".txt")
-  describe_data(df_list_sd[[i]], file_name_sd)
-}
+  file_name_prepro <- paste0("output/not-for-review/describe_prepro_", dataset_name, ".txt")
+  describe_data(df_prepro_list, file_name_prepro)
+  file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_name, ".txt")
+  describe_data(df_list_sd, file_name_sd)
 
 rm (df_prepro_list)
 gc()
+
+
 
 
 
