@@ -214,7 +214,7 @@
         model_output = glue("output/model_output-{name}.csv")
           ),
         highly_sensitive = list(
-          analysis_read = glue("output/analysis_ready-model_input-{name}.rds")
+          analysis_read = glue("output/analysis_ready-model_input-{name}.csv.gz")
         )
       )
   )
