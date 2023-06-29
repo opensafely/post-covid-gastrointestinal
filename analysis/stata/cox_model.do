@@ -19,7 +19,7 @@ di "$projectdir"
 
 * Set Ado file path
 
-adopath + "$projectdir/analysis/extra_ados"
+adopath + "$projectdir/analysis/stata/extra_ados"
 
 * Import and describe data
 
