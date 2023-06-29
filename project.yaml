@@ -135,8 +135,8 @@ actions:
       moderately_sensitive:
         counts_prepro: output/not-for-review/study_counts_prepro_prevax.txt
         counts_sd: output/not-for-review/study_counts_sd_prevax.txt
-        summary_prepro: output/not-for-review/describe_prepro_prevax.txt
-        summary_sd: output/not-for-review/describe_sd_prevax.txt
+        # summary_prepro: output/not-for-review/describe_prepro_prevax.txt
+        # summary_sd: output/not-for-review/describe_sd_prevax.txt
 
   ## Count outcome variables - unvax 
 
@@ -149,8 +149,8 @@ actions:
       moderately_sensitive:
         counts_prepro: output/not-for-review/study_counts_prepro_unvax.txt
         counts_sd: output/not-for-review/study_counts_sd_unvax.txt
-        summary_prepro: output/not-for-review/describe_prepro_unvax.txt
-        summary_sd: output/not-for-review/describe_sd_unvax.txt
+        # summary_prepro: output/not-for-review/describe_prepro_unvax.txt
+        # summary_sd: output/not-for-review/describe_sd_unvax.txt
 
   ## Count outcome variables - vax 
 
@@ -163,8 +163,8 @@ actions:
       moderately_sensitive:
         counts_prepro: output/not-for-review/study_counts_prepro_vax.txt
         counts_sd: output/not-for-review/study_counts_sd_vax.txt
-        summary_prepro: output/not-for-review/describe_prepro_vax.txt
-        summary_sd: output/not-for-review/describe_sd_vax.txt
+        # summary_prepro: output/not-for-review/describe_prepro_vax.txt
+        # summary_sd: output/not-for-review/describe_sd_vax.txt
 
   ## Stage 1 - data cleaning - prevax 
 

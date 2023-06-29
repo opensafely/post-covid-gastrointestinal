@@ -37,33 +37,39 @@ describe_data <- function(data,file_name) {
 # dataset_names <- c("prevax", "vax", "unvax")
 dataset_name<-cohort_name
 df_list_sd <-  read.csv(paste0("output/input_", cohort_name, ".csv.gz"))
-message(paste0("Before preprocessing:\n",str(df_list_sd)) )
+message(paste0("Before preprocessing:\n",str(df_list_sd %>% select(matches("^(out_date)")))) )
 # After preprocessing data
-df_prepro_list <- readRDS(paste0("output/input_", cohort_name, ".rds"))
-message(paste0("After preprocessing:\n",str(df_prepro_list)))
+df_list_prepro <- readRDS(paste0("output/input_", cohort_name, ".rds"))
+message(paste0("After preprocessing:\n",str(df_list_prepro%>% select(matches("^(out_date)")))) )
 
 
 # Count non-NA outcome  events for preprocessed data
-count_list <- count_input(df_prepro_list)
+count_list <- count_input(df_list_prepro)
 # count_df <- t(count_list)
 counts_prepro_file<- paste0("output/not-for-review/study_counts_prepro_",cohort_name,".txt")
 write.table(count_list, quote = FALSE, row.names = FALSE, col.names = TRUE, file = counts_prepro_file)
-rm(count_list)
+message("Preprocess variceal bleeds ")
+message(head(df_list_prepro$out_date_variceal_gi_bleeding,60))
+rm(df_list_prepro)
 gc()
 
-# Count non-NA outcome and covars events for raw data
+# # Count non-NA outcome and covars events for raw data
 count_list_sd <- count_input(df_list_sd)
 write.table(count_list_sd, quote = FALSE, row.names = FALSE, col.names = TRUE, file=paste0("output/not-for-review/study_counts_sd_",cohort_name,".txt"))
-rm(count_list_sd)
-gc()
-# # Summary data
-  file_name_prepro <- paste0("output/not-for-review/describe_prepro_", dataset_name, ".txt")
-  describe_data(df_prepro_list, file_name_prepro)
-  file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_name, ".txt")
-  describe_data(df_list_sd, file_name_sd)
+message("SD variceal bleeds ")
 
-rm (df_prepro_list)
+message(head(df_list_sd$out_date_variceal_gi_bleeding,60))
+
+rm(df_list_sd)
 gc()
+# # # Summary data
+#   file_name_prepro <- paste0("output/not-for-review/describe_prepro_", dataset_name, ".txt")
+#   describe_data(df_list_prepro, file_name_prepro)
+#   file_name_sd <- paste0("output/not-for-review/describe_sd_", dataset_name, ".txt")
+#   describe_data(df_list_sd, file_name_sd)
+
+# rm (df_list_prepro)
+# gc()
 
 
 
