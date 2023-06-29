@@ -50,6 +50,10 @@ counts_prepro_file<- paste0("output/not-for-review/study_counts_prepro_",cohort_
 write.table(count_list, quote = FALSE, row.names = FALSE, col.names = TRUE, file = counts_prepro_file)
 message("Preprocess variceal bleeds ")
 message(head(df_list_prepro$out_date_variceal_gi_bleeding,60))
+message(str(df_list_prepro$out_date_variceal_gi_bleeding))
+message("IBS")
+message(str(df_list_prepro$out_date_ibs))
+
 rm(df_list_prepro)
 gc()
 
@@ -59,6 +63,10 @@ write.table(count_list_sd, quote = FALSE, row.names = FALSE, col.names = TRUE, f
 message("SD variceal bleeds ")
 
 message(head(df_list_sd$out_date_variceal_gi_bleeding,60))
+message(str(df_list_sd$out_date_variceal_gi_bleeding))
+message("IBS")
+message(str(df_list_sd$out_date_ibs))
+
 
 rm(df_list_sd)
 gc()
