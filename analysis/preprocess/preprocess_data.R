@@ -39,8 +39,10 @@ message(paste0("After adding death N = ", nrow(df), " rows"))
 # dates, numerics, factors, logicals
 
 df <- df %>%
-  mutate(across(c(contains("_date")),
-                ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
+  mutate(across(contains("date"), as.POSIXct),
+
+  # mutate(across(c(contains("_date")),
+  #               ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
          across(contains('_birth_year'),
                 ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
          across(contains('_num') & !contains('date'), ~ as.numeric(.)),
