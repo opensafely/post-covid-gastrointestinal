@@ -62,11 +62,12 @@ count_list_sd <- count_input(df_list_sd)
 write.table(count_list_sd, quote = FALSE, row.names = FALSE, col.names = TRUE, file=paste0("output/not-for-review/study_counts_sd_",cohort_name,".txt"))
 message("SD variceal bleeds ")
 
-message(head(df_list_sd$out_date_variceal_gi_bleeding,60))
+message(head((df_list_sd%>%filter(!is.na(out_date_variceal_gi_bleeding)))$out_date_variceal_gi_bleeding,60))
 message(str(df_list_sd$out_date_variceal_gi_bleeding))
 message("IBS")
 message(str(df_list_sd$out_date_ibs))
 
+message(head((df_list_sd%>%filter(!is.na(out_date_ibs)))$out_date_ibs,60))
 
 rm(df_list_sd)
 gc()

@@ -39,7 +39,8 @@ message(paste0("After adding death N = ", nrow(df), " rows"))
 # dates, numerics, factors, logicals
 
 df <- df %>%
-  mutate(across(contains("date"), as.POSIXct),
+  # mutate(across(contains("_date"), as.POSIXct),
+  mutate(across(contains("_date"), ~ as.Date(as.character(as.POSIXct(.)), format = "%Y-%m-%d")),
 
   # mutate(across(c(contains("_date")),
   #               ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
@@ -49,6 +50,14 @@ df <- df %>%
          across(contains('_cat'), ~ as.factor(.)),
          across(contains('_bin'), ~ as.logical(.)))
 
+# Testing if the date is the issue 
+df_test<- df %>%
+  
+         mutate(across(contains('_birth_year'),
+                ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
+         across(contains('_num') & !contains('date'), ~ as.numeric(.)),
+         across(contains('_cat'), ~ as.factor(.)),
+         across(contains('_bin'), ~ as.logical(.)))
 
 # Overwrite vaccination information for dummy data and vax cohort only --
 
@@ -62,10 +71,11 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations") &&
 # Describe data ----------------------------------------------------------------
 
 sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
-print(Hmisc::describe(df))
+print(Hmisc::describe(df_test))
 sink()
 
 message ("Cohort ",cohort_name, " description written successfully!")
+
 
 #Combine BMI variables to create one history of obesity variable ---------------
 
@@ -116,7 +126,8 @@ df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
 
 
 df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
-
+rm(df)
+gc()
 # Repo specific preprocessing 
 
 saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"), compress = "gzip")
@@ -131,7 +142,7 @@ sink()
 
 # Restrict columns and save Venn diagram input dataset -----------------------
 
-df2 <- df %>% select(starts_with(c("patient_id","tmp_out_date","out_date")))
+df2 <- df1 %>% select(starts_with(c("patient_id","tmp_out_date","out_date")))
 str(df2)
 # Describe data --------------------------------------------------------------
 
