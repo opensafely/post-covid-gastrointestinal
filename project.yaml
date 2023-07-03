@@ -14269,7 +14269,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
       highly_sensitive:
-        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
+        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.csv.gz
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gallstones_disease
@@ -14293,7 +14293,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
       highly_sensitive:
-        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
+        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv.gz
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
@@ -14317,7 +14317,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
       highly_sensitive:
-        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.rds
+        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv.gz
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
@@ -14341,7 +14341,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
       highly_sensitive:
-        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.rds
+        analysis_read: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv.gz
 
   ## Table 2 - prevax 
 
@@ -15567,4 +15567,46 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
+
+  ## Stata models 
+
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-ibs:
+    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.csv.gz
+      FASLE TRUE
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
+    outputs:
+      moderately_sensitive:
+        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-ibs_time_periods_stata_median_fup.csv
+        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-ibs_time_periods_cox_model.txt
+
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-gallstones_disease:
+    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv.gz
+      FASLE TRUE
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    outputs:
+      moderately_sensitive:
+        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gallstones_disease_time_periods_stata_median_fup.csv
+        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gallstones_disease_time_periods_cox_model.txt
+
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
+    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv.gz
+      FASLE TRUE
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    outputs:
+      moderately_sensitive:
+        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease_time_periods_stata_median_fup.csv
+        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease_time_periods_cox_model.txt
+
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
+    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv.gz
+      FASLE TRUE
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_time_periods_stata_median_fup.csv
+        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_time_periods_cox_model.txt
 
