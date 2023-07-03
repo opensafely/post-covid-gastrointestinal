@@ -25,6 +25,7 @@ adopath + "$projectdir/analysis/extra_ados"
 * Import and describe data
 
 import delim using "./output/`cpf'.csv", clear
+import delim using "./output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.csv", clear
 
 des
 
