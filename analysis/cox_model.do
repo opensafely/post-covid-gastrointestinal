@@ -25,19 +25,26 @@ adopath + "$projectdir/analysis/extra_ados"
 * Import and describe data
 
 import delim using "./output/`cpf'.csv", clear
+
+
 import delim using "./output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.csv", clear
 
 des
 
 * Filter data
 
-keep patient_id cov_num_age exposure cov_cat_region f_up_start outcome cov_cat_ethnicity f_up_stop cox_weight cov_cat* cov_num* cov_bin* 
+keep patient_id cov_num_age exposure cov_cat_region fup_start outcome cov_cat_ethnicity fup_stop cox_weight cov_cat* cov_num* cov_bin* outcome_status
 
 * Rename variables
 rename cov_num_age age
 rename exposure exposure_date
 rename cov_cat_region region
 rename outcome outcome_date
+rename fup_start follow_up_start
+rename fup_stop follow_up_end 
+rename cox_weight cox_weights 
+rename cov_cat_sex sex
+rename cov_cat_ethnicity ethnicity
 
 * Generate pre vaccination cohort dummy variable
 local prevax_cohort = regexm("`cpf'", "_pre")
@@ -64,21 +71,24 @@ foreach var of varlist exposure_date outcome_date follow_up_start follow_up_end 
 
 * Shorten covariate names
 
-capture confirm variable cov_bin_other_arterial_embolism 
+// capture confirm variable cov_bin_other_arterial_embolism 
+// if !_rc {
+// 	rename cov_bin_other_arterial_embolism cov_bin_other_art_embol
+// }
+//
+// capture confirm variable cov_bin_chronic_obstructive_pulm
+// if !_rc {
+// 	rename cov_bin_chronic_obstructive_pulm cov_bin_copd 
+// }
+//
+// capture confirm variable cov_bin_chronic_kidney_disease
+// if !_rc {
+// 	rename cov_bin_chronic_kidney_disease cov_bin_ckd 
+// }
+capture confirm variable cov_bin_overall_gi_and_symptoms
 if !_rc {
-	rename cov_bin_other_arterial_embolism cov_bin_other_art_embol
-}
-
-capture confirm variable cov_bin_chronic_obstructive_pulm
-if !_rc {
-	rename cov_bin_chronic_obstructive_pulm cov_bin_copd 
-}
-
-capture confirm variable cov_bin_chronic_kidney_disease
-if !_rc {
-	rename cov_bin_chronic_kidney_disease cov_bin_ckd 
-}
-
+ 	rename cov_bin_overall_gi_and_symptoms cov_bin_gi_sym
+	}
 foreach var of varlist cov_bin* sex {
 	encode `var', gen(`var'_tmp)
 	drop `var'
@@ -129,47 +139,47 @@ lab val cov_cat_deprivation_tmp cov_cat_deprivation_tmp
 drop cov_cat_deprivation
 rename cov_cat_deprivation_tmp cov_cat_deprivation
 
-* Recode smoking status
-
-gen cov_cat_smoking_status_tmp = .
-replace cov_cat_smoking_status_tmp = 1 if cov_cat_smoking_status=="Never smoker"
-replace cov_cat_smoking_status_tmp = 2 if cov_cat_smoking_status=="Ever smoker"
-replace cov_cat_smoking_status_tmp = 3 if cov_cat_smoking_status=="Current smoker"
-replace cov_cat_smoking_status_tmp = 4 if cov_cat_smoking_status=="Missing"
-lab def cov_cat_smoking_status_tmp 1 "Never smoker" 2 "Ever smoker" 3 "Current smoker" 4 "Missing"
-lab val cov_cat_smoking_status_tmp cov_cat_smoking_status_tmp
-drop cov_cat_smoking_status
-rename cov_cat_smoking_status_tmp cov_cat_smoking_status 
-
-*Recode BMI capture
-
-gen cov_cat_bmi_groups_tmp = .
-replace cov_cat_bmi_groups_tmp = 1 if cov_cat_bmi_groups=="Healthy_weight"  
-replace cov_cat_bmi_groups_tmp = 2 if cov_cat_bmi_groups=="Underweight"  
-replace cov_cat_bmi_groups_tmp = 3 if cov_cat_bmi_groups=="Overweight"  
-replace cov_cat_bmi_groups_tmp = 4 if cov_cat_bmi_groups=="Obese"  
-replace cov_cat_bmi_groups_tmp = 5 if cov_cat_bmi_groups=="Missing"  
-lab def cov_cat_bmi_groups_tmp 1 "Healthy_weight" 2 "Underweight" 3 "Overweight" 4 "Obese" 5 "Missing" 
-lab var cov_cat_bmi_groups_tmp cov_cat_bmi_groups_tmp
-drop cov_cat_bmi_groups
-rename cov_cat_bmi_groups_tmp cov_cat_bmi_groups
-
-* Recode HDL ratio
-
-gen cov_num_tc_hdl_ratio_tmp = cov_num_tc_hdl_ratio
-replace cov_num_tc_hdl_ratio_tmp = "." if cov_num_tc_hdl_ratio=="NA"
-destring cov_num_tc_hdl_ratio_tmp, replace
-drop cov_num_tc_hdl_ratio
-rename cov_num_tc_hdl_ratio_tmp cov_num_tc_hdl_ratio
+// * Recode smoking status
+//
+// gen cov_cat_smoking_status_tmp = .
+// replace cov_cat_smoking_status_tmp = 1 if cov_cat_smoking_status=="Never smoker"
+// replace cov_cat_smoking_status_tmp = 2 if cov_cat_smoking_status=="Ever smoker"
+// replace cov_cat_smoking_status_tmp = 3 if cov_cat_smoking_status=="Current smoker"
+// replace cov_cat_smoking_status_tmp = 4 if cov_cat_smoking_status=="Missing"
+// lab def cov_cat_smoking_status_tmp 1 "Never smoker" 2 "Ever smoker" 3 "Current smoker" 4 "Missing"
+// lab val cov_cat_smoking_status_tmp cov_cat_smoking_status_tmp
+// drop cov_cat_smoking_status
+// rename cov_cat_smoking_status_tmp cov_cat_smoking_status 
+//
+// *Recode BMI capture
+//
+// gen cov_cat_bmi_groups_tmp = .
+// replace cov_cat_bmi_groups_tmp = 1 if cov_cat_bmi_groups=="Healthy_weight"  
+// replace cov_cat_bmi_groups_tmp = 2 if cov_cat_bmi_groups=="Underweight"  
+// replace cov_cat_bmi_groups_tmp = 3 if cov_cat_bmi_groups=="Overweight"  
+// replace cov_cat_bmi_groups_tmp = 4 if cov_cat_bmi_groups=="Obese"  
+// replace cov_cat_bmi_groups_tmp = 5 if cov_cat_bmi_groups=="Missing"  
+// lab def cov_cat_bmi_groups_tmp 1 "Healthy_weight" 2 "Underweight" 3 "Overweight" 4 "Obese" 5 "Missing" 
+// lab var cov_cat_bmi_groups_tmp cov_cat_bmi_groups_tmp
+// drop cov_cat_bmi_groups
+// rename cov_cat_bmi_groups_tmp cov_cat_bmi_groups
+//
+// * Recode HDL ratio
+//
+// gen cov_num_tc_hdl_ratio_tmp = cov_num_tc_hdl_ratio
+// replace cov_num_tc_hdl_ratio_tmp = "." if cov_num_tc_hdl_ratio=="NA"
+// destring cov_num_tc_hdl_ratio_tmp, replace
+// drop cov_num_tc_hdl_ratio
+// rename cov_num_tc_hdl_ratio_tmp cov_num_tc_hdl_ratio
 
 * Summarize missingness following recoding
 
 misstable summarize
 
 * Make failure variable
-
-gen outcome_status = 0
-replace outcome_status = 1 if outcome_date!=.
+//
+// gen outcome_status = 0
+// replace outcome_status = 1 if outcome_date!=.
 
 * Update follow-up end
 

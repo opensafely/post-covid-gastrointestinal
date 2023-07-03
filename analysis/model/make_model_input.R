@@ -22,7 +22,7 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   # name <- "all" # prepare datasets for all active analyses 
-  name <- "cohort_unvax-main-abdominal_distension" # prepare datasets for all active analyses whose name contains X
+  name <- "cohort_prevax-main-ibs" # prepare datasets for all active analyses whose name contains X
 } else {
   name <- args[[1]]
 }
