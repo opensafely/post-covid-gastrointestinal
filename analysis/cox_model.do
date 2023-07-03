@@ -31,13 +31,13 @@ des
 
 * Filter data
 
-keep patient_id age_at_cohort_start expo_date region_name follow_up_start event_date ethnicity follow_up_end cox_weights cov_cat* cov_num* cov_bin* sex
+keep patient_id cov_num_age exposure cov_cat_region f_up_start outcome cov_cat_ethnicity f_up_stop cox_weight cov_cat* cov_num* cov_bin* 
 
 * Rename variables
-rename age_at_cohort_start age
-rename expo_date exposure_date
-rename region_name region
-rename event_date outcome_date
+rename cov_num_age age
+rename exposure exposure_date
+rename cov_cat_region region
+rename outcome outcome_date
 
 * Generate pre vaccination cohort dummy variable
 local prevax_cohort = regexm("`cpf'", "_pre")
