@@ -35,29 +35,27 @@ message("Death date added!")
 message(paste0("After adding death N = ", nrow(df), " rows"))
 
 
+# TEST 
+df$out_date_variceal_gi_bleeding <- as.Date(df$out_date_variceal_gi_bleeding, format = ifelse(nchar(df$out_date_variceal_gi_bleeding) > 10, "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"))
+message(paste0("nchar of vgib date: ", table(nchar(df$out_date_variceal_gi_bleeding))))
+
+
 # Format columns ---------------------------------------------------------------
 # dates, numerics, factors, logicals
 
 df <- df %>%
   # mutate(across(contains("_date"), as.POSIXct),
-  mutate(across(contains("_date"), ~ as.Date(as.character(as.POSIXct(.)), format = "%Y-%m-%d")),
+  # mutate(across(contains("_date"), ~ as.Date(as.character(as.POSIXct(.)), format = "%Y-%m-%d")),
 
   # mutate(across(c(contains("_date")),
   #               ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
-         across(contains('_birth_year'),
+        mutate( across(contains('_birth_year'),
                 ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
          across(contains('_num') & !contains('date'), ~ as.numeric(.)),
          across(contains('_cat'), ~ as.factor(.)),
          across(contains('_bin'), ~ as.logical(.)))
 
-# Testing if the date is the issue 
-df_test<- df %>%
-  
-         mutate(across(contains('_birth_year'),
-                ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
-         across(contains('_num') & !contains('date'), ~ as.numeric(.)),
-         across(contains('_cat'), ~ as.factor(.)),
-         across(contains('_bin'), ~ as.logical(.)))
+
 
 # Overwrite vaccination information for dummy data and vax cohort only --
 
@@ -71,7 +69,7 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations") &&
 # Describe data ----------------------------------------------------------------
 
 sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
-print(Hmisc::describe(df_test))
+print(Hmisc::describe(df))
 sink()
 
 message ("Cohort ",cohort_name, " description written successfully!")
