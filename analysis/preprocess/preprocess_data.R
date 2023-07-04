@@ -24,7 +24,7 @@ fs::dir_create(here::here("output", "review"))
 df <-  readr::read_csv(file = paste0("output/input_",cohort_name,".csv.gz") )
 str(df)
 
-message(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
+print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
 #Add death_date from prelim data
 prelim_data <- read_csv("output/index_dates.csv.gz") %>%
@@ -36,8 +36,11 @@ message(paste0("After adding death N = ", nrow(df), " rows"))
 
 
 # TEST 
+print("nchar of vgib date before change of format: ")
+print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
 df$out_date_variceal_gi_bleeding <- as.Date(df$out_date_variceal_gi_bleeding, format = ifelse(nchar(df$out_date_variceal_gi_bleeding) > 10, "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"))
-message(paste0("nchar of vgib date: ", table(nchar(df$out_date_variceal_gi_bleeding))))
+print("nchar of vgib date after change of format: ")
+print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
 
 
 # Format columns ---------------------------------------------------------------
