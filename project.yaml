@@ -133,10 +133,10 @@ actions:
     - preprocess_data_prevax
     outputs:
       moderately_sensitive:
-        counts_prepro: output/not-for-review/study_counts_prepro_prevax.txt
-        counts_sd: output/not-for-review/study_counts_sd_prevax.txt
-        # summary_prepro: output/not-for-review/describe_prepro_prevax.txt
-        # summary_sd: output/not-for-review/describe_sd_prevax.txt
+        # counts_prepro: output/not-for-review/study_counts_prepro_prevax.txt
+        # counts_sd: output/not-for-review/study_counts_sd_prevax.txt
+        summary_prepro: output/not-for-review/describe_prepro_prevax.txt
+        summary_sd: output/not-for-review/describe_sd_prevax.txt
 
   ## Count outcome variables - unvax 
 
