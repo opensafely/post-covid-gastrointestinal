@@ -43,21 +43,29 @@ message(paste0("After adding death N = ", nrow(df), " rows"))
 # print("nchar of vgib date after change of format: ")
 # print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
 
+# Describe data ----------------------------------------------------------------
+
+sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
+print(Hmisc::describe(df%>%select("out_date_ibs","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
+sink()
+
+message ("Cohort ",cohort_name, " description written successfully!")
+
 
 # Format columns ---------------------------------------------------------------
 # dates, numerics, factors, logicals
 
-df <- df %>%
-  # mutate(across(contains("_date"), as.POSIXct),
-  # mutate(across(contains("_date"), ~ as.Date(as.character(as.POSIXct(.)), format = "%Y-%m-%d")),
+# df <- df %>%
+#   # mutate(across(contains("_date"), as.POSIXct),
+#   # mutate(across(contains("_date"), ~ as.Date(as.character(as.POSIXct(.)), format = "%Y-%m-%d")),
 
-  # mutate(across(c(contains("_date")),
-  #               ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
-        mutate( across(contains('_birth_year'),
-                ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
-         across(contains('_num') & !contains('date'), ~ as.numeric(.)),
-         across(contains('_cat'), ~ as.factor(.)),
-         across(contains('_bin'), ~ as.logical(.)))
+#   # mutate(across(c(contains("_date")),
+#   #               ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
+#         mutate( across(contains('_birth_year'),
+#                 ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
+#          across(contains('_num') & !contains('date'), ~ as.numeric(.)),
+#          across(contains('_cat'), ~ as.factor(.)),
+#          across(contains('_bin'), ~ as.logical(.)))
 
 
 
@@ -70,13 +78,6 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations") &&
 }
 
 
-# Describe data ----------------------------------------------------------------
-
-sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
-print(Hmisc::describe(df))
-sink()
-
-message ("Cohort ",cohort_name, " description written successfully!")
 
 
 #Combine BMI variables to create one history of obesity variable ---------------
@@ -127,7 +128,7 @@ df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
 )
 
 
-df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
+df1[,colnames(df)[grepl("tmp_",colnames(df1))]] <- NULL
 rm(df)
 gc()
 # Repo specific preprocessing 
@@ -138,9 +139,9 @@ message(paste0("Input data saved successfully with N = ", nrow(df1), " rows"))
 
 # Describe data --------------------------------------------------------------
 
-sink(paste0("output/not-for-review/describe_input_",cohort_name,"_stage0.txt"))
-print(Hmisc::describe(df1))
-sink()
+# sink(paste0("output/not-for-review/describe_input_",cohort_name,"_stage0.txt"))
+# print(Hmisc::describe(df1))
+# sink()
 
 # Restrict columns and save Venn diagram input dataset -----------------------
 
@@ -152,7 +153,7 @@ sink(paste0("output/not-for-review/describe_venn_",cohort_name,".txt"))
 print(Hmisc::describe(df2))
 sink()
 
-saveRDS(df2, file = paste0("output/venn_",cohort_name,".rds"))
+saveRDS(df1, file = paste0("output/venn_",cohort_name,".rds"))
 
 message("Venn diagram data saved successfully")
 tictoc::toc()

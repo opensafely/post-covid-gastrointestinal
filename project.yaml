@@ -88,6 +88,7 @@ actions:
     - generate_study_population_prevax
     outputs:
       moderately_sensitive:
+        describe_input: output/not-for-review/describe_prevax.txt
         describe: output/not-for-review/describe_input_prevax_stage0.txt
         describe_venn: output/not-for-review/describe_venn_prevax.txt
       highly_sensitive:
