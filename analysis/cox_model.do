@@ -29,6 +29,9 @@ import delim using "./output/`cpf'.csv", clear
 
 import delim using "./output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.csv", clear
 
+*drop covars that are specific for some outcomes 
+drop cov_bin_hypertriglyceridemia cov_bin_hypercalcemia cov_num_systolic_bp
+
 des
 
 * Filter data
@@ -282,7 +285,7 @@ bysort time: summarize(follow_up), detail
 
 stcox days* i.sex age_spline1 age_spline2, strata(region) vce(r)
 est store min, title(Age_Sex)
-stcox days* i.sex age_spline1 age_spline2 i.cov_cat_ethnicity i.cov_cat_deprivation i.cov_cat_smoking_status i.cov_cat_bmi_groups cov_num_consulation_rate cov_num_tc_hdl_ratio cov_bin_*, strata(region) vce(r)
+stcox days* i.sex age_spline1 age_spline2 i.cov_cat_ethnicity i.cov_cat_deprivation i.cov_cat_smoking_status i.cov_bin_obesity cov_num_consulation_rate cov_num_tc_hdl_ratio cov_bin_*, strata(region) vce(r)
 est store max, title(Maximal)
 
 estout * using "output/`cpf'_cox_model_day0`day0'_extf`extf'.txt", cells("b se t ci_l ci_u p") stats(risk N_fail N_sub N N_clust) replace 
