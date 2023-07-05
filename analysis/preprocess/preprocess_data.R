@@ -36,12 +36,12 @@ message(paste0("After adding death N = ", nrow(df), " rows"))
 
 
 # TEST 
-print("nchar of vgib date before change of format: ")
-print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
-df$out_date_variceal_gi_bleeding <- as.Date(df$out_date_variceal_gi_bleeding, format = ifelse(nchar(df$out_date_variceal_gi_bleeding) > 10, "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"))
+# print("nchar of vgib date before change of format: ")
+# print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
+# df$out_date_variceal_gi_bleeding <- as.Date(df$out_date_variceal_gi_bleeding, format = ifelse(nchar(df$out_date_variceal_gi_bleeding) > 10, "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"))
 
-print("nchar of vgib date after change of format: ")
-print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
+# print("nchar of vgib date after change of format: ")
+# print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
 
 
 # Format columns ---------------------------------------------------------------

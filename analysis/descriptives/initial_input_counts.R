@@ -28,21 +28,34 @@ count_input <- function(df) {
 describe_data <- function(data,file_name) {
   invalid_rows_vgib <- sum(is.na(strptime(data$out_date_variceal_gi_bleeding, "%Y-%m-%d")))
   invalid_rows_ibs <- sum(is.na(strptime(data$out_date_ibs, "%Y-%m-%d")))
+  date_pattern <- "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[01])$"
 
   sink(file_name)
-  print(paste0("type of ibs ",typeof(data$out_date_ibs)))
-  print(paste0("type of vgib ",typeof(data$out_date_variceal_gi_bleeding)))
-  print("count of nchar ibs: ")
-  print(table(nchar(as.character(data$out_date_ibs)), useNA = "always"))
-  print( head(data$out_date_ibs[!is.na(data$out_date_ibs) | data$out_date_ibs != ""]) ) 
+  print("ibs date pattern match: ")
+  print (table(grepl(date_pattern,data$out_date_ibs)))
+  print("vgib date pattern match: ")
+  print (table(grepl(date_pattern,data$out_date_variceal_gi_bleeding)))
+filtered_data <- data$out_date_variceal_gi_bleeding[
+  !is.na(data$out_date_variceal_gi_bleeding) & 
+  data$out_date_variceal_gi_bleeding != "" & 
+  !grepl(date_pattern, data$out_date_variceal_gi_bleeding)
+]
+# Print the filtered data
+print("vgib date not matching the pattern:")
+print(filtered_data)
+#   print(paste0("type of ibs ",typeof(data$out_date_ibs)))
+#   print(paste0("type of vgib ",typeof(data$out_date_variceal_gi_bleeding)))
+#   print("count of nchar ibs: ")
+#   print(table(nchar(as.character(data$out_date_ibs)), useNA = "always"))
+#   print( head(data$out_date_ibs[!is.na(data$out_date_ibs) | data$out_date_ibs != ""]) ) 
 
-  print("count of nchar vgib: ")
-  print(table(nchar(as.character(data$out_date_variceal_gi_bleeding)), useNA = "always"))
-print( head(data$out_date_variceal_gi_bleeding[!is.na(data$out_date_variceal_gi_bleeding) | data$out_date_variceal_gi_bleeding != ""]) ) 
-print("invalid vgib")
-print (invalid_rows_vgib)
-print("invalid ibs")
-  print (invalid_rows_ibs)
+#   print("count of nchar vgib: ")
+#   print(table(nchar(as.character(data$out_date_variceal_gi_bleeding)), useNA = "always"))
+# print( head(data$out_date_variceal_gi_bleeding[!is.na(data$out_date_variceal_gi_bleeding) | data$out_date_variceal_gi_bleeding != ""]) ) 
+# print("invalid vgib")
+# print (invalid_rows_vgib)
+# print("invalid ibs")
+#   print (invalid_rows_ibs)
 
   print(Hmisc::describe(data))
   sink()
