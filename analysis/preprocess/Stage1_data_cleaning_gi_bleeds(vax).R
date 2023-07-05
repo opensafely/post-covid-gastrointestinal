@@ -343,8 +343,6 @@ input <- input %>%
             "out_date_belching", "out_date_abdominal_distension","out_date_bloody_stools","out_date_appendicitis","out_date_gallstones_disease", "out_date_nonalcoholic_steatohepatitis",
             "out_date_acute_pancreatitis","out_date_gastro_oesophageal_reflux_disease","out_date_dyspepsia", "out_date_peptic_ulcer"))
 
-consort[nrow(consort)+1,] <- c("Exclusion criteria: Remove outcomes that aren't of interest",
-                               nrow(input))    
 
 # Save consort data
 #------------------------------------------------------------#
@@ -356,7 +354,7 @@ consort$N <- as.numeric(consort$N)
 consort$removed <- dplyr::lag(consort$N, default = dplyr::first(consort$N)) - consort$N
 
 write.csv(consort, 
-          file = paste0("output/consort_",cohort, ".csv"), 
+          file = paste0("output/consort_gi_bleeds",cohort, ".csv"), 
           row.names=F)
 
 # Perform redaction ------------------------------------------------------------
@@ -370,7 +368,7 @@ consort$removed <- dplyr::lag(consort$N, default = dplyr::first(consort$N)) - co
 print('Save rounded consort data ')
 
 write.csv(consort, 
-          file = paste0("output/consort_",cohort, "_rounded.csv"), 
+          file = paste0("output/consort_gi_bleeds",cohort, "_rounded.csv"), 
           row.names=F)
 
 # Save stage 1 dataset ---------------------------------------------------------
