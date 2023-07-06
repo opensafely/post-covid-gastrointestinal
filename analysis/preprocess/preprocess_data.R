@@ -30,7 +30,7 @@ library(readr)
 col_names <- fread(file_path, header = TRUE, sep = ",", nrows = 1, stringsAsFactors = FALSE)
 
 # Filter column names to include only those with "out_date"
-out_date_cols <- grep("out_date", colnames(col_names), value = TRUE)
+out_date_cols <- grep("_date", colnames(col_names), value = TRUE)
 col_classes <- setNames(rep("Date", length(out_date_cols)), out_date_cols)
 df <- fread(file_path, colClasses = col_classes)
 
