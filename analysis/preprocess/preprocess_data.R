@@ -31,7 +31,7 @@ library(readr)
 
 # Read cohort dataset ---------------------------------------------------------- 
 
-df <-  fread(file = paste0("output/input_",cohort_name,".csv.gz") )
+df <-  read.csv(file = paste0("output/input_",cohort_name,".csv.gz") )
 str(df)
 
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
@@ -39,6 +39,7 @@ print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
 sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
 print(Hmisc::describe(df%>%select("out_date_ibs","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
+print(str(df))
 sink()
 
 message ("Cohort ",cohort_name, " description written successfully!")
