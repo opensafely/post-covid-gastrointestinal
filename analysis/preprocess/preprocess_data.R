@@ -31,7 +31,7 @@ library(readr)
 
 # Read cohort dataset ---------------------------------------------------------- 
 
-df <-  read.csv(file = paste0("output/input_",cohort_name,".csv.gz") )
+df <-  fread(file = paste0("output/input_",cohort_name,".csv.gz") )
 str(df)
 
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
