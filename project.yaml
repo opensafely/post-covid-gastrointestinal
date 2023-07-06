@@ -89,11 +89,11 @@ actions:
     outputs:
       moderately_sensitive:
         describe_input: output/not-for-review/describe_prevax.txt
-        # describe: output/not-for-review/describe_input_prevax_stage0.txt
-        # describe_venn: output/not-for-review/describe_venn_prevax.txt
-      # highly_sensitive:
-        # cohort: output/input_prevax.rds
-        # venn: output/venn_prevax.rds
+        describe: output/not-for-review/describe_input_prevax_stage0.txt
+        describe_venn: output/not-for-review/describe_venn_prevax.txt
+      highly_sensitive:
+        cohort: output/input_prevax.rds
+        venn: output/venn_prevax.rds
 
   ## Preprocess data - unvax 
 
@@ -105,10 +105,10 @@ actions:
     outputs:
       moderately_sensitive:
         describe: output/not-for-review/describe_input_unvax_stage0.txt
-      #   describe_venn: output/not-for-review/describe_venn_unvax.txt
-      # highly_sensitive:
-      #   cohort: output/input_unvax.rds
-      #   venn: output/venn_unvax.rds
+        describe_venn: output/not-for-review/describe_venn_unvax.txt
+      highly_sensitive:
+        cohort: output/input_unvax.rds
+        venn: output/venn_unvax.rds
 
   ## Preprocess data - vax 
 
