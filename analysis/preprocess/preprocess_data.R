@@ -27,11 +27,15 @@ library(readr)
 
 
 
+col_names <- fread(file_path, header = TRUE, sep = ",", nrows = 1, stringsAsFactors = FALSE)
 
+# Filter column names to include only those with "out_date"
+out_date_cols <- grep("out_date", colnames(col_names), value = TRUE)
+col_classes <- setNames(rep("Date", length(out_date_cols)), out_date_cols)
+df <- fread(file_path, colClasses = col_classes)
 
 # Read cohort dataset ---------------------------------------------------------- 
 
-df <-  fread(file = paste0("output/input_",cohort_name,".csv.gz") )
 str(df)
 
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
