@@ -25,6 +25,13 @@ df <-  readr::read_csv(file = paste0("output/input_",cohort_name,".csv.gz") )
 str(df)
 
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
+# Describe data ----------------------------------------------------------------
+
+sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
+print(Hmisc::describe(df%>%select("out_date_ibs","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
+sink()
+
+message ("Cohort ",cohort_name, " description written successfully!")
 
 #Add death_date from prelim data
 prelim_data <- read_csv("output/index_dates.csv.gz") %>%
@@ -43,13 +50,6 @@ message(paste0("After adding death N = ", nrow(df), " rows"))
 # print("nchar of vgib date after change of format: ")
 # print(table(nchar(as.character(df$out_date_variceal_gi_bleeding)), useNA = "always"))
 
-# Describe data ----------------------------------------------------------------
-
-sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
-print(Hmisc::describe(df%>%select("out_date_ibs","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
-sink()
-
-message ("Cohort ",cohort_name, " description written successfully!")
 
 
 # Format columns ---------------------------------------------------------------
