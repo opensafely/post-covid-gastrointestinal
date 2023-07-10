@@ -354,7 +354,7 @@ consort$N <- as.numeric(consort$N)
 consort$removed <- dplyr::lag(consort$N, default = dplyr::first(consort$N)) - consort$N
 
 write.csv(consort, 
-          file = paste0("output/consort_gi_bleeds",cohort, ".csv"), 
+          file = paste0("output/consort_",cohort, "_gi_bleeds.csv"), 
           row.names=F)
 
 # Perform redaction ------------------------------------------------------------
@@ -368,7 +368,7 @@ consort$removed <- dplyr::lag(consort$N, default = dplyr::first(consort$N)) - co
 print('Save rounded consort data ')
 
 write.csv(consort, 
-          file = paste0("output/consort_gi_bleeds",cohort, "_rounded.csv"), 
+          file = paste0("output/consort_",cohort, "_gi_bleeds_rounded.csv"), 
           row.names=F)
 
 # Save stage 1 dataset ---------------------------------------------------------
