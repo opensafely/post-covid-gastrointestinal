@@ -22,7 +22,7 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   # name <- "all" # prepare datasets for all active analyses 
-  name <- "cohort_unvax-main-abdominal_distension" # prepare datasets for all active analyses whose name contains X
+  name <- "cohort_prevax-main-acute_pancreatitis" # prepare datasets for all active analyses whose name contains X
 } else {
   name <- args[[1]]
 }
@@ -47,14 +47,15 @@ if (name=="all") {
 print('Filter active_analyses to model inputs to be prepared')
 
 active_analyses <- active_analyses[active_analyses$name %in% prepare,]
-
 for (i in 1:nrow(active_analyses)) {
   
   # Load data --------------------------------------------------------------------
   print(paste0("Load data for ",active_analyses$name[i]))
   
-  input <- readr::read_rds(paste0("output/input_",active_analyses$cohort[i],"_stage1.rds"))
   
+  input <- dplyr::as_tibble(readr::read_rds(paste0("output/input_",active_analyses$cohort[i],"_stage1.rds")))
+  
+
   # Restrict to required variables -----------------------------------------------
   print('Restrict to required variables')
   
@@ -76,13 +77,10 @@ for (i in 1:nrow(active_analyses)) {
                            "cov_bin_gi_operations"))]
   
   
-  # Remove outcomes outside of follow-up time ------------------------------------
-  print('Remove outcomes outside of follow-up time')
-  
   input <- dplyr::rename(input, 
-                         "out_date" = active_analyses$outcome[i],
+                         "out_date" =active_analyses$outcome[i],
                          "exp_date" = active_analyses$exposure[i])
-  
+
   input <- input %>% 
     dplyr::mutate(out_date = replace(out_date, which(out_date>end_date_outcome | out_date<index_date), NA),
                   exp_date =  replace(exp_date, which(exp_date>end_date_exposure | exp_date<index_date), NA),
