@@ -329,7 +329,7 @@ if (cohort == "vax") {
 #Apply outcome specific exclusions criteria
 #-------------------------------------------------#
 
-#Remove chronic people with Coeliac, IBD and Cirrhosis
+#Keep chronic people with Coeliac, IBD and Cirrhosis
 input <- input %>% 
 filter_at(vars(out_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), any_vars(.== TRUE))
 
