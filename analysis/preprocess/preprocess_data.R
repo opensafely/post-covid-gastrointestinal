@@ -1,9 +1,11 @@
-# Load libraries ---------------------------------------------------------------
 tictoc::tic()
+# Load libraries ---------------------------------------------------------------
 library(magrittr)
 library(dplyr)
 library(tidyverse)
 library(lubridate)
+library(data.table)
+library(readr)
 
 # Specify command arguments ----------------------------------------------------
 args <- commandArgs(trailingOnly=TRUE)
@@ -18,13 +20,25 @@ if(length(args)==0){
 fs::dir_create(here::here("output", "not-for-review"))
 fs::dir_create(here::here("output", "review"))
 
+input_path<-paste0("output/input_",cohort_name,".csv.gz")
 
-# Read cohort dataset ---------------------------------------------------------- 
+# Get colnames 
+col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 1, stringsAsFactors = FALSE)
 
-df <-  readr::read_csv(file = paste0("output/input_",cohort_name,".csv.gz") )
-str(df)
+#Get column with "_date"
+out_date_cols <- grep("_date", colnames(col_names), value = TRUE)
+# Set class to date
+col_classes <- setNames(rep("Date", length(out_date_cols)), out_date_cols)
+df <- fread(input_path, colClasses = col_classes)
+print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
-message(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
+# Describe data ----------------------------------------------------------------
+sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
+print(Hmisc::describe(df%>%select("out_date_ibs","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
+print(str(df))
+sink()
+
+message ("Cohort ",cohort_name, " description written successfully!")
 
 #Add death_date from prelim data
 prelim_data <- read_csv("output/index_dates.csv.gz") %>%
@@ -34,26 +48,11 @@ df <- df %>% inner_join(prelim_data,by="patient_id")
 message("Death date added!")
 message(paste0("After adding death N = ", nrow(df), " rows"))
 
-
-# Format columns ---------------------------------------------------------------
-# dates, numerics, factors, logicals
+# # Format columns ---------------------------------------------------------------
+#  numerics, factors, logicals
 
 df <- df %>%
-  # mutate(across(contains("_date"), as.POSIXct),
-  mutate(across(contains("_date"), ~ as.Date(as.character(as.POSIXct(.)), format = "%Y-%m-%d")),
-
-  # mutate(across(c(contains("_date")),
-  #               ~ floor_date(as.Date(., format="%Y-%m-%d",origin='1970-01-01'), unit = "days")),
-         across(contains('_birth_year'),
-                ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
-         across(contains('_num') & !contains('date'), ~ as.numeric(.)),
-         across(contains('_cat'), ~ as.factor(.)),
-         across(contains('_bin'), ~ as.logical(.)))
-
-# Testing if the date is the issue 
-df_test<- df %>%
-  
-         mutate(across(contains('_birth_year'),
+          mutate( across(contains('_birth_year'),
                 ~ format(as.Date(.,origin='1970-01-01'), "%Y")),
          across(contains('_num') & !contains('date'), ~ as.numeric(.)),
          across(contains('_cat'), ~ as.factor(.)),
@@ -66,15 +65,6 @@ if(Sys.getenv("OPENSAFELY_BACKEND") %in% c("", "expectations") &&
   source("analysis/preprocess/modify_dummy_vax_data.R")
   message("Vaccine information overwritten successfully")
 }
-
-
-# Describe data ----------------------------------------------------------------
-
-sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
-print(Hmisc::describe(df_test))
-sink()
-
-message ("Cohort ",cohort_name, " description written successfully!")
 
 
 #Combine BMI variables to create one history of obesity variable ---------------
@@ -107,6 +97,7 @@ df[,c("sub_date_covid19_hospital")] <- NULL
 message("COVID19 severity determined successfully")
 
 
+
 # Restrict columns and save analysis dataset ---------------------------------
 
 df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
@@ -118,17 +109,18 @@ df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
                      contains("out_"), # Outcomes
                      contains("cov_"), # Covariates
                      contains("qa_"), #quality assurance
-                     contains("step"), # diabetes steps
                      contains("vax_date_eligible"), # Vaccination eligibility
                      contains("vax_date_"), # Vaccination dates and vax type 
                      contains("vax_cat_")# Vaccination products
-)
+                    )%>% 
+                   select(-matches("tmp_"))
 
+# Restrict columns and save Venn diagram input dataset -----------------------
 
-df1[,colnames(df)[grepl("tmp_",colnames(df))]] <- NULL
+df2 <- df %>% select(starts_with(c("patient_id","tmp_out_date","out_date")))
 rm(df)
 gc()
-# Repo specific preprocessing 
+
 
 saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"), compress = "gzip")
 
@@ -139,12 +131,9 @@ message(paste0("Input data saved successfully with N = ", nrow(df1), " rows"))
 sink(paste0("output/not-for-review/describe_input_",cohort_name,"_stage0.txt"))
 print(Hmisc::describe(df1))
 sink()
-
-# Restrict columns and save Venn diagram input dataset -----------------------
-
-df2 <- df1 %>% select(starts_with(c("patient_id","tmp_out_date","out_date")))
-str(df2)
-# Describe data --------------------------------------------------------------
+rm(df1)
+gc()
+# Describe Venn --------------------------------------------------------------
 
 sink(paste0("output/not-for-review/describe_venn_",cohort_name,".txt"))
 print(Hmisc::describe(df2))
