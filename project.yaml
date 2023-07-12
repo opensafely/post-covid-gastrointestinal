@@ -134,8 +134,8 @@ actions:
     - preprocess_data_prevax
     outputs:
       moderately_sensitive:
-        # counts_prepro: output/not-for-review/study_counts_prepro_prevax.txt
-        # counts_sd: output/not-for-review/study_counts_sd_prevax.txt
+        counts_prepro: output/not-for-review/study_counts_prepro_prevax.txt
+        counts_sd: output/not-for-review/study_counts_sd_prevax.txt
         summary_prepro: output/not-for-review/describe_prepro_prevax.txt
         summary_sd: output/not-for-review/describe_sd_prevax.txt
 
@@ -150,8 +150,8 @@ actions:
       moderately_sensitive:
         counts_prepro: output/not-for-review/study_counts_prepro_unvax.txt
         counts_sd: output/not-for-review/study_counts_sd_unvax.txt
-        # summary_prepro: output/not-for-review/describe_prepro_unvax.txt
-        # summary_sd: output/not-for-review/describe_sd_unvax.txt
+        summary_prepro: output/not-for-review/describe_prepro_unvax.txt
+        summary_sd: output/not-for-review/describe_sd_unvax.txt
 
   ## Count outcome variables - vax 
 
@@ -164,8 +164,8 @@ actions:
       moderately_sensitive:
         counts_prepro: output/not-for-review/study_counts_prepro_vax.txt
         counts_sd: output/not-for-review/study_counts_sd_vax.txt
-        # summary_prepro: output/not-for-review/describe_prepro_vax.txt
-        # summary_sd: output/not-for-review/describe_sd_vax.txt
+        summary_prepro: output/not-for-review/describe_prepro_vax.txt
+        summary_sd: output/not-for-review/describe_sd_vax.txt
 
   ## Stage 1 - data cleaning - prevax 
 
@@ -15642,4 +15642,18 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
+
+  ## ------------------GI Bleeds Actions-------------------- 
+
+  stage1_data_cleaning_gi_bleeds:
+    run: r:latest analysis/preprocess/Stage1_data_cleaning_gi_bleeds.R vax
+    needs:
+    - vax_eligibility_inputs
+    - preprocess_data_vax
+    outputs:
+      moderately_sensitive:
+        consort: output/consort_vax_gi_bleeds.csv
+        consort_rounded: output/consort_vax_gi_bleeds_rounded.csv
+      highly_sensitive:
+        cohort: output/input_vax_stage1_gi_bleeds.rds
 

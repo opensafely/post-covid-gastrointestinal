@@ -464,7 +464,23 @@ comment("Run failed models"),
     moderately_sensitive = list(
       model_output = glue("output/model_output.csv")
     )
-  ) 
+  ), 
+
+  comment("------------------GI Bleeds Actions--------------------"),
+    action(
+      name = glue("stage1_data_cleaning_gi_bleeds"),
+      run = glue("r:latest analysis/preprocess/Stage1_data_cleaning_gi_bleeds.R"),
+      arguments = "vax",
+      needs = list("vax_eligibility_inputs",glue("preprocess_data_vax")),
+      moderately_sensitive = list(
+        consort = glue("output/consort_vax_gi_bleeds.csv"),
+        consort_rounded = glue("output/consort_vax_gi_bleeds_rounded.csv")
+      ),
+      highly_sensitive = list(
+        cohort = glue("output/input_vax_stage1_gi_bleeds.rds")
+      )
+    )
+  
 )
 
 ## combine everything ----
