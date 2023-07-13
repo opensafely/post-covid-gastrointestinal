@@ -467,6 +467,7 @@ comment("Run failed models"),
   ), 
 
   comment("------------------GI Bleeds Actions--------------------"),
+  comment("Stage 1 GI bleeds"), 
     action(
       name = glue("stage1_data_cleaning_gi_bleeds"),
       run = glue("r:latest analysis/preprocess/Stage1_data_cleaning_gi_bleeds.R"),
@@ -479,8 +480,19 @@ comment("Run failed models"),
       highly_sensitive = list(
         cohort = glue("output/input_vax_stage1_gi_bleeds.rds")
       )
-    )
+    ), 
+  comment("Table 1 GI bleeds"), 
+  action(
+      name = glue("table1_gi_bleeds"),
+      run = "r:latest analysis/descriptives/table1_gi_bleeds.R",
+      arguments = c(cohort),
+      needs = list(glue("stage1_data_cleaning_gi_bleeds")),
+      moderately_sensitive = list(
+        table1 = glue("output/table1_gi_bleeds_vax.csv"),
+        table1_rounded = glue("output/table1_gi_bleeds_vax_rounded.csv")
+      )
   
+)
 )
 
 ## combine everything ----

@@ -15643,6 +15643,7 @@ actions:
         model_output: output/model_output.csv
 
   ## ------------------GI Bleeds Actions-------------------- 
+  ## Stage 1 GI bleeds 
 
   stage1_data_cleaning_gi_bleeds:
     run: r:latest analysis/preprocess/Stage1_data_cleaning_gi_bleeds.R vax
@@ -15655,4 +15656,15 @@ actions:
         consort_rounded: output/consort_vax_gi_bleeds_rounded.csv
       highly_sensitive:
         cohort: output/input_vax_stage1_gi_bleeds.rds
+
+  ## Table 1 GI bleeds 
+
+  table1_gi_bleeds:
+    run: r:latest analysis/descriptives/table1_gi_bleeds.R vax
+    needs:
+    - stage1_data_cleaning_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        table1: output/table1_gi_bleeds_vax.csv
+        table1_rounded: output/table1_gi_bleeds_vax_rounded.csv
 
