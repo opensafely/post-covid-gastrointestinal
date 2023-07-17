@@ -56,7 +56,7 @@ for (i in 1:nrow(active_analyses)) {
   
   input <- dplyr::as_tibble(readr::read_rds(paste0("output/input_",active_analyses$cohort[i],"_stage1.rds")))
   print (paste0("nrow after read : ",nrow(input)))
-  print(str(input$cov_num_age))
+  print(summary(input$cov_num_age))
   # Restrict to required variables -----------------------------------------------
   print('Restrict to required variables')
   
@@ -78,7 +78,7 @@ for (i in 1:nrow(active_analyses)) {
                            "cov_bin_gi_operations"))]
   
     print (paste0("nrow after restrict to required variables : ",nrow(input)))
-  print(str(input$cov_num_age))
+  print(summary(input$cov_num_age))
 
   input <- dplyr::rename(input, 
                          "out_date" =active_analyses$outcome[i],
