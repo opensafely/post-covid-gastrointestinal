@@ -55,7 +55,7 @@ for (i in 1:nrow(active_analyses)) {
   
   
   input <- dplyr::as_tibble(readr::read_rds(paste0("output/input_",active_analyses$cohort[i],"_stage1.rds")))
-  
+  print (paste0("nrow after read : ",nrow(input)))
 
   # Restrict to required variables -----------------------------------------------
   print('Restrict to required variables')
@@ -77,16 +77,20 @@ for (i in 1:nrow(active_analyses)) {
                            "cov_bin_overall_gi_and_symptoms",
                            "cov_bin_gi_operations"))]
   
-  
+    print (paste0("nrow after restrict to required variables : ",nrow(input)))
+
   input <- dplyr::rename(input, 
                          "out_date" =active_analyses$outcome[i],
                          "exp_date" = active_analyses$exposure[i])
+  print (paste0("nrow after rename : ",nrow(input)))
 
   input <- input %>% 
     dplyr::mutate(out_date = replace(out_date, which(out_date>end_date_outcome | out_date<index_date), NA),
                   exp_date =  replace(exp_date, which(exp_date>end_date_exposure | exp_date<index_date), NA),
                   sub_cat_covid19_hospital = replace(sub_cat_covid19_hospital, which(is.na(exp_date)),"no_infection"))
-  
+
+    print (paste0("nrow after replace : ",nrow(input)))
+
   # Update end date to be outcome date where applicable ------------------------
   print('Update end date to be outcome date where applicable')
   
@@ -94,7 +98,8 @@ for (i in 1:nrow(active_analyses)) {
     dplyr::rowwise() %>% 
     dplyr::mutate(end_date_outcome = min(end_date_outcome, out_date, na.rm = TRUE))
   
-  
+    print (paste0("nrow after Update end date to be outcome date : ",nrow(input)))
+
   
   # Make model input: main -------------------------------------------------------
   
