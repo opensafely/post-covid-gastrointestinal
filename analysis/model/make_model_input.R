@@ -280,17 +280,20 @@ df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
     print('Make model input: sub_age_80_110')
     
-    df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
-                  input$cov_num_age>=80 &
-                  input$cov_num_age<111,]
+    # df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
+    #               input$cov_num_age>=80 &
+    #               input$cov_num_age<111,]
+    df <- input %>%
+  filter(sub_bin_covid19_confirmed_history == FALSE) %>%
+  filter(cov_num_age >= 80 & cov_num_age < 111) 
     
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
-    
-    check_vitals(df)
-    df<-as_tibble(df)  
     print("nrow of df ")
     print(nrow(df)) 
     print(str(df))
+    check_vitals(df)
+    df<-as_tibble(df)  
+    
     readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")),compress="gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
