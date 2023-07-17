@@ -284,8 +284,14 @@ df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     #               input$cov_num_age>=80 &
     #               input$cov_num_age<111,]
     df <- input %>%
-  filter(sub_bin_covid19_confirmed_history == FALSE) %>%
-  filter(cov_num_age >= 80 & cov_num_age < 111) 
+  filter(sub_bin_covid19_confirmed_history == FALSE) 
+  print("nrow of df covid history false ")
+    print(nrow(df)) 
+    print(table(df$cov_num_age))
+    print(summary(df$cov_num_age))
+  df<- df %>%filter(cov_num_age >= 80) 
+  print("nrow of df covid history false ")
+    print(nrow(df)) 
     
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     print("nrow of df ")
