@@ -78,6 +78,7 @@ for (i in 1:nrow(active_analyses)) {
                            "cov_bin_gi_operations"))]
   
     print (paste0("nrow after restrict to required variables : ",nrow(input)))
+  print(str(input$cov_num_age))
 
   input <- dplyr::rename(input, 
                          "out_date" =active_analyses$outcome[i],
