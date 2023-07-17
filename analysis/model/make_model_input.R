@@ -56,7 +56,7 @@ for (i in 1:nrow(active_analyses)) {
   
   input <- dplyr::as_tibble(readr::read_rds(paste0("output/input_",active_analyses$cohort[i],"_stage1.rds")))
   print (paste0("nrow after read : ",nrow(input)))
-
+  print(str(input$cov_num_age))
   # Restrict to required variables -----------------------------------------------
   print('Restrict to required variables')
   
@@ -280,18 +280,10 @@ df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
     print('Make model input: sub_age_80_110')
     
-    # df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
-    #               input$cov_num_age>=80 &
-    #               input$cov_num_age<111,]
-    df <- input %>%
-  filter(sub_bin_covid19_confirmed_history == FALSE) 
-  print("nrow of df covid history false ")
-    print(nrow(df)) 
-    print(table(df$cov_num_age))
-    print(summary(df$cov_num_age))
-  df<- df %>%filter(cov_num_age >= 80) 
-  print("nrow of df covid history false ")
-    print(nrow(df)) 
+    df <- input[input$sub_bin_covid19_confirmed_history==FALSE & 
+                  input$cov_num_age>=80 &
+                  input$cov_num_age<111,]
+  
     
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     print("nrow of df ")
