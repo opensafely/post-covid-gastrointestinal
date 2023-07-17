@@ -3,6 +3,7 @@ print('Load packages')
 
 library(magrittr)
 library(data.table)
+library(tidyverse)
 
 # Source functions -------------------------------------------------------------
 print('Source functions')
@@ -103,7 +104,6 @@ for (i in 1:nrow(active_analyses)) {
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     check_vitals(df)
-
     readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")),compress="gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
@@ -262,7 +262,7 @@ df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
-    check_vitals(df)    
+    check_vitals(df)  
     readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")),compress="gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
@@ -282,6 +282,10 @@ df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
     check_vitals(df)
+    df<-as_tibble(df)  
+    print("nrow of df ")
+    print(nrow(df)) 
+    print(str(df))
     readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")),compress="gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
