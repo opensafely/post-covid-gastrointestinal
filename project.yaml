@@ -193,7 +193,7 @@ actions:
         consort: output/consort_unvax.csv
         consort_rounded: output/consort_unvax_rounded.csv
       highly_sensitive:
-        cohort: output/input_unvax_stage1.rds
+        cohort: output/input_unvax_stage1_test.rds
 
   ## Stage 1 - data cleaning - vax 
 

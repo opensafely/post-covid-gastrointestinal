@@ -409,7 +409,8 @@ input <- input[,c("patient_id","death_date","index_date",
                   colnames(input)[grepl("cov_",colnames(input))],
                   colnames(input)[grepl("vax_date_",colnames(input))],
                   colnames(input)[grepl("vax_cat_",colnames(input))])]
-
+print("age distribution")
+print(summary(input$age))
 saveRDS(input, 
-        file = paste0("output/input_",cohort,"_stage1.rds"), 
+        file = paste0("output/input_",cohort,"_stage1_test.rds"), 
         compress = TRUE)
