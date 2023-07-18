@@ -348,7 +348,7 @@ if (cohort == "vax") {
   #                                nrow(input))
   #   print(summary(input$cov_num_age))
 print(summary(input$vax_cat_jcvi_group))
-print(typof(input$vax_cat_jcvi_group))
+print(typeof(input$vax_cat_jcvi_group))
   print('Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)')
   
   input <- input %>% filter (!is.na(index_date) & index_date <= end_date_exposure & index_date >= start_date_delta)
