@@ -347,7 +347,7 @@ if (cohort == "vax") {
   # consort[nrow(consort)+1,] <- c("Inclusion criteria: Not missing JCVI group",
   #                                nrow(input))
   #   print(summary(input$cov_num_age))
-print(summary(input$vax_cat_jcvi_group)
+print(summary(input$vax_cat_jcvi_group))
 print(typof(input$vax_cat_jcvi_group))
   print('Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)')
   
