@@ -331,7 +331,7 @@ if (cohort == "vax") {
   # i.e. Have a record of a first vaccination prior to index date
   # (no more vax 2 and 3 variables available in this dataset)
   # a.Determine the vaccination status on index start date
-  
+  print(paste0("1---- ", summary(input$cov_num_age)))
   input$prior_vax1 <- ifelse(input$vax_date_covid_1 <= input$index_date, 1,0)
   input$prior_vax1[is.na(input$prior_vax1)] <- 0
   input <- subset(input, input$prior_vax1 == 0) # Exclude people with prior vaccination
@@ -345,12 +345,15 @@ if (cohort == "vax") {
                     vax_cat_jcvi_group == "09" | vax_cat_jcvi_group == "10" | vax_cat_jcvi_group == "11" | vax_cat_jcvi_group == "12")
   consort[nrow(consort)+1,] <- c("Inclusion criteria: Not missing JCVI group",
                                  nrow(input))
-  
+    print(paste0("2---- ", summary(input$cov_num_age)))
+
   print('Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)')
   
   input <- input %>% filter (!is.na(index_date) & index_date <= end_date_exposure & index_date >= start_date_delta)
   consort[nrow(consort)+1,] <- c("Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)",
                                  nrow(input))
+ print(paste0("3---- ", summary(input$cov_num_age)))
+
   
 }
 
@@ -409,8 +412,7 @@ input <- input[,c("patient_id","death_date","index_date",
                   colnames(input)[grepl("cov_",colnames(input))],
                   colnames(input)[grepl("vax_date_",colnames(input))],
                   colnames(input)[grepl("vax_cat_",colnames(input))])]
-print("age distribution")
-print(summary(input$cov_num_age))
+
 saveRDS(input, 
         file = paste0("output/input_",cohort,"_stage1_test.rds"), 
         compress = TRUE)
