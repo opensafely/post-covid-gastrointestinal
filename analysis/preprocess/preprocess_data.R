@@ -23,19 +23,19 @@ fs::dir_create(here::here("output", "review"))
 input_path<-paste0("output/input_",cohort_name,".csv.gz")
 
 # # Get colnames 
-# col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 1, stringsAsFactors = FALSE)
+col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 1, stringsAsFactors = FALSE)
 
-# #Get column with "_date"
-# out_date_cols <- grep("_date", colnames(col_names), value = TRUE)
-# # Set class to date
-# col_classes <- setNames(rep("Date", length(out_date_cols)), out_date_cols)
-# df <- fread(input_path, colClasses = col_classes)
-df<-read_csv(input_path)
+#Get column with "_date"
+out_date_cols <- grep("_date", colnames(col_names), value = TRUE)
+# Set class to date
+col_classes <- setNames(rep("Date", length(out_date_cols)), out_date_cols)
+df <- as.data.frame(fread(input_path, colClasses = col_classes))
+#  df2<-read_csv(input_path)
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
 # Describe data ----------------------------------------------------------------
 sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
-print(Hmisc::describe(df%>%select("out_date_ibs","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
+print(Hmisc::describe(df%>%select("cov_num_age","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
 print(str(df))
 sink()
 
