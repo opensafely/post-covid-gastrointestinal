@@ -422,5 +422,5 @@ input <- input[,c("patient_id","death_date","index_date",
                   colnames(input)[grepl("vax_cat_",colnames(input))])]
 
 saveRDS(input, 
-        file = paste0("output/input_",cohort,"_stage1_test.rds"), 
+        file = paste0("output/input_",cohort,"_stage1.rds"), 
         compress = TRUE)
