@@ -29,7 +29,9 @@ col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 1, stringsAsFac
 out_date_cols <- grep("_date", colnames(col_names), value = TRUE)
 # Set class to date
 col_classes <- setNames(rep("Date", length(out_date_cols)), out_date_cols)
-df <- as.data.frame(fread(input_path, colClasses = col_classes))
+col_classes["vax_cat_jcvi_group"] <- "character"
+
+df <- fread(input_path, colClasses = col_classes)
 #  df2<-read_csv(input_path)
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 
