@@ -22,19 +22,29 @@ fs::dir_create(here::here("output", "review"))
 
 input_path<-paste0("output/input_",cohort_name,".csv.gz")
 
+
+
 # # Get colnames 
 col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 1, stringsAsFactors = FALSE)
 
-#Get column with "_date"
+#Get columns types based on their names. 
 out_date_cols <- grep("_date", colnames(col_names), value = TRUE)
-# Set class to date
+cat_cols <- grep("_cat",colnames(col_names),value=TRUE )
+bin_cols <- grep("_bin",colnames(col_names),value=TRUE )
+num_cols<-grep("_num",colnames(col_names),value=TRUE )
+
+# Set the class of the columns 
 col_classes <- setNames(rep("Date", length(out_date_cols)), out_date_cols)
-col_classes["vax_cat_jcvi_group"] <- "character"
+col_classes <- setNames(rep("character", length(cat_cols)), cat_cols)
+col_classes <- setNames(rep("logical", length(bin_cols)), bin_cols)
+col_classes <- setNames(rep("d", length(num_cols)), num_cols)
 
-df <- fread(input_path, colClasses = col_classes)
-#  df2<-read_csv(input_path)
+# read the input file and specify colClasses
+df<-read_csv(input_path, col_types=col_classes)
+
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
-
+print("type of columns:\n")
+str(df)
 # Describe data ----------------------------------------------------------------
 sink(paste0("output/not-for-review/describe_",cohort_name,".txt"))
 print(Hmisc::describe(df%>%select("cov_num_age","out_date_variceal_gi_bleeding","out_date_bowel_ischaemia")))
@@ -123,7 +133,6 @@ df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
 df2 <- df %>% select(starts_with(c("patient_id","tmp_out_date","out_date")))
 rm(df)
 gc()
-
 
 saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"), compress = "gzip")
 
