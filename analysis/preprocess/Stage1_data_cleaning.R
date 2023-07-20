@@ -337,34 +337,33 @@ if (cohort == "vax") {
   input <- subset(input, input$prior_vax1 == 0) # Exclude people with prior vaccination
   consort[nrow(consort)+1,] <- c("Inclusion criteria: Does not have a record of one or more vaccination prior index date",
                                  nrow(input))
-  print(summary(input$cov_num_age))
+print("age check\n")                                
+print(summary(input$cov_num_age))
  print(sum(input$cov_num_age > 59))
-  # print('Inclusion criteria: Not missing JCVI group')
+
+# print('Inclusion criteria: Not missing JCVI group')
   
-  # input <- subset(input, vax_cat_jcvi_group == "01" | vax_cat_jcvi_group == "02" | vax_cat_jcvi_group == "03" | vax_cat_jcvi_group == "04" |
-  #                   vax_cat_jcvi_group == "05" | vax_cat_jcvi_group == "06" | vax_cat_jcvi_group == "07" | vax_cat_jcvi_group == "08" |
-  #                   vax_cat_jcvi_group == "09" | vax_cat_jcvi_group == "10" | vax_cat_jcvi_group == "11" | vax_cat_jcvi_group == "12")
-  # # consort[nrow(consort)+1,] <- c("Inclusion criteria: Not missing JCVI group",
-  #                                nrow(input))
-  #   print(summary(input$cov_num_age))
-print(summary(input$vax_cat_jcvi_group))
-print(typeof(input$vax_cat_jcvi_group))
+  jcvi_cat <- c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+
+input <- input %>%
+  dplyr::filter(vax_cat_jcvi_group %in% jcvi_cat)
+  
+}
+  consort[nrow(consort)+1,] <- c("Inclusion criteria: Not missing JCVI group",
+                                 nrow(input))
+  print(summary(input$cov_num_age))
+  print(sum(input$cov_num_age > 59))
   print('Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)')
   
   input <- input %>% filter (!is.na(index_date) & index_date <= end_date_exposure & index_date >= start_date_delta)
   consort[nrow(consort)+1,] <- c("Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)",
                                  nrow(input))
+ 
+ print("age check\n")                                
  print(summary(input$cov_num_age))
  print(sum(input$cov_num_age > 59))
-categories <- c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
 
-# Filter the tibble based on vax_cat_jcvi_group values
-input <- input %>%
-  dplyr::filter(vax_cat_jcvi_group %in% categories)
-  
-}
-print(summary(input$cov_num_age))
- print(sum(input$cov_num_age > 59))
+
 #Apply outcome specific exclusions criteria
 #-------------------------------------------------#
 
