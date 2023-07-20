@@ -7,12 +7,13 @@ library(lubridate)
 library(data.table)
 library(readr)
 
+
 # Specify command arguments ----------------------------------------------------
 args <- commandArgs(trailingOnly=TRUE)
 print(length(args))
 if(length(args)==0){
   # use for interactive testing
-  cohort_name <- "prevax"
+  cohort_name <- "unvax"
 } else {
   cohort_name <- args[[1]]
 }
@@ -23,8 +24,9 @@ fs::dir_create(here::here("output", "review"))
 input_path<-paste0("output/input_",cohort_name,".csv.gz")
 
 # # Get colnames 
-col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 0, stringsAsFactors = FALSE)%>%names()
-
+col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 0, stringsAsFactors = FALSE)%>%
+                                          select(-c(cov_num_systolic_bp_date_measured)) %>% #This column is not needed in GI
+                                          names()
 #Get columns types based on their names. 
 
 cat_cols <- c("patient_id",
@@ -43,7 +45,9 @@ col_classes <- setNames(rep("logical", length(bin_cols)), bin_cols)
 col_classes <- setNames(rep("d", length(num_cols)), num_cols)
 
 # read the input file and specify colClasses
-df<-read_csv(input_path, col_types=col_classes, col_select = !("cov_num_systolic_bp_date_measured")) #This column is not needed in GI
+df<-read_csv(input_path, col_types=col_classes) 
+
+df$cov_num_systolic_bp_date_measured <-NULL#This column is not needed in GI
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
 print("type of columns:\n")
 str(df)
