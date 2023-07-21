@@ -29,19 +29,19 @@ col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 0, stringsAsFac
                                           names()
 #Get columns types based on their names. 
 
-cat_cols <- c("patient_id",
-              grep("_cat", col_names, value=TRUE))
-bin_cols <- c(grep("_bin", col_names, value=TRUE), 
-                   grep("prostate_cancer_", col_names, value=TRUE),
-                   "has_follow_up_previous_6months","has_died","registered_at_start")       
+# cat_cols <- c("patient_id",
+#               grep("_cat", col_names, value=TRUE))
+# bin_cols <- c(grep("_bin", col_names, value=TRUE), 
+#                    grep("prostate_cancer_", col_names, value=TRUE),
+#                    "has_follow_up_previous_6months","has_died","registered_at_start")       
 num_cols <- c(grep("_num", col_names, value=TRUE),
               grep("vax_jcvi_age_", col_names, value=TRUE))
 date_cols <- grep("_date", col_names, value = TRUE)
 
 # Set the class of the columns 
 col_classes <- setNames(rep("Date", length(date_cols)), date_cols) 
-col_classes <- setNames(rep("character", length(cat_cols)), cat_cols)
-col_classes <- setNames(rep("logical", length(bin_cols)), bin_cols)
+# col_classes <- setNames(rep("character", length(cat_cols)), cat_cols)
+# col_classes <- setNames(rep("logical", length(bin_cols)), bin_cols)
 col_classes <- setNames(rep("d", length(num_cols)), num_cols)
 
 # read the input file and specify colClasses
