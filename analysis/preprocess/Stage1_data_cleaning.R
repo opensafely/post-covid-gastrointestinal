@@ -50,10 +50,14 @@ print('Load cohort data')
 
 input <- read_rds(file.path("output", paste0("input_",cohort,".rds")))
 print(paste0(cohort,  " cohort: ", nrow(input), " rows in the input file"))
+
+# Debug type issue
 print("outcome peptic ulcer type and summary")
 print (typeof(input$out_date_peptic_ulcer))
 print(summary(input%>%select(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding)))
 print(str(input%>%select(c(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding))))
+
+
 # Rename date variables --------------------------------------------------------
 print('Rename date variables')
 

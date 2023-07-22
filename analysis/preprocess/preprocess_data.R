@@ -24,28 +24,28 @@ fs::dir_create(here::here("output", "review"))
 input_path<-paste0("output/input_",cohort_name,".csv.gz")
 
 # # Get colnames 
-col_names <- fread(input_path, header = TRUE, sep = ",", nrows = 0, stringsAsFactors = FALSE)%>%
+all_cols <- fread(input_path, header = TRUE, sep = ",", nrows = 0, stringsAsFactors = FALSE)%>%
                                           select(-c(cov_num_systolic_bp_date_measured)) %>% #This column is not needed in GI
                                           names()
-#Get columns types based on their names. 
-
-# cat_cols <- c("patient_id",
-#               grep("_cat", col_names, value=TRUE))
-# bin_cols <- c(grep("_bin", col_names, value=TRUE), 
-#                    grep("prostate_cancer_", col_names, value=TRUE),
-#                    "has_follow_up_previous_6months","has_died","registered_at_start")       
-num_cols <- c(grep("_num", col_names, value=TRUE),
-              grep("vax_jcvi_age_", col_names, value=TRUE))
-date_cols <- grep("_date", col_names, value = TRUE)
-
-# Set the class of the columns 
-col_classes <- setNames(rep("Date", length(date_cols)), date_cols) 
-# col_classes <- setNames(rep("character", length(cat_cols)), cat_cols)
-# col_classes <- setNames(rep("logical", length(bin_cols)), bin_cols)
-col_classes <- setNames(rep("d", length(num_cols)), num_cols)
-
+#Get columns types based on their names
+cat_cols <- c("patient_id", grep("_cat", all_cols, value = TRUE))
+bin_cols <- c(grep("_bin", all_cols, value = TRUE), 
+             grep("prostate_cancer_", all_cols, value = TRUE),
+             "has_follow_up_previous_6months", "has_died", "registered_at_start")
+num_cols <- c(grep("_num", all_cols, value = TRUE),
+             grep("vax_jcvi_age_", all_cols, value = TRUE))
+date_cols <- grep("_date", all_cols, value = TRUE)
+# Set the class of the columns with match to make sure 
+col_classes <- setNames(
+  c(rep("c", length(cat_cols)),
+    rep("l", length(bin_cols)),
+    rep("d", length(num_cols)),
+    rep("Date", length(date_cols))
+  ), 
+  all_cols[match(c(cat_cols, bin_cols, num_cols, date_cols), all_cols)]
+)
 # read the input file and specify colClasses
-df<-read_csv(input_path, col_types=col_classes) 
+df<-read_csv(input_path,col_types = col_classes) 
 
 df$cov_num_systolic_bp_date_measured <-NULL#This column is not needed in GI
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
