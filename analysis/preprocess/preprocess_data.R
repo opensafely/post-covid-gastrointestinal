@@ -139,7 +139,10 @@ df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
 df2 <- df %>% select(starts_with(c("patient_id","tmp_out_date","out_date")))
 rm(df)
 gc()
-
+print("outcome peptic ulcer type and summary")
+print (typeof(df1$out_date_peptic_ulcer))
+print(summary(df1%>%select(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding)))
+print(str(df1%>%select(c(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding))))
 saveRDS(df1, file = paste0("output/input_",cohort_name,".rds"), compress = "gzip")
 
 message(paste0("Input data saved successfully with N = ", nrow(df1), " rows"))
