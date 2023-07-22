@@ -35,19 +35,17 @@ bin_cols <- c(grep("_bin", all_cols, value = TRUE),
 num_cols <- c(grep("_num", all_cols, value = TRUE),
              grep("vax_jcvi_age_", all_cols, value = TRUE))
 date_cols <- grep("_date", all_cols, value = TRUE)
-
-# Set the class of the columns using match() to align the classes with column names
+# Set the class of the columns with match to make sure 
 col_classes <- setNames(
-  c(rep("character", length(cat_cols)),
-    rep("logical", length(bin_cols)),
-    rep("double", length(num_cols)),
+  c(rep("c", length(cat_cols)),
+    rep("l", length(bin_cols)),
+    rep("d", length(num_cols)),
     rep("Date", length(date_cols))
   ), 
   all_cols[match(c(cat_cols, bin_cols, num_cols, date_cols), all_cols)]
 )
-
 # read the input file and specify colClasses
-df<-read_csv(input_path, col_types=col_classes) 
+df<-read_csv(input_path,col_types = col_classes) 
 
 df$cov_num_systolic_bp_date_measured <-NULL#This column is not needed in GI
 print(paste0("Dataset has been read successfully with N = ", nrow(df), " rows"))
