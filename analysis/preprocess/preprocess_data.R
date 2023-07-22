@@ -35,12 +35,13 @@ bin_cols <- c(grep("_bin", all_cols, value = TRUE),
 num_cols <- c(grep("_num", all_cols, value = TRUE),
              grep("vax_jcvi_age_", all_cols, value = TRUE))
 date_cols <- grep("_date", all_cols, value = TRUE)
-# Set the class of the columns with match to make sure 
+print(?read_csv())
+# Set the class of the columns with match to make sure the column match the type
 col_classes <- setNames(
   c(rep("c", length(cat_cols)),
     rep("l", length(bin_cols)),
     rep("d", length(num_cols)),
-    rep("Date", length(date_cols))
+    rep("D", length(date_cols))
   ), 
   all_cols[match(c(cat_cols, bin_cols, num_cols, date_cols), all_cols)]
 )
@@ -60,8 +61,8 @@ sink()
 message ("Cohort ",cohort_name, " description written successfully!")
 
 #Add death_date from prelim data
-prelim_data <- read_csv("output/index_dates.csv.gz") %>%
-  select(c(patient_id,death_date))
+prelim_data <- read_csv("output/index_dates.csv.gz",col_types=cols(patient_id = "c",death_date="D")) %>%
+  select(patient_id,death_date)
 df <- df %>% inner_join(prelim_data,by="patient_id")
 
 message("Death date added!")
