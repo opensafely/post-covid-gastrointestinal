@@ -35,7 +35,6 @@ bin_cols <- c(grep("_bin", all_cols, value = TRUE),
 num_cols <- c(grep("_num", all_cols, value = TRUE),
              grep("vax_jcvi_age_", all_cols, value = TRUE))
 date_cols <- grep("_date", all_cols, value = TRUE)
-print(?read_csv())
 # Set the class of the columns with match to make sure the column match the type
 col_classes <- setNames(
   c(rep("c", length(cat_cols)),
