@@ -15194,7 +15194,6 @@ actions:
     run: r:latest analysis/model/make_model_output.R
     needs:
     - cox_ipw-cohort_prevax-main-ibs
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-ibs
     - cox_ipw-cohort_prevax-sub_sex_female-ibs
     - cox_ipw-cohort_prevax-sub_sex_male-ibs
@@ -15250,7 +15249,6 @@ actions:
     - cox_ipw-cohort_unvax-sub_priorhistory_true-ibs-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-sub_priorhistory_false-ibs-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_sex_female-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_sex_male-gastro_oesophageal_reflux_disease
@@ -15263,6 +15261,7 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-gastro_oesophageal_reflux_disease-cov_bin_gi_operations
     - cox_ipw-cohort_prevax-sub_prioroperations_false-gastro_oesophageal_reflux_disease-cov_bin_gi_operations
     - cox_ipw-cohort_prevax-sub_priorhistory_true-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
@@ -15417,7 +15416,6 @@ actions:
     - cox_ipw-cohort_unvax-sub_priorhistory_true-gallstones_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-sub_priorhistory_false-gallstones_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_sex_female-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_sex_male-lower_gi_bleeding
@@ -15456,6 +15454,7 @@ actions:
     - cox_ipw-cohort_unvax-main-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_sex_female-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_sex_male-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_age_18_39-lower_gi_bleeding
@@ -15508,6 +15507,78 @@ actions:
     - cox_ipw-cohort_vax-sub_prioroperations_false-upper_gi_bleeding-cov_bin_gi_operations
     - cox_ipw-cohort_vax-sub_priorhistory_true-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-sub_priorhistory_false-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-main-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_sex_female-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_sex_male-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_18_39-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_40_59-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_60_79-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_80_110-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-upper_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-upper_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-upper_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-main-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_sex_female-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_sex_male-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_age_18_39-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_age_40_59-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_age_60_79-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_age_80_110-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-variceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-variceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-variceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-variceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-variceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-main-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_covid_history-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_sex_female-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_sex_male-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_age_18_39-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_age_40_59-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_age_60_79-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_age_80_110-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_ethnicity_white-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_ethnicity_black-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_ethnicity_other-variceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_prioroperations_true-variceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-variceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-variceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-variceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-main-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_covid_history-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_sex_female-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_sex_male-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_18_39-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_40_59-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_60_79-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_age_80_110-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-variceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-variceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-variceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-variceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-variceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
@@ -15564,6 +15635,62 @@ actions:
     - cox_ipw-cohort_unvax-sub_prioroperations_false-nonvariceal_gi_bleeding-cov_bin_gi_operations
     - cox_ipw-cohort_unvax-sub_priorhistory_true-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-sub_priorhistory_false-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-main-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_sex_female-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_sex_male-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_age_18_39-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_age_40_59-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_age_60_79-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_age_80_110-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-nonalcoholic_steatohepatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-nonalcoholic_steatohepatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-main-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_covid_history-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_sex_female-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_sex_male-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_age_18_39-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_age_40_59-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_age_60_79-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_age_80_110-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_ethnicity_white-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_ethnicity_black-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_ethnicity_other-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_vax-sub_prioroperations_true-nonalcoholic_steatohepatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-nonalcoholic_steatohepatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-main-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_covid_history-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_sex_female-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_sex_male-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_age_18_39-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_age_40_59-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_age_60_79-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_age_80_110-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-nonalcoholic_steatohepatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-nonalcoholic_steatohepatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
@@ -15638,6 +15765,44 @@ actions:
     - cox_ipw-cohort_prevax-sub_prioroperations_false-peptic_ulcer-cov_bin_gi_operations
     - cox_ipw-cohort_prevax-sub_priorhistory_true-peptic_ulcer-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-sub_priorhistory_false-peptic_ulcer-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-main-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_covid_hospitalised-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_covid_history-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_sex_female-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_sex_male-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_age_18_39-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_age_40_59-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_age_60_79-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_age_80_110-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_ethnicity_white-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_ethnicity_black-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_ethnicity_other-peptic_ulcer
+    - cox_ipw-cohort_vax-sub_prioroperations_true-peptic_ulcer-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-peptic_ulcer-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-peptic_ulcer-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-peptic_ulcer-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-main-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_covid_hospitalised-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_covid_history-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_sex_female-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_sex_male-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_age_18_39-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_age_40_59-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_age_60_79-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_age_80_110-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-peptic_ulcer
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-peptic_ulcer-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-peptic_ulcer-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-peptic_ulcer-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-peptic_ulcer-cov_bin_overall_gi_and_symptoms
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
