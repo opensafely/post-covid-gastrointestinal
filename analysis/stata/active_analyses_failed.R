@@ -3,7 +3,7 @@
 
 library(dplyr)
 
-model_output_file <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/model_output.csv"
+model_output_file <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/model_output.csv"
 active_analyses <- readRDS("lib/active_analyses.rds")
 all_models <- read.csv(model_output_file)
 
