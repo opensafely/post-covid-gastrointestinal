@@ -124,21 +124,47 @@ actions:
         cohort: output/input_vax.rds
         venn: output/venn_vax.rds
 
-  count_study_def_variables:
-    run: r:latest analysis/descriptives/intitial_input_counts.R
+  ## Count outcome variables - prevax 
+
+  count_study_def_variables_prevax:
+    run: r:latest analysis/descriptives/initial_input_counts.R prevax
     needs:
     - generate_study_population_prevax
-    - generate_study_population_unvax
-    - generate_study_population_vax
     - preprocess_data_prevax
+    outputs:
+      moderately_sensitive:
+        counts_prepro: output/not-for-review/study_counts_prepro_prevax.txt
+        counts_sd: output/not-for-review/study_counts_sd_prevax.txt
+        summary_prepro: output/not-for-review/describe_prepro_prevax.txt
+        summary_sd: output/not-for-review/describe_sd_prevax.txt
+
+  ## Count outcome variables - unvax 
+
+  count_study_def_variables_unvax:
+    run: r:latest analysis/descriptives/initial_input_counts.R unvax
+    needs:
+    - generate_study_population_unvax
     - preprocess_data_unvax
+    outputs:
+      moderately_sensitive:
+        counts_prepro: output/not-for-review/study_counts_prepro_unvax.txt
+        counts_sd: output/not-for-review/study_counts_sd_unvax.txt
+        summary_prepro: output/not-for-review/describe_prepro_unvax.txt
+        summary_sd: output/not-for-review/describe_sd_unvax.txt
+
+  ## Count outcome variables - vax 
+
+  count_study_def_variables_vax:
+    run: r:latest analysis/descriptives/initial_input_counts.R vax
+    needs:
+    - generate_study_population_vax
     - preprocess_data_vax
     outputs:
       moderately_sensitive:
-        counts: output/study_counts_prepro.txt
-        vax_summary: output/describe_prepro_vax.txt
-        prevax_summary: output/describe_prepro_prevax.txt
-        unvax_summary: output/describe_prepro_unvax.txt
+        counts_prepro: output/not-for-review/study_counts_prepro_vax.txt
+        counts_sd: output/not-for-review/study_counts_sd_vax.txt
+        summary_prepro: output/not-for-review/describe_prepro_vax.txt
+        summary_sd: output/not-for-review/describe_sd_vax.txt
 
   ## Stage 1 - data cleaning - prevax 
 
@@ -4563,6 +4589,90 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-dyspepsia.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    needs:
+    - stage1_data_cleaning_prevax
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    needs:
+    - stage1_data_cleaning_prevax
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-ibs:
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-ibs
+    needs:
+    - stage1_data_cleaning_prevax
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
+    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    needs:
+    - stage1_data_cleaning_prevax
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
@@ -14247,101 +14357,65 @@ actions:
 
   ## Run failed models 
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-ibs:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-ibs
-    needs:
-    - stage1_data_cleaning_prevax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
-
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs:
-    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-ibs:
+    run: "cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
       --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
       --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
       --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv"
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
     outputs:
       moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
-      highly_sensitive:
-        analysis_ready: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.csv.gz
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-ibs.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-ibs.csv
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gallstones_disease
-    needs:
-    - stage1_data_cleaning_prevax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
-
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
-    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
+    run: "cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
       --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
       --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
       --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv"
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     outputs:
       moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
-      highly_sensitive:
-        analysis_ready: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv.gz
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
-    needs:
-    - stage1_data_cleaning_prevax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.rds
-
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
-    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.rds
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
+    run: "cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
       --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
       --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
       --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv"
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     outputs:
       moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
-      highly_sensitive:
-        analysis_ready: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv.gz
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
-    needs:
-    - stage1_data_cleaning_prevax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.rds
-
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
-    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.rds
+  cox_ipw-sample-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
+    run: "cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
       --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
       --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
       --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
+      \n--df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv"
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
     outputs:
       moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
-      highly_sensitive:
-        analysis_ready: output/analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv.gz
+        model_output: output/model_output-sample-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
+        sampled_data: output/args-model_output-sample-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
 
   ## Table 2 - prevax 
 
@@ -15133,10 +15207,10 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-ibs
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-ibs
     - cox_ipw-cohort_prevax-sub_ethnicity_other-ibs
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-ibs
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-ibs
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-ibs
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-ibs
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-ibs-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-ibs-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-ibs-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-ibs-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-ibs
     - cox_ipw-cohort_vax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-ibs
@@ -15152,10 +15226,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-ibs
     - cox_ipw-cohort_vax-sub_ethnicity_asian-ibs
     - cox_ipw-cohort_vax-sub_ethnicity_other-ibs
-    - cox_ipw-cohort_vax-sub_prioroperations_true-ibs
-    - cox_ipw-cohort_vax-sub_prioroperations_false-ibs
-    - cox_ipw-cohort_vax-sub_priorhistory_true-ibs
-    - cox_ipw-cohort_vax-sub_priorhistory_false-ibs
+    - cox_ipw-cohort_vax-sub_prioroperations_true-ibs-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-ibs-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-ibs-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-ibs-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-main-ibs
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-ibs
@@ -15171,10 +15245,10 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_mixed-ibs
     - cox_ipw-cohort_unvax-sub_ethnicity_asian-ibs
     - cox_ipw-cohort_unvax-sub_ethnicity_other-ibs
-    - cox_ipw-cohort_unvax-sub_prioroperations_true-ibs
-    - cox_ipw-cohort_unvax-sub_prioroperations_false-ibs
-    - cox_ipw-cohort_unvax-sub_priorhistory_true-ibs
-    - cox_ipw-cohort_unvax-sub_priorhistory_false-ibs
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-ibs-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-ibs-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-ibs-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-ibs-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
@@ -15189,9 +15263,9 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-gastro_oesophageal_reflux_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
@@ -15207,10 +15281,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_vax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_vax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_vax-sub_prioroperations_true-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_vax-sub_prioroperations_false-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_vax-sub_priorhistory_true-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_vax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_vax-sub_prioroperations_true-gastro_oesophageal_reflux_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-gastro_oesophageal_reflux_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-main-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
@@ -15226,10 +15300,10 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_mixed-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_unvax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
     - cox_ipw-cohort_unvax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_prioroperations_true-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_prioroperations_false-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_priorhistory_true-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-gastro_oesophageal_reflux_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-gastro_oesophageal_reflux_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-appendicitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-appendicitis
@@ -15244,10 +15318,10 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-appendicitis
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-appendicitis
     - cox_ipw-cohort_prevax-sub_ethnicity_other-appendicitis
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-appendicitis
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-appendicitis
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-appendicitis
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-appendicitis
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-appendicitis-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-appendicitis-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-appendicitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-appendicitis-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-appendicitis
     - cox_ipw-cohort_vax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-appendicitis
@@ -15263,10 +15337,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-appendicitis
     - cox_ipw-cohort_vax-sub_ethnicity_asian-appendicitis
     - cox_ipw-cohort_vax-sub_ethnicity_other-appendicitis
-    - cox_ipw-cohort_vax-sub_prioroperations_true-appendicitis
-    - cox_ipw-cohort_vax-sub_prioroperations_false-appendicitis
-    - cox_ipw-cohort_vax-sub_priorhistory_true-appendicitis
-    - cox_ipw-cohort_vax-sub_priorhistory_false-appendicitis
+    - cox_ipw-cohort_vax-sub_prioroperations_true-appendicitis-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-appendicitis-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-appendicitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-appendicitis-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-main-appendicitis
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-appendicitis
@@ -15282,10 +15356,10 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_mixed-appendicitis
     - cox_ipw-cohort_unvax-sub_ethnicity_asian-appendicitis
     - cox_ipw-cohort_unvax-sub_ethnicity_other-appendicitis
-    - cox_ipw-cohort_unvax-sub_prioroperations_true-appendicitis
-    - cox_ipw-cohort_unvax-sub_prioroperations_false-appendicitis
-    - cox_ipw-cohort_unvax-sub_priorhistory_true-appendicitis
-    - cox_ipw-cohort_unvax-sub_priorhistory_false-appendicitis
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-appendicitis-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-appendicitis-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-appendicitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-appendicitis-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-gallstones_disease
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
@@ -15300,10 +15374,10 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-gallstones_disease
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-gallstones_disease
     - cox_ipw-cohort_prevax-sub_ethnicity_other-gallstones_disease
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-gallstones_disease
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-gallstones_disease
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-gallstones_disease
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-gallstones_disease
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-gallstones_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-gallstones_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-gallstones_disease-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-gallstones_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-gallstones_disease
     - cox_ipw-cohort_vax-sub_covid_hospitalised-gallstones_disease
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-gallstones_disease
@@ -15319,10 +15393,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-gallstones_disease
     - cox_ipw-cohort_vax-sub_ethnicity_asian-gallstones_disease
     - cox_ipw-cohort_vax-sub_ethnicity_other-gallstones_disease
-    - cox_ipw-cohort_vax-sub_prioroperations_true-gallstones_disease
-    - cox_ipw-cohort_vax-sub_prioroperations_false-gallstones_disease
-    - cox_ipw-cohort_vax-sub_priorhistory_true-gallstones_disease
-    - cox_ipw-cohort_vax-sub_priorhistory_false-gallstones_disease
+    - cox_ipw-cohort_vax-sub_prioroperations_true-gallstones_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-gallstones_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-gallstones_disease-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-gallstones_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-main-gallstones_disease
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-gallstones_disease
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
@@ -15338,10 +15412,10 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_mixed-gallstones_disease
     - cox_ipw-cohort_unvax-sub_ethnicity_asian-gallstones_disease
     - cox_ipw-cohort_unvax-sub_ethnicity_other-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_prioroperations_true-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_prioroperations_false-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_priorhistory_true-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_priorhistory_false-gallstones_disease
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-gallstones_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-gallstones_disease-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-gallstones_disease-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-gallstones_disease-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
@@ -15356,10 +15430,10 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
     - cox_ipw-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-lower_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-lower_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
@@ -15375,10 +15449,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-lower_gi_bleeding
     - cox_ipw-cohort_vax-sub_ethnicity_asian-lower_gi_bleeding
     - cox_ipw-cohort_vax-sub_ethnicity_other-lower_gi_bleeding
-    - cox_ipw-cohort_vax-sub_prioroperations_true-lower_gi_bleeding
-    - cox_ipw-cohort_vax-sub_prioroperations_false-lower_gi_bleeding
-    - cox_ipw-cohort_vax-sub_priorhistory_true-lower_gi_bleeding
-    - cox_ipw-cohort_vax-sub_priorhistory_false-lower_gi_bleeding
+    - cox_ipw-cohort_vax-sub_prioroperations_true-lower_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-lower_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-lower_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-lower_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-main-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
@@ -15393,10 +15467,10 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_mixed-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_asian-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_other-lower_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_prioroperations_true-lower_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_prioroperations_false-lower_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_priorhistory_true-lower_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_priorhistory_false-lower_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-lower_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-lower_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-lower_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-lower_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-upper_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
@@ -15411,10 +15485,10 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-upper_gi_bleeding
     - cox_ipw-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-upper_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-upper_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-upper_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
@@ -15430,10 +15504,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-upper_gi_bleeding
     - cox_ipw-cohort_vax-sub_ethnicity_asian-upper_gi_bleeding
     - cox_ipw-cohort_vax-sub_ethnicity_other-upper_gi_bleeding
-    - cox_ipw-cohort_vax-sub_prioroperations_true-upper_gi_bleeding
-    - cox_ipw-cohort_vax-sub_prioroperations_false-upper_gi_bleeding
-    - cox_ipw-cohort_vax-sub_priorhistory_true-upper_gi_bleeding
-    - cox_ipw-cohort_vax-sub_priorhistory_false-upper_gi_bleeding
+    - cox_ipw-cohort_vax-sub_prioroperations_true-upper_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-upper_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-upper_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
@@ -15448,10 +15522,10 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-nonvariceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
@@ -15467,10 +15541,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-nonvariceal_gi_bleeding
     - cox_ipw-cohort_vax-sub_ethnicity_asian-nonvariceal_gi_bleeding
     - cox_ipw-cohort_vax-sub_ethnicity_other-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_vax-sub_prioroperations_true-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_vax-sub_prioroperations_false-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_vax-sub_priorhistory_true-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_vax-sub_priorhistory_false-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_vax-sub_prioroperations_true-nonvariceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-nonvariceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-main-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
@@ -15486,10 +15560,10 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_mixed-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_asian-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_other-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_prioroperations_true-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_prioroperations_false-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_priorhistory_true-nonvariceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_priorhistory_false-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-nonvariceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-nonvariceal_gi_bleeding-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
@@ -15504,10 +15578,10 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_ethnicity_other-acute_pancreatitis
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-acute_pancreatitis
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-acute_pancreatitis
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-acute_pancreatitis
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-acute_pancreatitis
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-acute_pancreatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-acute_pancreatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_vax-main-acute_pancreatitis
     - cox_ipw-cohort_vax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
@@ -15523,10 +15597,10 @@ actions:
     - cox_ipw-cohort_vax-sub_ethnicity_mixed-acute_pancreatitis
     - cox_ipw-cohort_vax-sub_ethnicity_asian-acute_pancreatitis
     - cox_ipw-cohort_vax-sub_ethnicity_other-acute_pancreatitis
-    - cox_ipw-cohort_vax-sub_prioroperations_true-acute_pancreatitis
-    - cox_ipw-cohort_vax-sub_prioroperations_false-acute_pancreatitis
-    - cox_ipw-cohort_vax-sub_priorhistory_true-acute_pancreatitis
-    - cox_ipw-cohort_vax-sub_priorhistory_false-acute_pancreatitis
+    - cox_ipw-cohort_vax-sub_prioroperations_true-acute_pancreatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_prioroperations_false-acute_pancreatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_vax-sub_priorhistory_true-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_vax-sub_priorhistory_false-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_unvax-main-acute_pancreatitis
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
@@ -15542,10 +15616,10 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_mixed-acute_pancreatitis
     - cox_ipw-cohort_unvax-sub_ethnicity_asian-acute_pancreatitis
     - cox_ipw-cohort_unvax-sub_ethnicity_other-acute_pancreatitis
-    - cox_ipw-cohort_unvax-sub_prioroperations_true-acute_pancreatitis
-    - cox_ipw-cohort_unvax-sub_prioroperations_false-acute_pancreatitis
-    - cox_ipw-cohort_unvax-sub_priorhistory_true-acute_pancreatitis
-    - cox_ipw-cohort_unvax-sub_priorhistory_false-acute_pancreatitis
+    - cox_ipw-cohort_unvax-sub_prioroperations_true-acute_pancreatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_prioroperations_false-acute_pancreatitis-cov_bin_gi_operations
+    - cox_ipw-cohort_unvax-sub_priorhistory_true-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_unvax-sub_priorhistory_false-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
     - cox_ipw-cohort_prevax-main-peptic_ulcer
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
     - cox_ipw-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
@@ -15560,53 +15634,37 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-peptic_ulcer
     - cox_ipw-cohort_prevax-sub_ethnicity_asian-peptic_ulcer
     - cox_ipw-cohort_prevax-sub_ethnicity_other-peptic_ulcer
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-peptic_ulcer
-    - cox_ipw-cohort_prevax-sub_prioroperations_false-peptic_ulcer
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-peptic_ulcer
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-peptic_ulcer
+    - cox_ipw-cohort_prevax-sub_prioroperations_true-peptic_ulcer-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_prioroperations_false-peptic_ulcer-cov_bin_gi_operations
+    - cox_ipw-cohort_prevax-sub_priorhistory_true-peptic_ulcer-cov_bin_overall_gi_and_symptoms
+    - cox_ipw-cohort_prevax-sub_priorhistory_false-peptic_ulcer-cov_bin_overall_gi_and_symptoms
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
 
-  ## Stata models 
+  ## ------------------GI Bleeds Actions-------------------- 
+  ## Stage 1 GI bleeds 
 
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-ibs:
-    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-ibs.csv.gz
-      FASLE TRUE
+  stage1_data_cleaning_gi_bleeds:
+    run: r:latest analysis/preprocess/Stage1_data_cleaning_gi_bleeds.R vax
     needs:
-    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
+    - vax_eligibility_inputs
+    - preprocess_data_vax
     outputs:
       moderately_sensitive:
-        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-ibs_time_periods_stata_median_fup.csv
-        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-ibs_time_periods_cox_model.txt
+        consort: output/consort_vax_gi_bleeds.csv
+        consort_rounded: output/consort_vax_gi_bleeds_rounded.csv
+      highly_sensitive:
+        cohort: output/input_vax_stage1_gi_bleeds.rds
 
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-gallstones_disease:
-    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv.gz
-      FASLE TRUE
+  ## Table 1 GI bleeds 
+
+  table1_gi_bleeds:
+    run: r:latest analysis/descriptives/table1_gi_bleeds.R vax
     needs:
-    - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    - stage1_data_cleaning_gi_bleeds
     outputs:
       moderately_sensitive:
-        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gallstones_disease_time_periods_stata_median_fup.csv
-        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gallstones_disease_time_periods_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease:
-    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv.gz
-      FASLE TRUE
-    needs:
-    - make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease_time_periods_stata_median_fup.csv
-        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease_time_periods_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
-    run: stata-mp:latest analysis/cox_model.do analysis_ready-model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv.gz
-      FASLE TRUE
-    needs:
-    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_time_periods_stata_median_fup.csv
-        stata_output: output/input_sampled_data_cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_time_periods_cox_model.txt
+        table1: output/table1_gi_bleeds_vax.csv
+        table1_rounded: output/table1_gi_bleeds_vax_rounded.csv
 
