@@ -182,7 +182,7 @@
         
         action(
           name = glue("cox_ipw-{name}"),
-          run = glue("cox-ipw:v0.0.20 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
+          run = glue("cox-ipw:v0.0.25 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
           needs = list(glue("make_model_input-{name}")),
           moderately_sensitive = list(
             model_output = glue("output/model_output-{name}.csv"))
@@ -208,13 +208,13 @@
         ),
         action(
           name = glue("cox_ipw-{name}"),
-          run = glue("cox-ipw:v0.0.25 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --save_analysis_ready=TRUE --run_analysis=TRUE --df_output=model_output-{name}.csv"),
+          run = glue("cox-ipw:v0.0.25 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --save_analysis_ready=TRUE --run_analysis=FALSE --df_output=model_output-{name}.csv"),
           needs = list(glue("make_model_input-{name}")),
           moderately_sensitive = list(
           model_output = glue("output/model_output-{name}.csv")
             ),
           highly_sensitive = list(
-            analysis_ready = glue("output/analysis_ready-model_input-{name}.csv.gz")
+            analysis_ready = glue("output/analysis_ready-{name}.csv")
           )
         )
     )
@@ -223,11 +223,11 @@
     stata_actions <- function(name){
       action(
         name = glue("stata_cox_model_{name}"),
-        run = glue("stata-mp:latest analysis/cox_model.do analysis_ready-model_input-{name}.csv.gz FASLE TRUE"),
+        run = glue("stata-mp:latest analysis/stata/cox_model.do analysis_ready-{name} FASLE TRUE"),
         needs = list(glue("make_model_input-{name}")),
         moderately_sensitive = list(
-          medianfup = glue("output/input_sampled_data_{name}_time_periods_stata_median_fup.csv"),
-          stata_output = glue("output/input_sampled_data_{name}_time_periods_cox_model.txt")
+          medianfup = glue("output/analysis_ready-{name}_time_periods_stata_median_fup.csv"),
+          stata_output = glue("output/analysis_ready-{name}_time_periods_cox_model.txt")
         )
       )
     
