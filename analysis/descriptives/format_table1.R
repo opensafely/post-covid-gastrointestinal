@@ -13,7 +13,9 @@ library(officer)
 library(scales)
 
 #Directories
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/models"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table1/11-05-2023/"
+
+
 
 ###############################################
 # 1. CLEAN TABLE 1 FUNCTION
@@ -57,7 +59,7 @@ table1_format <- table1 %>%
   add_header_row(values = c("", "", "Pre-vaccination cohort (Jan 1 2020 to Dec 14 2021)", "", "Vaccinated cohort (June 1 to Dec 14 2021)", "", "Unvaccinated cohort (June 1 to Dec 14 2021)", "")) %>%
   set_caption(as_paragraph(as_chunk("Table 1: Patient characteristics in the pre-vaccination, vaccinated and unvaccinated cohorts.", props = fp_text_default(bold = TRUE))),
               align_with_table = F) %>%
-  set_header_labels("Subcharacteristic" = "Sub characteristic", 'N (%)...3' = 'N (%)', 'COVID-19 diagnoses...4' = 'COVID-19 diagnoses', 'N (%)...5' = 'N (%)', 'COVID-19 diagnoses...6' = 'COVID-19 diagnoses', 
+  set_header_labels("Subcharacteristic" = "", 'N (%)...3' = 'N (%)', 'COVID-19 diagnoses...4' = 'COVID-19 diagnoses', 'N (%)...5' = 'N (%)', 'COVID-19 diagnoses...6' = 'COVID-19 diagnoses', 
                     'N (%)...7' = 'N (%)', 'COVID-19 diagnoses...8' = 'COVID-19 diagnoses') %>%
   bold(j = 1, bold = TRUE, part = "body") %>%
   align(j = c(3:8), align = "right", part = "body") %>%

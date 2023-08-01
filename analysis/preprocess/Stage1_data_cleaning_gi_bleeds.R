@@ -27,7 +27,7 @@ print('Specify command arguments')
 args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  cohort <- "unvax"
+  cohort <- "vax"
 } else {
   cohort <- args[[1]]
 }
@@ -50,13 +50,6 @@ print('Load cohort data')
 
 input <- read_rds(file.path("output", paste0("input_",cohort,".rds")))
 print(paste0(cohort,  " cohort: ", nrow(input), " rows in the input file"))
-
-# Debug type issue
-print("outcome peptic ulcer type and summary")
-print (typeof(input$out_date_peptic_ulcer))
-print(summary(input%>%select(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding)))
-print(str(input%>%select(c(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding))))
-
 
 # Rename date variables --------------------------------------------------------
 print('Rename date variables')
@@ -331,68 +324,29 @@ if (cohort == "vax") {
   consort[nrow(consort)+1,] <- c("Inclusion criteria: Index date is before cohort end date",
                                  nrow(input))
   
-} else if (cohort %in% c("unvax")){
-  
-  print('Inclusion criteria: Does not have a record of one or more vaccination prior index date')
-  
-  # i.e. Have a record of a first vaccination prior to index date
-  # (no more vax 2 and 3 variables available in this dataset)
-  # a.Determine the vaccination status on index start date
-    print(summary(input$cov_num_age))
-  input$prior_vax1 <- ifelse(input$vax_date_covid_1 <= input$index_date, 1,0)
-  input$prior_vax1[is.na(input$prior_vax1)] <- 0
-  input <- subset(input, input$prior_vax1 == 0) # Exclude people with prior vaccination
-  consort[nrow(consort)+1,] <- c("Inclusion criteria: Does not have a record of one or more vaccination prior index date",
-                                 nrow(input))
-print("age check\n")                                
-print(summary(input$cov_num_age))
- print(sum(input$cov_num_age > 59))
-
-# print('Inclusion criteria: Not missing JCVI group')
-  
-  jcvi_cat <- c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
-
-input <- input %>%
-  dplyr::filter(vax_cat_jcvi_group %in% jcvi_cat)
-    consort[nrow(consort)+1,] <- c("Inclusion criteria: Not missing JCVI group",
-                                 nrow(input))
-  print(summary(input$cov_num_age))
-  print(sum(input$cov_num_age > 59))
-  print('Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)')
-  
-  input <- input %>% filter (!is.na(index_date) & index_date <= end_date_exposure & index_date >= start_date_delta)
-  consort[nrow(consort)+1,] <- c("Inclusion criteria: Index date is not before cohort end date - will remove anyone whose eligibility date + 84 days is after study end date (only those with unknown JCVI group)",
-                                 nrow(input))
- 
- print("age check")                                
- print(summary(input$cov_num_age))
- print(sum(input$cov_num_age > 59))
- print("outcome peptic ulcer type and summary")
-print (typeof(input$out_date_peptic_ulcer))
-print(summary(input%>%select(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding)))
-print(str(input%>%select(c(out_date_peptic_ulcer,out_date_upper_gi_bleeding,out_date_variceal_gi_bleeding))))
-}
+} 
 
 #Apply outcome specific exclusions criteria
 #-------------------------------------------------#
 
-#Remove chronic people with Coeliac, IBD and Cirrhosis
+#Keep chronic people with Coeliac, IBD and Cirrhosis
 input <- input %>% 
-filter_at(vars(out_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), all_vars(.== FALSE))
+filter_at(vars(out_bin_crohn, out_bin_cirrhosis,out_bin_coeliac_disease), any_vars(.== TRUE))
 
-consort[nrow(consort)+1,] <- c("Exclusion criteria: Remove those with prior chronic GI disease (IBD, Crhon and Coeliac)",
+consort[nrow(consort)+1,] <- c("Inclusion criteria: Include people with chronic GI disease (IBD, Crhon and Coeliac)",
                               nrow(input))
     
-#for appendicitis, exclude those with prior record of appendicitis
-input <- input %>%
-mutate(out_date_appendicitis = case_when(
-                                      (!is.na(out_date_appendicitis) & cov_bin_appendicitis==FALSE) ~ out_date_appendicitis,
-                                       TRUE ~ NA_real_))
-    
-consort[nrow(consort)+1,] <- c( "Exclusion Criteria: Remove those with previous appendicitis from appendicitis events",nrow(input))
 
-    
-# Save consort data ------------------------------------------------------------
+#Remove outcomes which aren't analysed
+input <- input %>% 
+  select(-c("out_date_ibs", "out_date_diarrhoea","out_date_nausea", "out_date_vomiting", "out_date_abdominal_paindiscomfort", "out_date_intestinal_obstruction","out_date_bowel_ischaemia",                
+            "out_date_belching", "out_date_abdominal_distension","out_date_bloody_stools","out_date_appendicitis","out_date_gallstones_disease", "out_date_nonalcoholic_steatohepatitis",
+            "out_date_acute_pancreatitis","out_date_gastro_oesophageal_reflux_disease","out_date_dyspepsia", "out_date_peptic_ulcer"))
+
+
+# Save consort data
+#------------------------------------------------------------#
+
 print('Save consort data')
 
 consort$N <- as.numeric(consort$N)
@@ -400,7 +354,7 @@ consort$N <- as.numeric(consort$N)
 consort$removed <- dplyr::lag(consort$N, default = dplyr::first(consort$N)) - consort$N
 
 write.csv(consort, 
-          file = paste0("output/consort_",cohort, ".csv"), 
+          file = paste0("output/consort_",cohort, "_gi_bleeds.csv"), 
           row.names=F)
 
 # Perform redaction ------------------------------------------------------------
@@ -414,7 +368,7 @@ consort$removed <- dplyr::lag(consort$N, default = dplyr::first(consort$N)) - co
 print('Save rounded consort data ')
 
 write.csv(consort, 
-          file = paste0("output/consort_",cohort, "_rounded.csv"), 
+          file = paste0("output/consort_",cohort, "_gi_bleeds_rounded.csv"), 
           row.names=F)
 
 # Save stage 1 dataset ---------------------------------------------------------
@@ -430,5 +384,5 @@ input <- input[,c("patient_id","death_date","index_date",
                   colnames(input)[grepl("vax_cat_",colnames(input))])]
 
 saveRDS(input, 
-        file = paste0("output/input_",cohort,"_stage1.rds"), 
+        file = paste0("output/input_",cohort,"_stage1_gi_bleeds.rds"), 
         compress = TRUE)

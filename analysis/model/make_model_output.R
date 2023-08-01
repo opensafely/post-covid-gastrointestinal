@@ -3,6 +3,7 @@ print('Load packages')
 
 library(magrittr)
 library(dplyr)
+library(stringr)
 
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
@@ -18,10 +19,12 @@ files <- list.files("output", pattern = "model_output-")
 print('Combine model outputs')
 
 df <- NULL
+symptoms<- c("nausea", "vomiting", "bloody_stools", "abdominal_paindiscomfort", "abdominal_distension", "diarrhoea")
 
 for (i in files) {
   
-  ## Load model output
+  ## Load model output if it is not a symptom
+  if (!any(str_detect(i, symptoms))) {
   
   tmp <- readr::read_csv(paste0("output/",i))
   
@@ -64,7 +67,7 @@ for (i in files) {
   
   df <- plyr::rbind.fill(df,tmp)
 }
-
+}
 
 # Add details from active analyses ---------------------------------------------
 print('Add details from active analyses')
