@@ -14309,7 +14309,7 @@ actions:
       --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
       --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
       --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=FALSE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+      --run_analysis=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     outputs:
@@ -14333,7 +14333,7 @@ actions:
       --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
       --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
       --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=FALSE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
+      --run_analysis=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     outputs:
@@ -14357,7 +14357,7 @@ actions:
       --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
       --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
       --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=FALSE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv
+      --run_analysis=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     outputs:
