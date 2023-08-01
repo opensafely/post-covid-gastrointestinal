@@ -3,14 +3,14 @@
 
 library(dplyr)
 
-model_output_file <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/model_output.csv"
+model_output_file <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/model_output.csv"
 active_analyses <- readRDS("lib/active_analyses.rds")
 all_models <- read.csv(model_output_file)
 
 # failed models are those with hr>100 or hr is na
 
 failed_models <- all_models %>% 
-                            filter(hr>100 | is.na(hr)) %>% 
+                            filter(as.numeric(hr)>100 | is.na(hr)) %>% 
                             filter(grepl("days\\d+", term))
 
 failed_models_reduced <- failed_models %>% 
