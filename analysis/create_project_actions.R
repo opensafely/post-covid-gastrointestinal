@@ -249,7 +249,7 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
       action(
         name = glue("stata_cox_model_{name}"),
         run = glue("stata-mp:latest analysis/stata/cox_model.do ar-{name} FASLE TRUE"),
-        needs = list(glue("cox-ipw-{name}")),
+        needs = list(glue("cox_ipw-{name}")),
         moderately_sensitive = list(
           medianfup = glue("output/ar-{name}_time_periods_stata_median_fup.csv"),
           stata_output = glue("output/ar-{name}_time_periods_cox_model.txt")

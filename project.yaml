@@ -15762,7 +15762,7 @@ actions:
     run: stata-mp:latest analysis/stata/cox_model.do ar-cohort_prevax-sub_covid_hospitalised-gallstones_disease
       FASLE TRUE
     needs:
-    - cox-ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     outputs:
       moderately_sensitive:
         medianfup: output/ar-cohort_prevax-sub_covid_hospitalised-gallstones_disease_time_periods_stata_median_fup.csv
@@ -15772,7 +15772,7 @@ actions:
     run: stata-mp:latest analysis/stata/cox_model.do ar-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
       FASLE TRUE
     needs:
-    - cox-ipw-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     outputs:
       moderately_sensitive:
         medianfup: output/ar-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_time_periods_stata_median_fup.csv
@@ -15782,7 +15782,7 @@ actions:
     run: stata-mp:latest analysis/stata/cox_model.do ar-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
       FASLE TRUE
     needs:
-    - cox-ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     outputs:
       moderately_sensitive:
         medianfup: output/ar-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_time_periods_stata_median_fup.csv
