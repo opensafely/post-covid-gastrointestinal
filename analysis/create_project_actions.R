@@ -245,7 +245,7 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
     )
     }
     # Create function to run stata models-------------------------
-    stata_actions <- function(name){
+   stata_actions <- function(name){
       action(
         name = glue("stata_cox_model_{name}"),
         run = glue("stata-mp:latest analysis/stata/cox_model.do ar-{name} FASLE TRUE"),
@@ -414,25 +414,25 @@ actions_list <- splice(
   comment("Run models"),
   
   splice(
-    unlist(lapply(1:nrow(active_analyses), 
-                  function(x) apply_model_function(name = active_analyses$name[x],
-                                                   cohort = active_analyses$cohort[x],
-                                                   analysis = active_analyses$analysis[x],
-                                                   ipw = active_analyses$ipw[x],
-                                                   strata = active_analyses$strata[x],
-                                                   covariate_sex = active_analyses$covariate_sex[x],
-                                                   covariate_age = active_analyses$covariate_age[x],
-                                                   covariate_other = active_analyses$covariate_other[x],
-                                                   cox_start = active_analyses$cox_start[x],
-                                                   cox_stop = active_analyses$cox_stop[x],
-                                                   study_start = active_analyses$study_start[x],
-                                                   study_stop = active_analyses$study_stop[x],
-                                                   cut_points = active_analyses$cut_points[x],
-                                                   controls_per_case = active_analyses$controls_per_case[x],
-                                                   total_event_threshold = active_analyses$total_event_threshold[x],
-                                                   episode_event_threshold = active_analyses$episode_event_threshold[x],
-                                                   covariate_threshold = active_analyses$covariate_threshold[x],
-                                                   age_spline = active_analyses$age_spline[x])), recursive = FALSE
+    unlist(lapply(1:nrow(active_analyses_models), 
+                  function(x) apply_model_function(name = active_analyses_models$name[x],
+                                                   cohort = active_analyses_models$cohort[x],
+                                                   analysis = active_analyses_models$analysis[x],
+                                                   ipw = active_analyses_models$ipw[x],
+                                                   strata = active_analyses_models$strata[x],
+                                                   covariate_sex = active_analyses_models$covariate_sex[x],
+                                                   covariate_age = active_analyses_models$covariate_age[x],
+                                                   covariate_other = active_analyses_models$covariate_other[x],
+                                                   cox_start = active_analyses_models$cox_start[x],
+                                                   cox_stop = active_analyses_models$cox_stop[x],
+                                                   study_start = active_analyses_models$study_start[x],
+                                                   study_stop = active_analyses_models$study_stop[x],
+                                                   cut_points = active_analyses_models$cut_points[x],
+                                                   controls_per_case = active_analyses_models$controls_per_case[x],
+                                                   total_event_threshold = active_analyses_models$total_event_threshold[x],
+                                                   episode_event_threshold = active_analyses_models$episode_event_threshold[x],
+                                                   covariate_threshold = active_analyses_models$covariate_threshold[x],
+                                                   age_spline = active_analyses_models$age_spline[x])), recursive = FALSE
     )
   ),
  
