@@ -24,10 +24,9 @@ adopath + "$projectdir/analysis/stata/extra_ados"
 
 * Import and describe data
 
-import delim using "./output/`cpf'.csv", clear
+import delim using "./output/`cpf'.csv.gz", clear
 
 
-import delim using "./ar-cohort_prevax-sub_covid_nonhospitalised-ibs.csv", clear */
 
 *drop covars that are specific for some outcomes 
 /* drop cov_bin_hypertriglyceridemia cov_bin_hypercalcemia cov_num_systolic_bp */
