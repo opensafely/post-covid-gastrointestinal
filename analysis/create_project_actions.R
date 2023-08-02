@@ -239,7 +239,7 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
           model_output = glue("output/model_output-{name}.csv")
             ),
           highly_sensitive = list(
-            analysis_ready = glue("output/ready-{name}.csv")
+            analysis_ready = glue("output/ready-{name}.csv.gz")
           )
         )
     )
