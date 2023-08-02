@@ -14316,7 +14316,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
       highly_sensitive:
-        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
+        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv.gz
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
@@ -14340,7 +14340,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
       highly_sensitive:
-        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
+        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv.gz
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
@@ -14364,7 +14364,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv
       highly_sensitive:
-        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv
+        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv.gz
 
   ## Table 2 - prevax 
 
