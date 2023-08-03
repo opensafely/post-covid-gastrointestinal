@@ -291,7 +291,7 @@ est store min, title(Age_Sex)
 stcox days* i.sex age_spline1 age_spline2 i.cov_cat_ethnicity i.cov_cat_deprivation i.cov_cat_smoking_status i.cov_bin_obesity cov_num_consulation_rate  cov_bin_*, strata(region) vce(r)
 est store max, title(Maximal)
 
-estout * using "output/`cpf'_cox_model_day0`day0'_extf`extf'.txt", cells("b se t ci_l ci_u p") stats(risk N_fail N_sub N N_clust) replace 
+estout * using "output/`cpf'_cox_model.txt", cells("b se t ci_l ci_u p") stats(risk N_fail N_sub N N_clust) replace 
 
 * Calculate median follow-up among individuals with the outcome
 
@@ -359,4 +359,4 @@ egen events = count(patient_id), by(term)
 keep term median_tte events
 duplicates drop
 
-export delimited using "output/`cpf'_stata_median_fup_day0`day0'_extf`extf'", replace
+export delimited using "output/`cpf'_median_fup.csv", replace

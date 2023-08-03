@@ -15765,8 +15765,8 @@ actions:
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     outputs:
       moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_time_periods_stata_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_time_periods_cox_model.txt
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_cox_model.txt
 
   stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
     run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
@@ -15775,8 +15775,8 @@ actions:
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     outputs:
       moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_time_periods_stata_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_time_periods_cox_model.txt
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_cox_model.txt
 
   stata_cox_model_cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
     run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
@@ -15785,8 +15785,8 @@ actions:
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     outputs:
       moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_time_periods_stata_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_time_periods_cox_model.txt
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_cox_model.txt
 
   ## ------------------GI Bleeds Actions-------------------- 
   ## Stage 1 GI bleeds 
