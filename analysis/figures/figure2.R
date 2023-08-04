@@ -4,23 +4,30 @@ library(tidyverse)
 library(ggplot2)
 
 # Define results directory
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/"
-output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/Figures/"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/"
+output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/figures/"
 #################
 #1- Get data
 #################
 
-disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
+# disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
 estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
   # Extract outcomes to plot
-  filter(!outcome %in% disregard) %>%
+  # filter(!outcome %in% disregard) %>%
   filter(model=="mdl_max_adj")%>%
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
   # Modify outcome names
   mutate(outcome = str_remove(outcome, "out_date_")) %>%
-  mutate(outcome = str_to_title(outcome))
+  mutate(outcome = str_to_title(outcome))%>%
+  filter(!is.na(hr) & hr != "" & hr!="[redact]" )%>%
+  filter(conf_high!="Inf")%>%
+  # remove non converged models (to be filled with stata)
+  filter(!outcome%in%c("Upper_gi_bleeding","Gallstones_disease","Nonalcoholic_steatohepatitis"))
 
+# Set numeric cols to numeric
+numeric_cols <- c("lnhr", "se_lnhr", "hr", "conf_low", "conf_high", "N_total", "N_exposed", "N_events", "person_time_total", "outcome_time_median")
+estimates[numeric_cols] <- lapply(estimates[numeric_cols], as.numeric)
 
 ##################
 #2-Format
@@ -54,12 +61,16 @@ estimates_sub$analysis <- factor(estimates_sub$analysis,levels = c("main", "sub_
 levels(estimates_sub$analysis) <- list("All COVID-19"="main", "Hospitalised COVID-19"="sub_covid_hospitalised","Non-hospitalised COVID-19"="sub_covid_nonhospitalised")
 estimates_sub$grouping_name <- paste0(estimates_sub$analysis,"-", estimates_sub$outcome)
 
+
+outcomes_order <- c("Nonvariceal_gi_bleeding", "Lower_gi_bleeding", "Variceal_gi_bleeding",
+                    "Gastro_oesophageal_reflux_disease", "Ibs", "Acute_pancreatitis",
+                    "Peptic_ulcer", "Appendicitis")
 outcomes <- unique(estimates_sub$outcome)
 factor_levels <- c()
 prefixes <- c("All COVID-19-", "Hospitalised COVID-19-", "Non-hospitalised COVID-19-")
-for (i in 1:length(outcomes)) {
+for (i in 1:length(outcomes_order)) {
   for (j in 1:length(prefixes)) {
-    factor_levels <- c(factor_levels, paste0(prefixes[j], outcomes[i]))
+    factor_levels <- c(factor_levels, paste0(prefixes[j], outcomes_order[i]))
   }
 }
 # Set factor levels 
@@ -68,43 +79,48 @@ estimates_sub$grouping_name <- factor(estimates_sub$grouping_name, levels = fact
 
 # Set labels 
 labels <- c(
-  `All COVID-19-Acute_pancreatitis` = "All COVID-19
+  `All COVID-19-Nonvariceal_gi_bleeding` = "All COVID-19
   ",
-  `Hospitalised COVID-19-Acute_pancreatitis` = "Hospitalised COVID-19
-  Acute pancreatitis",
-  `Non-hospitalised COVID-19-Acute_pancreatitis` = "Non-hospitalised COVID-19
+  `Hospitalised COVID-19-Nonvariceal_gi_bleeding` = "Hospitalised COVID-19
+  Nonvariceal gi bleeding",
+  `Non-hospitalised COVID-19-Nonvariceal_gi_bleeding` = "Non-hospitalised COVID-19
   ",
-  `All COVID-19-Appendicitis` = "",
-  `Hospitalised COVID-19-Appendicitis` = "Appendicitis",
-  `Non-hospitalised COVID-19-Appendicitis` = "",
-
-  `All COVID-19-Gallstones_disease` = "",
-  `Hospitalised COVID-19-Gallstones_disease` = "Gallstones disease",
-  `Non-hospitalised COVID-19-Gallstones_disease` = "",
+  `All COVID-19-Acute_pancreatitis` = "",
+  `Hospitalised COVID-19-Acute_pancreatitis` = "Acute pancreatitis",
+  `Non-hospitalised COVID-19-Acute_pancreatitis` = "",
   
+  `All COVID-19-Lower_gi_bleeding` = "",
+  `Hospitalised COVID-19-Lower_gi_bleeding` = "Lower gi bleeding",
+  `Non-hospitalised COVID-19-Lower_gi_bleeding` = "",
+  
+  # `All COVID-19-Upper_gi_bleeding` = "",
+  # `Hospitalised COVID-19-Upper_gi_bleeding` = "Upper gi bleeding",
+  # `Non-hospitalised COVID-19-Upper_gi_bleeding` = "",
+  # 
   `All COVID-19-Gastro_oesophageal_reflux_disease` = "",
   `Hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "Gastro oesophageal reflux",
   `Non-hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "",
+  
+  # `All COVID-19-Gallstones_disease` = "",
+  # `Hospitalised COVID-19-Gallstones_disease` = "Gallstones",
+  # `Non-hospitalised COVID-19-Gallstones_disease` = "",
   
   `All COVID-19-Ibs` = "",
   `Hospitalised COVID-19-Ibs` = "Ibs",
   `Non-hospitalised COVID-19-Ibs` = "",
   
-  `All COVID-19-Lower_gi_bleeding` = "",
-  `Hospitalised COVID-19-Lower_gi_bleeding` = "Lower gi bleeding",
-  `Non-hospitalised COVID-19-Lower_gi_bleeding` = "",
-
-  `All COVID-19-Nonvariceal_gi_bleeding` = "",
-  `Hospitalised COVID-19-Nonvariceal_gi_bleeding` = "Nonvariceal gi bleeding",
-  `Non-hospitalised COVID-19-Nonvariceal_gi_bleeding` = "",
+  `All COVID-19-Appendicitis` = "",
+  `Hospitalised COVID-19-Appendicitis` = "Appendicitis",
+  `Non-hospitalised COVID-19-Appendicitis` = "",
   
   `All COVID-19-Peptic_ulcer` = "",
   `Hospitalised COVID-19-Peptic_ulcer` = "Peptic ulcer",
-  `Non-hospitalised COVID-19-Peptic_ulcer` = "",
+  `Non-hospitalised COVID-19-Peptic_ulcer` = ""
   
-  `All COVID-19-Upper_gi_bleeding` = "",
-  `Hospitalised COVID-19-Upper_gi_bleeding` = "Upper gi bleeding",
-  `Non-hospitalised COVID-19-Upper_gi_bleeding` = ""
+  # `All COVID-19-Nonalcoholic_steatohepatitis` = "",
+  # `Hospitalised COVID-19-Nonalcoholic_steatohepatitis` = "Nonalcoholic steatohepatitis",
+  # `Non-hospitalised COVID-19-Nonalcoholic_steatohepatitis` = ""
+  
 )
 
 

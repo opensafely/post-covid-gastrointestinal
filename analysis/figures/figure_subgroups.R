@@ -4,25 +4,32 @@ library(tidyverse)
 library(ggplot2)
 
 # Define results directory
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/"
-output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/Figures/"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/"
+output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/figures/"
 #################
 #1- Get data
 #################
 
-disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
+# disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
 estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
   # Extract outcomes to plot
-  filter(!outcome %in% disregard) %>%
+  # filter(!outcome %in% disregard) %>%
   filter(model=="mdl_max_adj")%>%
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
   # Modify outcome names
   mutate(outcome = str_remove(outcome, "out_date_")) %>%
-  mutate(outcome = str_to_title(outcome))
+  mutate(outcome = str_to_title(outcome))%>%
+  filter(!is.na(hr) & hr != "" & hr!="[redact]")
+
+# Set numeric cols to numeric
+numeric_cols <- c("lnhr", "se_lnhr", "hr", "conf_low", "conf_high", "N_total", "N_exposed", "N_events", "person_time_total", "outcome_time_median")
+estimates[numeric_cols] <- lapply(estimates[numeric_cols], as.numeric)
 
 subgroups<- estimates %>% 
-                      filter(!analysis %in% c("main","sub_covid_nonhospitalised","sub_covid_hospitalised","sub_covid_history","sub_ethnicity_missing"))
+  filter(!analysis %in% c("main","sub_covid_nonhospitalised","sub_covid_hospitalised","sub_covid_history","sub_ethnicity_missing"))
+  
+
 
 generate_analysis_labels <- function(analysis) {
   case_when(
@@ -233,7 +240,7 @@ for (outcome_name in unique(subgroups$outcome)) {
   df$colour <- generate_colour(df$analysis, df)
 
   ggsave(
-    paste0(output_dir, "supplementary_figure_3_subgroups_", outcome_name, ".png"),
+    paste0(output_dir, "sf3sg_", outcome_name, ".png"),
     height = 400, width = 500, unit = "mm", dpi = 600, scale = 1
   )
 }
