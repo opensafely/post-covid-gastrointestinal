@@ -2,24 +2,29 @@ library(readr)
 library(data.table)
 library(tidyverse)
 library(ggplot2)
-
+library(stringr)
 # Define results directory
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/"
-output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/Figures/"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/"
+output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/figures/"
 #################
 #1- Get data
 #################
 
-disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
-estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
+# disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction"))
+estimates <-read_csv(paste0(results_dir,"model_output.csv"))  %>%
   # Extract outcomes to plot
-  filter(!outcome %in% disregard) %>%
+  # filter(!outcome %in% disregard) %>%
   filter(model=="mdl_max_adj")%>%
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
   # Modify outcome names
   mutate(outcome = str_remove(outcome, "out_date_")) %>%
-  mutate(outcome = str_to_title(outcome))
+  mutate(outcome = str_to_title(outcome)) %>%
+  filter(!is.na(hr) & hr != "" & hr!="[redact]")
+
+# Set numeric cols to numeric
+numeric_cols <- c("lnhr", "se_lnhr", "hr", "conf_low", "conf_high", "N_total", "N_exposed", "N_events", "person_time_total", "outcome_time_median")
+estimates[numeric_cols] <- lapply(estimates[numeric_cols], as.numeric)
 
 
 ##################
@@ -44,6 +49,7 @@ estimates <- estimates %>%
 levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
 
 estimates$outcome_label<- str_replace_all(estimates$outcome,"_"," ")
+estimates$outcome_label<- str_replace(estimates$outcome_label,"disease","")%>%str_trim()
 # labels 
 
 ####################
@@ -52,7 +58,11 @@ estimates$outcome_label<- str_replace_all(estimates$outcome,"_"," ")
 plot_estimates <- function(df) {
   pd <- position_dodge(width = 0.5)
   
-  p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort)) +
+  outcomes_order <- c("Nonvariceal gi bleeding", "Lower gi bleeding", "Upper gi bleeding","Gastro oesophageal reflux",
+                      "Gallstones","Ibs","Acute pancreatitis","Peptic ulcer","Appendicitis","Nonalcoholic steatohepatitis") 
+  df$outcome_label <- factor(df$outcome_label, levels = outcomes_order)
+ 
+   p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort)) +
     geom_line() +
     geom_point(size = 2, position = pd) +
     geom_hline(mapping = aes(yintercept = 1), colour = "#A9A9A9") +
