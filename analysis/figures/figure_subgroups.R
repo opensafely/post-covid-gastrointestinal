@@ -241,7 +241,7 @@ for (outcome_name in unique(subgroups$outcome)) {
 
   ggsave(
     paste0(output_dir, "sf3sg_", outcome_name, ".png"),
-    height = 400, width = 500, unit = "mm", dpi = 600, scale = 1
+    height = 400, width = 350, unit = "mm", dpi = 500, scale = 1
   )
 }
 

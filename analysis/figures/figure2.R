@@ -166,7 +166,7 @@ plot_estimates <- function(df, name) {
   
 
   ggsave(paste0(output_dir, "Figure2_", name, ".png"),
-         height = 500, width = 400, unit = "mm", scale = 1)
+         height = 500, width = 350, unit = "mm", dpi = 600, scale = 1)
 
   return(p)
 }
