@@ -471,6 +471,18 @@ comment("Run failed models"),
            recursive = FALSE
     )
   ),
+  ## Make AER input--------------------------------------------------------------
+ comment("Make absolute excess risk (AER) input"),
+  
+  action(
+    name = "make_aer_input",
+    run = "r:latest analysis/aer/make_aer_input.R",
+    needs = as.list(paste0("make_model_input-",active_analyses[grepl("-main-",active_analyses$name),]$name)),
+    moderately_sensitive = list(
+      aer_input = glue("output/aer_input-main.csv"),
+      aer_input_rounded = glue("output/aer_input-main-rounded.csv")
+    )
+  ),
   
   ## Venn data -----------------------------------------------------------------
   
