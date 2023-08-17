@@ -31,7 +31,7 @@ if(length(args)==0){
 print('Load active analyses')
 
 active_analyses <- readr::read_rds("lib/active_analyses.rds")
-active_analyses <- active_analyses[active_analyses$cohort %in% c("prevax_extf","unvax_extf","vax"),]
+active_analyses <- active_analyses[active_analyses$cohort %in% c("prevax","unvax","vax"),]
 
 # Format active analyses -------------------------------------------------------
 print('Format active analyses')
