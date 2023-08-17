@@ -42,20 +42,13 @@ df <- tidyr::pivot_wider(df,
 print("Order outcomes")
 
 df$outcome_label <- factor(df$outcome_label,
-                           levels = c("General anxiety",
-                                      "Post-traumatic stress disorder",
-                                      "Depression",
-                                      "Eating disorders",
-                                      "Serious mental illness",
-                                      "Addiction",
-                                      "Self harm",
-                                      "Suicide"))
+                           levels = c("")
 
 # Tidy table -------------------------------------------------------------------
 print("Tidy table")
 
 df <- df[order(df$outcome_label),
-         c("outcome_label","prevax_extf","vax","unvax_extf")]
+         c("outcome_label","prevax","vax","unvax")]
 
 # Save table -------------------------------------------------------------------
 print("Save table")
