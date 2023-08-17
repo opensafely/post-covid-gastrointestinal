@@ -42,7 +42,8 @@ df <- tidyr::pivot_wider(df,
 print("Order outcomes")
 
 df$outcome_label <- factor(df$outcome_label,
-                           levels = c("")
+                           levels = c(c("Nonvariceal gi bleeding", "Lower gi bleeding", "Upper gi bleeding","Gastro oesophageal reflux",
+                      "Gallstones","Ibs","Acute pancreatitis","Peptic ulcer","Appendicitis","Nonalcoholic steatohepatitis"))
 
 # Tidy table -------------------------------------------------------------------
 print("Tidy table")
