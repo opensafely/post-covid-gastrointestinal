@@ -11,10 +11,11 @@ output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-Unive
 #################
 
 # disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
-estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
+
+estimates <-read.csv(paste0(results_dir,"model_output.csv"))
   # Extract outcomes to plot
   # filter(!outcome %in% disregard) %>%
-  filter(model=="mdl_max_adj")%>%
+  filter(model=="mdl_max_adj")
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
   # Modify outcome names
