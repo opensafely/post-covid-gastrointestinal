@@ -29,7 +29,7 @@ model_output$time_period_end <- as.numeric(gsub(".*_", "",model_output$term))
 # Load AER input ---------------------------------------------------------------
 print('Load AER input')
 
-aer_input <- read.csv(path_aer_input)
+aer_input <- read_csv(path_aer_input)
 
 # Run AER function -------------------------------------------------------------
 print('Run AER function')
@@ -53,7 +53,7 @@ for (i in 1:nrow(aer_input)) {
 # Calculate prevax weightings --------------------------------------------------
 print('Calculate prevax weightings')
 
-prevax_weightings <- aer_input[aer_input$cohort=="prevax_extf",
+prevax_weightings <- aer_input[aer_input$cohort=="prevax",
                                c("analysis",
                                  "outcome",
                                  "aer_sex", 
