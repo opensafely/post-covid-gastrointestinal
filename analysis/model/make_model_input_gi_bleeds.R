@@ -37,6 +37,12 @@ print('Load active analyses')
 
 active_analyses <- readr::read_rds("lib/active_analyses_gi_bleeds.rds")
 
+<<<<<<< Updated upstream
+=======
+#Change the name for file names
+active_analyses$name <- paste0(active_analyses$name,"_gi_bleeds")
+
+>>>>>>> Stashed changes
 # Identify model inputs to be prepared -----------------------------------------
 print('Identify model inputs to be prepared')
 
