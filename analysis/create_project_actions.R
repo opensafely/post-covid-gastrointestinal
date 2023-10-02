@@ -19,7 +19,15 @@ defaults_list <- list(
     active_analyses_models<- active_analyses%>%filter(!name%in% active_analyses_failed$name)
 
     cohorts <- unique(active_analyses$cohort)
-
+    
+# Define active analyses for gi bleeds -------------------------------------------------------
+    
+  active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
+    active_analyses_gi_bleeds <- active_analyses_gi_bleeds[order(active_analyses_gi_bleeds$analysis,active_analyses_gi_bleeds$cohort,active_analyses_gi_bleeds$outcome),]
+    active_analyses_models_gi_bleeds<- active_analyses_gi_bleeds%>%filter(!name%in% active_analyses_failed$name)
+    
+    cohorts_gi_bleeds <- unique(active_analyses_gi_bleeds$cohort)
+    
     # Define active analysis with failed models 
     active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
 
@@ -545,11 +553,66 @@ comment ("Stata models"),
         table1_rounded = glue("output/table1_gi_bleeds_vax_rounded.csv")
       )
   
+),
+## Run models for gi bleeds ----------------------------------------------------------------
+comment("Run models for gi bleeds"),
+
+splice(
+  unlist(lapply(1:nrow(active_analyses_models_gi_bleeds), 
+                function(x) apply_model_function_gi_bleeds(name = active_analyses_models_gi_bleeds$name[x],
+                                                           cohort = active_analyses_models_gi_bleeds$cohort[x],
+                                                           analysis = active_analyses_models_gi_bleeds$analysis[x],
+                                                           ipw = FALSE,
+                                                           strata = active_analyses_models_gi_bleeds$strata[x],
+                                                           covariate_sex = active_analyses_models_gi_bleeds$covariate_sex[x],
+                                                           covariate_age = active_analyses_models_gi_bleeds$covariate_age[x],
+                                                           covariate_other = active_analyses_models_gi_bleeds$covariate_other[x],
+                                                           cox_start = active_analyses_models_gi_bleeds$cox_start[x],
+                                                           cox_stop = active_analyses_models_gi_bleeds$cox_stop[x],
+                                                           study_start = active_analyses_models_gi_bleeds$study_start[x],
+                                                           study_stop = active_analyses_models_gi_bleeds$study_stop[x],
+                                                           cut_points = active_analyses_models_gi_bleeds$cut_points[x],
+                                                           controls_per_case = active_analyses_models_gi_bleeds$controls_per_case[x],
+                                                           total_event_threshold = active_analyses_models_gi_bleeds$total_event_threshold[x],
+                                                           episode_event_threshold = active_analyses_models_gi_bleeds$episode_event_threshold[x],
+                                                           covariate_threshold = active_analyses_models_gi_bleeds$covariate_threshold[x],
+                                                           age_spline = active_analyses_models_gi_bleeds$age_spline[x])), recursive = FALSE
+  )
 )
 )
 
+# Create function to make model input and run a model for gi bleeds --------------------------
 
+apply_model_function_gi_bleeds <- function(name, cohort, analysis, ipw, strata, 
+                                           covariate_sex, covariate_age, covariate_other, 
+                                           cox_start, cox_stop, study_start, study_stop,
+                                           cut_points, controls_per_case,
+                                           total_event_threshold, episode_event_threshold,
+                                           covariate_threshold, age_spline){
+  
+  splice(
+    action(
+      name = glue("make_model_input-{name}_gi_bleeds"),
+      run = glue("r:latest analysis/model/make_model_input_gi_bleeds.R {name}"),
+      needs = list(glue("stage1_data_cleaning_{cohort}_gi_bleeds")),
+      highly_sensitive = list(
+        model_input = glue("output/model_input-{name}_gi_bleeds.rds")
+      )
+    ),
     
+    
+    
+    
+    action(
+      name = glue("cox_ipw-{name}_gi_bleeds"),
+      run = glue("cox-ipw:v0.0.27 --df_input=model_input-{name}_gi_bleeds.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
+      needs = list(glue("make_model_input-{name}_gi_bleeds")),
+      moderately_sensitive = list(
+        model_output = glue("output/model_output-{name}_gi_bleeds.csv"))
+    )
+  )
+}
+
 
 
 ## combine everything ----
