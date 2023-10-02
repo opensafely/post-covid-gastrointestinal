@@ -118,6 +118,19 @@ generate_study_population <- function(cohort){
     )
   )
 }
+# Create a function to generate data for anti-coagulants and thrombotic events
+generate_ac_te_data <- function(cohort){
+  splice(
+    comment(glue("Generate anti coagulants and thrombotic data - {cohort}")),
+    action(
+      name = glue("generate_ac_te_data_{cohort}"),
+      run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort}_4mo_fup --output-format csv.gz"),
+      highly_sensitive = list(
+        cohort = glue("output/input_{cohort}_4mo_fup.csv.gz")
+      )
+    )
+  )
+}
 
 # Create function to preprocess data -------------------------------------------
 
@@ -376,7 +389,12 @@ actions_list <- splice(
     )
   ),
   
-  
+   splice(
+    unlist(lapply(cohorts, 
+                  function(x) generate_ac_te_data(cohort = x)), 
+           recursive = FALSE
+    )
+  ),
   ## Preprocess data -----------------------------------------------------------
   
   splice(
