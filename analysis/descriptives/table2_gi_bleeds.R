@@ -116,7 +116,7 @@ for (i in 1:nrow(active_analyses)) {
 # Save Table 2 -----------------------------------------------------------------
 print('Save Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,".csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds_.csv"), row.names = FALSE)
 
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
@@ -124,14 +124,8 @@ print('Perform redaction')
 table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))] <- lapply(table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))],
                                                                                                 FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
 
-<<<<<<< Updated upstream
-# Save Table 2 -----------------------------------------------------------------
-print('Save rounded Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,"_rounded.csv"), row.names = FALSE)
-=======
-# Save Table 2 for gi bleeds -----------------------------------------------------------------
+#Save Table 2 for gi bleeds -----------------------------------------------------------------
 print('Save rounded Table 2')
 
 write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds_rounded.csv"), row.names = FALSE)
->>>>>>> Stashed changes
