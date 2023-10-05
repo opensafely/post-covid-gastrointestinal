@@ -634,7 +634,18 @@ splice(
                                                            covariate_threshold = active_analyses_gi_bleeds$covariate_threshold[x],
                                                            age_spline = active_analyses_gi_bleeds$age_spline[x])), recursive = FALSE
   )
-)
+),
+comment(" make model output gi bleeds"),
+
+  action(
+    name = "make_model_output_gi_bleeds",
+    run = "r:latest analysis/model/make_model_output_gi_bleeds.R",
+    needs = list("cox_ipw-cohort_vax-main-upper_gi_bleeding_gi_bleeds",glue("cox_ipw-cohort_vax-main-lower_gi_bleeding_gi_bleeds"),glue("cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds")),
+
+    moderately_sensitive = list(
+      model_output = glue("output/model_output_gi_bleeds.csv")
+    )
+  )
 )
 
 

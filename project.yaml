@@ -15963,3 +15963,15 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds.csv
 
+  ##  make model output gi bleeds 
+
+  make_model_output_gi_bleeds:
+    run: r:latest analysis/model/make_model_output_gi_bleeds.R
+    needs:
+    - cox_ipw-cohort_vax-main-upper_gi_bleeding_gi_bleeds
+    - cox_ipw-cohort_vax-main-lower_gi_bleeding_gi_bleeds
+    - cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output_gi_bleeds.csv
+
