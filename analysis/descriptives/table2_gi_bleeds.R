@@ -116,7 +116,7 @@ for (i in 1:nrow(active_analyses)) {
 # Save Table 2 -----------------------------------------------------------------
 print('Save Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds_.csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds.csv"), row.names = FALSE)
 
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
