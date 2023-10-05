@@ -5,8 +5,6 @@ library(magrittr)
 library(data.table)
 library(tidyverse)
 
-# Defining variables -----------------------------------------------------------
-study_end_date = as.Date("2021/12/14")
 
 
 # Source functions -------------------------------------------------------------
@@ -108,21 +106,13 @@ for (i in 1:nrow(active_analyses)) {
                          "exp_date" = active_analyses$exposure[i])
   print (paste0("nrow after rename : ",nrow(input)))
   
-  #End_Date outcome and End_Date exposure 
-  
-  input <- input %>% 
-           mutate(end_date_outcome = as.Date(ifelse(!is.na(out_date), out_date, study_end_date)))
-                      
-  input <- input %>% 
-    mutate(end_date_exposure = as.Date(ifelse(!is.na(exp_date), exp_date, study_end_date)))
-                                   
-  input <- input %>% 
+input <- input %>% 
     dplyr::mutate(out_date = replace(out_date, which(out_date>end_date_outcome | out_date<index_date), NA),
                   exp_date =  replace(exp_date, which(exp_date>end_date_exposure | exp_date<index_date), NA),
                   sub_cat_covid19_hospital = replace(sub_cat_covid19_hospital, which(is.na(exp_date)),"no_infection"))
-  
-  print (paste0("nrow after replace : ",nrow(input)))
-  
+
+    print (paste0("nrow after replace : ",nrow(input)))
+
   # Update end date to be outcome date where applicable ------------------------
   print('Update end date to be outcome date where applicable')
   
@@ -130,8 +120,8 @@ for (i in 1:nrow(active_analyses)) {
     dplyr::rowwise() %>% 
     dplyr::mutate(end_date_outcome = min(end_date_outcome, out_date, na.rm = TRUE))
   
-  print (paste0("nrow after Update end date to be outcome date : ",nrow(input)))
-  
+    print (paste0("nrow after Update end date to be outcome date : ",nrow(input)))
+
   
   # Make model input: main -------------------------------------------------------
   
@@ -142,6 +132,31 @@ for (i in 1:nrow(active_analyses)) {
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     check_vitals(df)
     readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")),compress="gz")
+    print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
+    rm(df)
+    
+  }
+  
+  # Make model input: sub_covid_hospitalised -------------------------------------
+  
+  if (active_analyses$analysis[i]=="sub_covid_hospitalised") {
+    
+    print('Make model input: sub_covid_hospitalised')
+    
+    df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
+    
+    df <- df %>% 
+      dplyr::mutate(end_date_outcome = replace(end_date_outcome, which(sub_cat_covid19_hospital=="non_hospitalised"), exp_date-1),
+                    exp_date = replace(exp_date, which(sub_cat_covid19_hospital=="non_hospitalised"), NA),
+                    out_date = replace(out_date, which(out_date>end_date_outcome), NA))
+    
+    df <- df[df$end_date_outcome>=df$index_date,]
+
+    df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
+    
+    check_vitals(df)
+    
+    readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")), compress = "gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
     
