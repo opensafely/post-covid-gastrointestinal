@@ -59,6 +59,7 @@ for (i in 1:nrow(active_analyses)) {
   print(paste0("Load data for ",active_analyses$name[i]))
   
   df <- read_rds(paste0("output/model_input-",active_analyses$name[i],"_gi_bleeds.rds"))
+
   df <- df[,c("patient_id","index_date","exp_date","out_date","end_date_exposure","end_date_outcome")]
   
   # Remove exposures and outcomes outside follow-up ----------------------------
