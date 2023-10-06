@@ -6,7 +6,7 @@ library(magrittr)
 # Specify redaction threshold --------------------------------------------------
 print('Specify redaction threshold')
 
-threshold <- 6
+threshold <- 8
 
 # Source common functions ------------------------------------------------------
 print('Source common functions')
