@@ -81,7 +81,7 @@ for (i in 1:nrow(active_analyses)) {
   print(summary(input$cov_num_age))
 
   input <- dplyr::rename(input, 
-                         "out_date" =active_analyses$outcome[i],
+                         "out_date" = active_analyses$outcome[i],
                          "exp_date" = active_analyses$exposure[i])
   print (paste0("nrow after rename : ",nrow(input)))
 
