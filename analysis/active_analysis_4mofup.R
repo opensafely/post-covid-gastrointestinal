@@ -18,7 +18,9 @@ for (i in 1:nrow(active_analyses)) {
   for (suffix in name_suffixes) {
     active_analyses_4mofup <- rbind(active_analyses_4mofup, active_analyses[i, ])
     active_analyses_4mofup$name[nrow(active_analyses_4mofup)] <- paste0(active_analyses_4mofup$name[nrow(active_analyses_4mofup)], suffix)
-      active_analyses_4mofup$analysis[nrow(active_analyses_4mofup)] <- paste0(active_analyses_4mofup$analysis[nrow(active_analyses_4mofup)], suffix)
+    
+    # analysis is the suffix after removing _ 
+    active_analyses_4mofup$analysis[nrow(active_analyses_4mofup)] <- substr(name_suffixes, 2, nchar(name_suffixes))
 
   }
   

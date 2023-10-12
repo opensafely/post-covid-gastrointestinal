@@ -4,9 +4,7 @@ library(tidyverse)
 
 # Read and filter active analyses
 print('Read and filter active analyses')
-active_analyses <- readr::read_rds("lib/active_analyses.rds")
-active_analyses <- active_analyses%>%
-filter(analysis=="sub_covid_hospitalised" &  grepl("bleeding", outcome, ignore.case = TRUE) )
+active_analyses<- readr::read_rds("lib/active_analyses_4mofup.rds")
 
 # create a new acative_analyses for the new analyses
 
@@ -14,12 +12,14 @@ filter(analysis=="sub_covid_hospitalised" &  grepl("bleeding", outcome, ignore.c
 # Specify command arguments ----------------------------------------------------
 print('Specify command arguments')
 
-# name <- "cohort_vax-sub_covid_hospitalised-upper_gi_bleeding"
-
+name_suffixes <- c("_throm_True_4mofup", "_throm_False_4mofup", "_anticoag_True_4mofup", "_anticoag_False_4mofup")
+analyses <- unique(active_analyses$analysis)
 for (i in 1:nrow(active_analyses)) {
     cohort <- active_analyses$cohort[i]
-    input <- readRDS(paste0("output/model_input-",  active_analyses[i,"name"], ".rds"))
-    hosp_input <- read.csv(paste0("output/input_", cohort, "_4mo_fup.csv.gz"))
+    name_4mofup <- active_analyses[i, "name"]
+    name <- gsub(paste(name_suffixes, collapse = "|"), "", name_4mofup)
+    input <- readRDS(paste0("output/model_input-", name, ".rds"))
+    hosp_input <- read.csv(paste0("output/input_", cohort, "_4mofup.csv.gz"))
     
     input$outcome <- active_analyses[i, "outcome"]
     
@@ -33,7 +33,7 @@ for (i in 1:nrow(active_analyses)) {
     input$fup_total <- as.numeric(input$fup_stop - input$fup_start)
     
     input <- input %>% filter(fup_total >= 120)
-    
+    if (grepl("throm", active_analyses$analysis)){
     input_hosp_4mo_throm <- input %>%
         right_join(hosp_input, by = "patient_id") %>%
         select(
@@ -43,42 +43,37 @@ for (i in 1:nrow(active_analyses)) {
             cov_bin_ate_vte_4mofup
         )
     
-    active_analyses_4mofup <- rbind(active_analyses_4mofup, active_analyses[i, ])
-
+    if (active_analyses$analysis[i]=="throm_True_4mofup"){
     input_hosp_4mo_throm_True <- input_hosp_4mo_throm %>%
         filter(cov_bin_ate_vte_4mofup == TRUE)
-    active_analyses_4mofup$name[nrow(active_analyses_4mofup)] <- paste0(active_analyses_4mofup$name[nrow(active_analyses_4mofup)], "_throm_True_4mofup")
 
     writeRDS(input_hosp_4mo_throm_True, paste0("output/model_input", active_analyses[i,"name"], "_throm_True_4mofup.rds"))
-    
+    }else{
     input_hosp_4mo_throm_False <- input_hosp_4mo_throm %>%
         filter(cov_bin_ate_vte_4mofup == FALSE)
-        active_analyses_4mofup <- rbind(active_analyses_4mofup, active_analyses[i, ])
-        active_analyses_4mofup$name[nrow(active_analyses_4mofup)] <- paste0(active_analyses_4mofup$name[nrow(active_analyses_4mofup)], "_throm_False_4mofup")
-
+        
     writeRDS(input_hosp_4mo_throm_False, paste0("output/model_input",active_analyses[i,"name"], "_throm_False_4mofup.rds"))
-    
+    }
+    }
+    if (grepl("anticoag", active_analyses$analysis)){
     input_hosp_4mo_anticoag <- input %>%
         right_join(hosp_input, by = "patient_id") %>%
         select(
             everything(),
             cov_bin_anticoagulants_4mofup_bnf
         )
-    
+    if (active_analyses$analysis[i]=="anticoag_True_4mofup"){
     input_hosp_4mo_anticoag_True <- input_hosp_4mo_anticoag %>%
         filter(cov_bin_anticoagulants_4mofup_bnf == TRUE)
-    active_analyses_4mofup <- rbind(active_analyses_4mofup, active_analyses[i, ])
-    active_analyses_4mofup$name[nrow(active_analyses_4mofup)] <- paste0(active_analyses_4mofup$name[nrow(active_analyses_4mofup)], "anticoag_True_4mofup")
-
-    writeRDS(input_hosp_4mo_anticoag_True, paste0("output/model_input", active_analyses[i,"name"], "anticoag_True_4mofup.rds"))
     
+    writeRDS(input_hosp_4mo_anticoag_True, paste0("output/model_input", active_analyses[i,"name"], "anticoag_True_4mofup.rds"))
+    }else{
     input_hosp_4mo_anticoag_False <- input_hosp_4mo_anticoag %>%
         filter(cov_bin_anticoagulants_4mofup_bnf == FALSE)
-    active_analyses_4mofup <- rbind(active_analyses_4mofup, active_analyses[i, ])
-    active_analyses_4mofup$name[nrow(active_analyses_4mofup)] <- paste0(active_analyses_4mofup$name[nrow(active_analyses_4mofup)], "anticoag_False_4mofup")
-
+    
     writeRDS(input_hosp_4mo_anticoag_False, paste0("output/model_input", name, "anticoag_False_4mofup.rds"))
 }
-write_rds(active_analyses_4mofup,"lib/active_analyses_4mofup.rds")
+    }
+}
 
 
