@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../Documents/Work/post-covid-diabetes"
+		},
+		{
+			"path": "../../../Documents/Work/cox-ipw"
+		},
+		{
+			"path": "../../../Documents/Work/post-covid-mentalhealth"
+		},
+		{
+			"path": "../../../Documents/Work/post-covid-neurodegenerative"
+		},
+		{
+			"path": "../../../Documents/Work/covid-vaccine-effectiveness-sequential-vs-single"
+		},
+		{
+			"path": "../../../Documents/Work/booster-effectiveness-autumn-2022"
+		},
+		{
+			"path": "../../../Documents/Work/post-covid-pre-vaccinated-cardiovascular"
+		},
+		{
+			"path": "../../../Documents/Work/post-covid-vaccinated"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.feather": "arrow"
+		},
+		"files.autoSave": "afterDelay",
+		"files.autoSaveDelay": 1000,
+		"window.autoDetectColorScheme": true,
+		"extensions.ignoreRecommendations": true
+	}
+}
