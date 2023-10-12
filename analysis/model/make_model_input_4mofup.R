@@ -82,5 +82,3 @@ for (i in 1:nrow(active_analyses)) {
 write_rds(active_analyses_4mofup,"lib/active_analyses_4mofup.rds")
 
 
-# TODO set anticaoag covar to NULL 
-# Check if we need to create a new active_analyses to write actions and run
