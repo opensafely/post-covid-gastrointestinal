@@ -5,8 +5,8 @@ library(tidyverse)
 # Read and filter active analyses
 print('Read and filter active analyses')
 active_analyses<- readr::read_rds("lib/active_analyses_4mofup.rds")
-
-# create a new acative_analyses for the new analyses
+active_analyses <- active_analyses %>% filter(cohort == "prevax")%>%
+ filter(grepl("cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding",name))
 
 
 # Specify command arguments ----------------------------------------------------

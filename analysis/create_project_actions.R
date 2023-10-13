@@ -118,6 +118,21 @@ generate_study_population <- function(cohort){
     )
   )
 }
+
+generate_hospitalised_data <- function(cohort) {
+  splice(
+    comment("Generate hospitalised data from stage1 data"),
+    action(
+      name = glue("generate_hospitalised_data_{cohort}"),
+      run = "r:latest analysis/hospitalised_data.R",
+      arguments = list(cohort),
+      needs = glue("stage1_data_cleaning_{cohort}"),
+      highly_sensitive = list(
+        hosp_data = glue("output/input_{cohort}_stage1_hosp.csv.gz")
+      )
+    )
+  )
+}
 # Create a function to generate data for anti-coagulants and thrombotic events
 generate_ac_te_data <- function(cohort){
   splice(
@@ -416,6 +431,15 @@ actions_list <- splice(
   splice(
     unlist(lapply(cohorts, 
                   function(x) stage1_data_cleaning(cohort = x)), 
+           recursive = FALSE
+    )
+  ),
+  
+  ##hospitalised data --------------------------------------------------------
+  
+  splice(
+    unlist(lapply(cohorts, 
+                  function(x) generate_hospitalised_data(cohort = x)), 
            recursive = FALSE
     )
   ),
