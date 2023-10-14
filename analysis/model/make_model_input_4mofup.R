@@ -42,7 +42,6 @@ for (i in 1:nrow(active_analyses)) {
         patient_id=as.character(patient_id)
     )
     
-    input$outcome <- active_analyses[i, "outcome"]
     
     study_start <- active_analyses[i, "study_start"]
     
@@ -55,14 +54,14 @@ for (i in 1:nrow(active_analyses)) {
     
     input <- input %>% filter(fup_total >= 120)
     if (grepl("throm", active_analyses$analysis)){
+    hosp_input <- hosp_input %>% 
+    dplyr::select(patient_id,
+                cov_bin_vte,
+                cov_bin_ate,
+                cov_bin_ate_vte_4mofup
+    )
     input_hosp_4mo_throm <- input %>%
-        right_join(hosp_input, by = "patient_id") %>%
-        select(
-            everything(),
-            cov_bin_vte,
-            cov_bin_ate,
-            cov_bin_ate_vte_4mofup
-        )
+        right_join(hosp_input, by = "patient_id") 
     
     if (active_analyses$analysis[i]=="sub_covid_hospitalised_throm_True_4mofup"){
     input_hosp_4mo_throm_True <- input_hosp_4mo_throm %>%
@@ -77,12 +76,14 @@ for (i in 1:nrow(active_analyses)) {
     }
     }
     if (grepl("anticoag", active_analyses$analysis)){
-    input_hosp_4mo_anticoag <- input %>%
-        right_join(hosp_input, by = "patient_id") %>%
-        select(
-            everything(),
-            cov_bin_anticoagulants_4mofup_bnf
-        )
+    
+    hosp_input<- hosp_input %>%dplyr::select(
+        patient_id,
+        cov_bin_anticoagulants_4mofup_bnf
+    )
+        input_hosp_4mo_anticoag <- input %>% 
+        right_join(hosp_input, by = "patient_id")
+        
     if (active_analyses$analysis[i]=="sub_covid_hospitalised_anticoag_True_4mofup"){
     input_hosp_4mo_anticoag_True <- input_hosp_4mo_anticoag %>%
         filter(cov_bin_anticoagulants_4mofup_bnf == TRUE)
