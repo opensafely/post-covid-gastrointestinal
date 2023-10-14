@@ -84,6 +84,8 @@ actions:
   generate_ac_te_data_prevax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax_4mofup
       --output-format csv.gz
+    needs:
+    - generate_hospitalised_data_prevax
     outputs:
       highly_sensitive:
         cohort: output/input_prevax_4mofup.csv.gz
@@ -93,6 +95,8 @@ actions:
   generate_ac_te_data_unvax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_unvax_4mofup
       --output-format csv.gz
+    needs:
+    - generate_hospitalised_data_unvax
     outputs:
       highly_sensitive:
         cohort: output/input_unvax_4mofup.csv.gz
@@ -102,6 +106,8 @@ actions:
   generate_ac_te_data_vax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_vax_4mofup
       --output-format csv.gz
+    needs:
+    - generate_hospitalised_data_vax
     outputs:
       highly_sensitive:
         cohort: output/input_vax_4mofup.csv.gz
@@ -238,8 +244,9 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_prevax:
-    run: r:latest analysis/hospitalised_data.R prevax
-    needs: stage1_data_cleaning_prevax
+    run: r:latest analysis/hostpitalised_data.R prevax
+    needs:
+    - stage1_data_cleaning_prevax
     outputs:
       highly_sensitive:
         hosp_data: output/input_prevax_stage1_hosp.csv.gz
@@ -247,8 +254,9 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_unvax:
-    run: r:latest analysis/hospitalised_data.R unvax
-    needs: stage1_data_cleaning_unvax
+    run: r:latest analysis/hostpitalised_data.R unvax
+    needs:
+    - stage1_data_cleaning_unvax
     outputs:
       highly_sensitive:
         hosp_data: output/input_unvax_stage1_hosp.csv.gz
@@ -256,8 +264,9 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_vax:
-    run: r:latest analysis/hospitalised_data.R vax
-    needs: stage1_data_cleaning_vax
+    run: r:latest analysis/hostpitalised_data.R vax
+    needs:
+    - stage1_data_cleaning_vax
     outputs:
       highly_sensitive:
         hosp_data: output/input_vax_stage1_hosp.csv.gz
@@ -14419,6 +14428,1066 @@ actions:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv.gz
+
+  ## Run models for 4months followup sensitivity: thrombotic events and anticaogulants
+
+    
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_vax
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_unvax
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding_anticoag_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_False_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_True_4mofup.csv
+
+  make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup:
+    run: r:latest analysis/model/make_model_input_4mofup.R cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup
+    needs:
+    - generate_ac_te_data_prevax
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.rds
+
+  cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup:
+    run: cox-ipw:v0.0.25 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=28;197;365;714 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_anticoag_False_4mofup.csv
 
   ## Table 2 - prevax 
 

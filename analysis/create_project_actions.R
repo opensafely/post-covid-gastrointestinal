@@ -20,9 +20,11 @@ defaults_list <- list(
 
     cohorts <- unique(active_analyses$cohort)
 
-    # Define active analysis with failed models 
-    active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
+  # Define active analysis with failed models 
+  active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
 
+# Define active analysis for 4month follwup sensitivity: thrombotic events and anticoagulants
+active_analyses_4mofup <- read_rds("lib/active_analyses_4mofup.rds")
 
 # Determine which outputs are ready --------------------------------------------
 
@@ -124,9 +126,9 @@ generate_hospitalised_data <- function(cohort) {
     comment("Generate hospitalised data from stage1 data"),
     action(
       name = glue("generate_hospitalised_data_{cohort}"),
-      run = "r:latest analysis/hospitalised_data.R",
+      run = "r:latest analysis/hostpitalised_data.R",
       arguments = list(cohort),
-      needs = glue("stage1_data_cleaning_{cohort}"),
+      needs = list(glue("stage1_data_cleaning_{cohort}")),
       highly_sensitive = list(
         hosp_data = glue("output/input_{cohort}_stage1_hosp.csv.gz")
       )
@@ -140,6 +142,7 @@ generate_ac_te_data <- function(cohort){
     action(
       name = glue("generate_ac_te_data_{cohort}"),
       run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort}_4mofup --output-format csv.gz"),
+      needs = list(glue("generate_hospitalised_data_{cohort}")),
       highly_sensitive = list(
         cohort = glue("output/input_{cohort}_4mofup.csv.gz")
       )
@@ -272,6 +275,36 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
         )
     )
     }
+    apply_model_function_4mofup <- function(name, cohort, analysis, ipw, strata, 
+                                 covariate_sex, covariate_age, covariate_other, 
+                                 cox_start, cox_stop, study_start, study_stop,
+                                 cut_points, controls_per_case,
+                                 total_event_threshold, episode_event_threshold,
+                                 covariate_threshold, age_spline){
+  name_suffixes <- c("_throm_True_4mofup", "_throm_False_4mofup", "_anticoag_True_4mofup", "_anticoag_False_4mofup")
+  need_name <-gsub(paste(name_suffixes, collapse = "|"), "", name)
+
+  splice(
+    action(
+      name = glue("make_model_input-{name}"),
+      run = glue("r:latest analysis/model/make_model_input_4mofup.R {name}"),
+      needs = list(glue("generate_ac_te_data_{cohort}"),glue("make_model_input-{need_name}")),
+      highly_sensitive = list(
+        model_input = glue("output/model_input-{name}.rds")
+      )
+    ),
+    
+ 
+    
+    action(
+      name = glue("cox_ipw-{name}"),
+      run = glue("cox-ipw:v0.0.25 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
+      needs = list(glue("make_model_input-{name}")),
+      moderately_sensitive = list(
+        model_output = glue("output/model_output-{name}.csv"))
+    )
+  )
+}
     # Create function to run stata models-------------------------
    stata_actions <- function(name){
       action(
@@ -504,7 +537,31 @@ comment("Run failed models"),
                                                    age_spline = active_analyses_failed$age_spline[x])), recursive = FALSE
     )
   ),
-  
+  ## re-run failed models to save sampled data 
+
+comment("Run models for 4months followup sensitivity: thrombotic events and anticaogulants"),
+  splice(
+    unlist(lapply(1:nrow(active_analyses_4mofup), 
+                  function(x) apply_model_function_4mofup(name = active_analyses_4mofup$name[x],
+                                                   cohort = active_analyses_4mofup$cohort[x],
+                                                   analysis = active_analyses_4mofup$analysis[x],
+                                                   ipw = active_analyses_4mofup$ipw[x],
+                                                   strata = active_analyses_4mofup$strata[x],
+                                                   covariate_sex = active_analyses_4mofup$covariate_sex[x],
+                                                   covariate_age = active_analyses_4mofup$covariate_age[x],
+                                                   covariate_other = active_analyses_4mofup$covariate_other[x],
+                                                   cox_start = active_analyses_4mofup$cox_start[x],
+                                                   cox_stop = active_analyses_4mofup$cox_stop[x],
+                                                   study_start = active_analyses_4mofup$study_start[x],
+                                                   study_stop = active_analyses_4mofup$study_stop[x],
+                                                   cut_points = active_analyses_4mofup$cut_points[x],
+                                                   controls_per_case = active_analyses_4mofup$controls_per_case[x],
+                                                   total_event_threshold = active_analyses_4mofup$total_event_threshold[x],
+                                                   episode_event_threshold = active_analyses_4mofup$episode_event_threshold[x],
+                                                   covariate_threshold = active_analyses_4mofup$covariate_threshold[x],
+                                                   age_spline = active_analyses_4mofup$age_spline[x])), recursive = FALSE
+    )
+  ),
   ## Table 2 -------------------------------------------------------------------
   
   splice(
