@@ -72,7 +72,6 @@ df[date_columns] <- lapply(df[date_columns], function(col) {
 
 df$All <- "All"
 
-df$All <- "All"
 
 # Aggregate data ---------------------------------------------------------------
 print("Aggregate data")
