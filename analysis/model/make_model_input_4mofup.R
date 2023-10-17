@@ -52,8 +52,8 @@ for (i in 1:nrow(active_analyses)) {
     
     input$fup_total <- as.numeric(input$fup_stop - input$fup_start)
     
-    input <- input %>% filter(fup_total >= 120)
     if (grepl("throm", active_analyses$analysis)){
+
     hosp_input <- hosp_input %>% 
     dplyr::select(patient_id,
                 cov_bin_vte,
@@ -76,7 +76,8 @@ for (i in 1:nrow(active_analyses)) {
     }
     }
     if (grepl("anticoag", active_analyses$analysis)){
-    
+    input <- input %>% filter(fup_total >= 120)
+
     hosp_input<- hosp_input %>%dplyr::select(
         patient_id,
         cov_bin_anticoagulants_4mofup_bnf
