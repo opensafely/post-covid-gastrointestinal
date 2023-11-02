@@ -126,7 +126,7 @@ generate_hospitalised_data <- function(cohort) {
     comment("Generate hospitalised data from stage1 data"),
     action(
       name = glue("generate_hospitalised_data_{cohort}"),
-      run = "r:latest analysis/hostpitalised_data.R",
+      run = "r:latest analysis/hospitalised_data.R",
       arguments = list(cohort),
       needs = list(glue("stage1_data_cleaning_{cohort}")),
       highly_sensitive = list(

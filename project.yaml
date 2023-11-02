@@ -244,7 +244,7 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_prevax:
-    run: r:latest analysis/hostpitalised_data.R prevax
+    run: r:latest analysis/hospitalised_data.R prevax
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -254,7 +254,7 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_unvax:
-    run: r:latest analysis/hostpitalised_data.R unvax
+    run: r:latest analysis/hospitalised_data.R unvax
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -264,7 +264,7 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_vax:
-    run: r:latest analysis/hostpitalised_data.R vax
+    run: r:latest analysis/hospitalised_data.R vax
     needs:
     - stage1_data_cleaning_vax
     outputs:
