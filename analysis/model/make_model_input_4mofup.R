@@ -16,7 +16,7 @@ if(length(args)==0){
   name <- args[[1]]
 }
 
-active_analyses<-read_rds("lib/active_analysis_4mofup.rds")
+active_analyses<-read_rds("lib/active_analyses_4mofup.rds")
 # Identify model inputs to be prepared -----------------------------------------
 print('Identify model inputs to be prepared')
 
