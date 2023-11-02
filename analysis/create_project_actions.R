@@ -437,12 +437,7 @@ actions_list <- splice(
     )
   ),
   
-   splice(
-    unlist(lapply(cohorts, 
-                  function(x) generate_ac_te_data(cohort = x)), 
-           recursive = FALSE
-    )
-  ),
+   
   ## Preprocess data -----------------------------------------------------------
   
   splice(
@@ -476,6 +471,15 @@ actions_list <- splice(
            recursive = FALSE
     )
   ),
+ 
+ ##generate data for anticoagulants and thrombotic events data
+  splice(
+    unlist(lapply(cohorts, 
+                  function(x) generate_ac_te_data(cohort = x)), 
+           recursive = FALSE
+    )
+  ),
+
 
 ## Table 1 -------------------------------------------------------------------
   
