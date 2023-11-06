@@ -8,7 +8,7 @@ library(magrittr)
 # Specify redaction threshold --------------------------------------------------
 print('Specify redaction threshold')
 
-threshold <- 8
+threshold <- 6
 
 # Source common functions ------------------------------------------------------
 print('Source common functions')
@@ -29,7 +29,7 @@ if(length(args)==0){
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds")
+active_analyses <- readr::read_rds("lib/active_analyses_gi_bleeds.rds")
 active_analyses <- active_analyses[active_analyses$cohort==cohort,]
 
 # Make empty table 2 -----------------------------------------------------------
@@ -58,12 +58,13 @@ for (i in 1:nrow(active_analyses)) {
   ## Load data -----------------------------------------------------------------
   print(paste0("Load data for ",active_analyses$name[i]))
   
-  df <- read_rds(paste0("output/model_input-",active_analyses$name[i],".rds"))
-  df <- df[,c("patient_id","index_date","exp_date","out_date","end_date_exposure","end_date_outcome")]
+  df <- read_rds(paste0("output/model_input-",active_analyses$name[i],"_gi_bleeds.rds"))
 
+  df <- df[,c("patient_id","index_date","exp_date","out_date","end_date_exposure","end_date_outcome")]
+  
   # Remove exposures and outcomes outside follow-up ----------------------------
   print("Remove exposures and outcomes outside follow-up")
-
+  
   df <- df %>% 
     dplyr::mutate(exposure = replace(exp_date, which(exp_date>end_date_exposure | exp_date<index_date), NA),
                   outcome = replace(out_date, which(out_date>end_date_outcome | out_date<index_date), NA))
@@ -110,21 +111,22 @@ for (i in 1:nrow(active_analyses)) {
                                day0_events = nrow(exposed[exposed$exp_date==exposed$out_date & !is.na(exposed$exp_date) & !is.na(exposed$out_date),]),
                                total_exposed = nrow(exposed),
                                sample_size = nrow(df))
-
+  
 }
 
 # Save Table 2 -----------------------------------------------------------------
 print('Save Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,".csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds.csv"), row.names = FALSE)
 
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
 
 table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))] <- lapply(table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))],
-                                            FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
+                                                                                                FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
 
-# Save Table 2 -----------------------------------------------------------------
+
+#Save Table 2 for gi bleeds -----------------------------------------------------------------
 print('Save rounded Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,"_rounded.csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds_rounded.csv"), row.names = FALSE)

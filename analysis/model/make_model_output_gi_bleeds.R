@@ -8,23 +8,21 @@ library(stringr)
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds")
+active_analyses <- readr::read_rds("lib/active_analyses_gi_bleeds.rds")
 
 # List available model outputs -------------------------------------------------
 print('List available model outputs')
 
-files <- list.files("output", pattern = "model_output-")
+files <- list.files("output", pattern = "^model_output-.*gi_bleeds\\.csv$")
 
 # Combine model outputs --------------------------------------------------------
 print('Combine model outputs')
 
 df <- NULL
-symptoms<- c("nausea", "vomiting", "bloody_stools", "abdominal_paindiscomfort", "abdominal_distension", "diarrhoea")
 
 for (i in files) {
   
-  ## Load model output if it is not a symptom
-  if (!any(str_detect(i, symptoms))) {
+  
   
   tmp <- readr::read_csv(paste0("output/",i))
   
@@ -67,7 +65,7 @@ for (i in files) {
   
   df <- plyr::rbind.fill(df,tmp)
 }
-}
+
 
 # Add details from active analyses ---------------------------------------------
 print('Add details from active analyses')
@@ -85,7 +83,7 @@ print('Apply disclosure control')
 
 ## Set disclosure threshold
 
-disclosure_threshold <- 8
+disclosure_threshold <- 5
 
 ## Apply controls to estimates
 
@@ -121,4 +119,4 @@ df <- df[,c("name","cohort","outcome","analysis","error","model","term",
             "N_total","N_exposed","N_events","person_time_total",
             "outcome_time_median","strata_warning","surv_formula")]
 
-readr::write_csv(df, "output/model_output.csv")
+readr::write_csv(df, "output/model_output_gi_bleeds.csv")
