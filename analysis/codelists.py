@@ -307,14 +307,140 @@ pregnancy_snomed_clinical = codelist_from_csv(
 cocp_dmd = codelist_from_csv(
     "codelists/user-elsie_horne-cocp_dmd.csv",
     system="snomed",
-    column="dmd_id",
+    column="code",
 )
 hrt_dmd = codelist_from_csv(
     "codelists/user-elsie_horne-hrt_dmd.csv",
     system="snomed",
-    column="dmd_id",
+    column="code",
+)
+# ATE VTE codes
+pe_snomed_clinical = codelist_from_csv(
+    "codelists/user-elsie_horne-pe_snomed.csv",
+    system="snomed",
+    column="code",
+)
+other_dvt_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-other_dvt_icd10.csv",
+    system="icd10",
+    column="code",
 )
 
+
+portal_vein_thrombosis_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-portal_vein_thrombosis_icd10.csv",
+    system="icd10",
+    column="code",
+)
+dvt_dvt_icd10 = codelist_from_csv(
+    "codelists/user-RochelleKnight-dvt_dvt_icd10.csv",
+    system="icd10",
+    column="code",
+)
+
+pe_icd10 = codelist_from_csv(
+    "codelists/user-RochelleKnight-pe_icd10.csv",
+    system="icd10",
+    column="code",
+)
+dvt_icvt_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-dvt_icvt_icd10.csv",
+    system="icd10",
+    column="code",
+)
+# DVT
+dvt_dvt_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-dvt_main.csv",
+    system="snomed",
+    column="code",
+)
+
+# ICVT
+dvt_icvt_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-dvt_icvt.csv",
+    system="snomed",
+    column="code",
+)
+
+# Portal vein thrombosis
+portal_vein_thrombosis_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-pvt.csv",
+    system="snomed",
+    column="code",
+)
+
+ami_snomed_clinical = codelist_from_csv(
+    "codelists/user-elsie_horne-ami_snomed.csv",
+    system="snomed",
+    column="code",
+)
+
+ami_icd10 = codelist_from_csv(
+    "codelists/user-RochelleKnight-ami_icd10.csv",
+    system="icd10",
+    column="code",
+)
+# Other DVT
+other_dvt_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-dvt-other.csv",
+    system="snomed",
+    column="code",
+)
+# Other arterial embolism
+other_arterial_embolism_snomed_clinical = codelist_from_csv(
+    "codelists/user-tomsrenin-other_art_embol.csv",
+    system="snomed",
+    column="code",
+)
+stroke_isch_icd10 = codelist_from_csv(
+    "codelists/user-RochelleKnight-stroke_isch_icd10.csv",
+    system="icd10",
+    column="code",
+)
+
+stroke_isch_snomed_clinical = codelist_from_csv(
+    "codelists/user-elsie_horne-stroke_isch_snomed.csv",
+    system="snomed",
+    column="code",
+)
+other_arterial_embolism_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-other_arterial_embolism_icd10.csv",
+    system="icd10",
+    column="code",
+)
+
+
+# All VTE in SNOMED
+all_vte_codes_snomed_clinical = combine_codelists(
+    portal_vein_thrombosis_snomed_clinical, 
+    dvt_dvt_snomed_clinical, 
+    dvt_icvt_snomed_clinical, 
+    other_dvt_snomed_clinical, 
+    pe_snomed_clinical
+)
+
+# All VTE in ICD10
+all_vte_codes_icd10 = combine_codelists(
+    portal_vein_thrombosis_icd10, 
+    dvt_dvt_icd10, 
+    dvt_icvt_icd10, 
+    other_dvt_icd10,  
+    pe_icd10
+)
+
+# All ATE in SNOMED
+all_ate_codes_snomed_clinical = combine_codelists(
+    ami_snomed_clinical, 
+    other_arterial_embolism_snomed_clinical, 
+    stroke_isch_snomed_clinical
+)
+
+# All ATE in ICD10
+all_ate_codes_icd10 = combine_codelists(
+    ami_icd10, 
+    other_arterial_embolism_icd10, 
+    stroke_isch_icd10
+)
 #GI outcomes 
 # Blood pressure
 systolic_blood_pressure_codes = codelist(
