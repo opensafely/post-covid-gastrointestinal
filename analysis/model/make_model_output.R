@@ -85,7 +85,7 @@ print('Apply disclosure control')
 
 ## Set disclosure threshold
 
-disclosure_threshold <- 8
+disclosure_threshold <- 6
 
 ## Apply controls to estimates
 

@@ -1,5 +1,6 @@
 
     library(jsonlite)
+    library(dplyr)
 
     # Create output directory ------------------------------------------------------
     fs::dir_create(here::here("lib"))
@@ -142,7 +143,7 @@
                             age_spline = TRUE,
                             analysis = "main",
                             priorhistory_var = "")
-        
+
         ## analysis: sub_covid_hospitalised ----------------------------------------
         
         df[nrow(df)+1,] <- c(cohort = c,
@@ -571,7 +572,24 @@
       }
       
     }
+  
 
+    ## Add day0 analysis rows: 
+    # Filter to analysis that we need day0 for 
+      day0_rows <- df %>% 
+            filter(analysis %in% c("main", "sub_covid_hospitalised", "sub_covid_nonhospitalised") | grepl("^sub_age", analysis))
+
+#  Update analysis and cut_points 
+day0_rows <- day0_rows %>% 
+  mutate(
+     analysis = paste0(analysis, "_day0"),
+    cut_points = ifelse(
+      cohort == "prevax",
+      gsub("28", "1;28", prevax_cuts),
+      gsub("28", "1;28", vax_unvax_cuts)
+    )
+  )
+df <- bind_rows(df, day0_rows)
     # Assign unique name -----------------------------------------------------------
 
     df$name <- paste0("cohort_",df$cohort, "-", 
