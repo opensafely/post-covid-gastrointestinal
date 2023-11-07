@@ -32,4 +32,4 @@ for (i in 1:nrow(active_analyses)) {
       gsub(";cov_bin_anticoagulants_bnf", "", active_analyses_4mofup$covariate_other[nrow(active_analyses_4mofup)])
   }
 }
-write_rds(active_analyses_4mofup,"lib/active_analysis_4mofup.rds")
+write_rds(active_analyses_4mofup,"lib/active_analyses_4mofup.rds")
