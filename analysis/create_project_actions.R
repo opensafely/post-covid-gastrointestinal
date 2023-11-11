@@ -14,7 +14,8 @@ defaults_list <- list(
 
 # Define active analyses -------------------------------------------------------
 
- active_analyses <- read_rds("lib/active_analyses.rds")
+ active_analyses <- read_rds("lib/active_analyses.rds")%>% 
+                  filter(grepl("^sub_age", analysis))
     active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
     active_analyses_models<- active_analyses%>%filter(!name%in% active_analyses_failed$name)
 
