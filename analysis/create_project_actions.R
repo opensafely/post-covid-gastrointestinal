@@ -14,8 +14,7 @@ defaults_list <- list(
 
 # Define active analyses -------------------------------------------------------
 
- active_analyses <- read_rds("lib/active_analyses.rds")%>% 
-                  filter(grepl("^sub_age", analysis))
+ active_analyses <- read_rds("lib/active_analyses.rds") 
     active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
     active_analyses_models<- active_analyses%>%filter(!name%in% active_analyses_failed$name)
 
@@ -541,28 +540,28 @@ comment("Run failed models"),
   ## re-run failed models to save sampled data 
 
 comment("Run models for 4months followup sensitivity: thrombotic events and anticaogulants"),
-  splice(
-    unlist(lapply(1:nrow(active_analyses_4mofup), 
-                  function(x) apply_model_function_4mofup(name = active_analyses_4mofup$name[x],
-                                                   cohort = active_analyses_4mofup$cohort[x],
-                                                   analysis = active_analyses_4mofup$analysis[x],
-                                                   ipw = active_analyses_4mofup$ipw[x],
-                                                   strata = active_analyses_4mofup$strata[x],
-                                                   covariate_sex = active_analyses_4mofup$covariate_sex[x],
-                                                   covariate_age = active_analyses_4mofup$covariate_age[x],
-                                                   covariate_other = active_analyses_4mofup$covariate_other[x],
-                                                   cox_start = active_analyses_4mofup$cox_start[x],
-                                                   cox_stop = active_analyses_4mofup$cox_stop[x],
-                                                   study_start = active_analyses_4mofup$study_start[x],
-                                                   study_stop = active_analyses_4mofup$study_stop[x],
-                                                   cut_points = active_analyses_4mofup$cut_points[x],
-                                                   controls_per_case = active_analyses_4mofup$controls_per_case[x],
-                                                   total_event_threshold = active_analyses_4mofup$total_event_threshold[x],
-                                                   episode_event_threshold = active_analyses_4mofup$episode_event_threshold[x],
-                                                   covariate_threshold = active_analyses_4mofup$covariate_threshold[x],
-                                                   age_spline = active_analyses_4mofup$age_spline[x])), recursive = FALSE
-    )
-  ),
+  # splice(
+  #   unlist(lapply(1:nrow(active_analyses_4mofup), 
+  #                 function(x) apply_model_function_4mofup(name = active_analyses_4mofup$name[x],
+  #                                                  cohort = active_analyses_4mofup$cohort[x],
+  #                                                  analysis = active_analyses_4mofup$analysis[x],
+  #                                                  ipw = active_analyses_4mofup$ipw[x],
+  #                                                  strata = active_analyses_4mofup$strata[x],
+  #                                                  covariate_sex = active_analyses_4mofup$covariate_sex[x],
+  #                                                  covariate_age = active_analyses_4mofup$covariate_age[x],
+  #                                                  covariate_other = active_analyses_4mofup$covariate_other[x],
+  #                                                  cox_start = active_analyses_4mofup$cox_start[x],
+  #                                                  cox_stop = active_analyses_4mofup$cox_stop[x],
+  #                                                  study_start = active_analyses_4mofup$study_start[x],
+  #                                                  study_stop = active_analyses_4mofup$study_stop[x],
+  #                                                  cut_points = active_analyses_4mofup$cut_points[x],
+  #                                                  controls_per_case = active_analyses_4mofup$controls_per_case[x],
+  #                                                  total_event_threshold = active_analyses_4mofup$total_event_threshold[x],
+  #                                                  episode_event_threshold = active_analyses_4mofup$episode_event_threshold[x],
+  #                                                  covariate_threshold = active_analyses_4mofup$covariate_threshold[x],
+  #                                                  age_spline = active_analyses_4mofup$age_spline[x])), recursive = FALSE
+  #   )
+  # ),
   ## Table 2 -------------------------------------------------------------------
   
   splice(
@@ -584,7 +583,7 @@ comment("Run models for 4months followup sensitivity: thrombotic events and anti
     )
   ),
   
-  ## Venn data -----------------------------------------------------------------
+  # Venn data -----------------------------------------------------------------
   
   splice(
     unlist(lapply(unique(active_analyses$cohort), 
