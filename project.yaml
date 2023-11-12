@@ -79,39 +79,6 @@ actions:
       highly_sensitive:
         cohort: output/input_vax.csv.gz
 
-  ## Generate anti coagulants and thrombotic data - prevax 
-
-  generate_ac_te_data_prevax:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax_4mofup
-      --output-format csv.gz
-    needs:
-    - generate_hospitalised_data_prevax
-    outputs:
-      highly_sensitive:
-        cohort: output/input_prevax_4mofup.csv.gz
-
-  ## Generate anti coagulants and thrombotic data - unvax 
-
-  generate_ac_te_data_unvax:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_unvax_4mofup
-      --output-format csv.gz
-    needs:
-    - generate_hospitalised_data_unvax
-    outputs:
-      highly_sensitive:
-        cohort: output/input_unvax_4mofup.csv.gz
-
-  ## Generate anti coagulants and thrombotic data - vax 
-
-  generate_ac_te_data_vax:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_vax_4mofup
-      --output-format csv.gz
-    needs:
-    - generate_hospitalised_data_vax
-    outputs:
-      highly_sensitive:
-        cohort: output/input_vax_4mofup.csv.gz
-
   ## Preprocess data - prevax 
 
   preprocess_data_prevax:
@@ -244,7 +211,7 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_prevax:
-    run: r:latest analysis/hostpitalised_data.R prevax
+    run: r:latest analysis/hospitalised_data.R prevax
     needs:
     - stage1_data_cleaning_prevax
     outputs:
@@ -254,7 +221,7 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_unvax:
-    run: r:latest analysis/hostpitalised_data.R unvax
+    run: r:latest analysis/hospitalised_data.R unvax
     needs:
     - stage1_data_cleaning_unvax
     outputs:
@@ -264,12 +231,45 @@ actions:
   ## Generate hospitalised data from stage1 data 
 
   generate_hospitalised_data_vax:
-    run: r:latest analysis/hostpitalised_data.R vax
+    run: r:latest analysis/hospitalised_data.R vax
     needs:
     - stage1_data_cleaning_vax
     outputs:
       highly_sensitive:
         hosp_data: output/input_vax_stage1_hosp.csv.gz
+
+  ## Generate anti coagulants and thrombotic data - prevax 
+
+  generate_ac_te_data_prevax:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax_4mofup
+      --output-format csv.gz
+    needs:
+    - generate_hospitalised_data_prevax
+    outputs:
+      highly_sensitive:
+        cohort: output/input_prevax_4mofup.csv.gz
+
+  ## Generate anti coagulants and thrombotic data - unvax 
+
+  generate_ac_te_data_unvax:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_unvax_4mofup
+      --output-format csv.gz
+    needs:
+    - generate_hospitalised_data_unvax
+    outputs:
+      highly_sensitive:
+        cohort: output/input_unvax_4mofup.csv.gz
+
+  ## Generate anti coagulants and thrombotic data - vax 
+
+  generate_ac_te_data_vax:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_vax_4mofup
+      --output-format csv.gz
+    needs:
+    - generate_hospitalised_data_vax
+    outputs:
+      highly_sensitive:
+        cohort: output/input_vax_4mofup.csv.gz
 
   ## Table 1 - prevax 
 
@@ -16141,4 +16141,116 @@ actions:
       moderately_sensitive:
         table1: output/table1_gi_bleeds_vax.csv
         table1_rounded: output/table1_gi_bleeds_vax_rounded.csv
+
+  ## Table 2 gi bleeds vax 
+
+  table2_vax_gi_bleeds:
+    run: r:latest analysis/descriptives/table2_gi_bleeds.R vax
+    needs:
+    - make_model_input-cohort_vax-main-upper_gi_bleeding_gi_bleeds
+    - make_model_input-cohort_vax-main-lower_gi_bleeding_gi_bleeds
+    - make_model_input-cohort_vax-main-variceal_gi_bleeding_gi_bleeds
+    - make_model_input-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        table2: output/table2_vax_gi_bleeds.csv
+        table2_rounded: output/table2_vax_gi_bleeds_rounded.csv
+
+  ## Run models for gi bleeds 
+
+  make_model_input-cohort_vax-main-upper_gi_bleeding_gi_bleeds:
+    run: r:latest analysis/model/make_model_input_gi_bleeds.R cohort_vax-main-upper_gi_bleeding
+    needs:
+    - stage1_data_cleaning_gi_bleeds
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-main-upper_gi_bleeding_gi_bleeds.rds
+
+  cox_ipw-cohort_vax-main-upper_gi_bleeding_gi_bleeds:
+    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_vax-main-upper_gi_bleeding_gi_bleeds.rds
+      --ipw=FALSE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-main-upper_gi_bleeding_gi_bleeds.csv
+    needs:
+    - make_model_input-cohort_vax-main-upper_gi_bleeding_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-main-upper_gi_bleeding_gi_bleeds.csv
+
+  make_model_input-cohort_vax-main-lower_gi_bleeding_gi_bleeds:
+    run: r:latest analysis/model/make_model_input_gi_bleeds.R cohort_vax-main-lower_gi_bleeding
+    needs:
+    - stage1_data_cleaning_gi_bleeds
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-main-lower_gi_bleeding_gi_bleeds.rds
+
+  cox_ipw-cohort_vax-main-lower_gi_bleeding_gi_bleeds:
+    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_vax-main-lower_gi_bleeding_gi_bleeds.rds
+      --ipw=FALSE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-main-lower_gi_bleeding_gi_bleeds.csv
+    needs:
+    - make_model_input-cohort_vax-main-lower_gi_bleeding_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-main-lower_gi_bleeding_gi_bleeds.csv
+
+  make_model_input-cohort_vax-main-variceal_gi_bleeding_gi_bleeds:
+    run: r:latest analysis/model/make_model_input_gi_bleeds.R cohort_vax-main-variceal_gi_bleeding
+    needs:
+    - stage1_data_cleaning_gi_bleeds
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-main-variceal_gi_bleeding_gi_bleeds.rds
+
+  cox_ipw-cohort_vax-main-variceal_gi_bleeding_gi_bleeds:
+    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_vax-main-variceal_gi_bleeding_gi_bleeds.rds
+      --ipw=FALSE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-main-variceal_gi_bleeding_gi_bleeds.csv
+    needs:
+    - make_model_input-cohort_vax-main-variceal_gi_bleeding_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-main-variceal_gi_bleeding_gi_bleeds.csv
+
+  make_model_input-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds:
+    run: r:latest analysis/model/make_model_input_gi_bleeds.R cohort_vax-main-nonvariceal_gi_bleeding
+    needs:
+    - stage1_data_cleaning_gi_bleeds
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds.rds
+
+  cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds:
+    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds.rds
+      --ipw=FALSE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds.csv
+    needs:
+    - make_model_input-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds.csv
+
+  ##  make model output gi bleeds 
+
+  make_model_output_gi_bleeds:
+    run: r:latest analysis/model/make_model_output_gi_bleeds.R
+    needs:
+    - cox_ipw-cohort_vax-main-upper_gi_bleeding_gi_bleeds
+    - cox_ipw-cohort_vax-main-lower_gi_bleeding_gi_bleeds
+    - cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output_gi_bleeds.csv
 
