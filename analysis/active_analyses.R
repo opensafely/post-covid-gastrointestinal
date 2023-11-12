@@ -51,8 +51,8 @@
     vax_unvax_start<-"2021-06-01"
     vax_unvax_stop <-"2021-12-14"
     ##Cut points 
-    prevax_cuts <- "28;197;365;714"
-    vax_unvax_cuts <- "28;197"
+    prevax_cuts <- "1;28;197;365;714"
+    vax_unvax_cuts <- "1;28;197"
     # all_covars <- paste0("cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;",
     #                      "cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;",
     #                      "cov_bin_nonvariceal_gi_bleeding;cov_bin_variceal_gi_bleedingl;cov_bin_lower_gi_bleeding;cov_bin_upper_gi_bleeding;",
@@ -580,24 +580,23 @@
     #         filter(analysis %in% c("main", "sub_covid_hospitalised", "sub_covid_nonhospitalised") | grepl("^sub_age", analysis))
 
 #  Update analysis and cut_points 
-day0_rows <- df %>% 
-  mutate(
-     analysis = paste0(analysis, "_day0"),
-    cut_points = ifelse(
-      cohort == "prevax",
-      gsub("28", "1;28", prevax_cuts),
-      gsub("28", "1;28", vax_unvax_cuts)
-    )
-  )
-df <- bind_rows(df, day0_rows)
+# day0_rows <- df %>% 
+#   mutate(
+#      analysis = paste0(analysis, "_day0"),
+#     cut_points = ifelse(
+#       cohort == "prevax",
+#       gsub("28", "1;28", prevax_cuts),
+#       gsub("28", "1;28", vax_unvax_cuts)
+#     )
+#   )
+# df <- bind_rows(df, day0_rows)
+# df<-day0_rows
     # Assign unique name -----------------------------------------------------------
 
     df$name <- paste0("cohort_",df$cohort, "-", 
                       df$analysis, "-", 
                       gsub("out_date_","",df$outcome), 
                       ifelse(df$priorhistory_var=="","", paste0("-",df$priorhistory_var)))
-
-
 
     # Check names are unique and save active analyses list -------------------------
 
