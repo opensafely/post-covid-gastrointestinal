@@ -115,7 +115,7 @@ for (i in 1:nrow(active_analyses)) {
     rm(df)
     
   }
-  
+
   # Make model input: sub_covid_hospitalised -------------------------------------
   
   if (active_analyses$analysis[i]=="sub_covid_hospitalised") {
@@ -457,9 +457,5 @@ df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     rm(df)
     
   }
-
-
-  
-  
-  
 }
+
