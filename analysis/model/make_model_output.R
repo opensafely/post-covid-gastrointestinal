@@ -85,7 +85,7 @@ print('Apply disclosure control')
 
 ## Set disclosure threshold
 
-disclosure_threshold <- 6
+disclosure_threshold <- 7
 
 ## Apply controls to estimates
 
@@ -113,6 +113,10 @@ df$N_events <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",
 df$person_time_total <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$person_time_total)
 df$outcome_time_median <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$outcome_time_median)
 
+# Apply rounding   -------------------------------------------------------------
+print('Apply rounding')
+df[,c("N_total","N_exposed","N_events")] <- lapply(df[,c("N_total","N_exposed","N_events")],
+                                                   FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
 # Save model output ------------------------------------------------------------
 print('Save model output')
 
