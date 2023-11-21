@@ -80,38 +80,8 @@ df <- merge(df,
 
 df$outcome <- gsub("out_date_","",df$outcome)
 
-# Apply disclosure control -----------------------------------------------------
-print('Apply disclosure control')
 
-## Set disclosure threshold
 
-disclosure_threshold <- 7
-
-## Apply controls to estimates
-
-redact <- df[df$error=="",] %>%
-  dplyr::group_by(name) %>%
-  dplyr::mutate(min_total = min(N_total, na.rm = TRUE),
-                min_exposed = min(N_exposed, na.rm = TRUE),
-                min_events = min(N_events, na.rm = TRUE)) %>%
-  dplyr::ungroup() %>%
-  dplyr::select(name, min_total, min_exposed, min_events) %>%
-  dplyr::distinct()
-
-redact$action <- (redact$min_total <= disclosure_threshold) |
-  (redact$min_exposed <= disclosure_threshold) |
-  (redact$min_events <= disclosure_threshold)
-
-df$lnhr <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$lnhr)
-df$se_lnhr <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$se_lnhr)
-df$hr <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$hr)
-df$conf_low <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$conf_low)
-df$conf_high <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$conf_high)
-df$N_total <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$N_total)
-df$N_exposed <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$N_exposed)
-df$N_events <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$N_events)
-df$person_time_total <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$person_time_total)
-df$outcome_time_median <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$outcome_time_median)
 
 # Apply rounding   -------------------------------------------------------------
 print('Apply rounding')
