@@ -10,6 +10,16 @@ print('Load active analyses')
 
 active_analyses <- readr::read_rds("lib/active_analyses.rds")
 
+# Specify redaction threshold --------------------------------------------------
+print('Specify redaction threshold')
+
+threshold <- 6
+
+# Source common functions ------------------------------------------------------
+print('Source common functions')
+
+source("analysis/utility.R")
+
 # List available model outputs -------------------------------------------------
 print('List available model outputs')
 
@@ -81,18 +91,23 @@ df <- merge(df,
 df$outcome <- gsub("out_date_","",df$outcome)
 
 
-
-
-# Apply rounding   -------------------------------------------------------------
+# Apply midpoint 6 rounding   --------------------------------------------------
 print('Apply rounding')
 df[,c("N_total","N_exposed","N_events")] <- lapply(df[,c("N_total","N_exposed","N_events")],
-                                                   FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
+                                                 FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
+                                                
+# Rename rounded columns -------------------------------------------------------
+df<- df%>% 
+rename(
+    N_total_midpoint6 = N_total,
+    N_exposed_midpoint6 = N_exposed,
+    N_events_midpoint6 = N_events
+  )
 # Save model output ------------------------------------------------------------
 print('Save model output')
-
 df <- df[,c("name","cohort","outcome","analysis","error","model","term",
             "lnhr","se_lnhr","hr","conf_low","conf_high",
-            "N_total","N_exposed","N_events","person_time_total",
+            "N_total_midpoint6","N_exposed_midpoint6","N_events_midpoint6","person_time_total",
             "outcome_time_median","strata_warning","surv_formula")]
 
-readr::write_csv(df, "output/model_output.csv")
+readr::write_csv(df, "output/model_output_rounded.csv")
