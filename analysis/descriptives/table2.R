@@ -135,7 +135,7 @@ names(table2)[match(rounded_cols, names(table2))] <- new_names
 # Recalculate total columns --------------------------------------------------
   print('Recalculate total columns')
   
-  table2$total_events_midpoint6 <- table2$exposed_events_midpoint6 + table2$unexposed_events_midpoint6
+  table2$total_events_derived <- table2$exposed_events_midpoint6 + table2$unexposed_events_midpoint6
 
 # Removeo total_events
 print('Remvoe total events')
