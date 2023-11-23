@@ -8,7 +8,7 @@ library(magrittr)
 # Specify redaction threshold --------------------------------------------------
 print('Specify redaction threshold')
 
-threshold <- 8
+threshold <- 6
 
 # Source common functions ------------------------------------------------------
 print('Source common functions')
@@ -21,7 +21,7 @@ print('Specify arguments')
 args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  cohort <- "vax"
+  cohort <- "prevax"
 } else {
   cohort <- args[[1]]
 }
@@ -121,9 +121,26 @@ write.csv(table2, paste0("output/table2_",cohort,".csv"), row.names = FALSE)
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
 
-table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))] <- lapply(table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))],
-                                            FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
+rounded_cols <- setdiff(colnames(table2), c("name", "cohort", "exposure", "outcome", "analysis", "unexposed_person_days", "exposed_person_days", "total_person_days", "total_events"))
 
+# Renaming the columns by adding '_midpoint6'-----------------------------------
+table2[rounded_cols] <- lapply(
+  table2[rounded_cols],
+  FUN = function(y) { roundmid_any(as.numeric(y), to = threshold) }
+)
+
+new_names<-paste0(rounded_cols, "_midpoint6")
+names(table2)[match(rounded_cols, names(table2))] <- new_names
+
+# Recalculate total columns --------------------------------------------------
+  print('Recalculate total columns')
+  
+  table2$total_events_midpoint6 <- table2$exposed_events_midpoint6 + table2$unexposed_events_midpoint6
+
+# Removeo total_events
+print('Remvoe total events')
+table2 <- table2 %>% 
+           select(-c("total_events"))
 # Save Table 2 -----------------------------------------------------------------
 print('Save rounded Table 2')
 
