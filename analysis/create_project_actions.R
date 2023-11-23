@@ -376,15 +376,17 @@ table1 <- function(cohort){
 }
 # Create function to make Table 2 ----------------------------------------------
 
+
 table2 <- function(cohort){
   
   table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
+  table2_names <- table2_names[grepl("-main-",table2_names)]
   
   splice(
     comment(glue("Table 2 - {cohort}")),
     action(
       name = glue("table2_{cohort}"),
-      run = "r:latest analysis/descriptives/table2.R",
+      run = "r:latest analysis/table2.R",
       arguments = c(cohort),
       needs = c(as.list(paste0("make_model_input-",table2_names))),
       moderately_sensitive = list(
