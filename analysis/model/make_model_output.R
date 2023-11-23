@@ -103,6 +103,7 @@ rename(
     N_exposed_midpoint6 = N_exposed,
     N_events_midpoint6 = N_events
   )
+  
 # Save model output ------------------------------------------------------------
 print('Save model output')
 df <- df[,c("name","cohort","outcome","analysis","error","model","term",
