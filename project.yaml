@@ -14778,6 +14778,7 @@ actions:
     outputs:
       moderately_sensitive:
         venn: output/venn_prevax.csv
+        venn_rounded: output/venn_prevax_rounded.csv
 
   ## Venn - unvax 
 
@@ -14800,6 +14801,7 @@ actions:
     outputs:
       moderately_sensitive:
         venn: output/venn_unvax.csv
+        venn_rounded: output/venn_unvax_rounded.csv
 
   ## Venn - vax 
 
@@ -14822,6 +14824,7 @@ actions:
     outputs:
       moderately_sensitive:
         venn: output/venn_vax.csv
+        venn_rounded: output/venn_vax_rounded.csv
 
   ## Stage 6 - make model output 
 
