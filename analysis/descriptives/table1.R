@@ -205,7 +205,7 @@ df[,setdiff(colnames(df),c("characteristic","subcharacteristic"))] <- lapply(df[
 # Rename rounded columns--------------------------------------------------------
 df <- df%>% 
 rename(
-  tatal_midpoint6 = total,
+  total_midpoint6 = total,
   exposed_midpoint6 = exposed
 )
 # Calculate column percentages -------------------------------------------------
@@ -219,4 +219,4 @@ colnames(df) <- c("Characteristic","Subcharacteristic","N (%) derived","COVID-19
 # Save Table 1 -----------------------------------------------------------------
 print('Save rounded Table 1')
 
-write.csv(df, paste0("output/table1_",cohort,"_rounded.csv"), row.names = FALSE)
+write.csv(df, paste0("output/table1_",cohort,"_midpoint6.csv"), row.names = FALSE)
