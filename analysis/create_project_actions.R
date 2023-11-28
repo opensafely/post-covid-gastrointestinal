@@ -386,7 +386,7 @@ table2 <- function(cohort){
     comment(glue("Table 2 - {cohort}")),
     action(
       name = glue("table2_{cohort}"),
-      run = "r:latest analysis/table2.R",
+      run = "r:latest analysis/descriptives/table2.R",
       arguments = c(cohort),
       needs = c(as.list(paste0("make_model_input-",table2_names))),
       moderately_sensitive = list(
