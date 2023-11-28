@@ -14777,8 +14777,7 @@ actions:
     - make_model_input-cohort_prevax-main-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
-        table2: output/venn_prevax.csv
-        table2_rounded: output/venn_prevax_midpoint6.csv
+        venn: output/venn_prevax.csv
 
   ## Venn - unvax 
 
@@ -14800,8 +14799,7 @@ actions:
     - make_model_input-cohort_unvax-main-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
-        table2: output/venn_unvax.csv
-        table2_rounded: output/venn_unvax_midpoint6.csv
+        venn: output/venn_unvax.csv
 
   ## Venn - vax 
 
@@ -14823,8 +14821,7 @@ actions:
     - make_model_input-cohort_vax-main-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
-        table2: output/venn_vax.csv
-        table2_rounded: output/venn_vax_midpoint6.csv
+        venn: output/venn_vax.csv
 
   ## Stage 6 - make model output 
 

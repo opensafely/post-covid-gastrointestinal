@@ -431,8 +431,7 @@ venn <- function(cohort){
       needs = c(as.list(glue("preprocess_data_{cohort}")),
                 as.list(paste0(glue("make_model_input-cohort_{cohort}-main-"),venn_outcomes))),
       moderately_sensitive = list(
-        table2 = glue("output/venn_{cohort}.csv"),
-        table2_rounded = glue("output/venn_{cohort}_midpoint6.csv")
+        venn = glue("output/venn_{cohort}.csv")
       )
     )
   )
