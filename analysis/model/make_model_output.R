@@ -95,7 +95,15 @@ df$outcome <- gsub("out_date_","",df$outcome)
 print('Apply rounding')
 df[,c("N_total","N_exposed","N_events")] <- lapply(df[,c("N_total","N_exposed","N_events")],
                                                  FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
-                                                
+ # Save model output ------------------------------------------------------------
+print('Save model output')
+
+df <- df[,c("name","cohort","outcome","analysis","error","model","term",
+            "lnhr","se_lnhr","hr","conf_low","conf_high",
+            "N_total","N_exposed","N_events","person_time_total",
+            "outcome_time_median","strata_warning","surv_formula")]
+
+readr::write_csv(df, "output/model_output.csv")                                               
 # Rename rounded columns -------------------------------------------------------
 df<- df%>% 
 rename(
@@ -111,4 +119,4 @@ df <- df[,c("name","cohort","outcome","analysis","error","model","term",
             "N_total_midpoint6","N_exposed_midpoint6","N_events_midpoint6","person_time_total",
             "outcome_time_median","strata_warning","surv_formula")]
 
-readr::write_csv(df, "output/model_output_rounded.csv")
+readr::write_csv(df, "output/model_output_midpoint6.csv")

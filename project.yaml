@@ -280,7 +280,7 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/table1_prevax.csv
-        table1_rounded: output/table1_prevax_rounded.csv
+        table1_rounded: output/table1_prevax_midpoint6.csv
 
   ## Table 1 - unvax 
 
@@ -291,7 +291,7 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/table1_unvax.csv
-        table1_rounded: output/table1_unvax_rounded.csv
+        table1_rounded: output/table1_unvax_midpoint6.csv
 
   ## Table 1 - vax 
 
@@ -302,7 +302,7 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/table1_vax.csv
-        table1_rounded: output/table1_vax_rounded.csv
+        table1_rounded: output/table1_vax_midpoint6.csv
 
   ## Run models 
 
@@ -14648,7 +14648,7 @@ actions:
   ## Table 2 - prevax 
 
   table2_prevax:
-    run: r:latest analysis/table2.R prevax
+    run: r:latest analysis/descriptives/table2.R prevax
     needs:
     - make_model_input-cohort_prevax-main-acute_pancreatitis
     - make_model_input-cohort_prevax-main-appendicitis
@@ -14665,12 +14665,12 @@ actions:
     outputs:
       moderately_sensitive:
         table2: output/table2_prevax.csv
-        table2_rounded: output/table2_prevax_rounded.csv
+        table2_rounded: output/table2_prevax_midpoint6.csv
 
   ## Table 2 - unvax 
 
   table2_unvax:
-    run: r:latest analysis/table2.R unvax
+    run: r:latest analysis/descriptives/table2.R unvax
     needs:
     - make_model_input-cohort_unvax-main-acute_pancreatitis
     - make_model_input-cohort_unvax-main-appendicitis
@@ -14687,12 +14687,12 @@ actions:
     outputs:
       moderately_sensitive:
         table2: output/table2_unvax.csv
-        table2_rounded: output/table2_unvax_rounded.csv
+        table2_rounded: output/table2_unvax_midpoint6.csv
 
   ## Table 2 - vax 
 
   table2_vax:
-    run: r:latest analysis/table2.R vax
+    run: r:latest analysis/descriptives/table2.R vax
     needs:
     - make_model_input-cohort_vax-main-acute_pancreatitis
     - make_model_input-cohort_vax-main-appendicitis
@@ -14709,7 +14709,7 @@ actions:
     outputs:
       moderately_sensitive:
         table2: output/table2_vax.csv
-        table2_rounded: output/table2_vax_rounded.csv
+        table2_rounded: output/table2_vax_midpoint6.csv
 
   ## Make absolute excess risk (AER) input 
 
@@ -14778,7 +14778,7 @@ actions:
     outputs:
       moderately_sensitive:
         table2: output/venn_prevax.csv
-        table2_rounded: output/venn_prevax_rounded.csv
+        table2_rounded: output/venn_prevax_midpoint6.csv
 
   ## Venn - unvax 
 
@@ -14801,7 +14801,7 @@ actions:
     outputs:
       moderately_sensitive:
         table2: output/venn_unvax.csv
-        table2_rounded: output/venn_unvax_rounded.csv
+        table2_rounded: output/venn_unvax_midpoint6.csv
 
   ## Venn - vax 
 
@@ -14824,7 +14824,7 @@ actions:
     outputs:
       moderately_sensitive:
         table2: output/venn_vax.csv
-        table2_rounded: output/venn_vax_rounded.csv
+        table2_rounded: output/venn_vax_midpoint6.csv
 
   ## Stage 6 - make model output 
 
@@ -15447,6 +15447,7 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output.csv
+        model_output_rounded: output/model_output_midpoint6.csv
 
   ## Stata models 
 
