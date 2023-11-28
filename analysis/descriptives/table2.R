@@ -144,4 +144,4 @@ table2 <- table2 %>%
 # Save Table 2 -----------------------------------------------------------------
 print('Save rounded Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,"_rounded.csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",cohort,"_midpoint6.csv"), row.names = FALSE)
