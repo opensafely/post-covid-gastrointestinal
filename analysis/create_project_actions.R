@@ -369,16 +369,18 @@ table1 <- function(cohort){
       needs = list(glue("stage1_data_cleaning_{cohort}")),
       moderately_sensitive = list(
         table1 = glue("output/table1_{cohort}.csv"),
-        table1_rounded = glue("output/table1_{cohort}_rounded.csv")
+        table1_rounded = glue("output/table1_{cohort}_midpoint6.csv")
       )
     )
   )
 }
 # Create function to make Table 2 ----------------------------------------------
 
+
 table2 <- function(cohort){
   
   table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
+  table2_names <- table2_names[grepl("-main-",table2_names)]
   
   splice(
     comment(glue("Table 2 - {cohort}")),
@@ -389,7 +391,7 @@ table2 <- function(cohort){
       needs = c(as.list(paste0("make_model_input-",table2_names))),
       moderately_sensitive = list(
         table2 = glue("output/table2_{cohort}.csv"),
-        table2_rounded = glue("output/table2_{cohort}_rounded.csv")
+        table2_rounded = glue("output/table2_{cohort}_midpoint6.csv")
       )
     )
   )
@@ -429,8 +431,8 @@ venn <- function(cohort){
       needs = c(as.list(glue("preprocess_data_{cohort}")),
                 as.list(paste0(glue("make_model_input-cohort_{cohort}-main-"),venn_outcomes))),
       moderately_sensitive = list(
-        table2 = glue("output/venn_{cohort}.csv"),
-        table2_rounded = glue("output/venn_{cohort}_rounded.csv")
+        venn = glue("output/venn_{cohort}.csv"),
+        venn_rounded =  glue("output/venn_{cohort}_rounded.csv")
       )
     )
   )
@@ -661,7 +663,8 @@ comment("Run models for 4months followup sensitivity: thrombotic events and anti
     run = "r:latest analysis/model/make_model_output.R",
     needs = as.list(paste0("cox_ipw-",success$name)),
     moderately_sensitive = list(
-      model_output = glue("output/model_output.csv")
+      model_output = glue("output/model_output.csv"),
+      model_output_rounded = glue("output/model_output_midpoint6.csv")
     )
   ), 
 comment ("Stata models"), 
@@ -771,3 +774,7 @@ as.yaml(project_list, indent=2) %>%
   str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%
   writeLines("project.yaml")
   print("YAML file printed!")
+
+  # Return number of actions -----------------------------------------------------
+
+print(paste0("YAML created with ",length(actions_list)," actions."))
