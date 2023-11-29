@@ -15207,9 +15207,6 @@ actions:
     - cox_ipw-cohort_unvax-sub_age_80_110-variceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_white-variceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_black-variceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-    - cox_ipw-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_prioroperations_true-variceal_gi_bleeding-cov_bin_gi_operations
     - cox_ipw-cohort_unvax-sub_prioroperations_false-variceal_gi_bleeding-cov_bin_gi_operations
     - cox_ipw-cohort_unvax-sub_priorhistory_true-variceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
@@ -15262,6 +15259,9 @@ actions:
     - cox_ipw-cohort_unvax-sub_age_80_110-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_white-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_ethnicity_black-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-nonvariceal_gi_bleeding
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_prioroperations_true-nonvariceal_gi_bleeding-cov_bin_gi_operations
     - cox_ipw-cohort_unvax-sub_prioroperations_false-nonvariceal_gi_bleeding-cov_bin_gi_operations
     - cox_ipw-cohort_unvax-sub_priorhistory_true-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
