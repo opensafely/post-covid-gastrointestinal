@@ -2,6 +2,7 @@
 print('Load libraries')
 
 library(magrittr)
+library(dplyr)
 
 # Specify redaction threshold --------------------------------------------------
 print('Specify redaction threshold')
