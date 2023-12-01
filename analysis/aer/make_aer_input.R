@@ -139,11 +139,19 @@ write.csv(input, paste0("output/aer_input-",analysis,".csv"), row.names = FALSE)
 
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
+rounded_cols <- setdiff(colnames(input),c("aer_sex","aer_age","analysis","cohort","outcome"))
 
-input[,setdiff(colnames(input),c("aer_sex","aer_age","analysis","cohort","outcome"))] <- lapply(input[,setdiff(colnames(input),c("aer_sex","aer_age","analysis","cohort","outcome"))],
-                                                                                     FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
+# Renaming the columns by adding '_midpoint6'-----------------------------------
+input[rounded_cols] <- lapply(
+  input[rounded_cols],
+  FUN = function(y) { roundmid_any(as.numeric(y), to = threshold) }
+)
+
+new_names<-paste0(rounded_cols, "_midpoint6")
+names(input)[match(rounded_cols, names(input))] <- new_names
+
 
 # Save rounded AER input -------------------------------------------------------
 print('Save rounded AER input')
 
-write.csv(input, paste0("output/aer_input-",analysis,"-rounded.csv"), row.names = FALSE)
+write.csv(input, paste0("output/aer_input-",analysis,"-midpoint6.csv"), row.names = FALSE)
