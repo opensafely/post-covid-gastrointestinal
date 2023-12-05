@@ -7,7 +7,7 @@ library(dplyr)
 # Specify redaction threshold --------------------------------------------------
 print('Specify redaction threshold')
 
-threshold <- 8
+threshold <- 6
 
 # Source common functions ------------------------------------------------------
 print('Source common functions')
@@ -212,7 +212,7 @@ rename(
 # Calculate column percentages -------------------------------------------------
 
 df$Npercent_derived <- paste0(df$total_midpoint6,ifelse(df$characteristic=="All","",
-                                      paste0(" (",round(100*(df$total_midpoint6 / df[df$characteristic=="All","total_midpoint_6"]),1),"%)")))
+                                      paste0(" (",round(100*(df$total_midpoint6 / df[df$characteristic=="All","total_midpoint6"]),1),"%)")))
 
 df <- df[,c("characteristic","subcharacteristic","Npercent_derived","exposed_midpoint6")]
 colnames(df) <- c("Characteristic","Subcharacteristic","N (%) derived","COVID-19 diagnoses midpoint6")
