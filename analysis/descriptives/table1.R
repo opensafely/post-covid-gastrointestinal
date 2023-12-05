@@ -7,7 +7,7 @@ library(dplyr)
 # Specify redaction threshold --------------------------------------------------
 print('Specify redaction threshold')
 
-threshold <- 8
+threshold <- 6
 
 # Source common functions ------------------------------------------------------
 print('Source common functions')
