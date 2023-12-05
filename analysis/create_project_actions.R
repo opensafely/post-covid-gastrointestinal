@@ -646,18 +646,19 @@ comment("Run models for 4months followup sensitivity: thrombotic events and anti
       aer_input_rounded = glue("output/aer_input-main-rounded.csv")
     )
   ),
-  
+   
    ## Round AER input--------------------------------------------------------------
  comment("Round absolute excess risk (AER) input"),
   
   action(
     name = "round_aer_input",
     run = "r:latest analysis/aer/make_aer_input_round.R",
-    needs = as.list("make_aer_input")),
+    needs = list("make_aer_input"),
     moderately_sensitive = list(
       aer_input_rounded = glue("output/aer_input-main-midpoint6.csv")
     )
   ),
+ 
   # Venn data -----------------------------------------------------------------
   
   splice(
