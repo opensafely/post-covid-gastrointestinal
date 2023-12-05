@@ -643,21 +643,11 @@ comment("Run models for 4months followup sensitivity: thrombotic events and anti
     needs = as.list(paste0("make_model_input-",active_analyses[grepl("-main-",active_analyses$name),]$name)),
     moderately_sensitive = list(
       aer_input = glue("output/aer_input-main.csv"),
-      aer_input_rounded = glue("output/aer_input-main-rounded.csv")
-    )
-  ),
-   
-   ## Round AER input--------------------------------------------------------------
- comment("Round absolute excess risk (AER) input"),
-  
-  action(
-    name = "round_aer_input",
-    run = "r:latest analysis/aer/make_aer_input_round.R",
-    needs = list("make_aer_input"),
-    moderately_sensitive = list(
       aer_input_rounded = glue("output/aer_input-main-midpoint6.csv")
     )
   ),
+   
+ 
  
   # Venn data -----------------------------------------------------------------
   
@@ -668,17 +658,17 @@ comment("Run models for 4months followup sensitivity: thrombotic events and anti
     )
   ),
   
-  comment("Stage 6 - make model output"),
+  # comment("Stage 6 - make model output"),
 
-  action(
-    name = "make_model_output",
-    run = "r:latest analysis/model/make_model_output.R",
-    needs = as.list(paste0("cox_ipw-",success$name)),
-    moderately_sensitive = list(
-      model_output = glue("output/model_output.csv"),
-      model_output_rounded = glue("output/model_output_midpoint6.csv")
-    )
-  ), 
+  # action(
+  #   name = "make_model_output",
+  #   run = "r:latest analysis/model/make_model_output.R",
+  #   needs = as.list(paste0("cox_ipw-",success$name)),
+  #   moderately_sensitive = list(
+  #     model_output = glue("output/model_output.csv"),
+  #     model_output_rounded = glue("output/model_output_midpoint6.csv")
+  #   )
+  # ), 
 comment ("Stata models"), 
     # STATA ANALYSES
     
