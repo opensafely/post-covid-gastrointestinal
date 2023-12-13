@@ -1,125 +1,96 @@
 library(dplyr)
 library(stringr)
+library(readr)
+library(tidyr)
 
-#  Specify arguments ------------------------------------------------------------
+# Specify redaction threshold --------------------------------------------------
+print('Specify redaction threshold')
+
+threshold <- 6
+
+# Source common functions ------------------------------------------------------
+print('Source common functions')
+
+source("analysis/utility.R")
+
+# Specify arguments ------------------------------------------------------------
 print('Specify arguments')
 
 args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  # name <- "all" # prepare datasets for all active analyses 
-  name <- "cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup" # prepare datasets for all active analyses whose name contains X
+  analysis <- "anticoag"
 } else {
-  name <- args[[1]]
+  analysis <- args[[1]]
 }
 
-active_analyses<-read_rds("lib/active_analyses_4mofup.rds")
-# Identify model inputs to be prepared -----------------------------------------
-print('Identify model inputs to be prepared')
+# Load active analyses ---------------------------------------------------------
+print('Load active analyses')
 
-if (name=="all") {
-  prepare <- active_analyses$name
-} else if(grepl(";",name)) {
-  prepare <- stringr::str_split(as.vector(name), ";")[[1]]
-} else {
-  prepare <- active_analyses[grepl(name,active_analyses$name),]$name
+active_analyses <- readr::read_rds("lib/active_analyses_sensitivity.rds")
+active_analyses <- active_analyses[ grepl(analysis,active_analyses$analysis),]
+df_list <- list()
+
+for (i in 1:nrow(active_analyses)){
+if ( file.exists(paste0("output/model_input-",active_analyses$name[i],".rds"))){
+df <- readRDS(paste0("output/model_input-",active_analyses$name[i],".rds")) 
+if (analysis=="throm"){
+df<-df%>%
+select(c("patient_id", "cov_bin_ate_vte_4mofup"))
+}else if (analysis=="anticoag") {
+   df<-df%>%
+   select(c("patient_id","cov_bin_anticoagulants_4mofup_bnf" ))%>% 
+   mutate(cov_bin_anticoagulants_4mofup_bnf=as.numeric(cov_bin_anticoagulants_4mofup_bnf))
 }
-active_analyses <- active_analyses[active_analyses$name %in% prepare,]
+df$outcome <- active_analyses$outcome[i]
+df$cohort<- active_analyses$cohort[i]
 
-extract_outcome <- function(file_name) {
-    # extract outcome name from file name
-    pattern <- "hospitalised-(.+_bleeding)"
-    match <- str_match(file_name, pattern)
-    if (is.na(match[,2])) {
-        return(NA)
-    } else {
-        return(match[,2])
+df_list[[i]] <- df
+}
+}
+combined_df <- bind_rows(df_list) 
+
+
+perform_analysis <- function(data,analysis) {
+    if (analysis=="anticoag"){
+    sa_anticoag <- data %>%
+        group_by(outcome, cov_bin_anticoagulants_4mofup_bnf) %>%
+        summarize(count = n_distinct(patient_id, na.rm = TRUE)) %>%
+        pivot_wider(names_from = cov_bin_anticoagulants_4mofup_bnf, values_from = count,
+                    names_prefix = "n_anticoag_", values_fill = list(count = 0))
+    }else if (analysis=="throm") {
+    
+    sa_throm <- data %>%
+        group_by(outcome, cov_bin_ate_vte_4mofup) %>%
+        summarize(count = n_distinct(patient_id, na.rm = TRUE)) %>%
+        pivot_wider(names_from = cov_bin_ate_vte_4mofup, values_from = count,
+                    names_prefix = "n_throm_", values_fill = list(count = 0))
     }
 }
 
-# Function to add outcome to each data frame and combine them
-add_outcome_and_combine <- function(file_list, df_list) {
-    for (i in seq_along(file_list)) {
-        outcome <- extract_outcome(file_list[i])
-        print(outcome)
-        df_list[[i]] <- df_list[[i]] %>% mutate(outcome = outcome)
-    }
-    bind_rows(df_list)
+# Perform analysis for each cohort and store the results
+results<-list()
+cohorts<-c("prevax","unvax","vax")
+for (c in cohorts) {
+    cohort_data <- combined_df %>% filter(cohort==c)
+    results[[c]] <- perform_analysis(cohort_data,analysis)
+
+# Perform redaction 
+
+    rounded_cols <- setdiff(colnames(results[[c]]), c("outcome"))
+
+    results[[c]][rounded_cols] <- lapply(
+        results[[c]][rounded_cols],
+        FUN = function(y) { roundmid_any(as.numeric(y), to = threshold) }
+    )
+
+    # Renaming the columns by adding '_midpoint6'
+    new_names <- paste0(rounded_cols, "_midpoint6")
+    names(results[[c]])[match(rounded_cols, names(results[[c]]))] <- new_names
+
+    # Reassign the modified data frame back to the results list
+    write.csv(results[[c]],paste0("output/sensitivity_",c,"_",analysis,"_midpoint6.csv"),row.names=FALSE)
 }
-# Function to read rds files and keep the columns needed
-read_rds_keep_columns <- function(file_name, columns) {
-  readRDS(file_name) %>% 
-    select(all_of(columns))
-}
-
-#  Columns to keep
-needed_columns <- c("patient_id", "cov_bin_vte", "cov_bin_anticoagulants_bnf")
-
-file_list <- list.files(path = "output", pattern = "*4mofup\\.rds", full.names = TRUE)
-throm_files <- grep("throm", file_list, value = TRUE)
-anticoag_files <- grep("anticoag", file_list, value = TRUE)
-df_throm <- lapply(throm_files, read_rds_keep_columns, columns = needed_columns)
-df_anticoag <- lapply(anticoag_files, read_rds_keep_columns, columns = needed_columns)
 
 
 
-
-
-
-# Add outcome to each data frame and combine
-combined_throm <- add_outcome_and_combine(throm_files, df_throm)
-combined_anticoag <- add_outcome_and_combine(anticoag_files, df_anticoag)
-
-library(tidyr)
-
-# Perform the sensitivity analysis for Anticoagulant Group
-sa_anticoag <- combined_anticoag %>%
-    group_by(outcome, cov_bin_anticoagulants_bnf) %>%
-    summarize(
-        count = n_distinct(patient_id, na.rm = TRUE),
-        .groups = 'drop'
-    )
-
-# Pivot to wide format
-sa_anticoag_wide <- sa_anticoag %>%
-    pivot_wider(
-        names_from = cov_bin_anticoagulants_bnf,
-        values_from = count,
-        names_prefix = "n_",
-        values_fill = list(count = 0)
-    )
-
-# Rename columns for clarity
-colnames(sa_anticoag_wide) <- c("Outcome", "n_Anticoagulants", "n_No_Anticoagulants")
-
-# Print the result
-print("Sensitivity Analysis - Anticoagulant Group (Wide Format):")
-print(sa_anticoag_wide)
-
-# Perform the sensitivity analysis for Thrombotic Group
-sa_throm <- combined_throm %>%
-    group_by(outcome, cov_bin_vte) %>%
-    summarize(
-        count = n_distinct(patient_id, na.rm = TRUE),
-        .groups = 'drop'
-    )
-
-# Pivot to wide format
-sa_throm_wide <- sa_throm %>%
-    pivot_wider(
-        names_from = cov_bin_vte,
-        values_from = count,
-        names_prefix = "n_",
-        values_fill = list(count = 0)
-    )
-
-# Rename columns 
-colnames(sa_throm_wide) <- c("Outcome", "n_Thrombotic_Event", "n_No_Thrombotic_Event")
-
-# Print the result
-print("Sensitivity Analysis - Thrombotic Group (Wide Format):")
-print(sa_throm_wide)
-
-# Write to files 
-write.csv(sa_anticoag_wide,"output/anticoag_events_sensitivity.csv",row.names=FALSE)
-write.csv(sa_throm_wide,"output/thromobotic_events_sensitivity.csv",row.names=FALSE)
