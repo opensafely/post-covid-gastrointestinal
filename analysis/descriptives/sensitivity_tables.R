@@ -29,8 +29,10 @@ print('Load active analyses')
 
 active_analyses <- readr::read_rds("lib/active_analyses_sensitivity.rds")
 active_analyses <- active_analyses[ grepl(analysis,active_analyses$analysis),]
-df_list <- list()
 
+# Combine data frames ---------------------------------------------------------
+print('Combine data frames')
+df_list <- list()
 for (i in 1:nrow(active_analyses)){
 if ( file.exists(paste0("output/model_input-",active_analyses$name[i],".rds"))){
 df <- readRDS(paste0("output/model_input-",active_analyses$name[i],".rds")) 
@@ -50,7 +52,7 @@ df_list[[i]] <- df
 }
 combined_df <- bind_rows(df_list) 
 
-
+# Count events ---------------------------------------------------------
 perform_analysis <- function(data,analysis) {
     if (analysis=="anticoag"){
     sa_anticoag <- data %>%
@@ -68,15 +70,14 @@ perform_analysis <- function(data,analysis) {
     }
 }
 
-# Perform analysis for each cohort and store the results
+# Perform analysis for each cohort and store the results------------------
 results<-list()
 cohorts<-c("prevax","unvax","vax")
 for (c in cohorts) {
     cohort_data <- combined_df %>% filter(cohort==c)
     results[[c]] <- perform_analysis(cohort_data,analysis)
 
-# Perform redaction 
-
+# Perform redaction---------------------------------------------- 
     rounded_cols <- setdiff(colnames(results[[c]]), c("outcome"))
 
     results[[c]][rounded_cols] <- lapply(
