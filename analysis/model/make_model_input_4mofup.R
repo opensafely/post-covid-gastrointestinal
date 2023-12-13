@@ -28,8 +28,10 @@ if (name=="all") {
   prepare <- active_analyses[grepl(name,active_analyses$name),]$name
 }
 active_analyses <- active_analyses[active_analyses$name %in% prepare,]
-# Specify command arguments ----------------------------------------------------
-print('Specify command arguments')
+
+# for the suffixes we know that they are for sensitivity analyses create model input files 
+# take model input file for hospitalised analyses and calculate fup total 
+# Join with hosp_input which is the data for hospitalised with the added variables (anticaog/discharge/thrombotic events...)
 
 name_suffixes <- c("_throm_True_sensitivity", "_throm_False_sensitivity", "_anticoag_True_sensitivity", "_anticoag_False_sensitivity")
 for (i in 1:nrow(active_analyses)) {
@@ -44,12 +46,9 @@ for (i in 1:nrow(active_analyses)) {
     
     
     study_start <- active_analyses[i, "study_start"]
-    
     study_stop <-  active_analyses[i, "study_stop"]
-    
     input$fup_start <- pmax(input$index_date, study_start, na.rm = TRUE)
     input$fup_stop <- pmin(input$end_date_outcome, study_stop, na.rm = TRUE)
-    
     input$fup_total <- as.numeric(input$fup_stop - input$fup_start)
     
     if (grepl("throm", active_analyses$analysis)){
