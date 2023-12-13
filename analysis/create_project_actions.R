@@ -30,7 +30,7 @@ defaults_list <- list(
     active_analyses_gi_bleeds<-read_rds("lib/active_analyses_gi_bleeds.rds")
 
 # Define active analysis for 4month follwup sensitivity: thrombotic events and anticoagulants
-active_analyses_4mofup <- read_rds("lib/active_analyses_4mofup.rds")
+active_analyses_sensitivity <- read_rds("lib/active_analyses_sensitivity.rds")
 
 # Determine which outputs are ready --------------------------------------------
 
@@ -281,27 +281,24 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
         )
     )
     }
-    apply_model_function_4mofup <- function(name, cohort, analysis, ipw, strata, 
+    apply_model_function_sensitivity <- function(name, cohort, analysis, ipw, strata, 
                                  covariate_sex, covariate_age, covariate_other, 
                                  cox_start, cox_stop, study_start, study_stop,
                                  cut_points, controls_per_case,
                                  total_event_threshold, episode_event_threshold,
                                  covariate_threshold, age_spline){
-  name_suffixes <- c("_throm_True_4mofup", "_throm_False_4mofup", "_anticoag_True_4mofup", "_anticoag_False_4mofup")
+  name_suffixes <- c("_throm_True_sensitivity", "_throm_False_sensitivity", "_anticoag_True_sensitivity", "_anticoag_False_sensitivity")
   need_name <-gsub(paste(name_suffixes, collapse = "|"), "", name)
 
   splice(
     action(
       name = glue("make_model_input-{name}"),
-      run = glue("r:latest analysis/model/make_model_input_4mofup.R {name}"),
+      run = glue("r:latest analysis/model/make_model_input_sensitivity.R {name}"),
       needs = list(glue("generate_ac_te_data_{cohort}"),glue("make_model_input-{need_name}")),
       highly_sensitive = list(
         model_input = glue("output/model_input-{name}.rds")
       )
     ),
-    
- 
-    
     action(
       name = glue("cox_ipw-{name}"),
       run = glue("cox-ipw:v0.0.27 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
@@ -311,6 +308,27 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
     )
   )
 }
+# Create function sensitivity tables --------------------------------------------
+
+    create_sensitivity_table <- function(analysis){
+      sens_names <-active_analyses_sensitivity[grepl(analysis,active_analyses_sensitivity$analysis),"name"]
+      splice(
+        comment(glue("Sensitivity {analysis}")),
+        action(
+          name = glue("sensitivity_table_{analysis}"),
+          run = glue("r:latest analysis/descriptives/sensitivity_tables.R"),
+          arguments = c(analysis),
+          needs = c(as.list(paste0("make_model_input-",sens_names))),
+          moderately_sensitive = list(
+            vax_rounded = glue("output/sensitivity_vax_{analysis}_midpoint6.csv"),
+            prevax_rounded = glue("output/sensitivity_prevax_{analysis}_midpoint6.csv"),
+            unvax_rounded = glue("output/sensitivity_unvax_{analysis}_midpoint6.csv")
+          
+          )
+        )
+      )
+    }
+
 
 # Create function to make model input and run a model for gi bleeds --------------------------
 
@@ -330,10 +348,6 @@ apply_model_function_gi_bleeds <- function(name, cohort, analysis, ipw, strata,
         model_input = glue("output/model_input-{name}_gi_bleeds.rds")
       )
     ),
-    
-    
-    
-    
     action(
       name = glue("cox_ipw-{name}_gi_bleeds"),
       run = glue("cox-ipw:v0.0.27 --df_input=model_input-{name}_gi_bleeds.rds --ipw=FALSE --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}_gi_bleeds.csv"),
@@ -605,37 +619,32 @@ comment("Run failed models"),
 
 comment("Run models for 4months followup sensitivity: thrombotic events and anticaogulants"),
   splice(
-    unlist(lapply(1:nrow(active_analyses_4mofup), 
-                  function(x) apply_model_function_4mofup(name = active_analyses_4mofup$name[x],
-                                                   cohort = active_analyses_4mofup$cohort[x],
-                                                   analysis = active_analyses_4mofup$analysis[x],
-                                                   ipw = active_analyses_4mofup$ipw[x],
-                                                   strata = active_analyses_4mofup$strata[x],
-                                                   covariate_sex = active_analyses_4mofup$covariate_sex[x],
-                                                   covariate_age = active_analyses_4mofup$covariate_age[x],
-                                                   covariate_other = active_analyses_4mofup$covariate_other[x],
-                                                   cox_start = active_analyses_4mofup$cox_start[x],
-                                                   cox_stop = active_analyses_4mofup$cox_stop[x],
-                                                   study_start = active_analyses_4mofup$study_start[x],
-                                                   study_stop = active_analyses_4mofup$study_stop[x],
-                                                   cut_points = active_analyses_4mofup$cut_points[x],
-                                                   controls_per_case = active_analyses_4mofup$controls_per_case[x],
-                                                   total_event_threshold = active_analyses_4mofup$total_event_threshold[x],
-                                                   episode_event_threshold = active_analyses_4mofup$episode_event_threshold[x],
-                                                   covariate_threshold = active_analyses_4mofup$covariate_threshold[x],
-                                                   age_spline = active_analyses_4mofup$age_spline[x])), recursive = FALSE
+    unlist(lapply(1:nrow(active_analyses_sensitivity), 
+                  function(x) apply_model_function_sensitivity(name = active_analyses_sensitivity$name[x],
+                                                   cohort = active_analyses_sensitivity$cohort[x],
+                                                   analysis = active_analyses_sensitivity$analysis[x],
+                                                   ipw = active_analyses_sensitivity$ipw[x],
+                                                   strata = active_analyses_sensitivity$strata[x],
+                                                   covariate_sex = active_analyses_sensitivity$covariate_sex[x],
+                                                   covariate_age = active_analyses_sensitivity$covariate_age[x],
+                                                   covariate_other = active_analyses_sensitivity$covariate_other[x],
+                                                   cox_start = active_analyses_sensitivity$cox_start[x],
+                                                   cox_stop = active_analyses_sensitivity$cox_stop[x],
+                                                   study_start = active_analyses_sensitivity$study_start[x],
+                                                   study_stop = active_analyses_sensitivity$study_stop[x],
+                                                   cut_points = active_analyses_sensitivity$cut_points[x],
+                                                   controls_per_case = active_analyses_sensitivity$controls_per_case[x],
+                                                   total_event_threshold = active_analyses_sensitivity$total_event_threshold[x],
+                                                   episode_event_threshold = active_analyses_sensitivity$episode_event_threshold[x],
+                                                   covariate_threshold = active_analyses_sensitivity$covariate_threshold[x],
+                                                   age_spline = active_analyses_sensitivity$age_spline[x])), recursive = FALSE
     )
   ),
   ## Run sensitivity tables: 
-  comment("Run sensitivity tables"),
-  action(
-    name = "make_sensitivity_tables",
-    run = "r:latest analysis/descriptive/sensitivity_tables.R",
-    needs = 
-    moderately_sensitive = list(
-    anticoag = glue("output/anticoag_events_sensitivity.csv"),
-    thrombotic = glue("output/thromobotic_events_sensitivity.csv")
-     
+  splice(
+    unlist(lapply(c("throm","anticoag"), 
+                  function(x)create_sensitivity_table(analysis = x)), 
+           recursive = FALSE
     )
   ),
 
