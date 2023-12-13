@@ -13,7 +13,7 @@ names(active_analyses_sensitivity) <- names(active_analyses)
 
 # Add the suffixes to the new analyses names 
 for (i in 1:nrow(active_analyses)) {
-  name_suffixes <- c("_hosp_throm_True_sensitivity", "_hosp_throm_False_sensitivity", "_hosp_anticoag_True_senistivity", "_hosp_anticoag_False_sensitivity")
+  name_suffixes <- c("_throm_True_sensitivity", "_throm_False_sensitivity", "_anticoag_True_senistivity", "_anticoag_False_sensitivity")
   
   for (suffix in name_suffixes) {
     active_analyses_sensitivity <- rbind(active_analyses_sensitivity, active_analyses[i, ])

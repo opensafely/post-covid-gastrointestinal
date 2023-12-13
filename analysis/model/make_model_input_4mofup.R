@@ -11,7 +11,7 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   name <- "all" # prepare datasets for all active analyses 
-  # name <- "cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_sensitivity" # prepare datasets for all active analyses whose name contains X
+   name <- "cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_throm_True_sensitivity" # prepare datasets for all active analyses whose name contains X
 } else {
   name <- args[[1]]
 }
@@ -31,7 +31,7 @@ active_analyses <- active_analyses[active_analyses$name %in% prepare,]
 # Specify command arguments ----------------------------------------------------
 print('Specify command arguments')
 
-name_suffixes <- c("_hosp_throm_True_sensitivity", "_hosp_throm_False_sensitivity", "_hosp_anticoag_True_sensitivity", "_hosp_anticoag_False_sensitivity")
+name_suffixes <- c("_throm_True_sensitivity", "_throm_False_sensitivity", "_anticoag_True_sensitivity", "_anticoag_False_sensitivity")
 for (i in 1:nrow(active_analyses)) {
     cohort <- active_analyses$cohort[i]
     name_sensitivity <- active_analyses[i, "name"]
