@@ -601,7 +601,7 @@ comment("Run failed models"),
                                                    age_spline = active_analyses_failed$age_spline[x])), recursive = FALSE
     )
   ),
-  ## re-run failed models to save sampled data 
+  ## Run models for sensitivity analyses
 
 comment("Run models for 4months followup sensitivity: thrombotic events and anticaogulants"),
   splice(
@@ -626,6 +626,19 @@ comment("Run models for 4months followup sensitivity: thrombotic events and anti
                                                    age_spline = active_analyses_4mofup$age_spline[x])), recursive = FALSE
     )
   ),
+  ## Run sensitivity tables: 
+  comment("Run sensitivity tables"),
+  action(
+    name = "make_sensitivity_tables",
+    run = "r:latest analysis/descriptive/sensitivity_tables.R",
+    needs = 
+    moderately_sensitive = list(
+    anticoag = glue("output/anticoag_events_sensitivity.csv"),
+    thrombotic = glue("output/thromobotic_events_sensitivity.csv")
+     
+    )
+  ),
+
   ## Table 2 -------------------------------------------------------------------
   
   splice(
@@ -634,6 +647,7 @@ comment("Run models for 4months followup sensitivity: thrombotic events and anti
            recursive = FALSE
     )
   ),
+  
   ## Make AER input--------------------------------------------------------------
  comment("Make absolute excess risk (AER) input"),
   

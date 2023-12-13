@@ -10,13 +10,13 @@ print('Specify arguments')
 args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  # name <- "all" # prepare datasets for all active analyses 
-  name <- "cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_4mofup" # prepare datasets for all active analyses whose name contains X
+  name <- "all" # prepare datasets for all active analyses 
+  # name <- "cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_throm_True_sensitivity" # prepare datasets for all active analyses whose name contains X
 } else {
   name <- args[[1]]
 }
 
-active_analyses<-read_rds("lib/active_analyses_4mofup.rds")
+active_analyses<-read_rds("lib/active_analyses_sensitivity.rds")
 # Identify model inputs to be prepared -----------------------------------------
 print('Identify model inputs to be prepared')
 
@@ -31,11 +31,11 @@ active_analyses <- active_analyses[active_analyses$name %in% prepare,]
 # Specify command arguments ----------------------------------------------------
 print('Specify command arguments')
 
-name_suffixes <- c("_throm_True_4mofup", "_throm_False_4mofup", "_anticoag_True_4mofup", "_anticoag_False_4mofup")
+name_suffixes <- c("_hosp_throm_True_sensitivity", "_hosp_throm_False_sensitivity", "_hosp_anticoag_True_sensitivity", "_hosp_anticoag_False_sensitivity")
 for (i in 1:nrow(active_analyses)) {
     cohort <- active_analyses$cohort[i]
-    name_4mofup <- active_analyses[i, "name"]
-    name <- gsub(paste(name_suffixes, collapse = "|"), "", name_4mofup)
+    name_sensitivity <- active_analyses[i, "name"]
+    name <- gsub(paste(name_suffixes, collapse = "|"), "", name_sensitivity)
     input <- readRDS(paste0("output/model_input-", name, ".rds"))
     hosp_input <- read.csv(paste0("output/input_", cohort, "_4mofup.csv.gz"))
     hosp_input <- hosp_input %>%mutate(
@@ -63,7 +63,7 @@ for (i in 1:nrow(active_analyses)) {
     input_hosp_4mo_throm <- input %>%
         right_join(hosp_input, by = "patient_id") 
     
-    if (active_analyses$analysis[i]=="sub_covid_hospitalised_throm_True_4mofup"){
+    if (active_analyses$analysis[i]=="sub_covid_hospitalised_throm_True_sensitivity"){
     input_hosp_4mo_throm_True <- input_hosp_4mo_throm %>%
         filter(cov_bin_ate_vte_4mofup == TRUE)
 
@@ -85,16 +85,16 @@ for (i in 1:nrow(active_analyses)) {
         input_hosp_4mo_anticoag <- input %>% 
         right_join(hosp_input, by = "patient_id")
         
-    if (active_analyses$analysis[i]=="sub_covid_hospitalised_anticoag_True_4mofup"){
+    if (active_analyses$analysis[i]=="sub_covid_hospitalised_anticoag_True_sensitivity"){
     input_hosp_4mo_anticoag_True <- input_hosp_4mo_anticoag %>%
         filter(cov_bin_anticoagulants_4mofup_bnf == TRUE)
     
-    writeRDS(input_hosp_4mo_anticoag_True, paste0("output/model_input-", active_analyses[i,"name"], "anticoag_True_4mofup.rds"))
+    writeRDS(input_hosp_4mo_anticoag_True, paste0("output/model_input-", active_analyses[i,"name"], "anticoag_True_sensitivity.rds"))
     }else{
     input_hosp_4mo_anticoag_False <- input_hosp_4mo_anticoag %>%
         filter(cov_bin_anticoagulants_4mofup_bnf == FALSE)
     
-    writeRDS(input_hosp_4mo_anticoag_False, paste0("output/model_input-", name, "anticoag_False_4mofup.rds"))
+    writeRDS(input_hosp_4mo_anticoag_False, paste0("output/model_input-", name, "anticoag_False_sensitivity.rds"))
 }
     }
 }
