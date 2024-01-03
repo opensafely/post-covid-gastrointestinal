@@ -38,32 +38,41 @@ if ( file.exists(paste0("output/model_input-",active_analyses$name[i],".rds"))){
 df <- readRDS(paste0("output/model_input-",active_analyses$name[i],".rds")) 
 if (analysis=="throm"){
 df<-df%>%
-select(c("patient_id", "cov_bin_ate_vte_4mofup"))
+select(c("patient_id", "cov_bin_ate_vte_4mofup","exp_date","out_date","end_date_outcome","index_date","end_date_exposure"))
 }else if (analysis=="anticoag") {
    df<-df%>%
-   select(c("patient_id","cov_bin_anticoagulants_4mofup_bnf" ))%>% 
+   select(c("patient_id","cov_bin_anticoagulants_4mofup_bnf","exp_date","out_date","end_date_outcome","index_date","end_date_exposure" ))%>% 
    mutate(cov_bin_anticoagulants_4mofup_bnf=as.numeric(cov_bin_anticoagulants_4mofup_bnf))
 }
 df$outcome <- active_analyses$outcome[i]
 df$cohort<- active_analyses$cohort[i]
 
+# Set to NA exposure  date where they are outside defined boundaries--------------------------
+ df <- df %>% 
+    dplyr::mutate(exp_date = replace(exp_date, which(exp_date>end_date_exposure | exp_date<index_date), NA))
+                  
+  
+  ## Create exposed variable -------------------------------------------------------
+  
+  df$exposed <- ifelse(!is.na(df$exp_date),TRUE,FALSE)
+  
 df_list[[i]] <- df
 }
-}
+
 combined_df <- bind_rows(df_list) 
 
 # Count events ---------------------------------------------------------
 perform_analysis <- function(data,analysis) {
     if (analysis=="anticoag"){
     sa_anticoag <- data %>%
-        group_by(outcome, cov_bin_anticoagulants_4mofup_bnf) %>%
+        group_by(outcome, cov_bin_anticoagulants_4mofup_bnf,exposed) %>%
         summarize(count = n_distinct(patient_id, na.rm = TRUE)) %>%
         pivot_wider(names_from = cov_bin_anticoagulants_4mofup_bnf, values_from = count,
                     names_prefix = "n_anticoag_", values_fill = list(count = 0))
     }else if (analysis=="throm") {
     
     sa_throm <- data %>%
-        group_by(outcome, cov_bin_ate_vte_4mofup) %>%
+        group_by(outcome, cov_bin_ate_vte_4mofup,exposed) %>%
         summarize(count = n_distinct(patient_id, na.rm = TRUE)) %>%
         pivot_wider(names_from = cov_bin_ate_vte_4mofup, values_from = count,
                     names_prefix = "n_throm_", values_fill = list(count = 0))
