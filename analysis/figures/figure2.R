@@ -77,7 +77,7 @@ plot_estimates <- function(df) {
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
     guides( color = guide_legend(nrow = 3)) +
     guides(fill=ggplot2::guide_legend(ncol = 1, byrow = TRUE) ) +
-    facet_wrap(~outcome_label , ncol=2) +
+    facet_wrap(~outcome_label , ncol=2,scales="free_y") +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals

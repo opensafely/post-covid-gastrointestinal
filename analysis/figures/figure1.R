@@ -4,30 +4,34 @@ library(tidyverse)
 library(ggplot2)
 
 # Define results directory
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/"
-output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/figures/"
-#################
+# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/"
+# output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/figures/"
+results_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
+output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/figures/"
+
+# #################
 #1- Get data
 #################
 
 # disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
 
-estimates <-read.csv(paste0(results_dir,"model_output.csv"))
+estimates <-read.csv(paste0(results_dir,"model_output_midpoint6.csv"))%>%
   # Extract outcomes to plot
   # filter(!outcome %in% disregard) %>%
-  filter(model=="mdl_max_adj")
+  filter(model=="mdl_max_adj")%>%
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
   # Modify outcome names
   mutate(outcome = str_remove(outcome, "out_date_")) %>%
   mutate(outcome = str_to_title(outcome))%>%
   filter(!is.na(hr) & hr != "" & hr!="[redact]" )%>%
-  filter(conf_high!="Inf")%>%
+  filter(conf_high!="Inf")
+
   # remove non converged models (to be filled with stata)
-  filter(!outcome%in%c("Upper_gi_bleeding","Gallstones_disease","Nonalcoholic_steatohepatitis"))
+  # filter(!outcome%in%c("Upper_gi_bleeding","Gallstones_disease","Nonalcoholic_steatohepatitis"))
 
 # Set numeric cols to numeric
-numeric_cols <- c("lnhr", "se_lnhr", "hr", "conf_low", "conf_high", "N_total", "N_exposed", "N_events", "person_time_total", "outcome_time_median")
+numeric_cols <- c("lnhr", "se_lnhr", "hr", "conf_low", "conf_high", "N_total_midpoint6", "N_exposed_midpoint6", "N_events_midpoint6", "person_time_total", "outcome_time_median")
 estimates[numeric_cols] <- lapply(estimates[numeric_cols], as.numeric)
 
 ##################
@@ -149,7 +153,7 @@ plot_estimates <- function(df, name) {
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 4)) +
-    scale_y_continuous(lim = c(0.25, 64), breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32, 64), trans = "log") +
+    scale_y_continuous(lim = c(0.25,512), breaks = c(0.25,0.5,1,2,4,8,16,32,64,128,256,512), trans = "log")+ 
     theme(panel.grid.major.x = ggplot2::element_blank(),
                  panel.grid.minor = element_blank(),
                  panel.spacing.x = ggplot2::unit(0.5, "lines"),
@@ -158,22 +162,28 @@ plot_estimates <- function(df, name) {
                  legend.title = element_blank(),
                  legend.position="bottom",
                  plot.background = element_rect(fill = "white", colour = "white"),
-                 text=element_text(size=13),
+                 text=element_text(size=16),
+          axis.text.x = element_text(size=14), 
+          axis.text.y = element_text(size=14), 
+          legend.text=element_text(size=12),
                  strip.text = element_text(face = "bold",size=12)) +
-                 
+   
   facet_wrap(grouping_name~.,labeller=as_labeller(labels), ncol=3)    
   
   # Add annotations
   
 
-  ggsave(paste0(output_dir, "Figure2_", name, ".png"),
-         height = 500, width = 350, unit = "mm", dpi = 600, scale = 1)
+  ggsave(paste0(output_dir, "Figure_1", ".png"),
+         height = 350, width =350, unit = "mm", dpi = 800, scale = 1)
 
   return(p)
 }
 
 
 # Plotting for the three analyses
+estimates_sub<- estimates_sub %>%
+filter(outcome %in%c("Acute_pancreatitis","Peptic_ulcer","Nonvariceal_gi_bleeding","Appendicitis"))
+
 plot_estimates(estimates_sub, "main_sub_covid_hosp_nonhosp")
 
 
