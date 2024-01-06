@@ -13,10 +13,10 @@ output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-Univ
 #1- Get data
 #################
 
-disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
-estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
+# disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
+estimates <-read.csv(paste0(results_dir,"model_output_midpoint6.csv"))%>%
   # Extract outcomes to plot
-  filter(!outcome %in% disregard) %>%
+  # filter(!outcome %in% disregard) %>%
   filter(model=="mdl_max_adj")%>%
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
@@ -188,8 +188,8 @@ for (outcome_name in unique(subgroups$outcome)) {
     ) +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 4)) +
     scale_y_continuous(
-      lim = c(0.25, 64),
-      breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32, 64),
+      lim = c(0.25, 512),
+      breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32, 64,128,256,512),
       trans = "log"
     ) +
     scale_fill_manual(
@@ -236,7 +236,8 @@ for (outcome_name in unique(subgroups$outcome)) {
   df$colour <- generate_colour(df$analysis, df)
   
   ggsave(
-    paste0(output_dir, "supplementary_figure_3_subgroups_", outcome_name, ".png"),
-    height = 400, width = 500, unit = "mm", dpi = 600, scale = 1
+    paste0(output_dir, "figure_3",outcome_name, ".png"),
+    height = 297, width = 350, unit = "mm", dpi = 600, scale = 1
   )
 }
+
