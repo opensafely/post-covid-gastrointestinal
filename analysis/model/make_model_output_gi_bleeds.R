@@ -8,33 +8,21 @@ library(stringr)
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds")
-
-# Specify redaction threshold --------------------------------------------------
-print('Specify redaction threshold')
-
-threshold <- 6
-
-# Source common functions ------------------------------------------------------
-print('Source common functions')
-
-source("analysis/utility.R")
+active_analyses <- readr::read_rds("lib/active_analyses_gi_bleeds.rds")
 
 # List available model outputs -------------------------------------------------
 print('List available model outputs')
 
-files <- list.files("output", pattern = "model_output-")
+files <- list.files("output", pattern = "^model_output-.*gi_bleeds\\.csv$")
 
 # Combine model outputs --------------------------------------------------------
 print('Combine model outputs')
 
 df <- NULL
-symptoms<- c("nausea", "vomiting", "bloody_stools", "abdominal_paindiscomfort", "abdominal_distension", "diarrhoea")
 
 for (i in files) {
   
-  ## Load model output if it is not a symptom
-  if (!any(str_detect(i, symptoms))) {
+  
   
   tmp <- readr::read_csv(paste0("output/",i))
   
@@ -77,7 +65,7 @@ for (i in files) {
   
   df <- plyr::rbind.fill(df,tmp)
 }
-}
+
 
 # Add details from active analyses ---------------------------------------------
 print('Add details from active analyses')
@@ -90,12 +78,40 @@ df <- merge(df,
 
 df$outcome <- gsub("out_date_","",df$outcome)
 
+# Apply disclosure control -----------------------------------------------------
+print('Apply disclosure control')
 
-# Apply midpoint 6 rounding   --------------------------------------------------
-print('Apply rounding')
-df[,c("N_total","N_exposed","N_events")] <- lapply(df[,c("N_total","N_exposed","N_events")],
-                                                 FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
- # Save model output ------------------------------------------------------------
+## Set disclosure threshold
+
+disclosure_threshold <- 5
+
+## Apply controls to estimates
+
+redact <- df[df$error=="",] %>%
+  dplyr::group_by(name) %>%
+  dplyr::mutate(min_total = min(N_total, na.rm = TRUE),
+                min_exposed = min(N_exposed, na.rm = TRUE),
+                min_events = min(N_events, na.rm = TRUE)) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(name, min_total, min_exposed, min_events) %>%
+  dplyr::distinct()
+
+redact$action <- (redact$min_total <= disclosure_threshold) |
+  (redact$min_exposed <= disclosure_threshold) |
+  (redact$min_events <= disclosure_threshold)
+
+df$lnhr <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$lnhr)
+df$se_lnhr <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$se_lnhr)
+df$hr <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$hr)
+df$conf_low <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$conf_low)
+df$conf_high <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$conf_high)
+df$N_total <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$N_total)
+df$N_exposed <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$N_exposed)
+df$N_events <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$N_events)
+df$person_time_total <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$person_time_total)
+df$outcome_time_median <- ifelse(df$name %in% redact[redact$action==TRUE,]$name,"[redact]",df$outcome_time_median)
+
+# Save model output ------------------------------------------------------------
 print('Save model output')
 
 df <- df[,c("name","cohort","outcome","analysis","error","model","term",
@@ -103,20 +119,4 @@ df <- df[,c("name","cohort","outcome","analysis","error","model","term",
             "N_total","N_exposed","N_events","person_time_total",
             "outcome_time_median","strata_warning","surv_formula")]
 
-readr::write_csv(df, "output/model_output.csv")                                               
-# Rename rounded columns -------------------------------------------------------
-df<- df%>% 
-rename(
-    N_total_midpoint6 = N_total,
-    N_exposed_midpoint6 = N_exposed,
-    N_events_midpoint6 = N_events
-  )
-  
-# Save model output ------------------------------------------------------------
-print('Save model output')
-df <- df[,c("name","cohort","outcome","analysis","error","model","term",
-            "lnhr","se_lnhr","hr","conf_low","conf_high",
-            "N_total_midpoint6","N_exposed_midpoint6","N_events_midpoint6","person_time_total",
-            "outcome_time_median","strata_warning","surv_formula")]
-
-readr::write_csv(df, "output/model_output_midpoint6.csv")
+readr::write_csv(df, "output/model_output_gi_bleeds.csv")

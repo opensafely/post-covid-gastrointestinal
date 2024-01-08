@@ -14,15 +14,23 @@ defaults_list <- list(
 
 # Define active analyses -------------------------------------------------------
 
- active_analyses <- read_rds("lib/active_analyses.rds")
+ active_analyses <- read_rds("lib/active_analyses.rds") 
     active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
     active_analyses_models<- active_analyses%>%filter(!name%in% active_analyses_failed$name)
 
+# Active analyses for gi bleeds -----------------------------------------------
+ active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
+    
     cohorts <- unique(active_analyses$cohort)
-
+    
     # Define active analysis with failed models 
     active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
+    
+    #Define active analysis for GI bleeds
+    active_analyses_gi_bleeds<-read_rds("lib/active_analyses_gi_bleeds.rds")
 
+# Define active analysis for 4month follwup sensitivity: thrombotic events and anticoagulants
+active_analyses_4mofup <- read_rds("lib/active_analyses_4mofup.rds")
 
 # Determine which outputs are ready --------------------------------------------
 
@@ -119,6 +127,35 @@ generate_study_population <- function(cohort){
   )
 }
 
+generate_hospitalised_data <- function(cohort) {
+  splice(
+    comment("Generate hospitalised data from stage1 data"),
+    action(
+      name = glue("generate_hospitalised_data_{cohort}"),
+      run = "r:latest analysis/hospitalised_data.R",
+      arguments = list(cohort),
+      needs = list(glue("stage1_data_cleaning_{cohort}")),
+      highly_sensitive = list(
+        hosp_data = glue("output/input_{cohort}_stage1_hosp.csv.gz")
+      )
+    )
+  )
+}
+# Create a function to generate data for anti-coagulants and thrombotic events
+generate_ac_te_data <- function(cohort){
+  splice(
+    comment(glue("Generate anti coagulants and thrombotic data - {cohort}")),
+    action(
+      name = glue("generate_ac_te_data_{cohort}"),
+      run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort}_4mofup --output-format csv.gz"),
+      needs = list(glue("generate_hospitalised_data_{cohort}")),
+      highly_sensitive = list(
+        cohort = glue("output/input_{cohort}_4mofup.csv.gz")
+      )
+    )
+  )
+}
+
 # Create function to preprocess data -------------------------------------------
 
 preprocess_data <- function(cohort){
@@ -205,7 +242,7 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
     
     action(
       name = glue("cox_ipw-{name}"),
-      run = glue("cox-ipw:v0.0.25 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
+      run = glue("cox-ipw:v0.0.27 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
       needs = list(glue("make_model_input-{name}")),
       moderately_sensitive = list(
         model_output = glue("output/model_output-{name}.csv"))
@@ -244,6 +281,69 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
         )
     )
     }
+    apply_model_function_4mofup <- function(name, cohort, analysis, ipw, strata, 
+                                 covariate_sex, covariate_age, covariate_other, 
+                                 cox_start, cox_stop, study_start, study_stop,
+                                 cut_points, controls_per_case,
+                                 total_event_threshold, episode_event_threshold,
+                                 covariate_threshold, age_spline){
+  name_suffixes <- c("_throm_True_4mofup", "_throm_False_4mofup", "_anticoag_True_4mofup", "_anticoag_False_4mofup")
+  need_name <-gsub(paste(name_suffixes, collapse = "|"), "", name)
+
+  splice(
+    action(
+      name = glue("make_model_input-{name}"),
+      run = glue("r:latest analysis/model/make_model_input_4mofup.R {name}"),
+      needs = list(glue("generate_ac_te_data_{cohort}"),glue("make_model_input-{need_name}")),
+      highly_sensitive = list(
+        model_input = glue("output/model_input-{name}.rds")
+      )
+    ),
+    
+ 
+    
+    action(
+      name = glue("cox_ipw-{name}"),
+      run = glue("cox-ipw:v0.0.27 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}.csv"),
+      needs = list(glue("make_model_input-{name}")),
+      moderately_sensitive = list(
+        model_output = glue("output/model_output-{name}.csv"))
+    )
+  )
+}
+
+# Create function to make model input and run a model for gi bleeds --------------------------
+
+apply_model_function_gi_bleeds <- function(name, cohort, analysis, ipw, strata, 
+                                           covariate_sex, covariate_age, covariate_other, 
+                                           cox_start, cox_stop, study_start, study_stop,
+                                           cut_points, controls_per_case,
+                                           total_event_threshold, episode_event_threshold,
+                                           covariate_threshold, age_spline){
+  
+  splice(
+    action(
+      name = glue("make_model_input-{name}_gi_bleeds"),
+      run = glue("r:latest analysis/model/make_model_input_gi_bleeds.R {name}"),
+      needs = list(glue("stage1_data_cleaning_gi_bleeds")),
+      highly_sensitive = list(
+        model_input = glue("output/model_input-{name}_gi_bleeds.rds")
+      )
+    ),
+    
+    
+    
+    
+    action(
+      name = glue("cox_ipw-{name}_gi_bleeds"),
+      run = glue("cox-ipw:v0.0.27 --df_input=model_input-{name}_gi_bleeds.rds --ipw=FALSE --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --df_output=model_output-{name}_gi_bleeds.csv"),
+      needs = list(glue("make_model_input-{name}_gi_bleeds")),
+      moderately_sensitive = list(
+        model_output = glue("output/model_output-{name}_gi_bleeds.csv"))
+    )
+  )
+}
+
     # Create function to run stata models-------------------------
    stata_actions <- function(name){
       action(
@@ -269,16 +369,18 @@ table1 <- function(cohort){
       needs = list(glue("stage1_data_cleaning_{cohort}")),
       moderately_sensitive = list(
         table1 = glue("output/table1_{cohort}.csv"),
-        table1_rounded = glue("output/table1_{cohort}_rounded.csv")
+        table1_rounded = glue("output/table1_{cohort}_midpoint6.csv")
       )
     )
   )
 }
 # Create function to make Table 2 ----------------------------------------------
 
+
 table2 <- function(cohort){
   
   table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
+  table2_names <- table2_names[grepl("-main-",table2_names)]
   
   splice(
     comment(glue("Table 2 - {cohort}")),
@@ -289,12 +391,31 @@ table2 <- function(cohort){
       needs = c(as.list(paste0("make_model_input-",table2_names))),
       moderately_sensitive = list(
         table2 = glue("output/table2_{cohort}.csv"),
-        table2_rounded = glue("output/table2_{cohort}_rounded.csv")
+        table2_rounded = glue("output/table2_{cohort}_midpoint6.csv")
       )
     )
   )
 }
+# Create function to make Table 2 gi bleeds----------------------------------------------
 
+table2_gi_bleeds <- function(cohort){
+  
+  table2_names <- gsub("out_date_","",unique(active_analyses_gi_bleeds[active_analyses_gi_bleeds$cohort=={cohort},]$name))
+  
+  splice(
+    comment(glue("Table 2 gi bleeds {cohort}")),
+    action(
+      name = glue("table2_{cohort}_gi_bleeds"),
+      run = "r:latest analysis/descriptives/table2_gi_bleeds.R",
+      arguments = c(cohort),
+      needs = c(as.list(paste0("make_model_input-",table2_names,"_gi_bleeds"))),
+      moderately_sensitive = list(
+        table2 = glue("output/table2_{cohort}_gi_bleeds.csv"),
+        table2_rounded = glue("output/table2_{cohort}_gi_bleeds_rounded.csv")
+      )
+    )
+  )
+}
 # Create function to make Venn data --------------------------------------------
 
 venn <- function(cohort){
@@ -310,8 +431,8 @@ venn <- function(cohort){
       needs = c(as.list(glue("preprocess_data_{cohort}")),
                 as.list(paste0(glue("make_model_input-cohort_{cohort}-main-"),venn_outcomes))),
       moderately_sensitive = list(
-        table2 = glue("output/venn_{cohort}.csv"),
-        table2_rounded = glue("output/venn_{cohort}_rounded.csv")
+        venn = glue("output/venn_{cohort}.csv"),
+        venn_rounded =  glue("output/venn_{cohort}_rounded.csv")
       )
     )
   )
@@ -376,7 +497,7 @@ actions_list <- splice(
     )
   ),
   
-  
+   
   ## Preprocess data -----------------------------------------------------------
   
   splice(
@@ -401,6 +522,24 @@ actions_list <- splice(
            recursive = FALSE
     )
   ),
+  
+  ##hospitalised data --------------------------------------------------------
+  
+  splice(
+    unlist(lapply(cohorts, 
+                  function(x) generate_hospitalised_data(cohort = x)), 
+           recursive = FALSE
+    )
+  ),
+ 
+ ##generate data for anticoagulants and thrombotic events data
+  splice(
+    unlist(lapply(cohorts, 
+                  function(x) generate_ac_te_data(cohort = x)), 
+           recursive = FALSE
+    )
+  ),
+
 
 ## Table 1 -------------------------------------------------------------------
   
@@ -462,7 +601,31 @@ comment("Run failed models"),
                                                    age_spline = active_analyses_failed$age_spline[x])), recursive = FALSE
     )
   ),
-  
+  ## re-run failed models to save sampled data 
+
+comment("Run models for 4months followup sensitivity: thrombotic events and anticaogulants"),
+  splice(
+    unlist(lapply(1:nrow(active_analyses_4mofup), 
+                  function(x) apply_model_function_4mofup(name = active_analyses_4mofup$name[x],
+                                                   cohort = active_analyses_4mofup$cohort[x],
+                                                   analysis = active_analyses_4mofup$analysis[x],
+                                                   ipw = active_analyses_4mofup$ipw[x],
+                                                   strata = active_analyses_4mofup$strata[x],
+                                                   covariate_sex = active_analyses_4mofup$covariate_sex[x],
+                                                   covariate_age = active_analyses_4mofup$covariate_age[x],
+                                                   covariate_other = active_analyses_4mofup$covariate_other[x],
+                                                   cox_start = active_analyses_4mofup$cox_start[x],
+                                                   cox_stop = active_analyses_4mofup$cox_stop[x],
+                                                   study_start = active_analyses_4mofup$study_start[x],
+                                                   study_stop = active_analyses_4mofup$study_stop[x],
+                                                   cut_points = active_analyses_4mofup$cut_points[x],
+                                                   controls_per_case = active_analyses_4mofup$controls_per_case[x],
+                                                   total_event_threshold = active_analyses_4mofup$total_event_threshold[x],
+                                                   episode_event_threshold = active_analyses_4mofup$episode_event_threshold[x],
+                                                   covariate_threshold = active_analyses_4mofup$covariate_threshold[x],
+                                                   age_spline = active_analyses_4mofup$age_spline[x])), recursive = FALSE
+    )
+  ),
   ## Table 2 -------------------------------------------------------------------
   
   splice(
@@ -471,8 +634,22 @@ comment("Run failed models"),
            recursive = FALSE
     )
   ),
+  ## Make AER input--------------------------------------------------------------
+ comment("Make absolute excess risk (AER) input"),
   
-  ## Venn data -----------------------------------------------------------------
+  action(
+    name = "make_aer_input",
+    run = "r:latest analysis/aer/make_aer_input.R",
+    needs = as.list(paste0("make_model_input-",active_analyses[grepl("-main-",active_analyses$name),]$name)),
+    moderately_sensitive = list(
+      aer_input = glue("output/aer_input-main.csv"),
+      aer_input_rounded = glue("output/aer_input-main-midpoint6.csv")
+    )
+  ),
+   
+ 
+ 
+  # Venn data -----------------------------------------------------------------
   
   splice(
     unlist(lapply(unique(active_analyses$cohort), 
@@ -481,16 +658,17 @@ comment("Run failed models"),
     )
   ),
   
-  comment("Stage 6 - make model output"),
+  # comment("Stage 6 - make model output"),
 
-  action(
-    name = "make_model_output",
-    run = "r:latest analysis/model/make_model_output.R",
-    needs = as.list(paste0("cox_ipw-",success$name)),
-    moderately_sensitive = list(
-      model_output = glue("output/model_output.csv")
-    )
-  ), 
+  # action(
+  #   name = "make_model_output",
+  #   run = "r:latest analysis/model/make_model_output.R",
+  #   needs = as.list(paste0("cox_ipw-",success$name)),
+  #   moderately_sensitive = list(
+  #     model_output = glue("output/model_output.csv"),
+  #     model_output_rounded = glue("output/model_output_midpoint6.csv")
+  #   )
+  # ), 
 comment ("Stata models"), 
     # STATA ANALYSES
     
@@ -533,11 +711,52 @@ comment ("Stata models"),
         table1_rounded = glue("output/table1_gi_bleeds_vax_rounded.csv")
       )
   
-)
+),
+## Table 2 GI bleeds-------------------------------------------------------------------
+
+unlist(lapply(unique(active_analyses_gi_bleeds$cohort), 
+              function(x) table2_gi_bleeds(cohort = x)), 
+       recursive = FALSE
+),
+
+## Run models for gi bleeds ----------------------------------------------------------------
+comment("Run models for gi bleeds"),
+
+splice(
+  unlist(lapply(1:nrow(active_analyses_gi_bleeds), 
+                function(x) apply_model_function_gi_bleeds(name = active_analyses_gi_bleeds$name[x],
+                                                           cohort = active_analyses_gi_bleeds$cohort[x],
+                                                           analysis = active_analyses_gi_bleeds$analysis[x],
+                                                           ipw = FALSE,
+                                                           strata = active_analyses_gi_bleeds$strata[x],
+                                                           covariate_sex = active_analyses_gi_bleeds$covariate_sex[x],
+                                                           covariate_age = active_analyses_gi_bleeds$covariate_age[x],
+                                                           covariate_other = active_analyses_gi_bleeds$covariate_other[x],
+                                                           cox_start = active_analyses_gi_bleeds$cox_start[x],
+                                                           cox_stop = active_analyses_gi_bleeds$cox_stop[x],
+                                                           study_start = active_analyses_gi_bleeds$study_start[x],
+                                                           study_stop = active_analyses_gi_bleeds$study_stop[x],
+                                                           cut_points = active_analyses_gi_bleeds$cut_points[x],
+                                                           controls_per_case = active_analyses_gi_bleeds$controls_per_case[x],
+                                                           total_event_threshold = active_analyses_gi_bleeds$total_event_threshold[x],
+                                                           episode_event_threshold = active_analyses_gi_bleeds$episode_event_threshold[x],
+                                                           covariate_threshold = active_analyses_gi_bleeds$covariate_threshold[x],
+                                                           age_spline = active_analyses_gi_bleeds$age_spline[x])), recursive = FALSE
+  )
+),
+comment(" make model output gi bleeds"),
+
+  action(
+    name = "make_model_output_gi_bleeds",
+    run = "r:latest analysis/model/make_model_output_gi_bleeds.R",
+    needs = list("cox_ipw-cohort_vax-main-upper_gi_bleeding_gi_bleeds",glue("cox_ipw-cohort_vax-main-lower_gi_bleeding_gi_bleeds"),glue("cox_ipw-cohort_vax-main-nonvariceal_gi_bleeding_gi_bleeds")),
+
+    moderately_sensitive = list(
+      model_output = glue("output/model_output_gi_bleeds.csv")
+    )
+  )
 )
 
-
-    
 
 
 ## combine everything ----
@@ -557,3 +776,7 @@ as.yaml(project_list, indent=2) %>%
   str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%
   writeLines("project.yaml")
   print("YAML file printed!")
+
+  # Return number of actions -----------------------------------------------------
+
+print(paste0("YAML created with ",length(actions_list)," actions."))

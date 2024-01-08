@@ -21,7 +21,7 @@ print('Specify arguments')
 args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  cohort <- "prevax"
+  cohort <- "vax"
 } else {
   cohort <- args[[1]]
 }
@@ -29,8 +29,8 @@ if(length(args)==0){
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds")
-active_analyses <- active_analyses[active_analyses$cohort==cohort & active_analyses$analysis == "main",]
+active_analyses <- readr::read_rds("lib/active_analyses_gi_bleeds.rds")
+active_analyses <- active_analyses[active_analyses$cohort==cohort,]
 
 # Make empty table 2 -----------------------------------------------------------
 print('Make empty table 2')
@@ -58,12 +58,13 @@ for (i in 1:nrow(active_analyses)) {
   ## Load data -----------------------------------------------------------------
   print(paste0("Load data for ",active_analyses$name[i]))
   
-  df <- read_rds(paste0("output/model_input-",active_analyses$name[i],".rds"))
-  df <- df[,c("patient_id","index_date","exp_date","out_date","end_date_exposure","end_date_outcome")]
+  df <- read_rds(paste0("output/model_input-",active_analyses$name[i],"_gi_bleeds.rds"))
 
+  df <- df[,c("patient_id","index_date","exp_date","out_date","end_date_exposure","end_date_outcome")]
+  
   # Remove exposures and outcomes outside follow-up ----------------------------
   print("Remove exposures and outcomes outside follow-up")
-
+  
   df <- df %>% 
     dplyr::mutate(exposure = replace(exp_date, which(exp_date>end_date_exposure | exp_date<index_date), NA),
                   outcome = replace(out_date, which(out_date>end_date_outcome | out_date<index_date), NA))
@@ -110,38 +111,22 @@ for (i in 1:nrow(active_analyses)) {
                                day0_events = nrow(exposed[exposed$exp_date==exposed$out_date & !is.na(exposed$exp_date) & !is.na(exposed$out_date),]),
                                total_exposed = nrow(exposed),
                                sample_size = nrow(df))
-
+  
 }
 
 # Save Table 2 -----------------------------------------------------------------
 print('Save Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,".csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds.csv"), row.names = FALSE)
 
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
 
-rounded_cols <- setdiff(colnames(table2), c("name", "cohort", "exposure", "outcome", "analysis", "unexposed_person_days", "exposed_person_days", "total_person_days", "total_events"))
+table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))] <- lapply(table2[,setdiff(colnames(table2),c("name","cohort","exposure","outcome","analysis"))],
+                                                                                                FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
 
-# Renaming the columns by adding '_midpoint6'-----------------------------------
-table2[rounded_cols] <- lapply(
-  table2[rounded_cols],
-  FUN = function(y) { roundmid_any(as.numeric(y), to = threshold) }
-)
 
-new_names<-paste0(rounded_cols, "_midpoint6")
-names(table2)[match(rounded_cols, names(table2))] <- new_names
-
-# Recalculate total columns --------------------------------------------------
-  print('Recalculate total columns')
-  
-  table2$total_events_derived <- table2$exposed_events_midpoint6 + table2$unexposed_events_midpoint6
-
-# Remove total_events
-print('Remove total events')
-table2 <- table2 %>% 
-           select(-c("total_events"))
-# Save Table 2 -----------------------------------------------------------------
+#Save Table 2 for gi bleeds -----------------------------------------------------------------
 print('Save rounded Table 2')
 
-write.csv(table2, paste0("output/table2_",cohort,"_midpoint6.csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",cohort,"_gi_bleeds_rounded.csv"), row.names = FALSE)

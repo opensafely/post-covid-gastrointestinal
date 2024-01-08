@@ -3,11 +3,6 @@ print('Load data')
 
 df <- read.csv("output/post_release/lifetables_compiled.csv")
 
-# Filter data ------------------------------------------------------------------
-print("Filter data")
-
-df <- df[df$outcome %in% c("depression","serious_mental_illness"),]
-
 # Format aer_age ---------------------------------------------------------------
 print("Format aer_age")
 
@@ -25,7 +20,6 @@ df$aer_age <- factor(df$aer_age,
 
 # Format aer_sex ---------------------------------------------------------------
 print("Format aer_sex")
-
 df$aer_sex <- factor(df$aer_sex,
                      levels = c("Female",
                                 "Male",
@@ -54,42 +48,51 @@ df$cohort_label <- factor(df$cohort_label,
                                      "Vaccinated (Jun 1 2021 - Dec 14 2021)",
                                      "Unvaccinated (Jun 1 2021 - Dec 14 2021)"))
 
-# Plot data --------------------------------------------------------------------
-print("Plot data")
+# Get unique outcomes
+unique_outcomes <- unique(df$outcome)
 
-ggplot2::ggplot(data = df[df$days<197,], 
-                mapping = ggplot2::aes(x = days/7, 
-                                       y = cumulative_difference_absolute_excess_risk*100, 
-                                       color = aer_age, linetype = aer_sex)) +
-  ggplot2::geom_line() +
-  ggplot2::scale_x_continuous(lim = c(0,28), breaks = seq(0,28,4), labels = seq(0,28,4)) +
-  ggplot2::scale_color_manual(values = c("#006d2c",
-                                         "#31a354",
-                                         "#74c476",
-                                         "#bae4b3",
-                                         "#000000"), 
-                              labels = levels(df$aer_age)) +
-  ggplot2::scale_linetype_manual(values = c("solid",
-                                            "longdash",
-                                            "solid"), 
-                                 labels = levels(df$aer_sex))+
-  ggplot2::labs(x = "Weeks since COVID-19 diagnosis", y = "Cumulative difference in absolute risk  (%)") +
-  ggplot2::guides(fill=ggplot2::guide_legend(ncol = 6, byrow = TRUE)) +
-  ggplot2::theme_minimal() +
-  ggplot2::theme(panel.grid.major.x = ggplot2::element_blank(),
-                 panel.grid.minor = ggplot2::element_blank(),
-                 panel.spacing.x = ggplot2::unit(0.5, "lines"),
-                 panel.spacing.y = ggplot2::unit(0, "lines"),
-                 legend.key = ggplot2::element_rect(colour = NA, fill = NA),
-                 legend.title = ggplot2::element_blank(),
-                 legend.position="bottom",
-                 plot.background = ggplot2::element_rect(fill = "white", colour = "white"),
-                 plot.title = ggplot2::element_text(hjust = 0.5),
-                 text = ggplot2::element_text(size=13)) +
-  ggplot2::facet_wrap(outcome_label ~ cohort_label, scales = "free_x")
-
-# Save plot --------------------------------------------------------------------
-print("Save plot")
-
-ggplot2::ggsave(paste0("output/post_release/figureAER.png"), 
-                height = 210, width = 297, unit = "mm", dpi = 600, scale = 1)
+# Create a figure for each outcome
+for (outcome in unique_outcomes) {
+  print(paste("Creating figure for outcome:", outcome))
+  
+  # Filter data for the current outcome
+  df_subset <- df[df$outcome == outcome, ]
+  
+  # Plot data ------------------------------------------------------------------
+  ggplot2::ggplot(data = df_subset[df_subset$days < 197,], 
+                  mapping = ggplot2::aes(x = days/7, 
+                                         y = cumulative_difference_absolute_excess_risk*100, 
+                                         color = aer_age, linetype = aer_sex)) +
+    ggplot2::geom_line() +
+    ggplot2::scale_x_continuous(lim = c(0,28), breaks = seq(0,28,4), labels = seq(0,28,4)) +
+    ggplot2::scale_color_manual(values = c("#006d2c",
+                                           "#31a354",
+                                           "#74c476",
+                                           "#bae4b3",
+                                           "#000000"), 
+                                labels = levels(df$aer_age)) +
+    ggplot2::scale_linetype_manual(values = c("solid",
+                                              "longdash",
+                                              "solid"), 
+                                   labels = levels(df$aer_sex))+
+    ggplot2::labs(x = "Weeks since COVID-19 diagnosis", y = "Cumulative difference in absolute risk  (%)") +
+    ggplot2::guides(fill=ggplot2::guide_legend(ncol = 6, byrow = TRUE)) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.major.x = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   panel.spacing.x = ggplot2::unit(0.5, "lines"),
+                   panel.spacing.y = ggplot2::unit(0, "lines"),
+                   legend.key = ggplot2::element_rect(colour = NA, fill = NA),
+                   legend.title = ggplot2::element_blank(),
+                   legend.position="bottom",
+                   plot.background = ggplot2::element_rect(fill = "white", colour = "white"),
+                   plot.title = ggplot2::element_text(hjust = 0.5),
+                   text = ggplot2::element_text(size=13)) +
+    ggplot2::facet_wrap(outcome_label ~ cohort_label, scales = "free_x")
+  
+  # Save plot --------------------------------------------------------------------
+  print("Save plot")
+  
+  ggplot2::ggsave(paste0("output/post_release/figureAER_", outcome, ".png"), 
+                  height = 210, width = 397, unit = "mm", dpi = 600, scale = 1)
+}

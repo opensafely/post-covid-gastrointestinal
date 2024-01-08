@@ -31,9 +31,9 @@ if(length(args)==0){
 # Load active analyses ---------------------------------------------------------
 print('Load active analyses')
 
-active_analyses <- readr::read_rds("lib/active_analyses.rds")
+active_analyses <- read_rds("lib/active_analyses.rds") 
 
-# Identify model inputs to be prepared -----------------------------------------
+ # Identify model inputs to be prepared -----------------------------------------
 print('Identify model inputs to be prepared')
 
 if (name=="all") {
@@ -81,7 +81,7 @@ for (i in 1:nrow(active_analyses)) {
   print(summary(input$cov_num_age))
 
   input <- dplyr::rename(input, 
-                         "out_date" =active_analyses$outcome[i],
+                         "out_date" = active_analyses$outcome[i],
                          "exp_date" = active_analyses$exposure[i])
   print (paste0("nrow after rename : ",nrow(input)))
 
@@ -115,7 +115,7 @@ for (i in 1:nrow(active_analyses)) {
     rm(df)
     
   }
-  
+
   # Make model input: sub_covid_hospitalised -------------------------------------
   
   if (active_analyses$analysis[i]=="sub_covid_hospitalised") {
@@ -457,9 +457,5 @@ df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     rm(df)
     
   }
-
-
-  
-  
-  
 }
+
