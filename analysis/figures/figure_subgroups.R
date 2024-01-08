@@ -4,16 +4,19 @@ library(tidyverse)
 library(ggplot2)
 
 # Define results directory
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/"
-output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/Figures/"
+# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/"
+# output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/Figures/"
+results_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
+output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/figures/"
+
 #################
 #1- Get data
 #################
 
-disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
-estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
+# disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
+estimates <-read.csv(paste0(results_dir,"model_output_midpoint6.csv"))%>%
   # Extract outcomes to plot
-  filter(!outcome %in% disregard) %>%
+  # filter(!outcome %in% disregard) %>%
   filter(model=="mdl_max_adj")%>%
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
@@ -22,7 +25,7 @@ estimates <-read.csv(paste0(results_dir,"model_output.csv"))  %>%
   mutate(outcome = str_to_title(outcome))
 
 subgroups<- estimates %>% 
-                      filter(!analysis %in% c("main","sub_covid_nonhospitalised","sub_covid_hospitalised","sub_covid_history","sub_ethnicity_missing"))
+  filter(!analysis %in% c("main","sub_covid_nonhospitalised","sub_covid_hospitalised","sub_covid_history","sub_ethnicity_missing"))
 
 generate_analysis_labels <- function(analysis) {
   case_when(
@@ -160,15 +163,15 @@ names_2col <- c(
 
 for (outcome_name in unique(subgroups$outcome)) {
   
-
+  
   df <- subgroups %>% filter(outcome == outcome_name)
-
+  
   analysis_labels_levels <- unique(df$analysis_labels)
   df$analysis_labels <- factor(df$analysis_labels, levels = analysis_labels_levels)
-
+  
   colour_levels <- unique(df$colour)
   df$colour <- factor(df$colour, levels = colour_levels)
-
+  
   pd <- position_dodge(width = 0.5)
   p <- ggplot(df, aes(x = outcome_time_median / 7, y = hr, color = colour)) +
     geom_line() +
@@ -185,8 +188,8 @@ for (outcome_name in unique(subgroups$outcome)) {
     ) +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 4)) +
     scale_y_continuous(
-      lim = c(0.25, 64),
-      breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32, 64),
+      lim = c(0.25, 512),
+      breaks = c(0.25, 0.5, 1, 2, 4, 8, 16, 32, 64,128,256,512),
       trans = "log"
     ) +
     scale_fill_manual(
@@ -204,39 +207,37 @@ for (outcome_name in unique(subgroups$outcome)) {
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     theme_minimal() +
     theme(panel.grid.major.x = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   panel.spacing.x = unit(0.5, "lines"),
-                   panel.spacing.y = unit(0, "lines"),
-                   legend.key = element_rect(colour = NA, fill = NA),
-                   legend.title = element_blank(),
-                   legend.position="bottom",
-                   legend.box ="horizontal",
-               legend.spacing.x = unit(0.5, 'cm'),
-                   strip.text = element_text(face = "bold",size=12),
-                   plot.background = element_rect(fill = "white", colour = "white"),
-                   text=element_text(size=13)) +
-                     guides(color = guide_legend(ncol = 6, byrow = TRUE))
-      if (length(unique(df$cohort)) == 2) {
+          panel.grid.minor = element_blank(),
+          panel.spacing.x = unit(0.5, "lines"),
+          panel.spacing.y = unit(0, "lines"),
+          legend.key = element_rect(colour = NA, fill = NA),
+          legend.title = element_blank(),
+          legend.position="bottom",
+          legend.box ="horizontal",
+          legend.spacing.x = unit(0.5, 'cm'),
+          strip.text = element_text(face = "bold",size=12),
+          plot.background = element_rect(fill = "white", colour = "white"),
+          text=element_text(size=13)) +
+    guides(color = guide_legend(ncol = 6, byrow = TRUE))
+  if (length(unique(df$cohort)) == 2) {
     p <- p + facet_wrap(grouping_labels ~ ., labeller = as_labeller(names_2col), ncol = length(unique(df$cohort)))
   } else {
     p <- p + facet_wrap(grouping_labels ~ ., labeller = as_labeller(names), ncol = length(unique(df$cohort)))
   }
-
-                     
-
-
+  
+  
+  
+  
   # Get unique colors
   unique_colors <- unique(df$colour)
-
+  
   # Pass unique colors to generate_colour function
   
   df$colour <- generate_colour(df$analysis, df)
-
+  
   ggsave(
-    paste0(output_dir, "supplementary_figure_3_subgroups_", outcome_name, ".png"),
-    height = 400, width = 500, unit = "mm", dpi = 600, scale = 1
+    paste0(output_dir, "figure_3",outcome_name, ".png"),
+    height = 297, width = 350, unit = "mm", dpi = 600, scale = 1
   )
 }
-
-
 

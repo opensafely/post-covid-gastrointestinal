@@ -20,7 +20,6 @@ df$aer_age <- factor(df$aer_age,
 
 # Format aer_sex ---------------------------------------------------------------
 print("Format aer_sex")
-
 df$aer_sex <- factor(df$aer_sex,
                      levels = c("Female",
                                 "Male",

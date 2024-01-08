@@ -14,7 +14,7 @@ library(scales)
 library(broman)
 
 #Directories
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/11-05-2023/"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/"
 
 
 ###############################################
