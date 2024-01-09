@@ -58,6 +58,7 @@ df$cohort<- active_analyses$cohort[i]
   
 df_list[[i]] <- df
 }
+}
 
 combined_df <- bind_rows(df_list) 
 
@@ -69,6 +70,7 @@ perform_analysis <- function(data,analysis) {
         summarize(count = n_distinct(patient_id, na.rm = TRUE)) %>%
         pivot_wider(names_from = cov_bin_anticoagulants_4mofup_bnf, values_from = count,
                     names_prefix = "n_anticoag_", values_fill = list(count = 0))
+                    return(sa_anticoag)  
     }else if (analysis=="throm") {
     
     sa_throm <- data %>%
@@ -76,6 +78,7 @@ perform_analysis <- function(data,analysis) {
         summarize(count = n_distinct(patient_id, na.rm = TRUE)) %>%
         pivot_wider(names_from = cov_bin_ate_vte_4mofup, values_from = count,
                     names_prefix = "n_throm_", values_fill = list(count = 0))
+                    return(sa_throm)
     }
 }
 
@@ -101,6 +104,7 @@ for (c in cohorts) {
     # Reassign the modified data frame back to the results list
     write.csv(results[[c]],paste0("output/sensitivity_",c,"_",analysis,"_midpoint6.csv"),row.names=FALSE)
 }
+
 
 
 
