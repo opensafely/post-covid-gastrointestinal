@@ -127,20 +127,20 @@ generate_study_population <- function(cohort){
   )
 }
 
-generate_hospitalised_data <- function(cohort) {
-  splice(
-    comment("Generate hospitalised data from stage1 data"),
-    action(
-      name = glue("generate_hospitalised_data_{cohort}"),
-      run = "r:latest analysis/hospitalised_data.R",
-      arguments = list(cohort),
-      needs = list(glue("stage1_data_cleaning_{cohort}")),
-      highly_sensitive = list(
-        hosp_data = glue("output/input_{cohort}_stage1_hosp.csv.gz")
-      )
-    )
-  )
-}
+# generate_hospitalised_data <- function(cohort) {
+#   splice(
+#     comment("Generate hospitalised data from stage1 data"),
+#     action(
+#       name = glue("generate_hospitalised_data_{cohort}"),
+#       run = "r:latest analysis/hospitalised_data.R",
+#       arguments = list(cohort),
+#       needs = list(glue("stage1_data_cleaning_{cohort}")),
+#       highly_sensitive = list(
+#         hosp_data = glue("output/input_{cohort}_stage1_hosp.csv.gz")
+#       )
+#     )
+#   )
+# }
 # Create a function to generate data for anti-coagulants and thrombotic events
 generate_ac_te_data <- function(cohort){
   splice(
@@ -148,7 +148,7 @@ generate_ac_te_data <- function(cohort){
     action(
       name = glue("generate_ac_te_data_{cohort}"),
       run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort}_4mofup --output-format csv.gz"),
-      needs = list(glue("generate_hospitalised_data_{cohort}")),
+      needs = list(glue("stage1_data_cleaning_{cohort}")),
       highly_sensitive = list(
         cohort = glue("output/input_{cohort}_4mofup.csv.gz")
       )
@@ -539,12 +539,12 @@ actions_list <- splice(
   
   ##hospitalised data --------------------------------------------------------
   
-  splice(
-    unlist(lapply(cohorts, 
-                  function(x) generate_hospitalised_data(cohort = x)), 
-           recursive = FALSE
-    )
-  ),
+  # splice(
+  #   unlist(lapply(cohorts, 
+  #                 function(x) generate_hospitalised_data(cohort = x)), 
+  #          recursive = FALSE
+  #   )
+  # ),
  
  ##generate data for anticoagulants and thrombotic events data
   splice(

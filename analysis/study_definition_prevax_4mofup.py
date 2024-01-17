@@ -23,7 +23,7 @@ from datetime import date
 
 import json
 
-input_file = "output/input_prevax_stage1_hosp.csv.gz"
+input_file = "output/input_prevax_stage1.csv.gz"
 
 study = StudyDefinition(
     population=patients.which_exist_in_file(input_file),
