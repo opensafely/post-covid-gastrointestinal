@@ -13,9 +13,10 @@ library(officer)
 library(scales)
 
 #Directories
-# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table1/"
 
 results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/table1/"
+
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/tables/table1/"
 
 ###############################################
 # 1. CLEAN TABLE 1 FUNCTION
@@ -23,7 +24,7 @@ results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-Uni
 
 clean_table_1 <- function(df) {
   df <- df %>%
-    rename('N (%)' = "N....", 'COVID-19 diagnoses' = "COVID.19.diagnoses") %>%
+    rename('N (%)' = "N.....derived", 'COVID-19 diagnoses' = "COVID.19.diagnoses.midpoint6") %>%
     separate(`N (%)`, into = c('N', '(%)'), sep = ' ') %>%
     mutate(`COVID-19 diagnoses` = scales::comma(`COVID-19 diagnoses`),
            N = scales::comma(as.numeric(N)),
@@ -35,6 +36,7 @@ clean_table_1 <- function(df) {
 dataset_names <- c("prevax", "vax", "unvax")
 #Load datasets as list
 df_list_t1 <- lapply(dataset_names, function(name) read.csv(paste0(results_dir, "table1_", name, "_midpoint6.csv")))
+
 
 #Apply clean table 1 function
 table1 <- lapply(df_list_t1, clean_table_1) %>% 
