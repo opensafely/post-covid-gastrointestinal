@@ -15735,6 +15735,30 @@ actions:
     - make_model_input-cohort_prevax-main-peptic_ulcer
     - make_model_input-cohort_prevax-main-upper_gi_bleeding
     - make_model_input-cohort_prevax-main-variceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-appendicitis
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-dyspepsia
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-acute_pancreatitis
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-appendicitis
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-dyspepsia
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-gallstones_disease
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-ibs
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-peptic_ulcer
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - make_model_input-cohort_prevax-sub_covid_nonhospitalised-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
         table2: output/table2_prevax.csv
@@ -15757,6 +15781,30 @@ actions:
     - make_model_input-cohort_unvax-main-peptic_ulcer
     - make_model_input-cohort_unvax-main-upper_gi_bleeding
     - make_model_input-cohort_unvax-main-variceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-appendicitis
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-dyspepsia
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-gallstones_disease
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-ibs
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-peptic_ulcer
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-acute_pancreatitis
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-appendicitis
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-dyspepsia
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-gallstones_disease
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-ibs
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-peptic_ulcer
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - make_model_input-cohort_unvax-sub_covid_nonhospitalised-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
         table2: output/table2_unvax.csv
@@ -15779,6 +15827,30 @@ actions:
     - make_model_input-cohort_vax-main-peptic_ulcer
     - make_model_input-cohort_vax-main-upper_gi_bleeding
     - make_model_input-cohort_vax-main-variceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-acute_pancreatitis
+    - make_model_input-cohort_vax-sub_covid_hospitalised-appendicitis
+    - make_model_input-cohort_vax-sub_covid_hospitalised-dyspepsia
+    - make_model_input-cohort_vax-sub_covid_hospitalised-gallstones_disease
+    - make_model_input-cohort_vax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_vax-sub_covid_hospitalised-ibs
+    - make_model_input-cohort_vax-sub_covid_hospitalised-lower_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_vax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-peptic_ulcer
+    - make_model_input-cohort_vax-sub_covid_hospitalised-upper_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_hospitalised-variceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-acute_pancreatitis
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-appendicitis
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-dyspepsia
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-gallstones_disease
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-gastro_oesophageal_reflux_disease
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-ibs
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-lower_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-nonalcoholic_steatohepatitis
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-nonvariceal_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-peptic_ulcer
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-upper_gi_bleeding
+    - make_model_input-cohort_vax-sub_covid_nonhospitalised-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
         table2: output/table2_vax.csv
