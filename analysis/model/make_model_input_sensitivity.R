@@ -60,34 +60,37 @@ for (i in 1:nrow(active_analyses)) {
     
     # Thrombotic events TRUE
     if (active_analyses$analysis[i]=="throm_True_sensitivity"){
-    seninput_hosp_throm_True <- seninput_hosp_throm %>%
+    seninput_hosp_throm_True <- input_hosp_throm%>%
         filter(cov_bin_ate_vte_sensitivity == TRUE)
-    print(names(input_hosp_4mo_throm_True))
 
-    write_rds(input_hosp_4mo_throm_True, paste0("output/model_input-", name_sensitivity,".rds"))
+    write_rds(seninput_hosp_throm_True, paste0("output/model_input-", name_sensitivity,".rds"))
     }else{
       # Thrombotic events FALSE
-    input_hosp_4mo_throm_False <- seninput_hosp_throm %>%
+    input_hosp_4mo_throm_False <- input_hosp_throm %>%
         filter(cov_bin_ate_vte_sensitivity == FALSE)
         
     write_rds(input_hosp_4mo_throm_False, paste0("output/model_input-",name_sensitivity,".rds"))
     }
     }
+    
     if (grepl("anticoag", active_analyses$analysis[i])){
     # input <- input %>% filter(fup_total >= 120)
 
  # Add indicator for 4 months (4*28=112) follow-up post-discharge --------------
-  print('Add indicator for 4 months (4*28=112) follow-up post-discharge')
-  input$sub_bin_fup4m <- ((input$end_date_outcome - input$discharge_date) > 112) | is.na(input$exp_date)
-  input<- input[input$sub_bin_fup4m==TRUE,]
-
+ 
     # join study def data with hospitalised model_input 
     sd_input<- sd_input %>%dplyr::select(
         patient_id,
-        cov_bin_anticoagulants_sensitivity_bnf
+        cov_bin_anticoagulants_sensitivity_bnf,
+        discharge_date
     )
         seninput_hosp_anticoag <- input %>% 
         left_join(sd_input, by = "patient_id")
+        
+        print('Add indicator for 4 months (4*28=112) follow-up post-discharge')
+        seninput_hosp_anticoag$sub_bin_fup4m <- ((seninput_hosp_anticoag$end_date_outcome - seninput_hosp_anticoag$discharge_date) > 112) | is.na(seninput_hosp_anticoag$exp_date)
+        seninput_hosp_anticoag<- seninput_hosp_anticoag[seninput_hosp_anticoag$sub_bin_fup4m==TRUE,]
+        
 
         # anticoagulation true model input 
     if (active_analyses$analysis[i]=="anticoag_True_sensitivity"){
