@@ -211,35 +211,35 @@ actions:
   ## Generate anti coagulants and thrombotic data - prevax 
 
   generate_ac_te_data_prevax:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax_4mofup
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax_sensitivity
       --output-format csv.gz
     needs:
     - stage1_data_cleaning_prevax
     outputs:
       highly_sensitive:
-        cohort: output/input_prevax_4mofup.csv.gz
+        cohort: output/input_prevax_sensitivity.csv.gz
 
   ## Generate anti coagulants and thrombotic data - unvax 
 
   generate_ac_te_data_unvax:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_unvax_4mofup
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_unvax_sensitivity
       --output-format csv.gz
     needs:
     - stage1_data_cleaning_unvax
     outputs:
       highly_sensitive:
-        cohort: output/input_unvax_4mofup.csv.gz
+        cohort: output/input_unvax_sensitivity.csv.gz
 
   ## Generate anti coagulants and thrombotic data - vax 
 
   generate_ac_te_data_vax:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_vax_4mofup
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_vax_sensitivity
       --output-format csv.gz
     needs:
     - stage1_data_cleaning_vax
     outputs:
       highly_sensitive:
-        cohort: output/input_vax_4mofup.csv.gz
+        cohort: output/input_vax_sensitivity.csv.gz
 
   ## Table 1 - prevax 
 

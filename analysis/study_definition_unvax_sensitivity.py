@@ -1,10 +1,8 @@
 ## Set seed
 import numpy as np
 np.random.seed(123456)
-#patient ID, vaccination dates, vaccination eligibility
 
 # Cohort extractor
-from tracemalloc import start
 from cohortextractor import (
   StudyDefinition,
   patients,
@@ -23,7 +21,7 @@ from datetime import date
 
 import json
 
-input_file = "output/input_vax_stage1.csv.gz"
+input_file = "output/input_unvax_stage1.csv.gz"
 
 study = StudyDefinition(
     population=patients.which_exist_in_file(input_file),
@@ -57,7 +55,7 @@ study = StudyDefinition(
 
         
     ),
-    cov_bin_anticoagulants_4mofup_bnf = patients.with_these_medications(
+    cov_bin_anticoagulants_sensitivity_bnf = patients.with_these_medications(
         anticoagulants_bnf,
         returning = 'binary_flag',
         between = ["discharge_date" ,"end_date_outcome" ],
@@ -111,7 +109,7 @@ study = StudyDefinition(
     ),
  
 #    VTE & ATE
-cov_bin_ate_vte_4mofup = patients.maximum_of(
+cov_bin_ate_vte_sensitivity = patients.maximum_of(
     "cov_bin_ate", "cov_bin_vte"
 ),
 

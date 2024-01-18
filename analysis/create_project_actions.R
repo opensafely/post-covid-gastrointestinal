@@ -147,10 +147,10 @@ generate_ac_te_data <- function(cohort){
     comment(glue("Generate anti coagulants and thrombotic data - {cohort}")),
     action(
       name = glue("generate_ac_te_data_{cohort}"),
-      run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort}_4mofup --output-format csv.gz"),
+      run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort}_sensitivity --output-format csv.gz"),
       needs = list(glue("stage1_data_cleaning_{cohort}")),
       highly_sensitive = list(
-        cohort = glue("output/input_{cohort}_4mofup.csv.gz")
+        cohort = glue("output/input_{cohort}_sensitivity.csv.gz")
       )
     )
   )

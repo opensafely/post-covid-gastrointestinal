@@ -31,70 +31,74 @@ active_analyses <- active_analyses[active_analyses$name %in% prepare,]
 
 # for the suffixes we know that they are for sensitivity analyses create model input files 
 # take model input file for hospitalised analyses and calculate fup total 
-# Join with hosp_input which is the data for hospitalised with the added variables (anticaog/discharge/thrombotic events...)
+# Join with sd_input which is the data from study definition sensitivity with the added variables (anticaog/discharge/thrombotic events...)
 
 name_suffixes <- c("_throm_True_sensitivity", "_throm_False_sensitivity", "_anticoag_True_sensitivity", "_anticoag_False_sensitivity")
 for (i in 1:nrow(active_analyses)) {
     cohort <- active_analyses$cohort[i]
     name_sensitivity <- active_analyses[i, "name"]
     name <- gsub(paste(name_suffixes, collapse = "|"), "", name_sensitivity)
+
+    # hospitalised model input 
     input <- readRDS(paste0("output/model_input-", name, ".rds"))
     input<- input%>% 
     mutate(patient_id=as.character(patient_id))
-    hosp_input <- read.csv(paste0("output/input_", cohort, "_4mofup.csv.gz"),colClasses = c(patient_id = "character"))
-    # hosp_input <- hosp_input %>%mutate(
-    #     patient_id=as.character(patient_id)
-    # )
-    
-    
-    study_start <- active_analyses[i, "study_start"]
-    study_stop <-  active_analyses[i, "study_stop"]
-    input$fup_start <- pmax(input$index_date, study_start, na.rm = TRUE)
-    input$fup_stop <- pmin(input$end_date_outcome, study_stop, na.rm = TRUE)
-    input$fup_total <- as.numeric(input$fup_stop - input$fup_start)
-    
+
+    # Study definition sensitivity input 
+    sd_input <- read.csv(paste0("output/input_", cohort, "_sensitivity.csv.gz"),colClasses = c(patient_id = "character"))
+    sd_input$discharge_date<- as.Date(sd_input$discharge_date)
+
+    # Thrombotic events model input 
     if (grepl("throm", active_analyses$analysis[i])){
 
-    hosp_input <- hosp_input %>% 
+    sd_input <- sd_input %>% 
     dplyr::select(patient_id,
-                cov_bin_ate_vte_4mofup,
-                
-
+                cov_bin_ate_vte_sensitivity,
     )
-    input_hosp_4mo_throm <- input %>%
-        right_join(hosp_input, by = "patient_id") 
+    input_hosp_throm <- input %>%
+        left_join(sd_input, by = "patient_id") 
     
+    # Thrombotic events TRUE
     if (active_analyses$analysis[i]=="throm_True_sensitivity"){
-    input_hosp_4mo_throm_True <- input_hosp_4mo_throm %>%
-        filter(cov_bin_ate_vte_4mofup == TRUE)
+    seninput_hosp_throm_True <- seninput_hosp_throm %>%
+        filter(cov_bin_ate_vte_sensitivity == TRUE)
     print(names(input_hosp_4mo_throm_True))
 
     write_rds(input_hosp_4mo_throm_True, paste0("output/model_input-", name_sensitivity,".rds"))
     }else{
-    input_hosp_4mo_throm_False <- input_hosp_4mo_throm %>%
-        filter(cov_bin_ate_vte_4mofup == FALSE)
+      # Thrombotic events FALSE
+    input_hosp_4mo_throm_False <- seninput_hosp_throm %>%
+        filter(cov_bin_ate_vte_sensitivity == FALSE)
         
     write_rds(input_hosp_4mo_throm_False, paste0("output/model_input-",name_sensitivity,".rds"))
     }
     }
     if (grepl("anticoag", active_analyses$analysis[i])){
-    input <- input %>% filter(fup_total >= 120)
+    # input <- input %>% filter(fup_total >= 120)
 
-    hosp_input<- hosp_input %>%dplyr::select(
+ # Add indicator for 4 months (4*28=112) follow-up post-discharge --------------
+  print('Add indicator for 4 months (4*28=112) follow-up post-discharge')
+  input$sub_bin_fup4m <- ((input$end_date_outcome - input$discharge_date) > 112) | is.na(input$exp_date)
+  input<- input[input$sub_bin_fup4m==TRUE,]
+
+    # join study def data with hospitalised model_input 
+    sd_input<- sd_input %>%dplyr::select(
         patient_id,
-        cov_bin_anticoagulants_4mofup_bnf
+        cov_bin_anticoagulants_sensitivity_bnf
     )
-        input_hosp_4mo_anticoag <- input %>% 
-        right_join(hosp_input, by = "patient_id")
-        
+        seninput_hosp_anticoag <- input %>% 
+        left_join(sd_input, by = "patient_id")
+
+        # anticoagulation true model input 
     if (active_analyses$analysis[i]=="anticoag_True_sensitivity"){
-    input_hosp_4mo_anticoag_True <- input_hosp_4mo_anticoag %>%
-        filter(cov_bin_anticoagulants_4mofup_bnf == TRUE)
+    input_hosp_4mo_anticoag_True <- seninput_hosp_anticoag %>%
+        filter(cov_bin_anticoagulants_sensitivity_bnf == TRUE)
     
     write_rds(input_hosp_4mo_anticoag_True, paste0("output/model_input-", name_sensitivity, ".rds"))
+    # anticoagulation false input 
     }else{
-    input_hosp_4mo_anticoag_False <- input_hosp_4mo_anticoag %>%
-        filter(cov_bin_anticoagulants_4mofup_bnf == FALSE)
+    input_hosp_4mo_anticoag_False <- seninput_hosp_anticoag %>%
+        filter(cov_bin_anticoagulants_sensitivity_bnf == FALSE)
     
     write_rds(input_hosp_4mo_anticoag_False, paste0("output/model_input-", name_sensitivity, ".rds"))
 }
