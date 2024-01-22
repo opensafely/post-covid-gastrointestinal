@@ -55,7 +55,7 @@ study = StudyDefinition(
 
         
     ),
-    cov_bin_anticoagulants_sensitivity_bnf = patients.with_these_medications(
+    sub_bin_anticoagulants_sensitivity_bnf = patients.with_these_medications(
         anticoagulants_bnf,
         returning = 'binary_flag',
         between = ["discharge_date" ,"end_date_outcome" ],
@@ -64,53 +64,53 @@ study = StudyDefinition(
 
     ## Venous thrombolism events
     ### Primary care
-    tmp_cov_bin_vte_snomed=patients.with_these_clinical_events(
+    tmp_sub_bin_vte_snomed=patients.with_these_clinical_events(
         all_vte_codes_snomed_clinical,
         returning='binary_flag',
         between = ["exp_date" ,"end_date_outcome" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### HES APC
-    tmp_cov_bin_vte_hes=patients.admitted_to_hospital(
+    tmp_sub_bin_vte_hes=patients.admitted_to_hospital(
         returning='binary_flag',
         with_these_diagnoses=all_vte_codes_icd10,
         between = ["exp_date" ,"end_date_outcome" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### Combined
-    cov_bin_vte=patients.maximum_of(
-        "tmp_cov_bin_vte_snomed", "tmp_cov_bin_vte_hes",
+    sub_bin_vte=patients.maximum_of(
+        "tmp_sub_bin_vte_snomed", "tmp_sub_bin_vte_hes",
     ),
 
     ## Arterial thrombosis events (i.e., any arterial event - this combines: AMI, ischaemic stroke, other arterial embolism)
     ### Primary care
-    tmp_cov_bin_ate_snomed=patients.with_these_clinical_events(
+    tmp_sub_bin_ate_snomed=patients.with_these_clinical_events(
         all_ate_codes_snomed_clinical,
         returning="binary_flag",
         between = ["exp_date" ,"end_date_outcome" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### HES APC
-    tmp_cov_bin_ate_hes=patients.admitted_to_hospital(
+    tmp_sub_bin_ate_hes=patients.admitted_to_hospital(
         returning="binary_flag",
         between = ["exp_date" ,"end_date_outcome" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### ONS
-    tmp_cov_bin_ate_death=patients.with_these_codes_on_death_certificate(
+    tmp_sub_bin_ate_death=patients.with_these_codes_on_death_certificate(
         all_ate_codes_icd10,
         returning="binary_flag",
         between = ["exp_date" ,"end_date_outcome" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### Combined
-    cov_bin_ate=patients.maximum_of(
-        "tmp_cov_bin_ate_snomed", "tmp_cov_bin_ate_hes", "tmp_cov_bin_ate_death"
+    sub_bin_ate=patients.maximum_of(
+        "tmp_sub_bin_ate_snomed", "tmp_sub_bin_ate_hes", "tmp_sub_bin_ate_death"
     ),
  
 #    VTE & ATE
-cov_bin_ate_vte_sensitivity = patients.maximum_of(
-    "cov_bin_ate", "cov_bin_vte"
+sub_bin_ate_vte_sensitivity = patients.maximum_of(
+    "sub_bin_ate", "sub_bin_vte"
 ),
 
     
