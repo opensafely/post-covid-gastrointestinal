@@ -21,7 +21,7 @@ from datetime import date
 
 import json
 
-input_file = "output/input_vax_stage1.csv.gz"
+input_file = "output/input_vax_stage1_sens.csv.gz"
 
 study = StudyDefinition(
     population=patients.which_exist_in_file(input_file),
