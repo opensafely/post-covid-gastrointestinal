@@ -208,13 +208,43 @@ actions:
       highly_sensitive:
         cohort: output/input_vax_stage1.rds
 
+  ## Generate hospitalised data from stage1 data 
+
+  convert_rds_csv_prevax:
+    run: r:latest analysis/convert_rds_csv.R prevax
+    needs:
+    - stage1_data_cleaning_prevax
+    outputs:
+      highly_sensitive:
+        hosp_data: output/input_prevax_stage1_sens.csv.gz
+
+  ## Generate hospitalised data from stage1 data 
+
+  convert_rds_csv_unvax:
+    run: r:latest analysis/convert_rds_csv.R unvax
+    needs:
+    - stage1_data_cleaning_unvax
+    outputs:
+      highly_sensitive:
+        hosp_data: output/input_unvax_stage1_sens.csv.gz
+
+  ## Generate hospitalised data from stage1 data 
+
+  convert_rds_csv_vax:
+    run: r:latest analysis/convert_rds_csv.R vax
+    needs:
+    - stage1_data_cleaning_vax
+    outputs:
+      highly_sensitive:
+        hosp_data: output/input_vax_stage1_sens.csv.gz
+
   ## Generate anti coagulants and thrombotic data - prevax 
 
   generate_ac_te_data_prevax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax_sensitivity
       --output-format csv.gz
     needs:
-    - stage1_data_cleaning_prevax
+    - convert_rds_csv_prevax
     outputs:
       highly_sensitive:
         cohort: output/input_prevax_sensitivity.csv.gz
@@ -225,7 +255,7 @@ actions:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_unvax_sensitivity
       --output-format csv.gz
     needs:
-    - stage1_data_cleaning_unvax
+    - convert_rds_csv_unvax
     outputs:
       highly_sensitive:
         cohort: output/input_unvax_sensitivity.csv.gz
@@ -236,7 +266,7 @@ actions:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_vax_sensitivity
       --output-format csv.gz
     needs:
-    - stage1_data_cleaning_vax
+    - convert_rds_csv_vax
     outputs:
       highly_sensitive:
         cohort: output/input_vax_sensitivity.csv.gz
