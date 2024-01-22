@@ -362,7 +362,7 @@ apply_model_function_gi_bleeds <- function(name, cohort, analysis, ipw, strata,
    stata_actions <- function(name){
       action(
         name = glue("stata_cox_model_{name}"),
-        run = glue("stata-mp:latest analysis/stata/cox_model.do ready-{name} FASLE TRUE"),
+        run = glue("stata-mp:latest analysis/stata/cox_model.do ready-{name} TRUE TRUE"),
         needs = list(glue("cox_ipw-{name}")),
         moderately_sensitive = list(
           medianfup = glue("output/ready-{name}_median_fup.csv"),
