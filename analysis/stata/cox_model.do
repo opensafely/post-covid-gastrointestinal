@@ -31,29 +31,21 @@ shell gunzip "./output/`cpf'.csv.gz"
 import delim using "./output/`cpf'.csv", clear
 
 
-
-*drop covars that are specific for some outcomes 
-/* drop cov_bin_hypertriglyceridemia cov_bin_hypercalcemia cov_num_systolic_bp */
-
 des
 
 * Filter data
 
-keep patient_id cov_num_age exposure cov_cat_region fup_start outcome cov_cat_ethnicity fup_stop cox_weight cov_cat* cov_num* cov_bin* outcome_status
+keep patient_id exposure outcome fup_start fup_stop cox_weight cov_cat* cov_num* cov_bin*
+drop cov_num_age_sq
+duplicates drop
 
 * Rename variables
 rename cov_num_age age
-rename exposure exposure_date
 rename cov_cat_region region
-rename outcome outcome_date
-rename fup_start follow_up_start
-rename fup_stop follow_up_end 
-rename cox_weight cox_weights 
-rename cov_cat_sex sex
-rename cov_cat_ethnicity ethnicity
 
 * Generate pre vaccination cohort dummy variable
 local prevax_cohort = regexm("`cpf'", "_pre")
+display "`prevax_cohort'"
 
 * Replace NA with missing value that Stata recognises
 
@@ -64,7 +56,8 @@ foreach var of varlist `r(varlist)' {
 
 * Reformat variables
 
-foreach var of varlist exposure_date outcome_date follow_up_start follow_up_end {
+
+foreach var of varlist exposure outcome fup_start fup_stop {
 	split `var', gen(tmp_date) parse(-)
 	gen year = real(tmp_date1)
 	gen month = real(tmp_date2)
@@ -75,173 +68,70 @@ foreach var of varlist exposure_date outcome_date follow_up_start follow_up_end 
 	rename `var'_tmp `var'
 }
 
-* Shorten covariate names
+* Encode non-numeric variables
 
-// capture confirm variable cov_bin_other_arterial_embolism 
-// if !_rc {
-// 	rename cov_bin_other_arterial_embolism cov_bin_other_art_embol
-// }
-//
-// capture confirm variable cov_bin_chronic_obstructive_pulm
-// if !_rc {
-// 	rename cov_bin_chronic_obstructive_pulm cov_bin_copd 
-// }
-//
-// capture confirm variable cov_bin_chronic_kidney_disease
-// if !_rc {
-// 	rename cov_bin_chronic_kidney_disease cov_bin_ckd 
-// }
+foreach var of varlist region cov_bin* cov_cat* {
+	di "Encoding `var'"
+	local var_short = substr("`var'", 1, length("`var'") - 1) 
+	encode `var', generate(`var_short'1)
+	drop `var'
+	rename `var_short'1 `var'
+}
+ * Shorten covariates names 
 capture confirm variable cov_bin_overall_gi_and_symptoms
 if !_rc {
  	rename cov_bin_overall_gi_and_symptoms cov_bin_gi_sym
 	}
-foreach var of varlist cov_bin* sex {
-	encode `var', gen(`var'_tmp)
-	drop `var'
-	rename `var'_tmp `var'
-}
 
-* Recode region
-
-gen region_tmp = .
-replace region_tmp = 1 if region=="East"
-replace region_tmp = 2 if region=="East Midlands"
-replace region_tmp = 3 if region=="London"
-replace region_tmp = 4 if region=="North East"
-replace region_tmp = 5 if region=="North West"
-replace region_tmp = 6 if region=="South East"
-replace region_tmp = 7 if region=="South West"
-replace region_tmp = 8 if region=="West Midlands"
-replace region_tmp = 9 if region=="Yorkshire and The Humber"
-label define region_tmp 1 "East" 2 "East Midlands" 3 "London" 4 "North East" 5 "North West" 6 "South East" 7 "South West" 8 "West Midlands" 9 "Yorkshire and The Humber"
-label values region_tmp region_tmp
-drop region
-rename region_tmp region
-
-* Recode ethnicity
-
-gen ethnicity_tmp = .
-replace ethnicity_tmp = 1 if ethnicity=="White"
-replace ethnicity_tmp = 2 if ethnicity=="Mixed"
-replace ethnicity_tmp = 3 if ethnicity=="South Asian"
-replace ethnicity_tmp = 4 if ethnicity=="Black"
-replace ethnicity_tmp = 5 if ethnicity=="Other"
-replace ethnicity_tmp = 6 if ethnicity=="Missing"
-lab def ethnicity_tmp 1 "White, inc. miss" 2 "Mixed" 3 "South Asian" 4 "Black" 5 "Other" 6 "Missing"
-lab val ethnicity_tmp ethnicity_tmp
-drop ethnicity
-rename ethnicity_tmp cov_cat_ethnicity
-
-* Recode deprivation
-
-gen cov_cat_deprivation_tmp = .
-replace cov_cat_deprivation_tmp = 1 if cov_cat_deprivation=="1-2 (most deprived)"
-replace cov_cat_deprivation_tmp = 2 if cov_cat_deprivation=="3-4"
-replace cov_cat_deprivation_tmp = 3 if cov_cat_deprivation=="5-6"
-replace cov_cat_deprivation_tmp = 4 if cov_cat_deprivation=="7-8"
-replace cov_cat_deprivation_tmp = 5 if cov_cat_deprivation=="9-10 (least deprived)"
-lab def cov_cat_deprivation_tmp 1 "1-2 (most deprived)" 2 "3-4" 3 "5-6" 4 "7-8" 5 "9-10 (least deprived)"
-lab val cov_cat_deprivation_tmp cov_cat_deprivation_tmp
-drop cov_cat_deprivation
-rename cov_cat_deprivation_tmp cov_cat_deprivation
-
-// * Recode smoking status
-//
- gen cov_cat_smoking_status_tmp = .
- replace cov_cat_smoking_status_tmp = 1 if cov_cat_smoking_status=="Never smoker"
- replace cov_cat_smoking_status_tmp = 2 if cov_cat_smoking_status=="Ever smoker"
- replace cov_cat_smoking_status_tmp = 3 if cov_cat_smoking_status=="Current smoker"
- replace cov_cat_smoking_status_tmp = 4 if cov_cat_smoking_status=="Missing"
- lab def cov_cat_smoking_status_tmp 1 "Never smoker" 2 "Ever smoker" 3 "Current smoker" 4 "Missing"
- lab val cov_cat_smoking_status_tmp cov_cat_smoking_status_tmp
- drop cov_cat_smoking_status
- rename cov_cat_smoking_status_tmp cov_cat_smoking_status  
-//
-// *Recode BMI capture
-//
-// gen cov_cat_bmi_groups_tmp = .
-// replace cov_cat_bmi_groups_tmp = 1 if cov_cat_bmi_groups=="Healthy_weight"  
-// replace cov_cat_bmi_groups_tmp = 2 if cov_cat_bmi_groups=="Underweight"  
-// replace cov_cat_bmi_groups_tmp = 3 if cov_cat_bmi_groups=="Overweight"  
-// replace cov_cat_bmi_groups_tmp = 4 if cov_cat_bmi_groups=="Obese"  
-// replace cov_cat_bmi_groups_tmp = 5 if cov_cat_bmi_groups=="Missing"  
-// lab def cov_cat_bmi_groups_tmp 1 "Healthy_weight" 2 "Underweight" 3 "Overweight" 4 "Obese" 5 "Missing" 
-// lab var cov_cat_bmi_groups_tmp cov_cat_bmi_groups_tmp
-// drop cov_cat_bmi_groups
-// rename cov_cat_bmi_groups_tmp cov_cat_bmi_groups
-//
-// * Recode HDL ratio
-//
-// gen cov_num_tc_hdl_ratio_tmp = cov_num_tc_hdl_ratio
-// replace cov_num_tc_hdl_ratio_tmp = "." if cov_num_tc_hdl_ratio=="NA"
-// destring cov_num_tc_hdl_ratio_tmp, replace
-// drop cov_num_tc_hdl_ratio
-// rename cov_num_tc_hdl_ratio_tmp cov_num_tc_hdl_ratio
-
-* Summarize missingness following recoding
+* Summarize missingness
 
 misstable summarize
 
-* Make failure variable
-//
-// gen outcome_status = 0
-// replace outcome_status = 1 if outcome_date!=.
-
 * Update follow-up end
 
-replace follow_up_end = follow_up_end + 1
-format follow_up_end %td
+replace fup_stop = fup_stop + 1
+format fup_stop %td
 
 * Make age spline
 
 centile age, centile(10 50 90)
 mkspline age_spline = age, cubic knots(`r(c_1)' `r(c_2)' `r(c_3)')
 
+* Make outcome status variable
+
+egen outcome_status = rownonmiss(outcome)
+
+
 * Apply stset including IPW here as unsampled datasets will be provided with cox_weights set to 1
 
 if `prevax_cohort'==1 {
-	if "`extf'"=="TRUE" {
-		if "`day0'"=="TRUE" {
-			stset follow_up_end [pweight=cox_weights], failure(outcome_status) id(patient_id) enter(follow_up_start) origin(time mdy(01,01,2020))
-			stsplit time, after(exposure_date) at(0 1 28 197 365 714)
-			replace time = 714 if time==-1
-		}
-		else {
-			stset follow_up_end [pweight=cox_weights], failure(outcome_status) id(patient_id) enter(follow_up_start) origin(time mdy(01,01,2020))
-			stsplit time, after(exposure_date) at(0 28 197 365 714)
-			replace time = 714 if time==-1
-		}
-	} 
+	if "`day0'"=="TRUE" {
+		stset fup_stop [pweight=cox_weight], failure(outcome_status) id(patient_id) enter(fup_start) origin(time mdy(01,01,2020))
+		stsplit time, after(exposure) at(0 1 28 197 365 714)
+		replace time = 714 if time==-1
+	}
 	else {
-		if "`day0'"=="TRUE" {
-			stset follow_up_end [pweight=cox_weights], failure(outcome_status) id(patient_id) enter(follow_up_start) origin(time mdy(01,01,2020))
-			stsplit time, after(exposure_date) at(0 1 28 197 535)
-			replace time = 535 if time==-1
-		}
-		else {
-			stset follow_up_end [pweight=cox_weights], failure(outcome_status) id(patient_id) enter(follow_up_start) origin(time mdy(01,01,2020))
-			stsplit time, after(exposure_date) at(0 28 197 535)
-			replace time = 535 if time==-1
-		}
+		stset fup_stop [pweight=cox_weight], failure(outcome_status) id(patient_id) enter(fup_start) origin(time mdy(01,01,2020))
+		stsplit time, after(exposure) at(0 28 197 365 714)
+		replace time = 714 if time==-1
 	}
 } 
 else {
 	if "`day0'"=="TRUE" {
-		stset follow_up_end [pweight=cox_weights], failure(outcome_status) id(patient_id) enter(follow_up_start) origin(time mdy(01,06,2021))
-		stsplit time, after(exposure_date) at(0 1 28 197)
+		stset fup_stop [pweight=cox_weight], failure(outcome_status) id(patient_id) enter(fup_start) origin(time mdy(01,06,2021))
+		stsplit time, after(exposure) at(0 1 28 197)
 		replace time = 197 if time==-1
 	} 
 	else {
-		stset follow_up_end [pweight=cox_weights], failure(outcome_status) id(patient_id) enter(follow_up_start) origin(time mdy(01,06,2021))
-		stsplit time, after(exposure_date) at(0 28 197)
+		stset fup_stop [pweight=cox_weight], failure(outcome_status) id(patient_id) enter(fup_start) origin(time mdy(01,06,2021))
+		stsplit time, after(exposure) at(0 28 197)
 		replace time = 197 if time==-1
 	}
 }
-
 * Calculate study follow up
 
-gen follow_up = _t - _t0
-egen follow_up_total = total(follow_up)  
+gen fup = _t - _t0
+egen fup_total = total(fup)  
 
 * Make days variables
 
@@ -264,19 +154,12 @@ replace days28_197 = 1 if time==28
 tab days28_197
 
 if `prevax_cohort'==1 {
-	if "`extf'"=="TRUE" {
-		gen days197_365 = 0 
-		replace days197_365 = 1 if time==197
-		tab days197_365
-		gen days365_714 = 0 
-		replace days365_714 = 1 if time==365
-		tab days365_714
-	} 
-	else {
-		gen days197_535 = 0 
-		replace days197_535 = 1 if time==197
-		tab days197_535
-	}
+	gen days197_365 = 0 
+	replace days197_365 = 1 if time==197
+	tab days197_365
+	gen days365_714 = 0 
+	replace days365_714 = 1 if time==365
+	tab days365_714
 }
 
 * Run models and save output [Note: cannot use efron method with weights]
@@ -296,42 +179,25 @@ estout * using "output/`cpf'_cox_model.txt", cells("b se t ci_l ci_u p") stats(r
 * Calculate median follow-up among individuals with the outcome
 
 keep if outcome_status==1
-keep patient_id days* follow_up
-rename follow_up tte
+keep patient_id days* fup
+rename fup tte
 gen term = ""
 
 if `prevax_cohort'==1 {
-	if "`extf'"=="TRUE" {
-		if "`day0'"=="TRUE" {
-			replace term = "days_pre" if days0_1==0 & days1_28==0 & days28_197==0 & days197_365==0 & days365_714==0
-			replace term = "days0_1" if days0_1==1 & days1_28==0 & days28_197==0 & days197_365==0 & days365_714==0
-			replace term = "days1_28" if days0_1==0 & days1_28==1 & days28_197==0 & days197_365==0 & days365_714==0
-			replace term = "days28_197" if days0_1==0 & days1_28==0 & days28_197==1 & days197_365==0 & days365_714==0
-			replace term = "days197_365" if days0_1==0 & days1_28==0 & days28_197==0 & days197_365==1 & days365_714==0
-			replace term = "days365_714" if days0_1==0 & days1_28==0 & days28_197==0 & days197_365==0 & days365_714==1
-		}
-		else {
-			replace term = "days_pre" if days0_28==0 & days28_197==0 & days197_365==0 & days365_714==0
-			replace term = "days0_28" if days0_28==1 & days28_197==0 & days197_365==0 & days365_714==0
-			replace term = "days28_197" if days0_28==0 & days28_197==1 & days197_365==0 & days365_714==0
-			replace term = "days197_365" if days0_28==0 & days28_197==0 & days197_365==1 & days365_714==0
-			replace term = "days365_714" if days0_28==0 & days28_197==0 & days197_365==0 & days365_714==1
-		}
-	} 
+	if "`day0'"=="TRUE" {
+		replace term = "days_pre" if days0_1==0 & days1_28==0 & days28_197==0 & days197_365==0 & days365_714==0
+		replace term = "days0_1" if days0_1==1 & days1_28==0 & days28_197==0 & days197_365==0 & days365_714==0
+		replace term = "days1_28" if days0_1==0 & days1_28==1 & days28_197==0 & days197_365==0 & days365_714==0
+		replace term = "days28_197" if days0_1==0 & days1_28==0 & days28_197==1 & days197_365==0 & days365_714==0
+		replace term = "days197_365" if days0_1==0 & days1_28==0 & days28_197==0 & days197_365==1 & days365_714==0
+		replace term = "days365_714" if days0_1==0 & days1_28==0 & days28_197==0 & days197_365==0 & days365_714==1
+	}
 	else {
-		if "`day0'"=="TRUE" {
-			replace term = "days_pre" if days0_1==0 & days1_28==0 & days28_197==0 & days197_535==0
-			replace term = "days0_1" if days0_1==1 & days1_28==0 & days28_197==0 & days197_535==0	
-			replace term = "days1_28" if days0_1==0 & days1_28==1 & days28_197==0 & days197_535==0	
-			replace term = "days28_197" if days0_1==0 & days1_28==0 & days28_197==1 & days197_535==0	
-			replace term = "days197_365" if days0_1==0 & days1_28==0 & days28_197==0 & days197_535==1	
-		}
-		else {
-			replace term = "days_pre" if days0_28==0 & days28_197==0 & days197_535==0	
-			replace term = "days0_28" if days0_28==1 & days28_197==0 & days197_535==0
-			replace term = "days28_197" if days0_28==0 & days28_197==1 & days197_535==0
-			replace term = "days197_535" if days0_28==0 & days28_197==0 & days197_535==1 
-		}
+		replace term = "days_pre" if days0_28==0 & days28_197==0 & days197_365==0 & days365_714==0
+		replace term = "days0_28" if days0_28==1 & days28_197==0 & days197_365==0 & days365_714==0
+		replace term = "days28_197" if days0_28==0 & days28_197==1 & days197_365==0 & days365_714==0
+		replace term = "days197_365" if days0_28==0 & days28_197==0 & days197_365==1 & days365_714==0
+		replace term = "days365_714" if days0_28==0 & days28_197==0 & days197_365==0 & days365_714==1
 	}
 } 
 else {
