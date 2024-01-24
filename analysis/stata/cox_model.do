@@ -166,12 +166,12 @@ if `prevax_cohort'==1 {
 
 tab time outcome_status 
 
-di "Total follow-up in days: " follow_up_total
-bysort time: summarize(follow_up), detail
+di "Total follow-up in days: " fup_total
+bysort time: summarize(fup), detail
 
-stcox days* i.sex age_spline1 age_spline2, strata(region) vce(r)
+stcox days* i.cov_cat_sex age_spline1 age_spline2, strata(region) vce(r)
 est store min, title(Age_Sex)
-stcox days* i.sex age_spline1 age_spline2 i.cov_cat_ethnicity i.cov_cat_deprivation i.cov_cat_smoking_status i.cov_bin_obesity cov_num_consulation_rate  cov_bin_*, strata(region) vce(r)
+stcox days* age_spline1 age_spline2 i.cov_cat_* cov_num_* cov_bin_*, strata(region) vce(r)
 est store max, title(Maximal)
 
 estout * using "output/`cpf'_cox_model.txt", cells("b se t ci_l ci_u p") stats(risk N_fail N_sub N N_clust) replace 
