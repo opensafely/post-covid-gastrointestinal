@@ -5914,6 +5914,27 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_asian-upper_gi_bleeding.csv
 
+  make_model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
+    needs:
+    - stage1_data_cleaning_unvax
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.rds
+
+  cox_ipw-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
+    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=1;28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.csv
+
   make_model_input-cohort_vax-sub_ethnicity_asian-acute_pancreatitis:
     run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_asian-acute_pancreatitis
     needs:
@@ -7297,6 +7318,27 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_mixed-upper_gi_bleeding.csv
 
+  make_model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
+    needs:
+    - stage1_data_cleaning_unvax
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.rds
+
+  cox_ipw-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
+    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=1;28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.csv
+
   make_model_input-cohort_vax-sub_ethnicity_mixed-acute_pancreatitis:
     run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_mixed-acute_pancreatitis
     needs:
@@ -7911,6 +7953,27 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output-cohort_unvax-sub_ethnicity_other-upper_gi_bleeding.csv
+
+  make_model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
+    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
+    needs:
+    - stage1_data_cleaning_unvax
+    outputs:
+      highly_sensitive:
+        model_input: output/model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.rds
+
+  cox_ipw-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
+    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2021-12-14 --cut_points=1;28;197 --controls_per_case=20 --total_event_threshold=50
+      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --df_output=model_output-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        model_output: output/model_output-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.csv
 
   make_model_input-cohort_vax-sub_ethnicity_other-acute_pancreatitis:
     run: r:latest analysis/model/make_model_input.R cohort_vax-sub_ethnicity_other-acute_pancreatitis
@@ -12881,7 +12944,7 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_vax-sub_sex_male-variceal_gi_bleeding.csv
 
-  ## Run failed models 
+  ## Run failed models with stata 
 
   make_model_input-cohort_unvax-sub_prioroperations_false-ibs-cov_bin_gi_operations:
     run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_prioroperations_false-ibs-cov_bin_gi_operations
@@ -14658,78 +14721,6 @@ actions:
         model_output: output/model_output-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding.csv.gz
-
-  make_model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-    needs:
-    - stage1_data_cleaning_unvax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.rds
-
-  cox_ipw-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
-    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.rds
-      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
-      --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
-      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
-      --study_stop=2021-12-14 --cut_points=1;28;197 --controls_per_case=20 --total_event_threshold=50
-      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=FALSE --df_output=model_output-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.csv
-    needs:
-    - make_model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.csv
-      highly_sensitive:
-        analysis_ready: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.csv.gz
-
-  make_model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-    needs:
-    - stage1_data_cleaning_unvax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.rds
-
-  cox_ipw-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
-    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.rds
-      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
-      --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
-      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
-      --study_stop=2021-12-14 --cut_points=1;28;197 --controls_per_case=20 --total_event_threshold=50
-      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=FALSE --df_output=model_output-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.csv
-    needs:
-    - make_model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.csv
-      highly_sensitive:
-        analysis_ready: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.csv.gz
-
-  make_model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
-    needs:
-    - stage1_data_cleaning_unvax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.rds
-
-  cox_ipw-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
-    run: cox-ipw:v0.0.27 --df_input=model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.rds
-      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
-      --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
-      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
-      --study_stop=2021-12-14 --cut_points=1;28;197 --controls_per_case=20 --total_event_threshold=50
-      --episode_event_threshold=5 --covariate_threshold=5 --age_spline=TRUE --save_analysis_ready=TRUE
-      --run_analysis=FALSE --df_output=model_output-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.csv
-    needs:
-    - make_model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.csv
-      highly_sensitive:
-        analysis_ready: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.csv.gz
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-ibs:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-ibs
@@ -16944,36 +16935,6 @@ actions:
         medianfup: output/ready-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_median_fup.csv
         stata_output: output/ready-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding_cox_model.txt
 
-  stata_cox_model_cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding_cox_model.txt
-
   stata_cox_model_cohort_prevax-sub_covid_hospitalised-ibs:
     run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-ibs
       TRUE TRUE
@@ -17003,6 +16964,91 @@ actions:
       moderately_sensitive:
         medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_median_fup.csv
         stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_cox_model.txt
+
+  make_stata_model_output:
+    run: r:latest analysis/stata/make_stata_model_output.R
+    needs:
+    - stata_cox_model_cohort_unvax-sub_prioroperations_false-ibs-cov_bin_gi_operations
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-appendicitis
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-peptic_ulcer
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_sex_female-ibs
+    - stata_cox_model_cohort_prevax-sub_sex_male-ibs
+    - stata_cox_model_cohort_prevax-sub_age_60_79-ibs
+    - stata_cox_model_cohort_prevax-sub_age_80_110-ibs
+    - stata_cox_model_cohort_prevax-sub_ethnicity_other-ibs
+    - stata_cox_model_cohort_prevax-sub_priorhistory_true-ibs-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_prioroperations_true-ibs-cov_bin_gi_operations
+    - stata_cox_model_cohort_prevax-sub_sex_male-appendicitis
+    - stata_cox_model_cohort_prevax-sub_age_60_79-appendicitis
+    - stata_cox_model_cohort_prevax-sub_ethnicity_asian-appendicitis
+    - stata_cox_model_cohort_prevax-sub_priorhistory_false-appendicitis-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_prioroperations_true-appendicitis-cov_bin_gi_operations
+    - stata_cox_model_cohort_prevax-sub_sex_female-gallstones_disease
+    - stata_cox_model_cohort_prevax-sub_age_40_59-gallstones_disease
+    - stata_cox_model_cohort_prevax-sub_ethnicity_black-gallstones_disease
+    - stata_cox_model_cohort_prevax-sub_ethnicity_asian-gallstones_disease
+    - stata_cox_model_cohort_prevax-sub_ethnicity_other-gallstones_disease
+    - stata_cox_model_cohort_prevax-sub_priorhistory_true-gallstones_disease-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_priorhistory_false-gallstones_disease-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_prioroperations_true-gallstones_disease-cov_bin_gi_operations
+    - stata_cox_model_cohort_prevax-sub_sex_female-nonalcoholic_steatohepatitis
+    - stata_cox_model_cohort_prevax-sub_sex_male-nonalcoholic_steatohepatitis
+    - stata_cox_model_cohort_prevax-sub_age_40_59-nonalcoholic_steatohepatitis
+    - stata_cox_model_cohort_prevax-sub_age_60_79-nonalcoholic_steatohepatitis
+    - stata_cox_model_cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_sex_female-acute_pancreatitis
+    - stata_cox_model_cohort_prevax-sub_age_18_39-acute_pancreatitis
+    - stata_cox_model_cohort_prevax-sub_age_40_59-acute_pancreatitis
+    - stata_cox_model_cohort_prevax-sub_age_80_110-acute_pancreatitis
+    - stata_cox_model_cohort_prevax-sub_ethnicity_asian-acute_pancreatitis
+    - stata_cox_model_cohort_prevax-sub_priorhistory_true-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_priorhistory_false-acute_pancreatitis-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_sex_female-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_prevax-sub_sex_male-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_prevax-sub_age_80_110-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_prevax-sub_priorhistory_true-gastro_oesophageal_reflux_disease-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_age_60_79-peptic_ulcer
+    - stata_cox_model_cohort_prevax-sub_age_80_110-peptic_ulcer
+    - stata_cox_model_cohort_prevax-sub_ethnicity_asian-peptic_ulcer
+    - stata_cox_model_cohort_prevax-sub_prioroperations_true-peptic_ulcer-cov_bin_gi_operations
+    - stata_cox_model_cohort_prevax-sub_sex_male-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_age_40_59-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_age_60_79-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_age_80_110-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_prioroperations_true-upper_gi_bleeding-cov_bin_gi_operations
+    - stata_cox_model_cohort_prevax-sub_sex_male-lower_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_age_60_79-lower_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_black-lower_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_sex_male-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_age_40_59-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_mixed-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding-cov_bin_overall_gi_and_symptoms
+    - stata_cox_model_cohort_unvax-sub_covid_hospitalised-ibs
+    - stata_cox_model_cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-ibs
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        model_output: output/stata_model_output.csv
+        model_output_rounded: output/stata_model_output_midpoint6.csv
 
   ## ------------------GI Bleeds Actions-------------------- 
   ## Stage 1 GI bleeds 

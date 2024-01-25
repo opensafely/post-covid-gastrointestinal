@@ -23,7 +23,7 @@ defaults_list <- list(
     
     cohorts <- unique(active_analyses$cohort)
     
-    # Define active analysis with failed models 
+    # Define active analysis with failed models to run stata 
     active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
     
     #Define active analysis for GI bleeds
@@ -589,9 +589,9 @@ actions_list <- splice(
     )
   ),
  
-  ## re-run failed models to save sampled data 
+  ## Stata re-run failed models to save sampled data 
 
-comment("Run failed models"),
+comment("Run failed models with stata"),
   
   splice(
     unlist(lapply(1:nrow(active_analyses_failed), 
@@ -706,7 +706,15 @@ comment ("Stata models"),
     
     
     ),
-    
+    action(
+    name = "make_stata_model_output",
+    run = "r:latest analysis/stata/make_stata_model_output.R",
+    needs = as.list(paste0("stata_cox_model_",active_analyses_failed$name)),
+    moderately_sensitive = list(
+      model_output = glue("output/stata_model_output.csv"),
+      model_output_rounded = glue("output/stata_model_output_midpoint6.csv")
+    )
+  ), 
    
   comment("------------------GI Bleeds Actions--------------------"),
   comment("Stage 1 GI bleeds"), 
