@@ -169,8 +169,15 @@ tab time outcome_status
 di "Total follow-up in days: " fup_total
 bysort time: summarize(fup), detail
 
+* Check if `cpf` contains "sub_sex"
+if regexm("`cpf'", "sub_sex") {
+stcox days*  age_spline1 age_spline2, strata(region) vce(r)
+}
+else{
 stcox days* i.cov_cat_sex age_spline1 age_spline2, strata(region) vce(r)
+}
 est store min, title(Age_Sex)
+
 stcox days* age_spline1 age_spline2 i.cov_cat_* cov_num_* cov_bin_*, strata(region) vce(r)
 est store max, title(Maximal)
 
