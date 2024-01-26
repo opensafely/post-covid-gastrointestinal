@@ -1911,3 +1911,4 @@ cov_bin_alcohol_above_limits_snomed = patients.with_these_clinical_events(
     )   
 
     return dynamic_variables
+
