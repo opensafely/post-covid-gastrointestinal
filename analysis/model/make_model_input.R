@@ -101,6 +101,14 @@ for (i in 1:nrow(active_analyses)) {
   
     print (paste0("nrow after Update end date to be outcome date : ",nrow(input)))
 
+  # Study definitions sensitivity input 
+    sd_input <- read.csv(paste0("output/input_", cohort, "_sensitivity.csv.gz"),colClasses = c(patient_id = "character"))
+    sd_input$discharge_date<- as.Date(sd_input$discharge_date)
+    # remove tmp vars 
+    sd_input<- sd_input %>% select(-starts_with("tmp"))
+    # transform bin vars to logical
+    sd_input <- sd_input %>%
+                dplyr::mutate(across(contains("_bin_"), as.logical))  
   
   # Make model input: main -------------------------------------------------------
   
@@ -116,9 +124,9 @@ for (i in 1:nrow(active_analyses)) {
     
   }
 
-  # Make model input: sub_covid_hospitalised -------------------------------------
+  # Make model input: sub_covid_hospitalised, sub_covid_hospitalise_te_true te_false, ac_true, ac_false -------------------------------------
   
-  if (active_analyses$analysis[i]=="sub_covid_hospitalised") {
+if (startsWith(active_analyses$analysis[i], "sub_covid_hospitalised")) {
     
     print('Make model input: sub_covid_hospitalised')
     
@@ -131,6 +139,29 @@ for (i in 1:nrow(active_analyses)) {
     
     df <- df[df$end_date_outcome>=df$index_date,]
 
+    # Make model input: sub_covid_hospitalised thrombotic events
+    if (active_analyses$analysis[i]%in%c("sub_covid_hospitalised_te_true","sub_covid_hospitalised_te_false")){
+        sd_input <- sd_input %>% 
+        dplyr::select(patient_id,
+                sub_bin_ate_vte_sensitivity,
+    )
+    df <- df%>% 
+          left_join(sd_input,by = "patient_id")
+    
+    if (active_analyses$analysis[i]==("sub_covid_hospitalised_te_true"){
+      print('Make model input: sub_covid_hospitalised_te_true')
+      df<- df%>%    
+            dplyr:: filter(sub_bin_ate_vte_sensitivity == TRUE)
+    }
+
+    else if(active_analyses$analysis[i]==("sub_covid_hospitalised_te_false"){
+      print('Make model input: sub_covid_hospitalised_te_false')
+          df<- df%>%    
+            dplyr:: filter(sub_bin_ate_vte_sensitivity == FALSE)
+    }
+    }
+
+
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
     check_vitals(df)
@@ -140,10 +171,7 @@ for (i in 1:nrow(active_analyses)) {
     rm(df)
     
   }
-  # Make model input: sub_covid_hospitalised_te_true (thrombotic events)
-  if (active_analyses$analysis[i]=="sub_covid_hospitalised_te_true"){
-  hosp_name <- gsub(paste("_te_true", collapse = "|"), "", active_analyses$name[i]) 
-  }
+
   
   # Make model input: sub_covid_nonhospitalised ----------------------------------
   
