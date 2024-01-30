@@ -47,5 +47,7 @@ study = StudyDefinition(
         returning = 'index_date',
         returning_type = 'date',
         date_format = 'YYYY-MM-DD',
-    )  
+    ),
+    **sensitivity_variables
+
 )

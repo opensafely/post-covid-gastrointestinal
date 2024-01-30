@@ -140,6 +140,10 @@ for (i in 1:nrow(active_analyses)) {
     rm(df)
     
   }
+  # Make model input: sub_covid_hospitalised_te_true (thrombotic events)
+  if (active_analyses$analysis[i]=="sub_covid_hospitalised_te_true"){
+  hosp_name <- gsub(paste("_te_true", collapse = "|"), "", active_analyses$name[i]) 
+  }
   
   # Make model input: sub_covid_nonhospitalised ----------------------------------
   
