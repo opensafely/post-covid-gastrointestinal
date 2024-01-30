@@ -90,28 +90,7 @@
                           "out_date_lower_gi_bleeding",
                           "out_date_variceal_gi_bleeding",
                           "out_date_nonvariceal_gi_bleeding")
-    # outcomes_runmain <- c("out_date_ibs",
-                          # "out_date_nausea", 
-                          # "out_date_vomiting",
-                          # "out_date_abdominal_paindiscomfort",
-                          # "out_date_intestinal_obstruction",
-                          # "out_date_bowel_ischaemia",
-                          # "out_date_belching",
-                          # "out_date_abdominal_distension",
-                          # "out_date_bloody_stools",
-                          # "out_date_appendicitis",
-                          # "out_date_gallstones_disease",
-                          # "out_date_nonalcoholic_steatohepatitis",
-                          # "out_date_acute_pancreatitis",
-                          # "out_date_gastro_oesophageal_reflux_disease",
-                          # "out_date_dyspepsia",
-                          # "out_date_peptic_ulcer",
-                          # "out_date_upper_gi_bleeding",
-                          # "out_date_lower_gi_bleeding",
-                          # "out_date_variceal_gi_bleeding",
-                          # "out_date_nonvariceal_gi_bleeding"
-    # )
-
+    
 
     # Add active analyses ----------------------------------------------------------
 
@@ -166,6 +145,100 @@
                             age_spline = TRUE,
                             analysis = "sub_covid_hospitalised",
                             priorhistory_var = "")
+        
+        # analyses: sub_covid_hospitalised, sub_covid_hospitalised_te_true/_false
+        # sub_covid_hospitalised_ac_true/_false -----------------------------------
+        if (endsWith(i,"_gi_bleeding")){
+
+        # analyses: sub_covid_hospitalised thrombotic events true
+         df[nrow(df)+1,] <- c(cohort = c,
+                            exposure = exposure, 
+                            outcome = i,
+                            ipw = ipw, 
+                            strata = strata,
+                            covariate_sex = covariate_sex,
+                            covariate_age = covariate_age,
+                            covariate_other = all_covars,
+                            cox_start = cox_start,
+                            cox_stop = cox_stop,
+                            study_start = ifelse(c=="prevax", prevax_start, vax_unvax_start),
+                            study_stop = ifelse(c=="prevax", prevax_stop, vax_unvax_stop),
+                            cut_points = ifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
+                            controls_per_case = controls_per_case,
+                            total_event_threshold = total_event_threshold,
+                            episode_event_threshold = episode_event_threshold,
+                            covariate_threshold = covariate_threshold,
+                            age_spline = TRUE,
+                            analysis = "sub_covid_hospitalised_te_true",
+                            priorhistory_var = "")
+
+          # analyses: sub_covid_hospitalised thrombotic events false
+         df[nrow(df)+1,] <- c(cohort = c,
+                            exposure = exposure, 
+                            outcome = i,
+                            ipw = ipw, 
+                            strata = strata,
+                            covariate_sex = covariate_sex,
+                            covariate_age = covariate_age,
+                            covariate_other = all_covars,
+                            cox_start = cox_start,
+                            cox_stop = cox_stop,
+                            study_start = ifelse(c=="prevax", prevax_start, vax_unvax_start),
+                            study_stop = ifelse(c=="prevax", prevax_stop, vax_unvax_stop),
+                            cut_points = ifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
+                            controls_per_case = controls_per_case,
+                            total_event_threshold = total_event_threshold,
+                            episode_event_threshold = episode_event_threshold,
+                            covariate_threshold = covariate_threshold,
+                            age_spline = TRUE,
+                            analysis = "sub_covid_hospitalised_te_false",
+                            priorhistory_var = "")
+
+ # analyses: sub_covid_hospitalised anticoagulants true
+         df[nrow(df)+1,] <- c(cohort = c,
+                            exposure = exposure, 
+                            outcome = i,
+                            ipw = ipw, 
+                            strata = strata,
+                            covariate_sex = covariate_sex,
+                            covariate_age = covariate_age,
+                            covariate_other = gsub("cov_bin_anticoagulants_bnf;", "", all_covars),
+                            cox_start = cox_start,
+                            cox_stop = cox_stop,
+                            study_start = ifelse(c=="prevax", prevax_start, vax_unvax_start),
+                            study_stop = ifelse(c=="prevax", prevax_stop, vax_unvax_stop),
+                            cut_points = ifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
+                            controls_per_case = controls_per_case,
+                            total_event_threshold = total_event_threshold,
+                            episode_event_threshold = episode_event_threshold,
+                            covariate_threshold = covariate_threshold,
+                            age_spline = TRUE,
+                            analysis = "sub_covid_hospitalised_ac_true",
+                            priorhistory_var = "")
+
+    # analyses: sub_covid_hospitalised thrombotic events false    
+        df[nrow(df)+1,] <- c(cohort = c,
+                            exposure = exposure, 
+                            outcome = i,
+                            ipw = ipw, 
+                            strata = strata,
+                            covariate_sex = covariate_sex,
+                            covariate_age = covariate_age,
+                            covariate_other = gsub("cov_bin_anticoagulants_bnf;", "", all_covars),
+                            cox_start = cox_start,
+                            cox_stop = cox_stop,
+                            study_start = ifelse(c=="prevax", prevax_start, vax_unvax_start),
+                            study_stop = ifelse(c=="prevax", prevax_stop, vax_unvax_stop),
+                            cut_points = ifelse(c=="prevax", prevax_cuts, vax_unvax_cuts),
+                            controls_per_case = controls_per_case,
+                            total_event_threshold = total_event_threshold,
+                            episode_event_threshold = episode_event_threshold,
+                            covariate_threshold = covariate_threshold,
+                            age_spline = TRUE,
+                            analysis = "sub_covid_hospitalised_ac_false",
+                            priorhistory_var = "")
+                            
+        }
         
         ## analysis: sub_covid_nonhospitalised -------------------------------------
         

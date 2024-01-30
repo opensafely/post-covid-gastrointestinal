@@ -191,8 +191,6 @@ for (i in 1:nrow(active_analyses)) {
     rm(df)
     
   }
-
-
   
   # Make model input: sub_covid_nonhospitalised ----------------------------------
   
