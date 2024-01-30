@@ -121,17 +121,12 @@ for (i in 1:nrow(active_analyses)) {
     readr::write_rds(df, file.path("output", paste0("model_input-",active_analyses$name[i],".rds")),compress="gz")
     print(paste0("Saved: output/model_input-",active_analyses$name[i],".rds"))
     rm(df)
-    
   }
 
   # Make model input: sub_covid_hospitalised, sub_covid_hospitalise_te_true te_false, ac_true, ac_false -------------------------------------
-  
-if (startsWith(active_analyses$analysis[i], "sub_covid_hospitalised")) {
-    
+  if (startsWith(active_analyses$analysis[i], "sub_covid_hospitalised")) {
     print('Make model input: sub_covid_hospitalised')
-    
     df <- input[input$sub_bin_covid19_confirmed_history==FALSE,]
-    
     df <- df %>% 
       dplyr::mutate(end_date_outcome = replace(end_date_outcome, which(sub_cat_covid19_hospital=="non_hospitalised"), exp_date-1),
                     exp_date = replace(exp_date, which(sub_cat_covid19_hospital=="non_hospitalised"), NA),
@@ -148,20 +143,45 @@ if (startsWith(active_analyses$analysis[i], "sub_covid_hospitalised")) {
     df <- df%>% 
           left_join(sd_input,by = "patient_id")
     
-    if (active_analyses$analysis[i]==("sub_covid_hospitalised_te_true"){
+    if (active_analyses$analysis[i]=="sub_covid_hospitalised_te_true"){
       print('Make model input: sub_covid_hospitalised_te_true')
       df<- df%>%    
             dplyr:: filter(sub_bin_ate_vte_sensitivity == TRUE)
     }
 
-    else if(active_analyses$analysis[i]==("sub_covid_hospitalised_te_false"){
+    else if(active_analyses$analysis[i]=="sub_covid_hospitalised_te_false"){
       print('Make model input: sub_covid_hospitalised_te_false')
           df<- df%>%    
             dplyr:: filter(sub_bin_ate_vte_sensitivity == FALSE)
     }
+
+    # Anticoagulants models 
+    } else if (active_analyses$analysis[i]%in%c("sub_covid_hospitalised_ac_true","sub_covid_hospitalised_ac_false")){
+    # join study def data with hospitalised model_input 
+    sd_input<- sd_input %>%dplyr::select(
+        patient_id,
+        sub_bin_anticoagulants_sensitivity_bnf,
+        discharge_date
+    )
+     df <- df %>% 
+        left_join(sd_input, by = "patient_id")
+
+     # Add indicator for 4 months (4*28=112) follow-up post-discharge --------------
+     print('Add indicator for 4 months (4*28=112) follow-up post-discharge')
+        df$sub_bin_fup4m <- ((df$end_date_outcome - df$discharge_date) > 112) | is.na(df$exp_date)
+        if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_true"){
+          print('Make model input: sub_covid_hospitalised_ac_true')
+
+        df <- df%>% 
+            filter(sub_bin_anticoagulants_sensitivity_bnf==TRUE)
+        } else if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_false"){
+          print('Make model input: sub_covid_hospitalised_ac_false')
+
+        df <- df%>% 
+            filter(sub_bin_anticoagulants_sensitivity_bnf==FALSE)
+        }
     }
-
-
+    
     df[,colnames(df)[grepl("sub_",colnames(df))]] <- NULL
     
     check_vitals(df)
@@ -171,6 +191,7 @@ if (startsWith(active_analyses$analysis[i], "sub_covid_hospitalised")) {
     rm(df)
     
   }
+
 
   
   # Make model input: sub_covid_nonhospitalised ----------------------------------
