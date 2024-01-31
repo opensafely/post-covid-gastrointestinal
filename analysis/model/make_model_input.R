@@ -102,7 +102,7 @@ for (i in 1:nrow(active_analyses)) {
     print (paste0("nrow after Update end date to be outcome date : ",nrow(input)))
 
   # Study definitions sensitivity input 
-    sd_input <- read.csv(paste0("output/input_", cohort, "_sensitivity.csv.gz"),colClasses = c(patient_id = "character"))
+    sd_input <- read.csv(paste0("output/input_", active_analyses$cohort[i], "_sensitivity.csv.gz"),colClasses = c(patient_id = "character"))
     sd_input$discharge_date<- as.Date(sd_input$discharge_date)
     # remove tmp vars 
     sd_input<- sd_input %>% select(-starts_with("tmp"))
