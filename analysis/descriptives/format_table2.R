@@ -14,7 +14,8 @@ library(scales)
 library(broman)
 
 #Directories
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/"
+# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/tables/table2/"
 
 
 ###############################################
@@ -26,21 +27,21 @@ clean_table_2 <- function(df) {
   df <- df %>%
     mutate(outcome = str_remove(outcome, "out_date_")) %>% 
     mutate(outcome = str_to_title(outcome)) %>%
-    select(outcome, analysis, unexposed_person_days, unexposed_events, exposed_person_days, exposed_events, total_person_days, total_events, day0_events, total_exposed, sample_size) %>%
+    select(outcome, analysis, unexposed_person_days, unexposed_events_midpoint6, exposed_person_days, exposed_events_midpoint6, total_person_days, total_events_derived, day0_events_midpoint6, total_exposed_midpoint6, sample_size_midpoint6) %>%
     filter(analysis %in% c("sub_covid_hospitalised", "sub_covid_nonhospitalised"))
   
   df$outcome <- str_replace_all(df$outcome, "_", " ")
   
   #unexposed
-  df_unexposed <- df %>% select(outcome, analysis, unexposed_person_days,	unexposed_events)
+  df_unexposed <- df %>% select(outcome, analysis, unexposed_person_days,	unexposed_events_midpoint6)
   df_unexposed$period <- "unexposed"
-  df_unexposed <- df_unexposed %>% rename(event_count = unexposed_events,
+  df_unexposed <- df_unexposed %>% rename(event_count = unexposed_events_midpoint6,
                                          person_days = unexposed_person_days)
   
   #exposed
-  df_exposed <- df %>% select(outcome, analysis, exposed_person_days,	exposed_events)
+  df_exposed <- df %>% select(outcome, analysis, exposed_person_days,	exposed_events_midpoint6)
   df_exposed$period <- "exposed"
-  df_exposed <- df_exposed %>% rename(event_count = exposed_events,
+  df_exposed <- df_exposed %>% rename(event_count = exposed_events_midpoint6,
                                       person_days = exposed_person_days)
   
   #bind rows
@@ -68,9 +69,9 @@ clean_table_2 <- function(df) {
 }
 
 #Load files
-table2_prevax <- read.csv(paste0(results_dir,"table2_prevax_rounded.csv")) 
-table2_unvax <- read.csv(paste0(results_dir,"table2_unvax_rounded.csv")) 
-table2_vax <- read.csv(paste0(results_dir,"table2_vax_rounded.csv")) 
+table2_prevax <- read.csv(paste0(results_dir,"table2_prevax_midpoint6.csv")) 
+table2_unvax <- read.csv(paste0(results_dir,"table2_unvax_midpoint6.csv")) 
+table2_vax <- read.csv(paste0(results_dir,"table2_vax_midpoint6.csv")) 
 
 #Apply clean table 2 function --------------------------------------------------
 table2_prevax_format <- clean_table_2(table2_prevax)
@@ -102,7 +103,7 @@ table2_format <- table2 %>%
   padding(padding = 0, part = "all") %>% 
   merge_v(~ outcome) %>%
   add_header_row(values = c("", "", "Pre-vaccination cohort (Jan 1 2020 to Dec 14 2021)", "", "Vaccinated cohort (June 1 to Dec 14 2021)", "", "Unvaccinated cohort (June 1 to Dec 14 2021)", "")) %>%
-  set_caption(as_paragraph(as_chunk("Table 2. Number of arterial thrombotic, venous thrombotic, and other cardiovascular events in the pre-vaccination, vaccinated and unvaccinated cohorts, with person-years of follow-up, by COVID-19 severity. *Incidence rates are per 100,000 person-years", 
+  set_caption(as_paragraph(as_chunk("Table 2. Number of gastrointestinal events in prevaccination, vaccinated and unvaccinated cohorts, with person-years of follow-up, by COVID-19 severity. *Incidence rates are per 100,000 person-years", 
     props = fp_text_default(bold = TRUE))), align_with_table = F) %>%
   set_header_labels("outcome" = "Event", 'period' = 'COVID-19 severity', 
                     'Event/person-years3' = 'Event/person-years', 'Incidence rate*4' = 'Incidence rate*',
@@ -123,7 +124,7 @@ sect_properties <- prop_section(
 )
 
 #Save table 2
-save_as_docx(table2_format, path = paste0(output_dir, "table2_formatted.docx"), pr_section = sect_properties)
+save_as_docx(table2_format, path = paste0(results_dir, "table2_formatted.docx"), pr_section = sect_properties)
 #write.csv(table2, paste0(output_dir,"table2.csv"),row.names = F)
 
 #Notes 
