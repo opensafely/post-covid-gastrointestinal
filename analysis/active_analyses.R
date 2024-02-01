@@ -216,7 +216,7 @@
                             analysis = "sub_covid_hospitalised_ac_true",
                             priorhistory_var = "")
 
-    # analyses: sub_covid_hospitalised thrombotic events false    
+    # analyses: sub_covid_hospitalised anticoagulants events false    
         df[nrow(df)+1,] <- c(cohort = c,
                             exposure = exposure, 
                             outcome = i,
