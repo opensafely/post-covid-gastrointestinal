@@ -4,8 +4,6 @@ library(tidyverse)
 library(ggplot2)
 
 # Define results directory
-# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/17-05-2023/"
-# output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/Figures/"
 results_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
 output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/figures/"
 
@@ -13,23 +11,45 @@ output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-Univ
 #1- Get data
 #################
 
-# disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
-estimates <-read.csv(paste0(results_dir,"model_output_midpoint6.csv"))%>%
-  # Extract outcomes to plot
-  # filter(!outcome %in% disregard) %>%
-  filter(model=="mdl_max_adj")%>%
-  #keep only rows with time points 
-  filter(grepl("days\\d+", term))%>%
-  # remove day0
-  filter(term!="days0_1")%>%
-  # Remove high hr 
-  filter(hr<100)%>%
-  # Modify outcome names
-  mutate(outcome = str_remove(outcome, "out_date_")) %>%
-  mutate(outcome = str_to_title(outcome))
+preprocess_data <- function(data, source) {
+  data %>%
+    filter(model == "mdl_max_adj",
+           grepl("days\\d+", term),
+           term != "days0_1",
+           !is.na(hr) & hr != "" & hr != "[redact]",
+           if(source == "R") conf_high != "Inf" else TRUE) %>%
+    mutate(outcome = str_remove(outcome, if(source == "stata") "_cox_model" else "out_date_"),
+           outcome = str_to_title(outcome)) %>%
+    select(cohort, outcome, analysis, term, hr, conf_high, conf_low, outcome_time_median)
+}
+stata_models <- read_csv(paste0(results_dir,"stata_model_output_midpoint6.csv")) %>%
+  filter(!analysis %in% c("main","sub_covid_nonhospitalised","sub_covid_hospitalised","sub_covid_history","sub_ethnicity_missing"))%>%
+ preprocess_data( source = "stata")
+
+# Read and preprocess data
+estimates <- read_csv(paste0(results_dir,"model_output_midpoint6.csv")) %>%
+  preprocess_data(source = "R")  
 
 subgroups<- estimates %>% 
   filter(!analysis %in% c("main","sub_covid_nonhospitalised","sub_covid_hospitalised","sub_covid_history","sub_ethnicity_missing"))
+
+estimates_all <- subgroups %>%
+  left_join(stata_models, by = c("cohort", "outcome", "analysis", "term")) %>%
+  mutate(
+    hr = if_else(!is.na(hr.y), hr.y, hr.x),
+    conf_low = if_else(!is.na(conf_low.y), conf_low.y, conf_low.x),
+    conf_high = if_else(!is.na(conf_high.y), conf_high.y, conf_high.x),
+    outcome_time_median = if_else(!is.na(outcome_time_median.y), outcome_time_median.y, outcome_time_median.x)
+    
+  )%>%
+  select(cohort, outcome, analysis, term, hr = hr, conf_low = conf_low, conf_high = conf_high,outcome_time_median)
+
+missing_stata_models <- anti_join(stata_models, subgroups, by = c("cohort", "outcome", "analysis", "term"))
+
+estimates_all <- estimates_all %>%
+  bind_rows(missing_stata_models)
+
+
 
 generate_analysis_labels <- function(analysis) {
   case_when(
@@ -44,8 +64,8 @@ generate_analysis_labels <- function(analysis) {
     analysis == "sub_ethnicity_asian"       ~ "Ethnicity: Asian",
     analysis == "sub_ethnicity_mixed"       ~ "Ethnicity: Mixed",
     analysis == "sub_ethnicity_other"       ~ "Ethnicity: Other",
-    analysis == "sub_priorhistory_true"     ~ "Prior history of GI event",
-    analysis == "sub_priorhistory_false"    ~ "No prior history of GI event",
+    analysis == "sub_priorhistory_true"     ~ "Prior history of gastrointestinal event",
+    analysis == "sub_priorhistory_false"    ~ "No prior history of gastrointestinal event",
     analysis == "sub_prioroperations_true"  ~ "Prior operations",
     analysis == "sub_prioroperations_false" ~ "No prior operations",
     TRUE                                    ~ NA_character_
@@ -81,7 +101,7 @@ generate_colour <- function(analysis, df) {
 generate_grouping <- function(analysis) {
   case_when(
     startsWith(analysis, "sub_priorhistory")     ~ "Prior history of event",
-    startsWith(analysis, "sub_prioroperations")  ~ "Prior GI operations",
+    startsWith(analysis, "sub_prioroperations")  ~ "Prior gastrointestinal operations",
     startsWith(analysis, "sub_age")              ~ "Age group",
     startsWith(analysis, "sub_sex")              ~ "Sex",
     startsWith(analysis, "sub_ethnicity")        ~ "Ethnicity",
@@ -98,7 +118,7 @@ generate_grouping_labels <- function(grouping, cohort) {
   )
 }
 
-subgroups <- subgroups %>%
+estimates_all <- estimates_all %>%
   group_by(outcome) %>%
   mutate(
     analysis_labels = generate_analysis_labels(analysis),
@@ -108,8 +128,8 @@ subgroups <- subgroups %>%
   )
 
 
-subgroups$grouping_labels <- factor(
-  subgroups$grouping_labels,
+estimates_all$grouping_labels <- factor(
+  estimates_all$grouping_labels,
   levels = c(
     "Age group - Pre-vaccination",
     "Age group - Vaccinated",
@@ -120,9 +140,9 @@ subgroups$grouping_labels <- factor(
     "Prior history of event - Pre-vaccination",
     "Prior history of event - Vaccinated",
     "Prior history of event - Unvaccinated",
-    "Prior GI operations - Pre-vaccination",
-    "Prior GI operations - Vaccinated",
-    "Prior GI operations - Unvaccinated",
+    "Prior gastrointestinal operations - Pre-vaccination",
+    "Prior gastrointestinal operations - Vaccinated",
+    "Prior gastrointestinal operations - Unvaccinated",
     "Sex - Pre-vaccination",
     "Sex - Vaccinated",
     "Sex - Unvaccinated"
@@ -139,9 +159,9 @@ names <- c(
   `Prior history of event - Pre-vaccination` = "",
   `Prior history of event - Vaccinated` = "Prior history of event",
   `Prior history of event - Unvaccinated` = "",
-  `Prior GI operations - Pre-vaccination` = "",
-  `Prior GI operations - Vaccinated` = "Prior GI operations",
-  `Prior GI operations - Unvaccinated` = "",
+  `Prior gastrointestinal operations - Pre-vaccination` = "",
+  `Prior gastrointestinal operations - Vaccinated` = "Prior gastrointestinal operations",
+  `Prior gastrointestinal operations - Unvaccinated` = "",
   `Sex - Pre-vaccination` = "",
   `Sex - Vaccinated` = "Sex",
   `Sex - Unvaccinated` = ""
@@ -157,18 +177,18 @@ names_2col <- c(
   `Prior history of event - Pre-vaccination` = "Prior history of event",
   `Prior history of event - Vaccinated` = "",
   `Prior history of event - Unvaccinated` = "",
-  `Prior GI operations - Pre-vaccination` = "Prior GI operations",
-  `Prior GI operations - Vaccinated` = "",
-  `Prior GI operations - Unvaccinated` = "",
+  `Prior gastrointestinal operations - Pre-vaccination` = "Prior gastrointestinal operations",
+  `Prior gastrointestinal operations - Vaccinated` = "",
+  `Prior gastrointestinal operations - Unvaccinated` = "",
   `Sex - Pre-vaccination` = "Sex",
   `Sex - Vaccinated` = "",
   `Sex - Unvaccinated` = ""
 )
 
-for (outcome_name in unique(subgroups$outcome)) {
+for (outcome_name in unique(estimates_all$outcome)) {
   
   
-  df <- subgroups %>% filter(outcome == outcome_name)
+  df <- estimates_all %>% filter(outcome == outcome_name)
   
   analysis_labels_levels <- unique(df$analysis_labels)
   df$analysis_labels <- factor(df$analysis_labels, levels = analysis_labels_levels)

@@ -1,11 +1,10 @@
+# TODO tidy the format part 
+
 library(readr)
 library(data.table)
 library(tidyverse)
 library(ggplot2)
 
-# Define results directory
-# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/"
-# output_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/figures/"
 results_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
 output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/figures/"
 
@@ -13,33 +12,54 @@ output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-Univ
 #1- Get data
 #################
 
-# disregard<- str_to_title(c("out_date_bowel_ischaemia", "out_date_intestinal_obstruction", "out_date_nonalcoholic_steatohepatitis", "out_date_variceal_gi_bleeding"))
 
-estimates <-read.csv(paste0(results_dir,"model_output_midpoint6.csv"))%>%
-  # Extract outcomes to plot
-  # filter(!outcome %in% disregard) %>%
-  filter(model=="mdl_max_adj")%>%
-  #keep only rows with time points 
-  filter(grepl("days\\d+", term))%>%
-  # remove day0
-  filter(term!="days0_1")%>%
-  # Modify outcome names
-  mutate(outcome = str_remove(outcome, "out_date_")) %>%
-  mutate(outcome = str_to_title(outcome))%>%
-  filter(!is.na(hr) & hr != "" & hr!="[redact]" )%>%
-  filter(conf_high!="Inf")
+preprocess_data <- function(data, source) {
+  data %>%
+    filter(model == "mdl_max_adj",
+           grepl("days\\d+", term),
+           term != "days0_1",
+           !is.na(hr) & hr != "" & hr != "[redact]",
+           if(source == "R") conf_high != "Inf" else TRUE) %>%
+    mutate(outcome = str_remove(outcome, if(source == "stata") "_cox_model" else "out_date_"),
+           outcome = str_to_title(outcome)) %>%
+    select(cohort, outcome, analysis, term, hr, conf_high, conf_low, outcome_time_median)
+}
+stata_models <- read_csv(paste0(results_dir,"stata_model_output_midpoint6.csv")) %>%
+  filter(analysis %in% c("sub_covid_hospitalised", "sub_covid_nonhospitalised", "main")) %>%
+  preprocess_data(source = "stata")
+
+# Read and preprocess data
+estimates <- read_csv(paste0(results_dir,"model_output_midpoint6.csv")) %>%
+  preprocess_data(source = "R")
+
+
+# Merge stata output with estimates
+estimates_all <- estimates %>%
+  left_join(stata_models, by = c("cohort", "outcome", "analysis", "term")) %>%
+  mutate(
+    hr = if_else(!is.na(hr.y), hr.y, hr.x),
+    conf_low = if_else(!is.na(conf_low.y), conf_low.y, conf_low.x),
+    conf_high = if_else(!is.na(conf_high.y), conf_high.y, conf_high.x),
+    outcome_time_median = if_else(!is.na(outcome_time_median.y), outcome_time_median.y, outcome_time_median.x)
+    
+  )%>%
+  select(cohort, outcome, analysis, term, hr = hr, conf_low = conf_low, conf_high = conf_high,outcome_time_median)%>%
+rbind(filter(stata_models,outcome=="Nonvariceal_gi_bleeding",cohort=="prevax",analysis=="sub_covid_hospitalised"))
+
+  
+
 
   # remove non converged models (to be filled with stata)
   # filter(!outcome%in%c("Upper_gi_bleeding","Gallstones_disease","Nonalcoholic_steatohepatitis"))
 
 # Set numeric cols to numeric
-numeric_cols <- c("lnhr", "se_lnhr", "hr", "conf_low", "conf_high", "N_total_midpoint6", "N_exposed_midpoint6", "N_events_midpoint6", "person_time_total", "outcome_time_median")
-estimates[numeric_cols] <- lapply(estimates[numeric_cols], as.numeric)
+numeric_cols <- c( "hr", "conf_low", "conf_high", "outcome_time_median")
+estimates_all[numeric_cols] <- lapply(estimates_all[numeric_cols], as.numeric)
 
 ##################
 #2-Format
 #################
-estimates <- estimates %>% 
+estimates_all <- estimates_all %>% 
   mutate(colour_cohort = case_when(
     cohort == "prevax" ~ "#d2ac47",
     cohort == "vax" ~ "#58764c",
@@ -51,17 +71,15 @@ estimates <- estimates %>%
 
 
 # Factor variables for ordering
-estimates <- estimates %>%
+estimates_all <- estimates_all %>%
   mutate(cohort = factor(cohort, levels = c("prevax", "vax", "unvax")),
                  )
 
 # Rename adjustment groups
-levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
-
-
+levels(estimates_all$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
 
 # Filter data for the desired analyses
-estimates_sub <- estimates %>% filter(analysis %in% c("main", "sub_covid_hospitalised", "sub_covid_nonhospitalised"))
+estimates_sub <- estimates_all %>% filter(analysis %in% c("main", "sub_covid_hospitalised", "sub_covid_nonhospitalised"))
 
 # Change names for labelling purpose
 estimates_sub$analysis <- factor(estimates_sub$analysis,levels = c("main", "sub_covid_hospitalised","sub_covid_nonhospitalised"))
@@ -89,7 +107,7 @@ labels <- c(
   `All COVID-19-Nonvariceal_gi_bleeding` = "All COVID-19
   ",
   `Hospitalised COVID-19-Nonvariceal_gi_bleeding` = "Hospitalised COVID-19
-  Nonvariceal gi bleeding",
+  Nonvariceal gastrointestinal bleeding",
   `Non-hospitalised COVID-19-Nonvariceal_gi_bleeding` = "Non-hospitalised COVID-19
   ",
   `All COVID-19-Acute_pancreatitis` = "",
@@ -154,8 +172,8 @@ plot_estimates <- function(df, name) {
     # facet_wrap(outcome ~ analysis, ncol = 3, scales = "free_x", strip.position = "top") +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
-    scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 4)) +
-    scale_y_continuous(lim = c(0.25,32), breaks = c(0.25,0.5,1,2,4,8,16,32), trans = "log")+ 
+    scale_x_continuous(breaks = seq(0, max(df$outcome_time_median) / 7, 8)) +
+    scale_y_continuous(lim = c(0.5,32), breaks = c(0.5,1,2,4,8,16,32), trans = "log")+ 
     theme(panel.grid.major.x = ggplot2::element_blank(),
                  panel.grid.minor = element_blank(),
                  panel.spacing.x = ggplot2::unit(0.5, "lines"),
@@ -183,6 +201,7 @@ plot_estimates <- function(df, name) {
 
 
 # Plotting for the three analyses
+
 estimates_sub<- estimates_sub %>%
 filter(outcome %in%c("Acute_pancreatitis","Peptic_ulcer","Nonvariceal_gi_bleeding","Appendicitis"))
 
