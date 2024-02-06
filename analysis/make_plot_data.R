@@ -25,6 +25,7 @@ tmp <- readr::read_csv(paste0(output_dir,"stata_model_output_midpoint6.csv"),
                        show_col_types = FALSE)
 tmp$outcome<- gsub("_cox_model","",tmp$outcome)
 tmp$name<- gsub("_cox_model","",tmp$name)
+tmp$name<-
 
 tmp$source <- "Stata"
 
@@ -35,7 +36,7 @@ tmp <- tmp[,colnames(df)]
 df <- rbind(df,tmp)
 
 df <- df %>%
-  dplyr::group_by(name) %>%
+  dplyr::group_by(outcome,cohort,analysis) %>%
   dplyr::top_n(1, rank) %>%
   dplyr::ungroup()
 

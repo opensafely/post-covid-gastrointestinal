@@ -136,7 +136,7 @@ df$outcome_label <- factor(df$outcome_label,
                                       "Acute pancreatitis",
                                       "Peptic ulcer",
                                       "Appendicitis",
-                                      "Nonalcoholic steatohepatiti"))
+                                      "Nonalcoholic steatohepatitis"))
 # 
 # # Order episodes ---------------------------------------------------------------
 # print("Order episodes")

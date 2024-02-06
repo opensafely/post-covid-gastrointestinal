@@ -2,7 +2,7 @@
 nonvariceal_gi_bleeding,Nonvariceal gastrointestinal bleeding,,
 lower_gi_bleeding,Lower gastrointestinal bleeding,,
 upper_gi_bleeding,Upper gastrointestinal bleeding,,
-variceal_gi_bleeding, Variceal_gi_bleeding,,
+variceal_gi_bleeding, Variceal gastrointestinal bleeding,,
 gastro_oesophageal_reflux_disease,Gastro oesophageal reflux,,
 gallstones_disease,Gallstones,,
 acute_pancreatitis,Acute pancreatitis,,
@@ -10,8 +10,8 @@ peptic_ulcer,Peptic ulcer,,
 ibs,Ibs,,
 appendicitis,Appendicitis,,
 nonalcoholic_steatohepatitis,Nonalcoholic steatohepatitis,,
+prevax,Pre-vaccination (Jan 1 2020 - Jun 18 2021),,
 vax,Vaccinated (Jun 1 2021 - Dec 14 2021),,
-prevax,Pre-vaccination (Jan 1 2020 - Dec 14 2021),,
 unvax,Unvaccinated (Jun 1 2021 - Dec 14 2021),,
 sub_covid_history,History of COVID-19,history_exposure,1
 main,All COVID-19,main,1
