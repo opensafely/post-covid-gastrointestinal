@@ -36,30 +36,15 @@ def generate_common_variables_sensitivity(exposure_date_variable,outcome_end_dat
    
     sub_count_anticoagulants_bnf=patients.with_these_medications(
     anticoagulants_bnf,
-    between=["2019-03-01", "2020-02-29"],
+    between = ["discharge_date" ,"end_date_outcome" ],
      returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 2},
+       return_expectations={
+            "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
+            "date": {"earliest": "2020-01-01", "latest": "2021-05-31"},
+            "incidence": 0.30,
         },
     ),
-    # sub_count_anticoagulants_bnf = patients.with_these_medications(
-    #     anticoagulants_bnf,
-    #     returning ="number_of_episodes",
-    #     between = ["discharge_date","end_date_outcome" ],
-    #     return_expectations={
-    #         "int": {"distribution": "poisson", "mean": 2},
-    #     },
-    #             ),
-#     sub_count_anticoagulants_bnf=patients.with_these_medications(
-#         anticoagulants_bnf,
-#         between=["2019-03-01", "2020-02-29"],
-#         returning="number_of_episodes",
-#         episode_defined_as="series of events each <= 28 days apart",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 2, "stddev": 1},
-#             "incidence": 0.2,
-#         },
-# ),
+    
 
     ## Venous thrombolism events
     ### Primary care
