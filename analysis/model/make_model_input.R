@@ -105,8 +105,9 @@ for (i in 1:nrow(active_analyses)) {
 if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$analysis[i])){
  sd_input <- read.csv(paste0("output/input_", active_analyses$cohort[i], "_sensitivity.csv.gz"),colClasses = c(patient_id = "character"))
     sd_input$discharge_date<- as.Date(sd_input$discharge_date)
+    sd_input$sub_count_anticoagulants_bnf<-as.numeric(sd_input$sub_count_anticoagulants_bnf)
     # remove not needed vars 
-    sd_input<- sd_input %>% select(patient_id,discharge_date,sub_bin_anticoagulants_sensitivity_bnf,sub_bin_ate_vte_sensitivity)
+    sd_input<- sd_input %>% select(patient_id,discharge_date, sub_count_anticoagulants_bnf,sub_bin_ate_vte_sensitivity)
     # transform bin vars to logical
     sd_input <- sd_input %>%
                 dplyr::mutate(across(contains("_bin_"), as.logical))  
@@ -161,7 +162,7 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
     # join study def data with hospitalised model_input 
     sd_input<- sd_input %>%dplyr::select(
         patient_id,
-        sub_bin_anticoagulants_sensitivity_bnf,
+         sub_count_anticoagulants_bnf,
         discharge_date
     )
      df <- df %>% 
@@ -174,12 +175,12 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
           print('Make model input: sub_covid_hospitalised_ac_true')
 
         df <- df%>% 
-            filter(sub_bin_fup4m==TRUE,sub_bin_anticoagulants_sensitivity_bnf==TRUE)
+            filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf>=2)
         } else if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_false"){
           print('Make model input: sub_covid_hospitalised_ac_false')
 
         df <- df%>% 
-            filter(sub_bin_fup4m==TRUE,sub_bin_anticoagulants_sensitivity_bnf==FALSE)
+            filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf<2 | is.na(sub_count_anticoagulants_bnf))
         }
     }
     

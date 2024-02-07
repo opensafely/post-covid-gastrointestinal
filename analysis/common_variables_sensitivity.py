@@ -33,9 +33,9 @@ def generate_common_variables_sensitivity(exposure_date_variable,outcome_end_dat
 
         
     ),
-    sub_bin_anticoagulants_sensitivity_bnf = patients.with_these_medications(
+    sub_count_anticoagulants_bnf = patients.with_these_medications(
         anticoagulants_bnf,
-        returning = 'binary_flag',
+        returning="number_of_matches_in_period",
         between = ["discharge_date" ,"end_date_outcome" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
