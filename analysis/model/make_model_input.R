@@ -172,8 +172,9 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
      print('Add indicator for 4 months (4*28=112) follow-up post-discharge')
         df$sub_bin_fup4m <- ((df$end_date_outcome - df$exp_date) > 112) | is.na(df$exp_date)
         if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_true"){
-          print('Make model input: sub_covid_hospitalised_ac_true')
 
+          print('Make model input: sub_covid_hospitalised_ac_true')
+        
         df <- df%>% 
             filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf>=2)
         } else if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_false"){
