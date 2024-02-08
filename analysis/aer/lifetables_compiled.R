@@ -5,7 +5,6 @@ source("analysis/aer/fn-lifetable.R")
 print('Specify parameters')
 
 analysis <- "main"
-
 # Load model output ------------------------------------------------------------
 print('Load model output')
 

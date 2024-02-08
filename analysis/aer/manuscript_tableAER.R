@@ -29,15 +29,15 @@ df <- dplyr::rename(df, "outcome_label" = "label")
 print("Format data")
 
 df$excess_risk <- df$cumulative_difference_absolute_excess_risk*perpeople
-df <- df[,c("outcome_label","cohort","day0","excess_risk")]
+df <- df[,c("outcome_label","cohort","excess_risk")]
 
 # Pivot table ------------------------------------------------------------------
 print("Pivot table")
 
-df$day0 <- paste0("day0",df$day0)
+# df$day0 <- paste0("day0",df$day0)
 
 df <- tidyr::pivot_wider(df, 
-                         names_from = c("cohort","day0"),
+                         names_from = c("cohort"),
                          values_from = c("excess_risk"))
 
 # Difference attributable to day0 ----------------------------------------------
