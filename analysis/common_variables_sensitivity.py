@@ -51,14 +51,14 @@ def generate_common_variables_sensitivity(exposure_date_variable,outcome_end_dat
     tmp_sub_bin_vte_snomed=patients.with_these_clinical_events(
         all_vte_codes_snomed_clinical,
         returning='binary_flag',
-        between = ["exp_date" ,"end_date_outcome" ],
+        between = [f"{exposure_date_variable}" ,f"{outcome_end_date_variable}" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### HES APC
     tmp_sub_bin_vte_hes=patients.admitted_to_hospital(
         returning='binary_flag',
         with_these_diagnoses=all_vte_codes_icd10,
-        between = ["exp_date" ,"end_date_outcome" ],
+        between = [f"{exposure_date_variable}" ,f"{outcome_end_date_variable}" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### Combined
@@ -71,20 +71,20 @@ def generate_common_variables_sensitivity(exposure_date_variable,outcome_end_dat
     tmp_sub_bin_ate_snomed=patients.with_these_clinical_events(
         all_ate_codes_snomed_clinical,
         returning="binary_flag",
-        between = ["exp_date" ,"end_date_outcome" ],
+        between = [f"{exposure_date_variable}" ,f"{outcome_end_date_variable}" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### HES APC
     tmp_sub_bin_ate_hes=patients.admitted_to_hospital(
         returning="binary_flag",
-        between = ["exp_date" ,"end_date_outcome" ],
+        between = [f"{exposure_date_variable}" ,f"{outcome_end_date_variable}" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### ONS
     tmp_sub_bin_ate_death=patients.with_these_codes_on_death_certificate(
         all_ate_codes_icd10,
         returning="binary_flag",
-        between = ["exp_date" ,"end_date_outcome" ],
+        between = [f"{exposure_date_variable}" ,f"{outcome_end_date_variable}" ],
         return_expectations = {"incidence": 0.1,"date": {"earliest": "1980-02-01", "latest": "2021-05-31"},},
     ),
     ### Combined
