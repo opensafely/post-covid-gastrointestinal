@@ -1,3 +1,6 @@
+library(dplyr)
+
+source("analysis/aer/fn-lifetable.R")
 # Specify parameters -----------------------------------------------------------
 print('Specify parameters')
 
@@ -6,7 +9,7 @@ analysis <- "main"
 # Load model output ------------------------------------------------------------
 print('Load model output')
 
-model_output <- read_csv(path_model_output)
+model_output <- readr::read_csv("output/plot_model_output.csv")
 
 # Format and restrict to relevant models ---------------------------------------
 print('Restrict to relevant models')
@@ -29,7 +32,7 @@ model_output$time_period_end <- as.numeric(gsub(".*_", "",model_output$term))
 # Load AER input ---------------------------------------------------------------
 print('Load AER input')
 
-aer_input <- read_csv(path_aer_input)
+aer_input <- readr::read_csv(path_aer_input)
 
 # Run AER function -------------------------------------------------------------
 print('Run AER function')
@@ -37,7 +40,6 @@ print('Run AER function')
 lifetables_compiled <- NULL
 
 for (i in 1:nrow(aer_input)) {
-  
   if (nrow(model_output[model_output$outcome==aer_input$outcome[i] &
                          model_output$cohort==aer_input$cohort[i],])>0) {
     
@@ -58,10 +60,11 @@ prevax_weightings <- aer_input[aer_input$cohort=="prevax",
                                  "outcome",
                                  "aer_sex", 
                                  "aer_age", 
-                                 "sample_size")]
+                                 "sample_size_midpoint6")]
 
-prevax_weightings$weight <- prevax_weightings$sample_size/sum(prevax_weightings$sample_size)
-prevax_weightings$sample_size <- NULL
+
+prevax_weightings$weight <- prevax_weightings$sample_size_midpoint6/sum(prevax_weightings$sample_size_midpoint6)
+prevax_weightings$sample_size_midpoint6 <- NULL
 
 # Calculate overall AER --------------------------------------------------------
 print('Calculate overall AER')
