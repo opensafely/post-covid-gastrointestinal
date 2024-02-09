@@ -36,7 +36,7 @@ def generate_common_variables_sensitivity(exposure_date_variable,outcome_end_dat
    
     sub_count_anticoagulants_bnf=patients.with_these_medications(
     anticoagulants_bnf,
-    between = ["discharge_date" ,"end_date_outcome" ],
+    between = ["discharge_date" ,f"{outcome_end_date_variable}" ],
      returning="number_of_matches_in_period",
        return_expectations={
             "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
