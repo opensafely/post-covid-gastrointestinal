@@ -646,6 +646,18 @@ comment ("Stata models"),
       model_output_rounded = glue("output/stata_model_output_midpoint6.csv")
     )
   ), 
+  comment("Calculate median (IQR) for age"),
+  
+  action(
+    name = "median_iqr_age",
+    run = "r:latest analysis/median_iqr_age.R",
+    needs = list("stage1_data_cleaning_prevax",
+                 "stage1_data_cleaning_vax",
+                 "stage1_data_cleaning_unvax"),
+    moderately_sensitive = list(
+      model_output = glue("output/median_iqr_age.csv")
+    )
+  ),
    
   comment("------------------GI Bleeds Actions--------------------"),
   comment("Stage 1 GI bleeds"), 
