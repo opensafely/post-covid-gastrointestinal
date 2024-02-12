@@ -178,9 +178,14 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
           print('Make model input: sub_covid_hospitalised_ac_true')
           print(' Count of anticoagulants prescriptions:')
           print(table(df$sub_count_anticoagulants_bnf))
+          print(typeof(df$sub_count_anticoagulants_bnf))
         # 4 mfup and 2 or more prescriptions post discharge
+        print(paste0("Nrow before condition: ",nrow(df)))
+
         df <- df%>% 
             filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf>=2)
+        print(paste0("Nrow after condition: ",nrow(df)))
+
         } else if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_false"){
 
           print('Make model input: sub_covid_hospitalised_ac_false')
