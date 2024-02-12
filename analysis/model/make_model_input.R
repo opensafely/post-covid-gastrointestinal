@@ -23,7 +23,7 @@ args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
   # name <- "all" # prepare datasets for all active analyses 
-  name <- "cohort_prevax-main-ibs" # prepare datasets for all active analyses whose name contains X
+  name <- "cohort_prevax-sub_covid_hospitalised_ac_true-lower_gi_bleeding" # prepare datasets for all active analyses whose name contains X
 } else {
   name <- args[[1]]
 }
@@ -168,8 +168,8 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
      df <- df %>% 
         left_join(sd_input, by = "patient_id")
 
-     # Add indicator for 4 months (4*28=112) follow-up post-discharge --------------
-     print('Add indicator for 4 months (4*28=112) follow-up post-discharge')
+     # Add indicator for 4 months (4*28=112) follow-up post-exposure --------------
+     print('Add indicator for 4 months (4*28=112) follow-up post-exposure')
         df$sub_bin_fup4m <- ((df$end_date_outcome - df$exp_date) > 112) | is.na(df$exp_date)
         print(table(df$sub_bin_fup4m))
 
@@ -177,14 +177,14 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
 
           print('Make model input: sub_covid_hospitalised_ac_true')
           print(' Count of anticoagulants prescriptions:')
-          print(table(df$sub_count_anticoagulants_bnf))
-          print(typeof(df$sub_count_anticoagulants_bnf))
+          print(sum(df$sub_count_anticoagulants_bnf>=2))
         # 4 mfup and 2 or more prescriptions post discharge
         print(paste0("Nrow before condition: ",nrow(df)))
-
         df <- df%>% 
             filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf>=2)
         print(paste0("Nrow after condition: ",nrow(df)))
+        print("nrow(df[df$sub_count_anticoagulants_bnf >= 2 & df$sub_bin_fup4m == TRUE, ])")
+        print(nrow(df[df$sub_count_anticoagulants_bnf >= 2 & df$sub_bin_fup4m == TRUE, ]))
 
         } else if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_false"){
 
