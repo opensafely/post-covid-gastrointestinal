@@ -176,28 +176,34 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
         if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_true"){
           print('Make model input: sub_covid_hospitalised_ac_true')
           # print('Count of anticoagulants prescriptions:')
-          # print(sum(df$sub_count_anticoagulants_bnf>=2))
+          print( sum(df$sub_count_anticoagulants_bnf >= 2))
+          print(sum(df$sub_count_anticoagulants_bnf>=1))
+          print(sum(df$sub_count_anticoagulants_bnf==0))
+
+
         # 4 mfup and 2 or more prescriptions post discharge
         print(paste0("Nrow before condition: ",nrow(df)))
-        print(table(df$out_date))
+        # print(table(df$out_date))
         print(class(df$out_date))
         print(summary(df[,c("out_date","end_date_outcome")]))
         df <- df%>% 
-            filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf>=2)
-        print(paste0("Nrow after condition: ",nrow(df)))
+            filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf>=1)
+        print(paste0("Nrow after condition:>=1 ",nrow(df)))
         print(df$out_date)
         print(class(df$out_date))
         print(summary(df[,c("out_date","end_date_outcome")]))
-
-
-        
 
         } else if (active_analyses$analysis[i]=="sub_covid_hospitalised_ac_false"){
 
           print('Make model input: sub_covid_hospitalised_ac_false')
           # 4 mfup and less than 2 prescriptions post discharge
+          print("before condition ")
+        print(summary(df[,c("out_date","end_date_outcome")]))
+
         df <- df%>% 
-            filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf<2 | is.na(sub_count_anticoagulants_bnf))
+            filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf<2)
+            print("after condition")
+            print(summary(df[,c("out_date","end_date_outcome")]))
         }
     }
     
