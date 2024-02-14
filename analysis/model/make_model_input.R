@@ -189,7 +189,6 @@ if(grepl("_te_", active_analyses$analysis[i]) | grepl("_ac_", active_analyses$an
         df <- df%>% 
             filter(sub_bin_fup4m==TRUE, sub_count_anticoagulants_bnf>=1)
         print(paste0("Nrow after condition:>=1 ",nrow(df)))
-        print(df$out_date)
         print(class(df$out_date))
         print(summary(df[,c("out_date","end_date_outcome")]))
 
