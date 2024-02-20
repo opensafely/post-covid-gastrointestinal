@@ -33,31 +33,8 @@ defaults_list <- list(
 # active_analyses_sensitivity <- read_rds("lib/active_analyses_sensitivity.rds")
 
 # Determine which outputs are ready --------------------------------------------
-
-success <- readxl::read_excel("../post-covid-outcome-tracker.xlsx",
-                              sheet = "gastrointestinal",
-                              col_types = c("text","text", "text", "text", "text", "text",
-                                            "text", "text", "text", "text", "text",
-                                            "text", "text", 
-                                            "text", "text", "text", "text","text","text","text","text",
-                                            "skip", "skip"))
-
-success <- tidyr::pivot_longer(success,
-                               cols = setdiff(colnames(success),c("outcome","cohort")),
-                               names_to = "analysis") 
-
-success$name <- paste0("cohort_",success$cohort, "-",success$analysis, "-",success$outcome)
-# add cov_bin_overall_gi_and_symptoms to priorhistory and prioroperations analysis
-success <- success %>%
-  mutate(suffix = case_when(
-    grepl("priorhistory", analysis) ~ "-cov_bin_overall_gi_and_symptoms",
-    grepl("prioroperations", analysis) ~ "-cov_bin_gi_operations",
-    TRUE ~ ""
-  )) %>%
-  unite(name, cohort, analysis, outcome, sep = "-") %>%
-  mutate(name = paste0("cohort_", name, suffix))
-
-success <- success[grepl("success",success$value, ignore.case = TRUE),]
+success_df <- read.csv("lib/actions_20240220.csv")
+success_df <- success_df[success_df$success==TRUE,]
 
 
 # Create generic action function -----------------------------------------------
@@ -612,17 +589,17 @@ comment("Run failed models with stata"),
     )
   ),
   
-  # comment("Stage 6 - make model output"),
+  comment("Stage 6 - make model output"),
 
-  # action(
-  #   name = "make_model_output",
-  #   run = "r:latest analysis/model/make_model_output.R",
-  #   needs = as.list(paste0("cox_ipw-",success$name)),
-  #   moderately_sensitive = list(
-  #     model_output = glue("output/model_output.csv"),
-  #     model_output_rounded = glue("output/model_output_midpoint6.csv")
-  #   )
-  # ), 
+  action(
+    name = "make_model_output",
+    run = "r:latest analysis/model/make_model_output.R",
+    needs = as.list(paste0(success_df$model)),
+    moderately_sensitive = list(
+      model_output = glue("output/model_output.csv"),
+      model_output_rounded = glue("output/model_output_midpoint6.csv")
+    )
+  ), 
 comment ("Stata models"), 
     # STATA ANALYSES
     
