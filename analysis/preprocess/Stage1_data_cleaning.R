@@ -27,7 +27,7 @@ print('Specify command arguments')
 args <- commandArgs(trailingOnly=TRUE)
 
 if(length(args)==0){
-  cohort <- "unvax"
+  cohort <- "prevax"
 } else {
   cohort <- args[[1]]
 }
@@ -254,12 +254,10 @@ input <- subset(input, input$has_follow_up_previous_6months == TRUE)
 consort[nrow(consort)+1,] <- c("Inclusion criteria: Six months follow up prior to index",
                                nrow(input))
 
-print('Inclusion criteria: Active registration')
-
-input <- input %>%
-  filter(is.na(dereg_date))
-consort[nrow(consort)+1,] <- c("Inclusion criteria: Active registration",
-                               nrow(input))
+print('Inclusion criteria: Active registration') 
+input <- input %>% 
+  filter(is.na(deregistration_date) | (!is.na(deregistration_date) & deregistration_date>=index_date)) 
+consort[nrow(consort)+1,] <- c("Inclusion criteria: Active registration", nrow(input)) 
 
 print('Inclusion criteria: Known region')
 
