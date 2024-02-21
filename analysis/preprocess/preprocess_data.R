@@ -115,6 +115,7 @@ df[,c("sub_date_covid19_hospital")] <- NULL
 
 message("COVID19 severity determined successfully")
 
+# Add death_date and deregistration_date from prelim data  
 
 
 # Restrict columns and save analysis dataset ---------------------------------
@@ -133,6 +134,14 @@ df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
                      contains("vax_cat_")# Vaccination products
                     )%>% 
                    select(-matches("tmp_"))
+
+prelim_data <- read_csv("output/index_dates.csv.gz") 
+prelim_data <- prelim_data[,c("patient_id","death_date","deregistration_date")] 
+prelim_data$patient_id <- as.character(prelim_data$patient_id) 
+prelim_data$death_date <- as.Date(prelim_data$death_date) 
+prelim_data$deregistration_date <- as.Date(prelim_data$deregistration_date) 
+df1 <- df1 %>% inner_join(prelim_data,by="patient_id") 
+message("Death and deregistration dates added!") 
 
 # Restrict columns and save Venn diagram input dataset -----------------------
 
