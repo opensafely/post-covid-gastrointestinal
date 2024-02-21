@@ -13,7 +13,7 @@ args <- commandArgs(trailingOnly=TRUE)
 print(length(args))
 if(length(args)==0){
   # use for interactive testing
-  cohort_name <- "unvax"
+  cohort_name <- "prevax"
 } else {
   cohort_name <- args[[1]]
 }
@@ -120,9 +120,8 @@ message("COVID19 severity determined successfully")
 
 # Restrict columns and save analysis dataset ---------------------------------
 
-df1 <- df%>% select(patient_id,"death_date",starts_with("index_date"),
+df1 <- df%>% select(patient_id,starts_with("index_date"),
                     has_follow_up_previous_6months,
-                    dereg_date,
                      starts_with("end_date_"),
                      contains("sub_"), # Subgroups
                      contains("exp_"), # Exposures
