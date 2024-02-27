@@ -418,7 +418,7 @@ write.csv(consort,
 # Save stage 1 dataset ---------------------------------------------------------
 print('Save stage 1 dataset')
 
-input <- input[,c("patient_id","death_date","index_date",
+input <- input[,c("patient_id","death_date","index_date","deregistration_date",
                   colnames(input)[grepl("end_date_",colnames(input))],
                   colnames(input)[grepl("sub_",colnames(input))],
                   colnames(input)[grepl("exp_",colnames(input))],
