@@ -213,7 +213,7 @@ actions:
   test_dereg_date:
     run: r:latest analysis/preprocess/test_dereg_date.R
     needs:
-    - preprocess_data_unvax
+    - stage1_data_cleaning_unvax
     outputs:
       moderately_sensitive:
         dates_log: output/not-for-review/dereg_date_test.txt

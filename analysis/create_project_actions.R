@@ -474,7 +474,7 @@ actions_list <- splice(
   action(
     name = "test_dereg_date",
     run = "r:latest analysis/preprocess/test_dereg_date.R",
-    needs = list("preprocess_data_unvax"),
+    needs = list("stage1_data_cleaning_unvax"),
    moderately_sensitive = list(
       dates_log = glue("output/not-for-review/dereg_date_test.txt")
     )
