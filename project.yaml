@@ -208,6 +208,16 @@ actions:
       highly_sensitive:
         cohort: output/input_vax_stage1.rds
 
+  ## test type of deregistration date 
+
+  test_dereg_date:
+    run: r:latest analysis/preprocess/test_dereg_date.R
+    needs:
+    - preprocess_data_unvax
+    outputs:
+      moderately_sensitive:
+        dates_log: output/not-for-review/dereg_date_test.txt
+
   ## Generate hospitalised data from stage1 data 
 
   convert_rds_csv_prevax:
