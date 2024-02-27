@@ -468,7 +468,17 @@ actions_list <- splice(
            recursive = FALSE
     )
   ),
+  ## test deregistration date --------------------------------------
+  comment("test type of deregistration date"), 
   
+  action(
+    name = "test_dereg_date",
+    run = "r:latest analysis/preprocess/test_dereg_date.R",
+    needs = list("preprocess_data_unvax"),
+   moderately_sensitive = list(
+      dates_log = glue("output/not-for-review/dereg_date_test.txt")
+    )
+  ),
   ##convert data from rds to csv for sensitivity analyses --------------------------------------------------------
   
   splice(
