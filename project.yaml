@@ -216,7 +216,7 @@ actions:
     - stage1_data_cleaning_unvax
     outputs:
       moderately_sensitive:
-        dates_log: output/not-for-review/dereg_date_test.txt
+        dates_log: output/dereg_date_test.txt
 
   ## Generate hospitalised data from stage1 data 
 

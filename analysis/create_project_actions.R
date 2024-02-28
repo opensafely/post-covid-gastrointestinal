@@ -476,7 +476,7 @@ actions_list <- splice(
     run = "r:latest analysis/preprocess/test_dereg_date.R",
     needs = list("stage1_data_cleaning_unvax"),
    moderately_sensitive = list(
-      dates_log = glue("output/not-for-review/dereg_date_test.txt")
+      dates_log = glue("output/dereg_date_test.txt")
     )
   ),
   ##convert data from rds to csv for sensitivity analyses --------------------------------------------------------
