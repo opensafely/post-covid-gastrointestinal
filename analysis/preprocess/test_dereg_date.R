@@ -6,7 +6,7 @@ library(readr)
 print('Load cohort data')
 input <- readr::read_rds(paste0("output/input_unvax_stage1.rds"))%>%select(c(index_date,deregistration_date))
 
-sink("output/not-for-review/dereg_date_test.txt")
+sink("output/dereg_date_test.txt")
 
 input <- input %>% 
   mutate(active_registration=(is.na(deregistration_date) | (!is.na(deregistration_date) & deregistration_date>=index_date)) )
