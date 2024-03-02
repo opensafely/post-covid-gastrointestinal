@@ -668,8 +668,8 @@
 
     df$name <- paste0("cohort_",df$cohort, "-", 
                       df$analysis, "-", 
-                      gsub("out_date_","",df$outcome), 
-                      ifelse(df$priorhistory_var=="","", paste0("-",df$priorhistory_var)))
+                      gsub("out_date_","",df$outcome))
+                      # ifelse(df$priorhistory_var=="","", paste0("-",df$priorhistory_var)))
 
     # Check names are unique and save active analyses list -------------------------
 
