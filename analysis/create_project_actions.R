@@ -18,16 +18,15 @@ active_analyses <- read_rds("lib/active_analyses.rds")
 active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
 # Define active analysis with failed models to run stata 
 active_analyses_failed <-data.frame()
-# TODO activate when we have failed models 
 # read_rds("lib/active_analyses_failed.rds")
 active_analyses_models<- active_analyses
-# TODO run when we have failed models 
 # %>%filter(!name%in% active_analyses_failed$name)
 
 # Active analyses for gi bleeds -----------------------------------------------
 active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
 
 cohorts <- unique(active_analyses$cohort)
+
 
 
 #Define active analysis for GI bleeds
@@ -535,32 +534,32 @@ actions_list <- splice(
     )
   ),
   
-  ## Stata re-run failed models to save sampled data 
+  # ## Stata re-run failed models to save sampled data 
   
-  comment("Run failed models with stata"),
+  # comment("Run failed models with stata"),
   
-  splice(
-    unlist(lapply(1:nrow(active_analyses_failed), 
-                  function(x) apply_model_function_save_sample(name = active_analyses_failed$name[x],
-                                                               cohort = active_analyses_failed$cohort[x],
-                                                               analysis = active_analyses_failed$analysis[x],
-                                                               ipw = active_analyses_failed$ipw[x],
-                                                               strata = active_analyses_failed$strata[x],
-                                                               covariate_sex = active_analyses_failed$covariate_sex[x],
-                                                               covariate_age = active_analyses_failed$covariate_age[x],
-                                                               covariate_other = active_analyses_failed$covariate_other[x],
-                                                               cox_start = active_analyses_failed$cox_start[x],
-                                                               cox_stop = active_analyses_failed$cox_stop[x],
-                                                               study_start = active_analyses_failed$study_start[x],
-                                                               study_stop = active_analyses_failed$study_stop[x],
-                                                               cut_points = active_analyses_failed$cut_points[x],
-                                                               controls_per_case = active_analyses_failed$controls_per_case[x],
-                                                               total_event_threshold = active_analyses_failed$total_event_threshold[x],
-                                                               episode_event_threshold = active_analyses_failed$episode_event_threshold[x],
-                                                               covariate_threshold = active_analyses_failed$covariate_threshold[x],
-                                                               age_spline = active_analyses_failed$age_spline[x])), recursive = FALSE
-    )
-  ),
+  # splice(
+  #   unlist(lapply(1:nrow(active_analyses_failed), 
+  #                 function(x) apply_model_function_save_sample(name = active_analyses_failed$name[x],
+  #                                                              cohort = active_analyses_failed$cohort[x],
+  #                                                              analysis = active_analyses_failed$analysis[x],
+  #                                                              ipw = active_analyses_failed$ipw[x],
+  #                                                              strata = active_analyses_failed$strata[x],
+  #                                                              covariate_sex = active_analyses_failed$covariate_sex[x],
+  #                                                              covariate_age = active_analyses_failed$covariate_age[x],
+  #                                                              covariate_other = active_analyses_failed$covariate_other[x],
+  #                                                              cox_start = active_analyses_failed$cox_start[x],
+  #                                                              cox_stop = active_analyses_failed$cox_stop[x],
+  #                                                              study_start = active_analyses_failed$study_start[x],
+  #                                                              study_stop = active_analyses_failed$study_stop[x],
+  #                                                              cut_points = active_analyses_failed$cut_points[x],
+  #                                                              controls_per_case = active_analyses_failed$controls_per_case[x],
+  #                                                              total_event_threshold = active_analyses_failed$total_event_threshold[x],
+  #                                                              episode_event_threshold = active_analyses_failed$episode_event_threshold[x],
+  #                                                              covariate_threshold = active_analyses_failed$covariate_threshold[x],
+  #                                                              age_spline = active_analyses_failed$age_spline[x])), recursive = FALSE
+  #   )
+  # ),
   
   # ## Run sensitivity tables: 
   # splice(
@@ -614,29 +613,29 @@ actions_list <- splice(
   #     model_output_rounded = glue("output/model_output_midpoint6.csv")
   #   )
   # ), 
-  comment ("Stata models"), 
-  # STATA ANALYSES
+  # comment ("Stata models"), 
+  # # STATA ANALYSES
   
-  splice(
-    unlist(lapply(1:nrow(active_analyses_failed), 
-                  function(i) stata_actions(name = active_analyses_failed[i, "name"])),
-           #  subgroup = analyses_to_run_stata[i, "analysis"],
-           #  cohort = analyses_to_run_stata[i, "cohort"],
-           #  time_periods = analyses_to_run_stata[i, "cut_points"],
+  # splice(
+  #   unlist(lapply(1:nrow(active_analyses_failed), 
+  #                 function(i) stata_actions(name = active_analyses_failed[i, "name"])),
+  #          #  subgroup = analyses_to_run_stata[i, "analysis"],
+  #          #  cohort = analyses_to_run_stata[i, "cohort"],
+  #          #  time_periods = analyses_to_run_stata[i, "cut_points"],
            
-           recursive = FALSE)
+  #          recursive = FALSE)
     
     
-  ),
-  action(
-    name = "make_stata_model_output",
-    run = "r:latest analysis/stata/make_stata_model_output.R",
-    needs = as.list(paste0("stata_cox_model_",active_analyses_failed$name)),
-    moderately_sensitive = list(
-      model_output = glue("output/stata_model_output.csv"),
-      model_output_rounded = glue("output/stata_model_output_midpoint6.csv")
-    )
-  ), 
+  # ),
+  # action(
+  #   name = "make_stata_model_output",
+  #   run = "r:latest analysis/stata/make_stata_model_output.R",
+  #   needs = as.list(paste0("stata_cox_model_",active_analyses_failed$name)),
+  #   moderately_sensitive = list(
+  #     model_output = glue("output/stata_model_output.csv"),
+  #     model_output_rounded = glue("output/stata_model_output_midpoint6.csv")
+  #   )
+  # ), 
   comment("Calculate median (IQR) for age"),
   
   action(

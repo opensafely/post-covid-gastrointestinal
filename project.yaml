@@ -15716,40 +15716,6 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_vax-sub_sex_male-variceal_gi_bleeding.csv
 
-  ## Run failed models with stata 
-  '':
-    run: ''
-    needs:
-    - []
-    outputs:
-      highly_sensitive:
-        model_input: []
-  '':
-    run: ''
-    needs:
-    - []
-    outputs:
-      moderately_sensitive:
-        model_output: []
-      highly_sensitive:
-        analysis_ready: []
-  '':
-    run: ''
-    needs:
-    - []
-    outputs:
-      highly_sensitive:
-        model_input: []
-  '':
-    run: ''
-    needs:
-    - []
-    outputs:
-      moderately_sensitive:
-        model_output: []
-      highly_sensitive:
-        analysis_ready: []
-
   ## Table 2 - prevax 
 
   table2_prevax:
@@ -16002,33 +15968,6 @@ actions:
       moderately_sensitive:
         venn: output/venn_vax.csv
         venn_rounded: output/venn_vax_rounded.csv
-
-  ## Stata models 
-  '':
-    run: ''
-    needs:
-    - []
-    outputs:
-      moderately_sensitive:
-        medianfup: []
-        stata_output: []
-  '':
-    run: ''
-    needs:
-    - []
-    outputs:
-      moderately_sensitive:
-        medianfup: []
-        stata_output: []
-
-  make_stata_model_output:
-    run: r:latest analysis/stata/make_stata_model_output.R
-    needs:
-    - stata_cox_model_
-    outputs:
-      moderately_sensitive:
-        model_output: output/stata_model_output.csv
-        model_output_rounded: output/stata_model_output_midpoint6.csv
 
   ## Calculate median (IQR) for age 
 
