@@ -16,15 +16,19 @@ defaults_list <- list(
 
 active_analyses <- read_rds("lib/active_analyses.rds") 
 active_analyses <- active_analyses[order(active_analyses$analysis,active_analyses$cohort,active_analyses$outcome),]
-active_analyses_models<- active_analyses%>%filter(!name%in% active_analyses_failed$name)
+# Define active analysis with failed models to run stata 
+active_analyses_failed <-data.frame()
+# TODO activate when we have failed models 
+# read_rds("lib/active_analyses_failed.rds")
+active_analyses_models<- active_analyses
+# TODO run when we have failed models 
+# %>%filter(!name%in% active_analyses_failed$name)
 
 # Active analyses for gi bleeds -----------------------------------------------
 active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
 
 cohorts <- unique(active_analyses$cohort)
 
-# Define active analysis with failed models to run stata 
-active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
 
 #Define active analysis for GI bleeds
 active_analyses_gi_bleeds<-read_rds("lib/active_analyses_gi_bleeds.rds")
