@@ -32,11 +32,10 @@ cohorts <- unique(active_analyses$cohort)
 #Define active analysis for GI bleeds
 active_analyses_gi_bleeds<-read_rds("lib/active_analyses_gi_bleeds.rds")
 
-# # Define active analysis for 4month follwup sensitivity: thrombotic events and anticoagulants
-# active_analyses_sensitivity <- read_rds("lib/active_analyses_sensitivity.rds")
+
 
 # Determine which outputs are ready --------------------------------------------
-success_df <- read.csv("lib/actions_20240220.csv")
+success_df <- read.csv("lib/actions_20240305.csv")
 success_df <- success_df[success_df$success==TRUE,]
 
 
