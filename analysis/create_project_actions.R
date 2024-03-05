@@ -32,11 +32,10 @@ cohorts <- unique(active_analyses$cohort)
 #Define active analysis for GI bleeds
 active_analyses_gi_bleeds<-read_rds("lib/active_analyses_gi_bleeds.rds")
 
-# # Define active analysis for 4month follwup sensitivity: thrombotic events and anticoagulants
-# active_analyses_sensitivity <- read_rds("lib/active_analyses_sensitivity.rds")
+
 
 # Determine which outputs are ready --------------------------------------------
-success_df <- read.csv("lib/actions_20240220.csv")
+success_df <- read.csv("lib/actions_20240305.csv")
 success_df <- success_df[success_df$success==TRUE,]
 
 
@@ -602,17 +601,17 @@ actions_list <- splice(
     )
   ),
   
-  # comment("Stage 6 - make model output"),
-  # 
-  # action(
-  #   name = "make_model_output",
-  #   run = "r:latest analysis/model/make_model_output.R",
-  #   needs = as.list(paste0(success_df$model)),
-  #   moderately_sensitive = list(
-  #     model_output = glue("output/model_output.csv"),
-  #     model_output_rounded = glue("output/model_output_midpoint6.csv")
-  #   )
-  # ), 
+  comment("Stage 6 - make model output"),
+  
+  action(
+    name = "make_model_output",
+    run = "r:latest analysis/model/make_model_output.R",
+    needs = as.list(paste0(success_df$model)),
+    moderately_sensitive = list(
+      model_output = glue("output/model_output.csv"),
+      model_output_rounded = glue("output/model_output_midpoint6.csv")
+    )
+  ), 
   # comment ("Stata models"), 
   # # STATA ANALYSES
   
