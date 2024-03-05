@@ -601,17 +601,17 @@ actions_list <- splice(
     )
   ),
   
-  # comment("Stage 6 - make model output"),
-  # 
-  # action(
-  #   name = "make_model_output",
-  #   run = "r:latest analysis/model/make_model_output.R",
-  #   needs = as.list(paste0(success_df$model)),
-  #   moderately_sensitive = list(
-  #     model_output = glue("output/model_output.csv"),
-  #     model_output_rounded = glue("output/model_output_midpoint6.csv")
-  #   )
-  # ), 
+  comment("Stage 6 - make model output"),
+  
+  action(
+    name = "make_model_output",
+    run = "r:latest analysis/model/make_model_output.R",
+    needs = as.list(paste0(success_df$model)),
+    moderately_sensitive = list(
+      model_output = glue("output/model_output.csv"),
+      model_output_rounded = glue("output/model_output_midpoint6.csv")
+    )
+  ), 
   # comment ("Stata models"), 
   # # STATA ANALYSES
   
