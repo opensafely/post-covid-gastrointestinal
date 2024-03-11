@@ -20,6 +20,21 @@ active_analyses <- active_analyses[order(active_analyses$analysis,active_analyse
 
 # active_analyses_failed <-data.frame()
  active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
+#  remove failed models in stata too from stata_model_output needs list
+models_to_remove <- c(
+  'cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding',
+  'cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding',
+  'cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding',
+  'cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding',
+  'cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding',
+  'cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding',
+  'cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding',
+  'cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding',
+  'cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding',
+  'cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding',
+  'cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding'
+)
+ active_analyses_failed_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
 # active_analyses_models<- active_analyses
 active_analyses_models<- active_analyses %>%filter(!name%in% active_analyses_failed$name)
 
@@ -630,7 +645,7 @@ actions_list <- splice(
   action(
     name = "make_stata_model_output",
     run = "r:latest analysis/stata/make_stata_model_output.R",
-    needs = as.list(paste0("stata_cox_model_",active_analyses_failed$name)),
+    needs = as.list(paste0("stata_cox_model_",active_analyses_failed_stata$name)),
     moderately_sensitive = list(
       model_output = glue("output/stata_model_output.csv"),
       model_output_rounded = glue("output/stata_model_output_midpoint6.csv")

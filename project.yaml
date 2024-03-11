@@ -17628,20 +17628,9 @@ actions:
     - stata_cox_model_cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
     - stata_cox_model_cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
     - stata_cox_model_cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
-    - stata_cox_model_cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
-    - stata_cox_model_cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-    - stata_cox_model_cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
     - stata_cox_model_cohort_prevax-sub_covid_hospitalised-gallstones_disease
     - stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     - stata_cox_model_cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
-    - stata_cox_model_cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
         model_output: output/stata_model_output.csv
