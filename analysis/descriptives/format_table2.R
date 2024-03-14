@@ -15,7 +15,7 @@ library(broman)
 
 #Directories
 # results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/"
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/tables/table2/"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
 
 
 ###############################################
@@ -26,6 +26,7 @@ clean_table_2 <- function(df) {
   
   df <- df %>%
     mutate(outcome = str_remove(outcome, "out_date_")) %>% 
+    mutate(outcome = gsub("gi", "gastrointestinal", outcome, fixed = TRUE))%>%
     mutate(outcome = str_to_title(outcome)) %>%
     select(outcome, analysis, unexposed_person_days, unexposed_events_midpoint6, exposed_person_days, exposed_events_midpoint6, total_person_days, total_events_derived, day0_events_midpoint6, total_exposed_midpoint6, sample_size_midpoint6) %>%
     filter(analysis %in% c("sub_covid_hospitalised", "sub_covid_nonhospitalised"))
@@ -96,6 +97,7 @@ table2 <- table2[order(table2$outcome, table2$period),]
 
 table2 <- table2 %>%
   rename_with(~ gsub("...", "", .x, fixed = T))
+
 
 #Format table for Word ---------------------------------------------------------
 table2_format <- table2 %>%
