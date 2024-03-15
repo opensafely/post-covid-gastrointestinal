@@ -1,5 +1,5 @@
 library(dplyr)
- # Load model output ------------------------------------------------------------
+# Load model output ------------------------------------------------------------
 print('Load model output')
 
 output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
@@ -25,9 +25,9 @@ tmp <- readr::read_csv(paste0(output_dir,"stata_model_output_midpoint6.csv"),
                        show_col_types = FALSE)
 tmp$outcome<- gsub("_cox_model","",tmp$outcome)
 tmp$name<- gsub("_cox_model","",tmp$name)
-tmp$name<-
-
-tmp$source <- "Stata"
+tmp$name<-paste0("cohot_",tmp$name)
+  
+  tmp$source <- "Stata"
 
 df$rank <- 0
 tmp$rank <- 1
