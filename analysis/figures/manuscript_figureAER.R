@@ -44,7 +44,7 @@ df <- dplyr::rename(df, "cohort_label" = "label")
 print("Order cohorts")
 
 df$cohort_label <- factor(df$cohort_label,
-                          levels = c("Pre-vaccination (Jan 1 2020 - Dec 14 2021)",
+                          levels = c("Pre-vaccination (Jan 1 2020 - Jun 18 2021)",
                                      "Vaccinated (Jun 1 2021 - Dec 14 2021)",
                                      "Unvaccinated (Jun 1 2021 - Dec 14 2021)"))
 
