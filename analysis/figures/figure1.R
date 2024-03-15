@@ -114,33 +114,35 @@ labels <- c(
   `Hospitalised COVID-19-Acute_pancreatitis` = "Acute pancreatitis",
   `Non-hospitalised COVID-19-Acute_pancreatitis` = "",
   
-  `All COVID-19-Lower_gi_bleeding` = "",
-  `Hospitalised COVID-19-Lower_gi_bleeding` = "Lower gi bleeding",
-  `Non-hospitalised COVID-19-Lower_gi_bleeding` = "",
+  # `All COVID-19-Lower_gi_bleeding` = "",
+  # `Hospitalised COVID-19-Lower_gi_bleeding` = "Lower gi bleeding",
+  # `Non-hospitalised COVID-19-Lower_gi_bleeding` = "",
   
   # `All COVID-19-Upper_gi_bleeding` = "",
   # `Hospitalised COVID-19-Upper_gi_bleeding` = "Upper gi bleeding",
   # `Non-hospitalised COVID-19-Upper_gi_bleeding` = "",
   # 
-  `All COVID-19-Gastro_oesophageal_reflux_disease` = "",
-  `Hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "Gastro oesophageal reflux",
-  `Non-hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "",
+  # `All COVID-19-Gastro_oesophageal_reflux_disease` = "",
+  # `Hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "Gastro oesophageal reflux",
+  # `Non-hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "",
   
   # `All COVID-19-Gallstones_disease` = "",
   # `Hospitalised COVID-19-Gallstones_disease` = "Gallstones",
   # `Non-hospitalised COVID-19-Gallstones_disease` = "",
   
-  `All COVID-19-Ibs` = "",
-  `Hospitalised COVID-19-Ibs` = "Ibs",
-  `Non-hospitalised COVID-19-Ibs` = "",
-  
-  `All COVID-19-Appendicitis` = "",
-  `Hospitalised COVID-19-Appendicitis` = "Appendicitis",
-  `Non-hospitalised COVID-19-Appendicitis` = "",
+  # `All COVID-19-Ibs` = "",
+  # `Hospitalised COVID-19-Ibs` = "Ibs",
+  # `Non-hospitalised COVID-19-Ibs` = "",
   
   `All COVID-19-Peptic_ulcer` = "",
   `Hospitalised COVID-19-Peptic_ulcer` = "Peptic ulcer",
-  `Non-hospitalised COVID-19-Peptic_ulcer` = ""
+  `Non-hospitalised COVID-19-Peptic_ulcer` = "",
+  
+  `All COVID-19-Appendicitis` = "",
+  `Hospitalised COVID-19-Appendicitis` = "Appendicitis",
+  `Non-hospitalised COVID-19-Appendicitis` = ""
+  
+  
   
   # `All COVID-19-Nonalcoholic_steatohepatitis` = "",
   # `Hospitalised COVID-19-Nonalcoholic_steatohepatitis` = "Nonalcoholic steatohepatitis",
