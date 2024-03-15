@@ -7,6 +7,7 @@ gastro_oesophageal_reflux_disease,Gastro oesophageal reflux,,
 gallstones_disease,Gallstones,,
 acute_pancreatitis,Acute pancreatitis,,
 peptic_ulcer,Peptic ulcer,,
+dyspepsia,Dyspepsia,,
 ibs,Ibs,,
 appendicitis,Appendicitis,,
 nonalcoholic_steatohepatitis,Nonalcoholic steatohepatitis,,
@@ -33,3 +34,8 @@ sub_priorhistory_true,Prior history of gastrointestinal event,history_outcome,1
 sub_priorhistory_false,No prior history of gastrointestinal event,history_outcome,2
 sub_sex_female,Sex: Female,sex,1
 sub_sex_male,Sex: Male,sex,2
+sub_covid_hospitalised_ac_true, Anticoagulant prescription post discharge,1
+sub_covid_hospitalised_ac_false, No anticoagulant prescription post discharge,2
+sub_covid_hospitalised_te_true, Thrombotic events after COVID19,1 
+sub_covid_hospitalised_te_false, No thrombotic events after COVID19,2
+

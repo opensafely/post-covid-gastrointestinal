@@ -2,7 +2,7 @@ source("analysis/utility.R")
 # Load data --------------------------------------------------------------------
 print("Load data")
 
-output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
+output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
 
 df <- readr::read_csv("output/plot_model_output.csv",
                       show_col_types = FALSE)
@@ -11,6 +11,7 @@ df <- readr::read_csv("output/plot_model_output.csv",
 print("Filter data")
 
 df <- df[grepl("days\\d", df$term), ]
+
 
 df <- df[df$model=="mdl_max_adj",
          c("analysis","cohort","outcome","term","hr","conf_low","conf_high")]
@@ -91,12 +92,12 @@ df$weeks <- factor(df$weeks, levels = c("Day 0",
 # Pivot table ------------------------------------------------------------------
 print("Pivot table")
 
-df <- df[,c("episodes","analysis_label","cohort","outcome_label","weeks","estimate")]
+df <- df[,c("analysis_label","cohort","outcome_label","weeks","estimate")]
 
-df <- tidyr::pivot_wider(df,
-                         id_cols = c("episodes","analysis_label","outcome_label","weeks"),
+df <- as.data.frame(tidyr::pivot_wider(df,
+                         id_cols = c("analysis_label","outcome_label","weeks"),
                          names_from = "cohort",
-                         values_from = "estimate")
+                         values_from = "estimate"))
 # Order analyses ---------------------------------------------------------------
 print("Order analyses")
 
@@ -131,12 +132,14 @@ df$outcome_label <- factor(df$outcome_label,
                                       "Variceal gastrointestinal bleeding",
                                       "Upper gastrointestinal bleeding",
                                       "Gastro oesophageal reflux",
+                                      "Dyspepsia",
                                       "Gallstones",
                                       "Ibs",
                                       "Acute pancreatitis",
                                       "Peptic ulcer",
                                       "Appendicitis",
-                                      "Nonalcoholic steatohepatitis"))
+                                      "Nonalcoholic steatohepatitis"
+                                      ))
 # 
 # # Order episodes ---------------------------------------------------------------
 # print("Order episodes")

@@ -2,7 +2,7 @@ library(dplyr)
  # Load model output ------------------------------------------------------------
 print('Load model output')
 
-output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
+output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
 path_model_output<-paste0(output_dir,"model_output_midpoint6.csv")
 
 
@@ -47,3 +47,4 @@ print('Save plot data')
 
 df <- df[!grepl("detailed",df$analysis),]
 readr::write_csv(df, "output/plot_model_output.csv")
+
