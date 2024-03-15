@@ -73,7 +73,17 @@ study = StudyDefinition(
         death_date=patients.minimum_of(
             "primary_care_death_date", "ons_died_from_any_cause_date"
         ),
-    
+    # Deregistration date 
+
+        deregistration_date=patients.date_deregistered_from_all_supported_practices(  
+            date_format = 'YYYY-MM-DD', 
+            return_expectations={ 
+            "date": {"earliest": "2000-01-01", "latest": "today"}, 
+            "rate": "uniform", 
+            "incidence": 0.01 
+            }, 
+        ), 
+
     # COVID-19 Vaccinations
 
         ## Any covid vaccination, identified by target disease

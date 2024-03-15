@@ -24,6 +24,9 @@ source("analysis/utility.R")
 print('List available model outputs')
 
 files <- list.files("output", pattern = "model_output-")
+# Exclude files ending with "gi_bleeds.csv" (gi bleeds project)
+files_to_exclude <- grepl("gi_bleeds\\.csv$", files)
+filtered_files <- files[!files_to_exclude]
 
 # Combine model outputs --------------------------------------------------------
 print('Combine model outputs')
@@ -31,8 +34,7 @@ print('Combine model outputs')
 df <- NULL
 symptoms<- c("nausea", "vomiting", "bloody_stools", "abdominal_paindiscomfort", "abdominal_distension", "diarrhoea")
 
-for (i in files) {
-  
+for (i in filtered_files) {
   ## Load model output if it is not a symptom
   if (!any(str_detect(i, symptoms))) {
   
