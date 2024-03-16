@@ -4440,28 +4440,6 @@ actions:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease.csv
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-ibs:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-ibs
-    needs:
-    - stage1_data_cleaning_prevax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
-
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs:
-    run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
-      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
-      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
-      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
-      --study_stop=2021-12-14 --cut_points=1;28;197;365;714 --controls_per_case=20
-      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
-      --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
-    needs:
-    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
-    outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
-
   make_model_input-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
     needs:
@@ -4483,28 +4461,6 @@ actions:
     outputs:
       moderately_sensitive:
         model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding.csv
-
-  make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
-    needs:
-    - stage1_data_cleaning_prevax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.rds
-
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding:
-    run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.rds
-      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
-      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
-      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
-      --study_stop=2021-12-14 --cut_points=1;28;197;365;714 --controls_per_case=20
-      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
-      --age_spline=TRUE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.csv
-    needs:
-    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.csv
 
   make_model_input-cohort_prevax-sub_covid_hospitalised-peptic_ulcer:
     run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-peptic_ulcer
@@ -14113,15 +14069,7 @@ actions:
 
   ## Run failed models with stata 
 
-  make_model_input-cohort_unvax-sub_sex_male-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_sex_male-gallstones_disease
-    needs:
-    - stage1_data_cleaning_unvax
-    outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_sex_male-gallstones_disease.rds
-
-  cox_ipw-cohort_unvax-sub_sex_male-gallstones_disease:
+  ready-cohort_unvax-sub_sex_male-gallstones_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_sex_male-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14132,20 +14080,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_sex_male-gallstones_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_sex_male-gallstones_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_sex_male-gallstones_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-dyspepsia:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-dyspepsia
+  stata_cox_model_cohort_unvax-sub_sex_male-gallstones_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_sex_male-gallstones_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_unvax-sub_sex_male-gallstones_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-dyspepsia.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_sex_male-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_sex_male-gallstones_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-dyspepsia:
+  ready-cohort_prevax-sub_covid_hospitalised-dyspepsia:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-dyspepsia.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14156,20 +14104,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-dyspepsia
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-dyspepsia.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-dyspepsia.csv.gz
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-dyspepsia:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-dyspepsia
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_covid_hospitalised-dyspepsia
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-dyspepsia_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-dyspepsia_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding:
+  ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14180,20 +14128,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14204,20 +14152,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-ibs:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-ibs
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-ibs.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-ibs:
+  ready-cohort_prevax-sub_priorhistory_true-ibs:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-ibs.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14228,20 +14176,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-ibs
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-ibs.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-ibs.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_female-appendicitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_female-appendicitis
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-ibs:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-ibs
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-ibs
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_female-appendicitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-ibs_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-ibs_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_female-appendicitis:
+  ready-cohort_prevax-sub_sex_female-appendicitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_female-appendicitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14252,20 +14200,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_female-appendicitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_female-appendicitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_female-appendicitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_40_59-appendicitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_40_59-appendicitis
+  stata_cox_model_cohort_prevax-sub_sex_female-appendicitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-appendicitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_female-appendicitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_40_59-appendicitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_female-appendicitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_female-appendicitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_40_59-appendicitis:
+  ready-cohort_prevax-sub_age_40_59-appendicitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_40_59-appendicitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14276,20 +14224,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_40_59-appendicitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_40_59-appendicitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_40_59-appendicitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-appendicitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-appendicitis
+  stata_cox_model_cohort_prevax-sub_age_40_59-appendicitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_40_59-appendicitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_40_59-appendicitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-appendicitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_40_59-appendicitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_40_59-appendicitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-appendicitis:
+  ready-cohort_prevax-sub_priorhistory_true-appendicitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-appendicitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14300,20 +14248,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-appendicitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-appendicitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-appendicitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_prioroperations_true-appendicitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_true-appendicitis
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-appendicitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-appendicitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-appendicitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_prioroperations_true-appendicitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-appendicitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-appendicitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_prioroperations_true-appendicitis:
+  ready-cohort_prevax-sub_prioroperations_true-appendicitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_prioroperations_true-appendicitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14324,20 +14272,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_prioroperations_true-appendicitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_prioroperations_true-appendicitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_prioroperations_true-appendicitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_male-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_male-gallstones_disease
+  stata_cox_model_cohort_prevax-sub_prioroperations_true-appendicitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-appendicitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_prioroperations_true-appendicitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_male-gallstones_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-appendicitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-appendicitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_male-gallstones_disease:
+  ready-cohort_prevax-sub_sex_male-gallstones_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_male-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14348,20 +14296,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_male-gallstones_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_male-gallstones_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_male-gallstones_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_60_79-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_60_79-gallstones_disease
+  stata_cox_model_cohort_prevax-sub_sex_male-gallstones_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-gallstones_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_male-gallstones_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_60_79-gallstones_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_male-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_male-gallstones_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_60_79-gallstones_disease:
+  ready-cohort_prevax-sub_age_60_79-gallstones_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_60_79-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14372,20 +14320,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_60_79-gallstones_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_60_79-gallstones_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_60_79-gallstones_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_80_110-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_80_110-gallstones_disease
+  stata_cox_model_cohort_prevax-sub_age_60_79-gallstones_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-gallstones_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_60_79-gallstones_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_80_110-gallstones_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_60_79-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_60_79-gallstones_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_80_110-gallstones_disease:
+  ready-cohort_prevax-sub_age_80_110-gallstones_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_80_110-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14396,20 +14344,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_80_110-gallstones_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_80_110-gallstones_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_80_110-gallstones_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_mixed-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_mixed-gallstones_disease
+  stata_cox_model_cohort_prevax-sub_age_80_110-gallstones_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-gallstones_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_80_110-gallstones_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_mixed-gallstones_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_80_110-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_80_110-gallstones_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_mixed-gallstones_disease:
+  ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_mixed-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14420,20 +14368,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_mixed-gallstones_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_mixed-gallstones_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_false-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_false-gallstones_disease
+  stata_cox_model_cohort_prevax-sub_ethnicity_mixed-gallstones_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_false-gallstones_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_false-gallstones_disease:
+  ready-cohort_prevax-sub_priorhistory_false-gallstones_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_false-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14444,20 +14392,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_false-gallstones_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_false-gallstones_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_false-gallstones_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis
+  stata_cox_model_cohort_prevax-sub_priorhistory_false-gallstones_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-gallstones_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_false-gallstones_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-gallstones_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis:
+  ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14468,20 +14416,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis:
+  ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14492,20 +14440,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_male-acute_pancreatitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_male-acute_pancreatitis
+  stata_cox_model_cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_male-acute_pancreatitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_male-acute_pancreatitis:
+  ready-cohort_prevax-sub_sex_male-acute_pancreatitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_male-acute_pancreatitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14516,20 +14464,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_male-acute_pancreatitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_male-acute_pancreatitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_male-acute_pancreatitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_60_79-acute_pancreatitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_60_79-acute_pancreatitis
+  stata_cox_model_cohort_prevax-sub_sex_male-acute_pancreatitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-acute_pancreatitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_male-acute_pancreatitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_60_79-acute_pancreatitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_male-acute_pancreatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_male-acute_pancreatitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_60_79-acute_pancreatitis:
+  ready-cohort_prevax-sub_age_60_79-acute_pancreatitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_60_79-acute_pancreatitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14540,20 +14488,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_60_79-acute_pancreatitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_60_79-acute_pancreatitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_60_79-acute_pancreatitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-acute_pancreatitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-acute_pancreatitis
+  stata_cox_model_cohort_prevax-sub_age_60_79-acute_pancreatitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-acute_pancreatitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_60_79-acute_pancreatitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-acute_pancreatitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_60_79-acute_pancreatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_60_79-acute_pancreatitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-acute_pancreatitis:
+  ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-acute_pancreatitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14564,20 +14512,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-acute_pancreatitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-acute_pancreatitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_prioroperations_true-acute_pancreatitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_true-acute_pancreatitis
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-acute_pancreatitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_prioroperations_true-acute_pancreatitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_prioroperations_true-acute_pancreatitis:
+  ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_prioroperations_true-acute_pancreatitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14588,20 +14536,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_prioroperations_true-acute_pancreatitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_prioroperations_true-acute_pancreatitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease
+  stata_cox_model_cohort_prevax-sub_prioroperations_true-acute_pancreatitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease:
+  ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14612,20 +14560,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease
+  stata_cox_model_cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease:
+  ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14636,20 +14584,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
+  stata_cox_model_cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease:
+  ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14660,20 +14608,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
+  stata_cox_model_cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease:
+  ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14684,20 +14632,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
+  stata_cox_model_cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease:
+  ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14708,20 +14656,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_60_79-dyspepsia:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_60_79-dyspepsia
+  stata_cox_model_cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_60_79-dyspepsia.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_60_79-dyspepsia:
+  ready-cohort_prevax-sub_age_60_79-dyspepsia:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_60_79-dyspepsia.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14732,20 +14680,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_60_79-dyspepsia
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_60_79-dyspepsia.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_60_79-dyspepsia.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_80_110-dyspepsia:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_80_110-dyspepsia
+  stata_cox_model_cohort_prevax-sub_age_60_79-dyspepsia:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-dyspepsia
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_60_79-dyspepsia
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_80_110-dyspepsia.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_60_79-dyspepsia_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_60_79-dyspepsia_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_80_110-dyspepsia:
+  ready-cohort_prevax-sub_age_80_110-dyspepsia:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_80_110-dyspepsia.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14756,20 +14704,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_80_110-dyspepsia
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_80_110-dyspepsia.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_80_110-dyspepsia.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_male-peptic_ulcer:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_male-peptic_ulcer
+  stata_cox_model_cohort_prevax-sub_age_80_110-dyspepsia:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-dyspepsia
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_80_110-dyspepsia
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_male-peptic_ulcer.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_80_110-dyspepsia_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_80_110-dyspepsia_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_male-peptic_ulcer:
+  ready-cohort_prevax-sub_sex_male-peptic_ulcer:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_male-peptic_ulcer.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14780,20 +14728,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_male-peptic_ulcer
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_male-peptic_ulcer.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_male-peptic_ulcer.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_60_79-peptic_ulcer:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_60_79-peptic_ulcer
+  stata_cox_model_cohort_prevax-sub_sex_male-peptic_ulcer:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-peptic_ulcer
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_male-peptic_ulcer
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_60_79-peptic_ulcer.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_male-peptic_ulcer_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_male-peptic_ulcer_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_60_79-peptic_ulcer:
+  ready-cohort_prevax-sub_age_60_79-peptic_ulcer:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_60_79-peptic_ulcer.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14804,20 +14752,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_60_79-peptic_ulcer
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_60_79-peptic_ulcer.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_60_79-peptic_ulcer.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_80_110-peptic_ulcer:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_80_110-peptic_ulcer
+  stata_cox_model_cohort_prevax-sub_age_60_79-peptic_ulcer:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-peptic_ulcer
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_60_79-peptic_ulcer
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_80_110-peptic_ulcer.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_60_79-peptic_ulcer_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_60_79-peptic_ulcer_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_80_110-peptic_ulcer:
+  ready-cohort_prevax-sub_age_80_110-peptic_ulcer:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_80_110-peptic_ulcer.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14828,20 +14776,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_80_110-peptic_ulcer
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_80_110-peptic_ulcer.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_80_110-peptic_ulcer.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_asian-peptic_ulcer:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_asian-peptic_ulcer
+  stata_cox_model_cohort_prevax-sub_age_80_110-peptic_ulcer:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-peptic_ulcer
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_80_110-peptic_ulcer
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_asian-peptic_ulcer.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_80_110-peptic_ulcer_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_80_110-peptic_ulcer_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_asian-peptic_ulcer:
+  ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_asian-peptic_ulcer.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14852,20 +14800,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_asian-peptic_ulcer
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_asian-peptic_ulcer.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-peptic_ulcer:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-peptic_ulcer
+  stata_cox_model_cohort_prevax-sub_ethnicity_asian-peptic_ulcer:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-peptic_ulcer.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-peptic_ulcer:
+  ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-peptic_ulcer.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14876,20 +14824,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-peptic_ulcer
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-peptic_ulcer.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer.csv.gz
 
-  make_model_input-cohort_prevax-sub_prioroperations_true-peptic_ulcer:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_true-peptic_ulcer
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-peptic_ulcer:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_prioroperations_true-peptic_ulcer.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_prioroperations_true-peptic_ulcer:
+  ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_prioroperations_true-peptic_ulcer.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14900,20 +14848,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_prioroperations_true-peptic_ulcer
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_prioroperations_true-peptic_ulcer.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_female-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_female-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_prioroperations_true-peptic_ulcer:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_female-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_female-upper_gi_bleeding:
+  ready-cohort_prevax-sub_sex_female-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_female-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14924,20 +14872,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_female-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_female-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_female-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_80_110-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_80_110-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_sex_female-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_female-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_80_110-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_female-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_female-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_80_110-upper_gi_bleeding:
+  ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_80_110-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14948,20 +14896,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_80_110-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_80_110-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_age_80_110-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14972,20 +14920,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -14996,20 +14944,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_other-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding:
+  ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15020,20 +14968,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_false-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding:
+  ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15044,20 +14992,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_true-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_priorhistory_false-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding:
+  ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15068,20 +15016,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_female-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_female-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_prioroperations_true-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_female-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_female-lower_gi_bleeding:
+  ready-cohort_prevax-sub_sex_female-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_female-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15092,20 +15040,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_female-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_female-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_female-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_80_110-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_80_110-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_sex_female-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_female-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_80_110-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_female-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_female-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_80_110-lower_gi_bleeding:
+  ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_80_110-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15116,20 +15064,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_80_110-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_80_110-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_black-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_age_80_110-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15140,20 +15088,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_black-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15164,20 +15112,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15188,20 +15136,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15212,20 +15160,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_other-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding:
+  ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15236,20 +15184,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_false-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding:
+  ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15260,20 +15208,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_true-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_priorhistory_false-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding:
+  ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15284,20 +15232,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_male-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_male-variceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_prioroperations_true-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_male-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_male-variceal_gi_bleeding:
+  ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_male-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15308,20 +15256,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_male-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_male-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_sex_male-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=NULL
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15332,20 +15280,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15356,20 +15304,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15380,20 +15328,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15404,20 +15352,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15428,20 +15376,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15452,20 +15400,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15476,20 +15424,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15500,20 +15448,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding:
+  ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15524,20 +15472,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_vax
+    - ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
+  ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
@@ -15548,20 +15496,20 @@ actions:
     needs:
     - make_model_input-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
+  stata_cox_model_cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_vax
+    - ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
+  ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
@@ -15572,20 +15520,20 @@ actions:
     needs:
     - make_model_input-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding
+  stata_cox_model_cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding:
+  ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
@@ -15596,20 +15544,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
+  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
+  ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
@@ -15620,20 +15568,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
+  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding:
+  ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15644,20 +15592,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
+  stata_cox_model_cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
+  ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
@@ -15668,20 +15616,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding
+  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding:
+  ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
@@ -15692,20 +15640,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
+  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
+  ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15716,20 +15664,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
+  stata_cox_model_cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
+  ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15740,20 +15688,20 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
+  stata_cox_model_cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_unvax
+    - ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
+  ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15764,20 +15712,44 @@ actions:
     needs:
     - make_model_input-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-gallstones_disease
+  stata_cox_model_cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        medianfup: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding_cox_model.txt
+
+  ready-cohort_prevax-sub_covid_hospitalised-ibs:
+    run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-ibs.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=1;28;197;365;714 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=TRUE --run_analysis=FALSE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-ibs.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-ibs
     outputs:
       highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
+        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-ibs.csv.gz
 
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-ibs:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-ibs
+      TRUE TRUE
+    needs:
+    - ready-cohort_prevax-sub_covid_hospitalised-ibs
+    outputs:
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-ibs_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-ibs_cox_model.txt
+
+  ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15788,20 +15760,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease.csv.gz
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-gallstones_disease:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
+  ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15812,20 +15784,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis.csv.gz
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
+  ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
@@ -15836,20 +15808,20 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding.csv.gz
 
-  make_model_input-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
-    run: r:latest analysis/model/make_model_input.R cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+      TRUE TRUE
     needs:
-    - stage1_data_cleaning_prevax
+    - ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
     outputs:
-      highly_sensitive:
-        model_input: output/model_input-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.rds
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_cox_model.txt
 
-  cox_ipw-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
+  ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
     run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.rds
       --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
       --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf
@@ -15860,10 +15832,42 @@ actions:
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
     outputs:
-      moderately_sensitive:
-        model_output: output/model_output-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.csv
       highly_sensitive:
         analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding.csv.gz
+
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
+      TRUE TRUE
+    needs:
+    - ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_cox_model.txt
+
+  ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding:
+    run: cox-ipw:v0.0.30 --df_input=model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=cov_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_deprivation;cov_cat_smoking_status;cov_bin_carehome_status;cov_num_consulation_rate;cov_bin_healthcare_worker;cov_bin_gi_operations;cov_bin_overall_gi_and_symptoms;cov_bin_obesity;cov_bin_antidepressants_bnf;cov_bin_alcohol_above_limits;cov_bin_cholelisthiasis;cov_bin_h_pylori_infection;cov_bin_nsaid_bnf;cov_bin_aspirin_bnf;cov_bin_anticoagulants_bnf
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2021-12-14 --cut_points=1;28;197;365;714 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=TRUE --run_analysis=FALSE --df_output=model_output-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      highly_sensitive:
+        analysis_ready: output/ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding.csv.gz
+
+  stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding:
+    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+      TRUE TRUE
+    needs:
+    - ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
+    outputs:
+      moderately_sensitive:
+        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_median_fup.csv
+        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_cox_model.txt
 
   ## Table 2 - prevax 
 
@@ -16331,9 +16335,7 @@ actions:
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-dyspepsia
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
@@ -16834,738 +16836,6 @@ actions:
         model_output: output/model_output.csv
         model_output_rounded: output/model_output_midpoint6.csv
 
-  ## Stata models 
-
-  stata_cox_model_cohort_unvax-sub_sex_male-gallstones_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_sex_male-gallstones_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_sex_male-gallstones_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_sex_male-gallstones_disease_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_sex_male-gallstones_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-dyspepsia:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-dyspepsia
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-dyspepsia
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-dyspepsia_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-dyspepsia_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised_te_true-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-ibs:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-ibs
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-ibs
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-ibs_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-ibs_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_female-appendicitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-appendicitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_female-appendicitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_female-appendicitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_female-appendicitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_40_59-appendicitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_40_59-appendicitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_40_59-appendicitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_40_59-appendicitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_40_59-appendicitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-appendicitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-appendicitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-appendicitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-appendicitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-appendicitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_prioroperations_true-appendicitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-appendicitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-appendicitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-appendicitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-appendicitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_male-gallstones_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-gallstones_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_male-gallstones_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_male-gallstones_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_male-gallstones_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_60_79-gallstones_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-gallstones_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_60_79-gallstones_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_60_79-gallstones_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_60_79-gallstones_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_80_110-gallstones_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-gallstones_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_80_110-gallstones_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_80_110-gallstones_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_80_110-gallstones_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_mixed-gallstones_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-gallstones_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_mixed-gallstones_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_false-gallstones_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-gallstones_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-gallstones_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-gallstones_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-gallstones_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-nonalcoholic_steatohepatitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-nonalcoholic_steatohepatitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_male-acute_pancreatitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-acute_pancreatitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_male-acute_pancreatitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_male-acute_pancreatitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_male-acute_pancreatitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_60_79-acute_pancreatitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-acute_pancreatitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_60_79-acute_pancreatitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_60_79-acute_pancreatitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_60_79-acute_pancreatitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-acute_pancreatitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-acute_pancreatitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-acute_pancreatitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_prioroperations_true-acute_pancreatitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-acute_pancreatitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-acute_pancreatitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_60_79-gastro_oesophageal_reflux_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_black-gastro_oesophageal_reflux_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-gastro_oesophageal_reflux_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-gastro_oesophageal_reflux_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-gastro_oesophageal_reflux_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_60_79-dyspepsia:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-dyspepsia
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_60_79-dyspepsia
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_60_79-dyspepsia_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_60_79-dyspepsia_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_80_110-dyspepsia:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-dyspepsia
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_80_110-dyspepsia
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_80_110-dyspepsia_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_80_110-dyspepsia_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_male-peptic_ulcer:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-peptic_ulcer
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_male-peptic_ulcer
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_male-peptic_ulcer_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_male-peptic_ulcer_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_60_79-peptic_ulcer:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-peptic_ulcer
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_60_79-peptic_ulcer
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_60_79-peptic_ulcer_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_60_79-peptic_ulcer_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_80_110-peptic_ulcer:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-peptic_ulcer
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_80_110-peptic_ulcer
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_80_110-peptic_ulcer_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_80_110-peptic_ulcer_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_asian-peptic_ulcer:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_asian-peptic_ulcer
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-peptic_ulcer_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-peptic_ulcer:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-peptic_ulcer
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-peptic_ulcer_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_prioroperations_true-peptic_ulcer:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-peptic_ulcer
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-peptic_ulcer_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_female-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_female-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_female-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_female-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_80_110-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_80_110-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_80_110-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_mixed-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_other-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_false-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_prioroperations_true-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_female-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_female-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_female-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_female-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_80_110-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_80_110-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_80_110-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_black-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_black-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_mixed-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_other-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_false-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_prioroperations_true-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_male-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_male-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_male-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_sex_female-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_60_79-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_age_80_110-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_black-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_asian-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_ethnicity_other-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-gallstones_disease:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-gallstones_disease_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding_cox_model.txt
-
-  stata_cox_model_cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding:
-    run: stata-mp:latest analysis/stata/cox_model.do ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-      TRUE TRUE
-    needs:
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding
-    outputs:
-      moderately_sensitive:
-        medianfup: output/ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_median_fup.csv
-        stata_output: output/ready-cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding_cox_model.txt
-
   make_stata_model_output:
     run: r:latest analysis/stata/make_stata_model_output.R
     needs:
@@ -17628,9 +16898,11 @@ actions:
     - stata_cox_model_cohort_prevax-sub_priorhistory_true-nonvariceal_gi_bleeding
     - stata_cox_model_cohort_prevax-sub_priorhistory_false-nonvariceal_gi_bleeding
     - stata_cox_model_cohort_prevax-sub_prioroperations_true-nonvariceal_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-ibs
     - stata_cox_model_cohort_prevax-sub_covid_hospitalised-gallstones_disease
     - stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     - stata_cox_model_cohort_prevax-sub_covid_hospitalised-upper_gi_bleeding
+    - stata_cox_model_cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     outputs:
       moderately_sensitive:
         model_output: output/stata_model_output.csv
