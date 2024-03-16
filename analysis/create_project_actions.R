@@ -35,8 +35,7 @@ models_to_remove <- c(
   'cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding'
 )
  active_analyses_failed_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
-# active_analyses_models<- active_analyses
-active_analyses_models<- active_analyses %>%filter(!name%in% active_analyses_failed$name)
+ active_analyses_models<- active_analyses
 
 # Active analyses for gi bleeds -----------------------------------------------
 active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
