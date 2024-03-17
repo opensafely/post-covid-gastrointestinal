@@ -20,7 +20,7 @@ process_text_file <- function(file_path) {
     }
   }
   
-  write.csv(results, "lib/actions_20240305.csv", row.names = FALSE,quote=FALSE)
+  write.csv(results, "lib/actions_20240317.csv", row.names = FALSE,quote=FALSE)
 }
 
-process_text_file("lib/actions_raw_20240305.txt")
+process_text_file("lib/actions_raw_20240317.txt")
