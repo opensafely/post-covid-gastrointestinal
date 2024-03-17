@@ -5,9 +5,8 @@ library(data.table)
 library(tidyverse)
 library(ggplot2)
 
-results_dir <-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
 output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
-
+output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
 # #################
 #1- Get data
 #################
@@ -24,12 +23,12 @@ preprocess_data <- function(data, source) {
            outcome = str_to_title(outcome)) %>%
     select(cohort, outcome, analysis, term, hr, conf_high, conf_low, outcome_time_median)
 }
-stata_models <- read_csv(paste0(results_dir,"stata_model_output_midpoint6.csv")) %>%
+stata_models <- read_csv(paste0(output_dir,"stata_model_output_midpoint6.csv")) %>%
   filter(analysis %in% c("sub_covid_hospitalised", "sub_covid_nonhospitalised", "main")) %>%
   preprocess_data(source = "stata")
 
 # Read and preprocess data
-estimates <- read_csv(paste0(results_dir,"model_output_midpoint6.csv")) %>%
+estimates <- read_csv(paste0(output_dir,"model_output_midpoint6.csv")) %>%
   preprocess_data(source = "R")
 
 
