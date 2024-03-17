@@ -34,7 +34,7 @@ models_to_remove <- c(
   'cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding',
   'cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding'
 )
- active_analyses_failed_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
+ active_analyses_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
  active_analyses_models<- active_analyses
 
 # Active analyses for gi bleeds -----------------------------------------------
@@ -651,7 +651,7 @@ actions_list <- splice(
   action(
     name = "make_stata_model_output",
     run = "r:latest analysis/stata/make_stata_model_output.R",
-    needs = as.list(paste0("stata_cox_model_",active_analyses_failed_stata$name)),
+    needs = as.list(paste0("stata_cox_model_",active_analyses_stata$name)),
     moderately_sensitive = list(
       model_output = glue("output/stata_model_output.csv"),
       model_output_rounded = glue("output/stata_model_output_midpoint6.csv")
