@@ -17983,21 +17983,19 @@ actions:
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-dyspepsia
-    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-gallstones_disease
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-lower_gi_bleeding
+    - cox_ipw-cohort_prevax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-peptic_ulcer
     - cox_ipw-cohort_prevax-sub_covid_hospitalised-variceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-appendicitis
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-dyspepsia
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-gallstones_disease
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-gastro_oesophageal_reflux_disease
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-ibs
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-lower_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-nonalcoholic_steatohepatitis
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-nonvariceal_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-peptic_ulcer
-    - cox_ipw-cohort_unvax-sub_covid_hospitalised-upper_gi_bleeding
     - cox_ipw-cohort_unvax-sub_covid_hospitalised-variceal_gi_bleeding
     - cox_ipw-cohort_vax-sub_covid_hospitalised-acute_pancreatitis
     - cox_ipw-cohort_vax-sub_covid_hospitalised-appendicitis
