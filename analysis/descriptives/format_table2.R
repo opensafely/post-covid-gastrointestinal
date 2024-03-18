@@ -15,7 +15,7 @@ library(broman)
 
 #Directories
 # results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/"
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/tables/table2/"
+results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
 
 
 ###############################################
@@ -26,6 +26,7 @@ clean_table_2 <- function(df) {
   
   df <- df %>%
     mutate(outcome = str_remove(outcome, "out_date_")) %>% 
+    mutate(outcome = gsub("gi", "gastrointestinal", outcome, fixed = TRUE))%>%
     mutate(outcome = str_to_title(outcome)) %>%
     select(outcome, analysis, unexposed_person_days, unexposed_events_midpoint6, exposed_person_days, exposed_events_midpoint6, total_person_days, total_events_derived, day0_events_midpoint6, total_exposed_midpoint6, sample_size_midpoint6) %>%
     filter(analysis %in% c("sub_covid_hospitalised", "sub_covid_nonhospitalised"))
@@ -92,10 +93,26 @@ table2 <- bind_cols(list(table2_prevax_format, table2_vax_format, table2_unvax_f
 table2$period <- factor(table2$period, levels = c("No COVID-19",
                                                   "Hospitalised COVID-19",
                                                   "Non-hospitalised COVID-19"))
+table2$outcome<- gsub("gi","gastrointestinal", table2$outcome)
+table2$outcome<- stringr::str_trim(gsub("disease","", table2$outcome))
+table2$outcome<-factor(table2$outcome,levels =c("Nonvariceal gastrointestinal bleeding",
+                                                "Acute pancreatitis",
+                                                "Peptic ulcer",
+                                                "Appendicitis",
+                                                "Lower gastrointestinal bleeding",
+                                                "Upper gastrointestinal bleeding",
+                                                "Gastro oesophageal reflux",
+                                                "Gallstones", 
+                                                "Ibs",
+                                                "Dyspepsia",
+                                                "Nonalcoholic steatohepatitis",
+                                                "Variceal gastrointestinal bleeding"))
+
 table2 <- table2[order(table2$outcome, table2$period),]
 
 table2 <- table2 %>%
   rename_with(~ gsub("...", "", .x, fixed = T))
+
 
 #Format table for Word ---------------------------------------------------------
 table2_format <- table2 %>%
@@ -124,7 +141,7 @@ sect_properties <- prop_section(
 )
 
 #Save table 2
-save_as_docx(table2_format, path = paste0(results_dir, "table2_formatted.docx"), pr_section = sect_properties)
+save_as_docx(table2_format, path = paste0(results_dir, "table2_formatted_.docx"), pr_section = sect_properties)
 #write.csv(table2, paste0(output_dir,"table2.csv"),row.names = F)
 
 #Notes 

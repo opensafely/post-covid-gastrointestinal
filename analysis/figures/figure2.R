@@ -55,6 +55,7 @@ levels(estimates$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="p
 
 estimates$outcome_label<- str_replace_all(estimates$outcome,"_"," ")
 estimates$outcome_label<- str_replace(estimates$outcome_label,"disease","")%>%str_trim()
+estimates$outcome_label<- str_replace(estimates$outcome_label,"gi","gastrointestinal")
 # labels 
 
 ####################
@@ -63,7 +64,7 @@ estimates$outcome_label<- str_replace(estimates$outcome_label,"disease","")%>%st
 plot_estimates <- function(df) {
   pd <- position_dodge(width = 0.25)
   
-  outcomes_order <- c("Nonvariceal gi bleeding", "Lower gi bleeding", "Upper gi bleeding","Gastro oesophageal reflux",
+  outcomes_order <- c("Nonvariceal gastrointestinal bleeding", "Lower gastrointestinal bleeding", "Upper gastrointestinal bleeding","Gastro oesophageal reflux",
                       "Gallstones","Ibs","Acute pancreatitis","Peptic ulcer","Appendicitis","Nonalcoholic steatohepatitis") 
   df$outcome_label <- factor(df$outcome_label, levels = outcomes_order)
  
@@ -82,7 +83,7 @@ plot_estimates <- function(df) {
     facet_wrap(~outcome_label , ncol=2,scales="free_y") +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
-    scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 4)) +  # display labels at 4-week intervals
+    scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 8)) +  # display labels at 4-week intervals
     scale_y_continuous(lim = c(0.25,16), breaks = c(0.25,0.5,1,2,4,8,16), trans = "log")+ 
 
     theme(panel.grid.major.x = element_blank(),
