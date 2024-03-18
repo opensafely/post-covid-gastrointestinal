@@ -93,6 +93,21 @@ table2 <- bind_cols(list(table2_prevax_format, table2_vax_format, table2_unvax_f
 table2$period <- factor(table2$period, levels = c("No COVID-19",
                                                   "Hospitalised COVID-19",
                                                   "Non-hospitalised COVID-19"))
+table2$outcome<- gsub("gi","gastrointestinal", table2$outcome)
+table2$outcome<- stringr::str_trim(gsub("disease","", table2$outcome))
+table2$outcome<-factor(table2$outcome,levels =c("Nonvariceal gastrointestinal bleeding",
+                                                "Acute pancreatitis",
+                                                "Peptic ulcer",
+                                                "Appendicitis",
+                                                "Lower gastrointestinal bleeding",
+                                                "Upper gastrointestinal bleeding",
+                                                "Gastro oesophageal reflux",
+                                                "Gallstones", 
+                                                "Ibs",
+                                                "Dyspepsia",
+                                                "Nonalcoholic steatohepatitis",
+                                                "Variceal gastrointestinal bleeding"))
+
 table2 <- table2[order(table2$outcome, table2$period),]
 
 table2 <- table2 %>%
@@ -126,7 +141,7 @@ sect_properties <- prop_section(
 )
 
 #Save table 2
-save_as_docx(table2_format, path = paste0(results_dir, "table2_formatted.docx"), pr_section = sect_properties)
+save_as_docx(table2_format, path = paste0(results_dir, "table2_formatted_.docx"), pr_section = sect_properties)
 #write.csv(table2, paste0(output_dir,"table2.csv"),row.names = F)
 
 #Notes 
