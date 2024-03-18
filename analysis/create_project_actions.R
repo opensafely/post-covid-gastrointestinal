@@ -21,19 +21,19 @@ active_analyses <- active_analyses[order(active_analyses$analysis,active_analyse
 # active_analyses_failed <-data.frame()
  active_analyses_failed <-read_rds("lib/active_analyses_failed.rds")
 #  remove failed models in stata too from stata_model_output needs list
-models_to_remove <- c(
-  'cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding',
-  'cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding',
-  'cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding',
-  'cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding',
-  'cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding',
-  'cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding',
-  'cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding',
-  'cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding',
-  'cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding',
-  'cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding',
-  'cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding'
-)
+# models_to_remove <- c(
+#   'cohort_vax-sub_covid_hospitalised_ac_true-lower_gi_bleeding',
+#   'cohort_vax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding',
+#   'cohort_unvax-sub_covid_hospitalised_ac_true-upper_gi_bleeding',
+#   'cohort_unvax-sub_covid_hospitalised_ac_true-lower_gi_bleeding',
+#   'cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding',
+#   'cohort_unvax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding',
+#   'cohort_unvax-sub_covid_hospitalised_ac_true-nonvariceal_gi_bleeding',
+#   'cohort_unvax-sub_ethnicity_mixed-variceal_gi_bleeding',
+#   'cohort_unvax-sub_ethnicity_asian-variceal_gi_bleeding',
+#   'cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding',
+#   'cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding'
+# )
  active_analyses_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
  active_analyses_models<- active_analyses
 
@@ -256,14 +256,7 @@ apply_model_function_save_sample <- function(name, cohort, analysis, ipw, strata
                                              total_event_threshold, episode_event_threshold,
                                              covariate_threshold, age_spline){
   splice(
-    # action(
-    #   name = glue("make_model_input-{name}"),
-    #   run = glue("r:latest analysis/model/make_model_input.R {name}"),
-    #   needs = list(glue("stage1_data_cleaning_{cohort}")),
-    #   highly_sensitive = list(
-    #     model_input = glue("output/model_input-{name}.rds")
-    #   )
-    # ),
+    
     action(
       name = glue("ready-{name}"),
       run = glue("cox-ipw:v0.0.30 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --save_analysis_ready=TRUE --run_analysis=FALSE --df_output=model_output-{name}.csv"),
@@ -582,13 +575,7 @@ actions_list <- splice(
     )
   ),
   
-  # ## Run sensitivity tables: 
-  # splice(
-  #   unlist(lapply(c("throm","anticoag"), 
-  #                 function(x)create_sensitivity_table(analysis = x)), 
-  #          recursive = FALSE
-  #   )
-  # ),
+
   
   ## Table 2 -------------------------------------------------------------------
   
