@@ -18575,8 +18575,8 @@ actions:
     - make_model_output
     outputs:
       moderately_sensitive:
-        failed_models: output/not-for-review/failed_models_onserver.csv
-        unique_models: output/not-for-review/unique_failed_models.txt
+        failed_models: output/failed_models_onserver.csv
+        unique_models: output/unique_failed_models.txt
 
   ## ------------------GI Bleeds Actions-------------------- 
   ## Stage 1 GI bleeds 
