@@ -669,6 +669,18 @@ actions_list <- splice(
       model_output = glue("output/median_iqr_age.csv")
     )
   ),
+  comment("--Get models which didn't converge on L4--")
+  action(
+    name = "get_failed_models",
+    run = "r:latest analysis/stata/failed_models_onserver.R"
+    needs =  list(glue("output/model_output_midpoint6.csv")
+    ),
+    moderately_sensitive= list(
+      failed_models = "output/not-for-review/failed_models_onserver.csv"
+      unique_models = "output/not-for-review/"
+    )
+
+  ),
   
   comment("------------------GI Bleeds Actions--------------------"),
   comment("Stage 1 GI bleeds"), 

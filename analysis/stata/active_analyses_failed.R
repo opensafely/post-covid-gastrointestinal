@@ -10,7 +10,7 @@ all_models <- read.csv(model_output_file)
 # failed models are those with hr>100 for days1_28  or hr is na or conf_high is infinity
 
 failed_models <- all_models %>% 
-                            filter(as.numeric(hr)>100,term=="days1_28" | is.na(hr) | conf_high=="Inf") %>% 
+                            filter(as.numeric(hr)>100,term=="days1_28"| term=="days0_1", as.numeric(hr>1000) |grepl("^days[0-9]", term), is.na(hr) | conf_high=="Inf") %>% 
                             filter(grepl("days\\d+", term))
 
 failed_models_reduced <- failed_models %>% 
