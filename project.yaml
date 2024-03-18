@@ -18567,6 +18567,17 @@ actions:
       moderately_sensitive:
         model_output: output/median_iqr_age.csv
 
+  ## --Get models which didn''t converge on L4-- 
+
+  get_failed_models:
+    run: r:latest analysis/stata/failed_models_onserver.R
+    needs:
+    - make_model_output
+    outputs:
+      moderately_sensitive:
+        failed_models: output/not-for-review/failed_models_onserver.csv
+        unique_models: output/not-for-review/unique_failed_models.txt
+
   ## ------------------GI Bleeds Actions-------------------- 
   ## Stage 1 GI bleeds 
 
