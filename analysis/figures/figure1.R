@@ -90,7 +90,7 @@ labels <- c(
 
 
 # Function to plot 
-plot_estimates <- function(df, name) {
+plot_estimates <- function(df) {
   pd <- position_dodge(width = 0.5)
 
   p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort)) +
@@ -133,7 +133,7 @@ plot_estimates <- function(df, name) {
   # Add annotations
   
 
-  ggsave(paste0(output_dir, "Figure_1", ".png"),
+  ggsave(paste0( "output/post_release/Figure_1", ".png"),
          height = 350, width =350, unit = "mm", dpi = 800, scale = 1)
 
   return(p)
@@ -141,7 +141,7 @@ plot_estimates <- function(df, name) {
 
 
 
-plot_estimates(estimates_sub, "main_sub_covid_hosp_nonhosp")
+plot_estimates(df)
 
 
 
