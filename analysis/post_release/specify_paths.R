@@ -3,9 +3,16 @@
 
 # release <- "output/results/" # directory containing all results
 # release2 <- "" # directory containing extended table 1
+<<<<<<< Updated upstream
 release <- "" # Specify path to release directory  
 path_aer_input <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/aer_input-main-rounded.csv"
 path_model_output<-"/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/models/model_output.csv"
+=======
+release <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/" # Specify path to release directory  
+
+path_aer_input <- paste0(release,"OS output /aer_input-main-midpoint6.csv")
+path_model_output<-paste0(release,"model_output_midpoint6.csv") 
+>>>>>>> Stashed changes
 # path_consort <- paste0(release,"20230807/consort_output_rounded.csv")
 # path_median_iqr_age <- paste0(release,"20230807/median_iqr_age.csv")
 # path_model_output <- paste0(release,"20230818/model_output_rounded.csv")
