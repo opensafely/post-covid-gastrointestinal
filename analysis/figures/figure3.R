@@ -248,7 +248,7 @@ for (outcome_name in unique(df$outcome)) {
           panel.spacing.x = unit(0.5, "lines"),
           panel.spacing.y = unit(0, "lines"),
           legend.key = element_rect(colour = NA, fill = NA),
-          legend.title = element_blank(),
+          legend.title = element_blank(), 
           legend.position="bottom",
           legend.box ="horizontal",
           legend.spacing.x = unit(0.5, 'cm'),
