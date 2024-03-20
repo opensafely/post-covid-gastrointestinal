@@ -243,7 +243,7 @@ for (outcome_name in unique(df$outcome)) {
     ) +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     theme_minimal() +
-    theme(panel.grid.major.x = element_blank(),
+    theme(panel.grid.major.x = element_blank(), 
           panel.grid.minor = element_blank(),
           panel.spacing.x = unit(0.5, "lines"),
           panel.spacing.y = unit(0, "lines"),
