@@ -34,9 +34,8 @@ models_to_remove <- c(
   'cohort_unvax-sub_ethnicity_other-variceal_gi_bleeding',
   'cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding'
 )
- active_analyses_failed_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
-# active_analyses_models<- active_analyses
-active_analyses_models<- active_analyses %>%filter(!name%in% active_analyses_failed$name)
+ active_analyses_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
+ active_analyses_models<- active_analyses
 
 # Active analyses for gi bleeds -----------------------------------------------
 active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
@@ -51,7 +50,7 @@ active_analyses_gi_bleeds<-read_rds("lib/active_analyses_gi_bleeds.rds")
 
 
 # Determine which outputs are ready --------------------------------------------
-success_df <- read.csv("lib/actions_20240305.csv")
+success_df <- read.csv("lib/actions_20240317.csv")
 success_df <- success_df[success_df$success==TRUE,]
 
 
@@ -257,26 +256,26 @@ apply_model_function_save_sample <- function(name, cohort, analysis, ipw, strata
                                              total_event_threshold, episode_event_threshold,
                                              covariate_threshold, age_spline){
   splice(
+    
     action(
-      name = glue("make_model_input-{name}"),
-      run = glue("r:latest analysis/model/make_model_input.R {name}"),
-      needs = list(glue("stage1_data_cleaning_{cohort}")),
-      highly_sensitive = list(
-        model_input = glue("output/model_input-{name}.rds")
-      )
-    ),
-    action(
-      name = glue("cox_ipw-{name}"),
+      name = glue("ready-{name}"),
       run = glue("cox-ipw:v0.0.30 --df_input=model_input-{name}.rds --ipw={ipw} --exposure=exp_date --outcome=out_date --strata={strata} --covariate_sex={covariate_sex} --covariate_age={covariate_age} --covariate_other={covariate_other} --cox_start={cox_start} --cox_stop={cox_stop} --study_start={study_start} --study_stop={study_stop} --cut_points={cut_points} --controls_per_case={controls_per_case} --total_event_threshold={total_event_threshold} --episode_event_threshold={episode_event_threshold} --covariate_threshold={covariate_threshold} --age_spline={age_spline} --save_analysis_ready=TRUE --run_analysis=FALSE --df_output=model_output-{name}.csv"),
       needs = list(glue("make_model_input-{name}")),
-      moderately_sensitive = list(
-        model_output = glue("output/model_output-{name}.csv")
-      ),
       highly_sensitive = list(
-        analysis_ready = glue("output/ready-{name}.csv.gz")
-      )
+        analysis_ready = glue("output/ready-{name}.csv.gz"))
+      ),
+      action(
+    name = glue("stata_cox_model_{name}"),
+    run = glue("stata-mp:latest analysis/stata/cox_model.do ready-{name} TRUE TRUE"),
+    needs = list(glue("ready-{name}")),
+    moderately_sensitive = list(
+      medianfup = glue("output/ready-{name}_median_fup.csv"),
+      stata_output = glue("output/ready-{name}_cox_model.txt")
+    )
+  
     )
   )
+  
 }
 
 
@@ -308,19 +307,19 @@ apply_model_function_gi_bleeds <- function(name, cohort, analysis, ipw, strata,
   )
 }
 
-# Create function to run stata models-------------------------
-stata_actions <- function(name){
-  action(
-    name = glue("stata_cox_model_{name}"),
-    run = glue("stata-mp:latest analysis/stata/cox_model.do ready-{name} TRUE TRUE"),
-    needs = list(glue("cox_ipw-{name}")),
-    moderately_sensitive = list(
-      medianfup = glue("output/ready-{name}_median_fup.csv"),
-      stata_output = glue("output/ready-{name}_cox_model.txt")
-    )
-  )
+# # Create function to run stata models-------------------------
+# stata_actions <- function(name){
+#   action(
+#     name = glue("stata_cox_model_{name}"),
+#     run = glue("stata-mp:latest analysis/stata/cox_model.do ready-{name} TRUE TRUE"),
+#     needs = list(glue("ready-{name}")),
+#     moderately_sensitive = list(
+#       medianfup = glue("output/ready-{name}_median_fup.csv"),
+#       stata_output = glue("output/ready-{name}_cox_model.txt")
+#     )
+#   )
   
-}
+# }
 # Create function to make Table 1 ----------------------------------------------
 
 table1 <- function(cohort){
@@ -576,13 +575,7 @@ actions_list <- splice(
     )
   ),
   
-  # ## Run sensitivity tables: 
-  # splice(
-  #   unlist(lapply(c("throm","anticoag"), 
-  #                 function(x)create_sensitivity_table(analysis = x)), 
-  #          recursive = FALSE
-  #   )
-  # ),
+
   
   ## Table 2 -------------------------------------------------------------------
   
@@ -628,24 +621,24 @@ actions_list <- splice(
       model_output_rounded = glue("output/model_output_midpoint6.csv")
     )
   ), 
-  comment ("Stata models"), 
-  # STATA ANALYSES
+  # comment ("Stata models"), 
+  # # STATA ANALYSES
   
-  splice(
-    unlist(lapply(1:nrow(active_analyses_failed), 
-                  function(i) stata_actions(name = active_analyses_failed[i, "name"])),
-           #  subgroup = analyses_to_run_stata[i, "analysis"],
-           #  cohort = analyses_to_run_stata[i, "cohort"],
-           #  time_periods = analyses_to_run_stata[i, "cut_points"],
+  # splice(
+  #   unlist(lapply(1:nrow(active_analyses_failed), 
+  #                 function(i) stata_actions(name = active_analyses_failed[i, "name"])),
+  #          #  subgroup = analyses_to_run_stata[i, "analysis"],
+  #          #  cohort = analyses_to_run_stata[i, "cohort"],
+  #          #  time_periods = analyses_to_run_stata[i, "cut_points"],
            
-           recursive = FALSE)
+  #          recursive = FALSE)
     
     
-  ),
+  # ),
   action(
     name = "make_stata_model_output",
     run = "r:latest analysis/stata/make_stata_model_output.R",
-    needs = as.list(paste0("stata_cox_model_",active_analyses_failed_stata$name)),
+    needs = as.list(paste0("stata_cox_model_",active_analyses_stata$name)),
     moderately_sensitive = list(
       model_output = glue("output/stata_model_output.csv"),
       model_output_rounded = glue("output/stata_model_output_midpoint6.csv")
@@ -662,6 +655,17 @@ actions_list <- splice(
     moderately_sensitive = list(
       model_output = glue("output/median_iqr_age.csv")
     )
+  ),
+  comment("--Get models which didn't converge on L4--"),
+  action(
+    name = "get_failed_models",
+    run = "r:latest analysis/stata/failed_models_onserver.R",
+    needs =  list("make_model_output"),
+    moderately_sensitive= list(
+      failed_models = "output/failed_models_onserver.csv",
+      unique_models = "output/unique_failed_models.txt"
+    )
+
   ),
   
   comment("------------------GI Bleeds Actions--------------------"),
