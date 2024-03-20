@@ -34,6 +34,10 @@ tmp$rank <- 1
 
 tmp <- tmp[,colnames(df)]
 df <- rbind(df,tmp)
+df <- df %>%
+  dplyr::group_by(outcome,cohort,analysis) %>%
+  dplyr::top_n(1, rank) %>%
+  dplyr::ungroup()
 #Exceptionally merge 2 stata outputs together because we ran them on 2 batches 
  
 tmp2 <- readr::read_csv(paste0(output_dir,"OS output /stata_model_output_midpoint6.csv"),#second stata file 
