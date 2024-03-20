@@ -5,60 +5,28 @@ library(data.table)
 library(tidyverse)
 library(ggplot2)
 
-output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
-output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/models_30_11_2023/"
 # #################
 #1- Get data
 #################
+df <- readr::read_csv("output/plot_model_output.csv",
+                      show_col_types = FALSE) 
+df <- df[df$outcome %in% c("acute_pancreatitis","peptic_ulcer","nonvariceal_gi_bleeding","appendicitis"),
+         c("cohort","analysis","outcome","outcome_time_median","term","hr","conf_low","conf_high","model")]
 
+df <- df%>% filter(model == "mdl_max_adj",
+                   grepl("days\\d+", term),
+                   term != "days0_1")
 
-preprocess_data <- function(data, source) {
-  data %>%
-    filter(model == "mdl_max_adj",
-           grepl("days\\d+", term),
-           term != "days0_1",
-           !is.na(hr) & hr != "" & hr != "[redact]",
-           if(source == "R") conf_high != "Inf" else TRUE) %>%
-    mutate(outcome = str_remove(outcome, if(source == "stata") "_cox_model" else "out_date_"),
-           outcome = str_to_title(outcome)) %>%
-    select(cohort, outcome, analysis, term, hr, conf_high, conf_low, outcome_time_median)
-}
-stata_models <- read_csv(paste0(output_dir,"stata_model_output_midpoint6.csv")) %>%
-  filter(analysis %in% c("sub_covid_hospitalised", "sub_covid_nonhospitalised", "main")) %>%
-  preprocess_data(source = "stata")
-
-# Read and preprocess data
-estimates <- read_csv(paste0(output_dir,"model_output_midpoint6.csv")) %>%
-  preprocess_data(source = "R")
-
-
-# Merge stata output with estimates
-estimates_all <- estimates %>%
-  left_join(stata_models, by = c("cohort", "outcome", "analysis", "term")) %>%
-  mutate(
-    hr = if_else(!is.na(hr.y), hr.y, hr.x),
-    conf_low = if_else(!is.na(conf_low.y), conf_low.y, conf_low.x),
-    conf_high = if_else(!is.na(conf_high.y), conf_high.y, conf_high.x),
-    outcome_time_median = if_else(!is.na(outcome_time_median.y), outcome_time_median.y, outcome_time_median.x)
-    
-  )%>%
-  select(cohort, outcome, analysis, term, hr = hr, conf_low = conf_low, conf_high = conf_high,outcome_time_median)%>%
-rbind(filter(stata_models,outcome=="Nonvariceal_gi_bleeding",cohort=="prevax",analysis=="sub_covid_hospitalised"))
-
-  
-
-
-  # remove non converged models (to be filled with stata)
-  # filter(!outcome%in%c("Upper_gi_bleeding","Gallstones_disease","Nonalcoholic_steatohepatitis"))
-
+# Filter data for the desired analyses
+df <- df %>% filter(analysis %in% c("main", "sub_covid_hospitalised", "sub_covid_nonhospitalised")) 
 # Set numeric cols to numeric
 numeric_cols <- c( "hr", "conf_low", "conf_high", "outcome_time_median")
-estimates_all[numeric_cols] <- lapply(estimates_all[numeric_cols], as.numeric)
+df[numeric_cols] <- lapply(df[numeric_cols], as.numeric)
 
 ##################
 #2-Format
 #################
-estimates_all <- estimates_all %>% 
+df <- df %>% 
   mutate(colour_cohort = case_when(
     cohort == "prevax" ~ "#d2ac47",
     cohort == "vax" ~ "#58764c",
@@ -68,90 +36,61 @@ estimates_all <- estimates_all %>%
     factor(levels = c("#d2ac47", "#58764c", "#0018a8"))
   )
 
-
 # Factor variables for ordering
-estimates_all <- estimates_all %>%
+df <- df %>%
   mutate(cohort = factor(cohort, levels = c("prevax", "vax", "unvax")),
                  )
 
 # Rename adjustment groups
-levels(estimates_all$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
-
-# Filter data for the desired analyses
-estimates_sub <- estimates_all %>% filter(analysis %in% c("main", "sub_covid_hospitalised", "sub_covid_nonhospitalised"))
+levels(df$cohort) <- list("Pre-vaccination (Jan 1 2020 - Dec 14 2021)"="prevax", "Vaccinated (Jun 1 2021 - Dec 14 2021)"="vax","Unvaccinated (Jun 1 2021 - Dec 14 2021)"="unvax")
 
 # Change names for labelling purpose
-estimates_sub$analysis <- factor(estimates_sub$analysis,levels = c("main", "sub_covid_hospitalised","sub_covid_nonhospitalised"))
-levels(estimates_sub$analysis) <- list("All COVID-19"="main", "Hospitalised COVID-19"="sub_covid_hospitalised","Non-hospitalised COVID-19"="sub_covid_nonhospitalised")
-estimates_sub$grouping_name <- paste0(estimates_sub$analysis,"-", estimates_sub$outcome)
+df$analysis <- factor(df$analysis,levels = c("main", "sub_covid_hospitalised","sub_covid_nonhospitalised"))
+levels(df$analysis) <- list("All COVID-19"="main", "Hospitalised COVID-19"="sub_covid_hospitalised","Non-hospitalised COVID-19"="sub_covid_nonhospitalised")
+df$grouping_name <- paste0(df$analysis,"-", df$outcome)
 
 
-outcomes_order <- c("Nonvariceal_gi_bleeding", "Lower_gi_bleeding", "Variceal_gi_bleeding",
-                    "Gastro_oesophageal_reflux_disease", "Ibs", "Acute_pancreatitis",
-                    "Peptic_ulcer", "Appendicitis")
-outcomes <- unique(estimates_sub$outcome)
+outcomes_order <- c("nonvariceal_gi_bleeding", 
+                     "acute_pancreatitis",
+                    "peptic_ulcer", "appendicitis")
+outcomes <- unique(df$outcome)
 factor_levels <- c()
 prefixes <- c("All COVID-19-", "Hospitalised COVID-19-", "Non-hospitalised COVID-19-")
 for (i in 1:length(outcomes_order)) {
+  browser
   for (j in 1:length(prefixes)) {
     factor_levels <- c(factor_levels, paste0(prefixes[j], outcomes_order[i]))
   }
 }
 # Set factor levels 
-estimates_sub$grouping_name <- factor(estimates_sub$grouping_name, levels = factor_levels)
+df$grouping_name <- factor(df$grouping_name, levels = factor_levels)
 
 
-# Set labels 
+# Set facets labels 
 labels <- c(
-  `All COVID-19-Nonvariceal_gi_bleeding` = "All COVID-19
+  `All COVID-19-nonvariceal_gi_bleeding` = "All COVID-19
   ",
-  `Hospitalised COVID-19-Nonvariceal_gi_bleeding` = "Hospitalised COVID-19
+  `Hospitalised COVID-19-nonvariceal_gi_bleeding` = "Hospitalised COVID-19
   Nonvariceal gastrointestinal bleeding",
-  `Non-hospitalised COVID-19-Nonvariceal_gi_bleeding` = "Non-hospitalised COVID-19
+  `Non-hospitalised COVID-19-nonvariceal_gi_bleeding` = "Non-hospitalised COVID-19
   ",
-  `All COVID-19-Acute_pancreatitis` = "",
-  `Hospitalised COVID-19-Acute_pancreatitis` = "Acute pancreatitis",
-  `Non-hospitalised COVID-19-Acute_pancreatitis` = "",
+  `All COVID-19-acute_pancreatitis` = "",
+  `Hospitalised COVID-19-acute_pancreatitis` = "Acute pancreatitis",
+  `Non-hospitalised COVID-19-acute_pancreatitis` = "",
   
-  # `All COVID-19-Lower_gi_bleeding` = "",
-  # `Hospitalised COVID-19-Lower_gi_bleeding` = "Lower gi bleeding",
-  # `Non-hospitalised COVID-19-Lower_gi_bleeding` = "",
+  `All COVID-19-peptic_ulcer` = "",
+  `Hospitalised COVID-19-peptic_ulcer` = "Peptic ulcer",
+  `Non-hospitalised COVID-19-peptic_ulcer` = "",
   
-  # `All COVID-19-Upper_gi_bleeding` = "",
-  # `Hospitalised COVID-19-Upper_gi_bleeding` = "Upper gi bleeding",
-  # `Non-hospitalised COVID-19-Upper_gi_bleeding` = "",
-  # 
-  # `All COVID-19-Gastro_oesophageal_reflux_disease` = "",
-  # `Hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "Gastro oesophageal reflux",
-  # `Non-hospitalised COVID-19-Gastro_oesophageal_reflux_disease` = "",
-  
-  # `All COVID-19-Gallstones_disease` = "",
-  # `Hospitalised COVID-19-Gallstones_disease` = "Gallstones",
-  # `Non-hospitalised COVID-19-Gallstones_disease` = "",
-  
-  # `All COVID-19-Ibs` = "",
-  # `Hospitalised COVID-19-Ibs` = "Ibs",
-  # `Non-hospitalised COVID-19-Ibs` = "",
-  
-  `All COVID-19-Peptic_ulcer` = "",
-  `Hospitalised COVID-19-Peptic_ulcer` = "Peptic ulcer",
-  `Non-hospitalised COVID-19-Peptic_ulcer` = "",
-  
-  `All COVID-19-Appendicitis` = "",
-  `Hospitalised COVID-19-Appendicitis` = "Appendicitis",
-  `Non-hospitalised COVID-19-Appendicitis` = ""
-  
-  
-  
-  # `All COVID-19-Nonalcoholic_steatohepatitis` = "",
-  # `Hospitalised COVID-19-Nonalcoholic_steatohepatitis` = "Nonalcoholic steatohepatitis",
-  # `Non-hospitalised COVID-19-Nonalcoholic_steatohepatitis` = ""
+  `All COVID-19-appendicitis` = "",
+  `Hospitalised COVID-19-appendicitis` = "Appendicitis",
+  `Non-hospitalised COVID-19-appendicitis` = ""
   
 )
 
 
 # Function to plot 
-plot_estimates <- function(df, name) {
+plot_estimates <- function(df) {
   pd <- position_dodge(width = 0.5)
 
   p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort)) +
@@ -194,19 +133,16 @@ plot_estimates <- function(df, name) {
   # Add annotations
   
 
-  ggsave(paste0(output_dir, "Figure_1", ".png"),
+  ggsave(paste0( "output/post_release/Figure_1", ".png"),
          height = 350, width =350, unit = "mm", dpi = 800, scale = 1)
 
   return(p)
 }
 
 
-# Plotting for the three analyses
 
-estimates_sub<- estimates_sub %>%
-filter(outcome %in%c("Acute_pancreatitis","Peptic_ulcer","Nonvariceal_gi_bleeding","Appendicitis"))
+plot_estimates(df)
 
-plot_estimates(estimates_sub, "main_sub_covid_hosp_nonhosp")
 
 
 
