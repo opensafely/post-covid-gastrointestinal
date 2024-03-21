@@ -30,7 +30,7 @@ tmp <- tmp[!is.na(tmp$error),colnames(df)]
 tmp$term <- NULL
 
 tmp2 <- unique(df[,c("cohort","analysis","term")])
-tmp <- merge(tmp, tmp2, by = c("cohort","analysis"))
+tmp <- merge(tmp, tmp2, by = c("cohort","analysis"),all.x=T)
 
 tmp$hr <- "X"
 
@@ -110,6 +110,10 @@ df$analysis_label <- factor(df$analysis_label,
                                        "No prior history of gastrointestinal event",
                                        "Prior gastrointestinal operation",
                                        "No prior gastrointestinal operation",
+                                       "Anticoagulant prescription post discharge",
+                                       "No anticoagulant prescription post discharge",
+                                       "Thrombotic events after COVID19",
+                                       "No thrombotic events after COVID19",
                                        "History of COVID-19",
                                        "Age group: 18-39",
                                        "Age group: 40-59",
