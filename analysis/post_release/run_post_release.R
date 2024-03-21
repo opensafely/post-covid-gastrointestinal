@@ -36,16 +36,16 @@ source("analysis/post_release/lifetables_compiled.R")
 # Identify tables and figures to run -------------------------------------------
 print('Identify tables and figures to run')
 
-tables <- list.files(path = "analysis/post_release/", 
-                     pattern = "manuscript_table")
+tables <- list.files(path = "analysis/descriptives/", 
+                     pattern = "format_table")
 
-figures <- list.files(path = "analysis/post_release/", 
-                      pattern = "manuscript_figure")
+figures <- list.files(path = "analysis/figures/", 
+                      pattern = "figure\\d.R")
 
-# Run tables and figures -------------------------------------------------------
-print('Run tables and figures')
+# # Run tables and figures -------------------------------------------------------
+# print('Run tables and figures')
 
-for (i in c(tables, figures)) {
-  message(paste0("Making: ",gsub(".R","",i)))
-  source(paste0("analysis/post_release/",i))
-}
+# for (i in c(tables, figures)) {
+#   message(paste0("Making: ",gsub(".R","",i)))
+#   source(paste0("analysis/post_release/",i))
+# }

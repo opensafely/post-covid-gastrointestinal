@@ -139,9 +139,8 @@ plot_estimates <- function(df) {
   return(p)
 }
 
-
-
 plot_estimates(df)
+
 
 
 

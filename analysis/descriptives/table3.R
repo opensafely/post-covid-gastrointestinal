@@ -5,8 +5,7 @@ print("Load data")
 output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
 
 df <- readr::read_csv("output/plot_model_output.csv",
-                      show_col_types = FALSE)
-
+                      show_col_types = FALSE) 
 # Filter data ------------------------------------------------------------------
 print("Filter data")
 
@@ -15,6 +14,10 @@ df <- df[grepl("days\\d", df$term), ]
 
 df <- df[df$model=="mdl_max_adj",
          c("analysis","cohort","outcome","term","hr","conf_low","conf_high")]
+
+ 
+
+
 
 
 # Add less than 50 events ------------------------------------------------------
