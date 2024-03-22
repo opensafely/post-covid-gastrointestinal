@@ -1,4 +1,5 @@
 
+####Check the failed models on L4 server (just names) to rerun with stata ####
 library(dplyr)
 
 model_output<- read.csv("output/model_output_midpoint6.csv")

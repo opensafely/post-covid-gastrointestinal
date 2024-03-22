@@ -1,3 +1,4 @@
+#### Combine R and stata model output and filter the data to be used in plots####
 library(dplyr)
 # Load model output ------------------------------------------------------------
 print('Load model output')
