@@ -1,4 +1,4 @@
-# TODO tidy the format part 
+###Figure with covid severity ####ß
 
 library(readr)
 library(data.table)
