@@ -35,7 +35,7 @@ models_to_remove <- c(
   'cohort_prevax-sub_covid_hospitalised_ac_true-variceal_gi_bleeding'
 )
  active_analyses_stata<-active_analyses_failed[!active_analyses_failed$name %in% models_to_remove, ]
- active_analyses_models<- active_analyses
+
 
 # Active analyses for gi bleeds -----------------------------------------------
 active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
@@ -43,13 +43,7 @@ active_analyses_gi_bleeds <- read_rds("lib/active_analyses_gi_bleeds.rds")
 cohorts <- unique(active_analyses$cohort)
 
 
-
-#Define active analysis for GI bleeds
-active_analyses_gi_bleeds<-read_rds("lib/active_analyses_gi_bleeds.rds")
-
-
-
-# Determine which outputs are ready --------------------------------------------
+# Determine which outputs are successful and which fail --------------------------------------------
 success_df <- read.csv("lib/actions_20240317.csv")
 success_df <- success_df[success_df$success==TRUE,]
 
@@ -247,7 +241,7 @@ apply_model_function <- function(name, cohort, analysis, ipw, strata,
 }
 
 
-# Create function to make model and save sampled data input and run a model --------------------------
+# Save analyses ready for running stata and run stata --------------------------
 
 apply_model_function_save_sample <- function(name, cohort, analysis, ipw, strata, 
                                              covariate_sex, covariate_age, covariate_other, 
@@ -526,25 +520,25 @@ actions_list <- splice(
   comment("Run models"),
   
   splice(
-    unlist(lapply(1:nrow(active_analyses_models), 
-                  function(x) apply_model_function(name = active_analyses_models$name[x],
-                                                   cohort = active_analyses_models$cohort[x],
-                                                   analysis = active_analyses_models$analysis[x],
-                                                   ipw = active_analyses_models$ipw[x],
-                                                   strata = active_analyses_models$strata[x],
-                                                   covariate_sex = active_analyses_models$covariate_sex[x],
-                                                   covariate_age = active_analyses_models$covariate_age[x],
-                                                   covariate_other = active_analyses_models$covariate_other[x],
-                                                   cox_start = active_analyses_models$cox_start[x],
-                                                   cox_stop = active_analyses_models$cox_stop[x],
-                                                   study_start = active_analyses_models$study_start[x],
-                                                   study_stop = active_analyses_models$study_stop[x],
-                                                   cut_points = active_analyses_models$cut_points[x],
-                                                   controls_per_case = active_analyses_models$controls_per_case[x],
-                                                   total_event_threshold = active_analyses_models$total_event_threshold[x],
-                                                   episode_event_threshold = active_analyses_models$episode_event_threshold[x],
-                                                   covariate_threshold = active_analyses_models$covariate_threshold[x],
-                                                   age_spline = active_analyses_models$age_spline[x])), recursive = FALSE
+    unlist(lapply(1:nrow(active_analyses), 
+                  function(x) apply_model_function(name = active_analyses$name[x],
+                                                   cohort = active_analyses$cohort[x],
+                                                   analysis = active_analyses$analysis[x],
+                                                   ipw = active_analyses$ipw[x],
+                                                   strata = active_analyses$strata[x],
+                                                   covariate_sex = active_analyses$covariate_sex[x],
+                                                   covariate_age = active_analyses$covariate_age[x],
+                                                   covariate_other = active_analyses$covariate_other[x],
+                                                   cox_start = active_analyses$cox_start[x],
+                                                   cox_stop = active_analyses$cox_stop[x],
+                                                   study_start = active_analyses$study_start[x],
+                                                   study_stop = active_analyses$study_stop[x],
+                                                   cut_points = active_analyses$cut_points[x],
+                                                   controls_per_case = active_analyses$controls_per_case[x],
+                                                   total_event_threshold = active_analyses$total_event_threshold[x],
+                                                   episode_event_threshold = active_analyses$episode_event_threshold[x],
+                                                   covariate_threshold = active_analyses$covariate_threshold[x],
+                                                   age_spline = active_analyses$age_spline[x])), recursive = FALSE
     )
   ),
   
