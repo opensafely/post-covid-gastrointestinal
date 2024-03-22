@@ -87,7 +87,7 @@ for (outcome in unique_outcomes) {
                    legend.position="bottom",
                    plot.background = ggplot2::element_rect(fill = "white", colour = "white"),
                    plot.title = ggplot2::element_text(hjust = 0.5),
-                   text = ggplot2::element_text(size=13)) +
+                   text = ggplot2::element_text(size=13,face="bold")) +
     ggplot2::facet_wrap(outcome_label ~ cohort_label, scales = "free_x")
   
   # Save plot --------------------------------------------------------------------

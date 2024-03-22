@@ -67,7 +67,7 @@ df$analysis_label <- factor(df$analysis,
 ####################
 #3-Plotting function
 ####################
-plot_estimates <- function(df) {
+plot_estimates <- function(df,suffix) {
   pd <- position_dodge(width = 0.25)
    p <- ggplot(df, aes(x = outcome_time_median/7, y = hr, color = colour_cohort)) +
     geom_line(aes(linetype=analysis_label)) +
@@ -79,13 +79,11 @@ plot_estimates <- function(df) {
                        width = 0.25), 
                   position = pd) +
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
-    guides( color = guide_legend(nrow = 3)) +
-    guides(fill=ggplot2::guide_legend(ncol = 1, byrow = TRUE) ) +
-    facet_wrap(~outcome_label , ncol=2,scales="free_y") +
+    guides(fill=ggplot2::guide_legend(ncol = 4, byrow =TRUE),color= guide_legend(ncol=2) ) +
+    facet_wrap(~outcome_label , ncol=3,scales="free_y") +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
     scale_x_continuous(breaks = seq(0, max(df$outcome_time_median)/7, 8)) +  # display labels at 4-week intervals
-    scale_y_continuous(lim = c(0.25,132), breaks = c(0.25,0.5,1,2,4,8,16,32,64,132), trans = "log")+ 
 
     theme(panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(),
@@ -96,14 +94,25 @@ plot_estimates <- function(df) {
           legend.position = "bottom",
           plot.background = element_rect(fill = "white", colour = "white"),
           plot.margin = margin(1, 1, 1, 1, "cm"),
-          text = element_text(size = 12),
-          strip.text= element_text(size=12, face="bold")
+          text = element_text(size = 11),
+          strip.text= element_text(size=11, face="bold")
     )
-   ggsave(paste0("output/post_release/Figure_4_.png"), height = 297, width = 210, unit = "mm", dpi = 600, scale = 1)
+    if (suffix=="te"){
+    p<- p + scale_y_continuous(lim = c(0.25,32), breaks = c(0.25,0.5,1,2,4,8,16,32), trans = "log")
+
+    }else{
+    p <- p+ scale_y_continuous(lim = c(0.25,132), breaks = c(0.25,0.5,1,2,4,8,16,32,64,132), trans = "log")
+
+    }
+   ggsave(paste0("output/post_release/Figure_4_",suffix,".png"), height = 250, width = 380, unit = "mm", dpi = 600, scale = 0.8)
   
   return(p)
 }
 
 df_ac<- df%>%
 filter(stringr::str_detect(pattern="_ac_",analysis))
-plot_estimates(df_ac)
+plot_estimates(df_ac,"ac")
+df_te<- df%>%
+  filter(stringr::str_detect(pattern="_te_",analysis))
+plot_estimates(df_te,"te")
+

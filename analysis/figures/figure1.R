@@ -107,8 +107,8 @@ plot_estimates <- function(df) {
       position = pd
     ) +
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
-    guides(color = guide_legend(nrow = 3)) +
-    guides(fill = ggplot2::guide_legend(ncol = 1, byrow = TRUE)) +
+    #  guides( color = guide_legend(ncol= 2)) +
+    guides(fill=ggplot2::guide_legend(ncol = 2, byrow = FALSE),color= guide_legend(ncol=2) ) +
     # facet_wrap(outcome ~ analysis, ncol = 3, scales = "free_x", strip.position = "top") +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
@@ -134,7 +134,7 @@ plot_estimates <- function(df) {
   
 
   ggsave(paste0( "output/post_release/Figure_1", ".png"),
-         height = 350, width =350, unit = "mm", dpi = 800, scale = 1)
+         height = 250, width =280, unit = "mm", dpi = 600, scale = 0.8)
 
   return(p)
 }
