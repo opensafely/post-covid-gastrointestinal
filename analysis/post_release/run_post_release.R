@@ -1,3 +1,5 @@
+########This file is not used in the current version of code######
+#######Figures and tables are run one by one from descriptives/figures/ and analysis/post_release######
 # Load libraries ---------------------------------------------------------------
 print('Load libraries')
 

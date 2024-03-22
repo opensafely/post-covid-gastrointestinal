@@ -1,4 +1,4 @@
-# process actions and statuses (fail/success) copied from the job server and save to csv file
+#### process actions and statuses (fail/success) copied from the job server and save to csv file####
 process_text_file <- function(file_path) {
   lines <- readLines(file_path)
   results <- data.frame(model = character(), success = logical(), outcome = character(), analysis = character(), cohort = character(), stringsAsFactors = FALSE)
