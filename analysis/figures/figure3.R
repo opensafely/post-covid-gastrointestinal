@@ -255,11 +255,13 @@ for (outcome_name in unique(df$outcome)) {
           strip.text = element_text(face = "bold",size=12),
           plot.background = element_rect(fill = "white", colour = "white"),
           text=element_text(size=13)) +
-    guides(color = guide_legend(ncol = 6,byrow = TRUE))
+    guides(color = guide_legend(ncol = 5,byrow = FALSE))
   if (length(unique(df_out$cohort)) != 3) {
     p <- p + facet_wrap(grouping_labels ~ ., labeller = as_labeller(names_missing_col), ncol = length(unique(df_out$cohort)))
+    plot_width= 280
   } else {
     p <- p + facet_wrap(grouping_labels ~ ., labeller = as_labeller(names), ncol = length(unique(df_out$cohort)))
+    plot_width= 340
   }
   
   
@@ -272,7 +274,7 @@ for (outcome_name in unique(df$outcome)) {
   
   ggsave(
     paste0( "output/post_release/figure_3_",outcome_name, ".png"),
-    height = 297, width = 350, unit = "mm", dpi = 600, scale = 1
+    height = 250, width = plot_width, unit = "mm", dpi = 600, scale = 1
   )
 }
 
