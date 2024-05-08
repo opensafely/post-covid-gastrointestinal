@@ -3,6 +3,8 @@
 
 library(dplyr)
 
+source("analysis/specify_paths.R")
+
 active_analyses <- readRDS("lib/active_analyses.rds")
 all_models <- read.csv(path_model_output)
 
