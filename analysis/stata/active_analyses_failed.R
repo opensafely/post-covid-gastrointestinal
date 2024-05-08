@@ -3,13 +3,14 @@
 
 library(dplyr)
 
-model_output_file <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/model_output_midpoint6.csv"
+source("analysis/specify_paths.R")
+
 active_analyses <- readRDS("lib/active_analyses.rds")
-all_models <- read.csv(model_output_file)
+all_models <- read.csv(path_model_output)
 
 # failed models are those with hr>100 for days1_28  or hr is na or hr>1000 for day0 conf_high is infinity
 
-failed_models <- model_output %>% 
+failed_models <- all_models %>% 
   filter(
     (as.numeric(hr) > 100 & term == "days1_28") | 
       (term == "days0_1" & as.numeric(hr) > 1000) |
@@ -62,8 +63,7 @@ failed_models <- model_output %>%
 
  active_analyses_failed<- active_analyses %>% 
                             inner_join(failed_models_reduced,by=c("name","analysis"))
-active_analyses_failed <- active_analyses%>% 
-                        inner_join(failed_models,by=c("name"))
+ 
  active_analyses_failed <- active_analyses_failed[!duplicated(active_analyses_failed$name), ]
 
 # Add models which didn't run at all 
