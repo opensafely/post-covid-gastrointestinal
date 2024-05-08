@@ -3,9 +3,8 @@
 
 library(dplyr)
 
-model_output_file <- "C:/Users/rd16568/OneDrive - University of Bristol/grp-EHR/Projects/post-covid-gastrointestinal/OS outputs/death_fix20240305/Output/model_output_midpoint6.csv"
 active_analyses <- readRDS("lib/active_analyses.rds")
-all_models <- read.csv(model_output_file)
+all_models <- read.csv(path_model_output)
 
 # failed models are those with hr>100 for days1_28  or hr is na or hr>1000 for day0 conf_high is infinity
 
