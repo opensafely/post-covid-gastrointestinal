@@ -36,11 +36,11 @@ active_analyses <- readr::read_rds("lib/active_analyses.rds")
 table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
 
 if (focus=="anticaogulants") {
-  table2_names <- table2_names[grelp("-sub_covid_hospitalised_te",table2_names) | grepl("-sub_covid_nonhospitalised_te",table2_names)]
+  table2_names <- table2_names[grepl("-sub_covid_hospitalised_te",table2_names) | grepl("-sub_covid_nonhospitalised_te",table2_names)]
 }
 
 if (focus=="thrombotic") {
-  table2_names <- table2_names[grelp("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
+  table2_names <- table2_names[grepl("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
 }
 
 #active_analyses <- active_analyses[active_analyses$cohort==cohort & active_analyses$analysis %in% c("main","sub_covid_hospitalised","sub_covid_nonhospitalised"),]
