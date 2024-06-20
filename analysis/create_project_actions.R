@@ -333,26 +333,37 @@ table1 <- function(cohort){
 }
 # Create function to make Table 2 ----------------------------------------------
 
-
-table2 <- function(cohort){
+table2 <- function(cohort, focus){
   
   table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
-  table2_names <- table2_names[grepl("-main-|-sub_covid_nonhospitalised-|-sub_covid_hospitalised-",table2_names)]
+  
+  if (focus=="anticaogulants") {
+    table2_names <- table2_names[grepl("-sub_covid_hospitalised_te",table2_names) | grepl("-sub_covid_nonhospitalised_te",table2_names)]
+  }
+  
+  if (focus=="thrombotic") {
+    table2_names <- table2_names[grepl("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
+  }
+  
   
   splice(
-    comment(glue("Table 2 - {cohort}")),
+    comment(glue("Table 2 - {focus} - {cohort}")),
     action(
-      name = glue("table2_{cohort}"),
-      run = "r:latest analysis/descriptives/table2.R",
-      arguments = c(cohort),
+      name = glue("table2_{focus}_{cohort}"),
+      run = "r:latest analysis/table2.R",
+      arguments = c(cohort, focus),
       needs = c(as.list(paste0("make_model_input-",table2_names))),
       moderately_sensitive = list(
-        table2 = glue("output/table2_{cohort}.csv"),
-        table2_rounded = glue("output/table2_{cohort}_midpoint6.csv")
+        table2 = glue("output/table2_{focus}_{cohort}.csv"),
+        table2_midpoint6 = glue("output/table2_{focus}_{cohort}_midpoint6.csv")
       )
     )
   )
 }
+
+
+
+
 # Create function to make Table 2 gi bleeds----------------------------------------------
 
 table2_gi_bleeds <- function(cohort){
@@ -575,10 +586,20 @@ actions_list <- splice(
   
   splice(
     unlist(lapply(unique(active_analyses$cohort), 
-                  function(x) table2(cohort = x)), 
+                  function(x) table2(cohort = x, focus = "anticaogulants")), 
            recursive = FALSE
     )
   ),
+  
+  splice(
+    unlist(lapply(unique(active_analyses$cohort), 
+                  function(x) table2(cohort = x, focus = "thrombotic")), 
+           recursive = FALSE
+    )
+  ),
+  
+  
+  
   
   ## Make AER input--------------------------------------------------------------
   comment("Make absolute excess risk (AER) input"),
