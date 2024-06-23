@@ -362,8 +362,6 @@ table2 <- function(cohort, focus){
 }
 
 
-
-
 # Create function to make Table 2 gi bleeds----------------------------------------------
 
 table2_gi_bleeds <- function(cohort){
@@ -598,9 +596,7 @@ actions_list <- splice(
     )
   ),
   
-  
-  
-  
+    
   ## Make AER input--------------------------------------------------------------
   comment("Make absolute excess risk (AER) input"),
   
