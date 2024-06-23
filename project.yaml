@@ -16921,7 +16921,7 @@ actions:
   ## Table 2 - anticaogulants - prevax 
 
   table2_anticaogulants_prevax:
-    run: r:latest analysis/table2.R prevax anticaogulants
+    run: r:latest analysis/descriptives/table2.R prevax anticaogulants
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised_te_false-lower_gi_bleeding
     - make_model_input-cohort_prevax-sub_covid_hospitalised_te_false-nonvariceal_gi_bleeding
@@ -16939,7 +16939,7 @@ actions:
   ## Table 2 - anticaogulants - unvax 
 
   table2_anticaogulants_unvax:
-    run: r:latest analysis/table2.R unvax anticaogulants
+    run: r:latest analysis/descriptives/table2.R unvax anticaogulants
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_te_false-lower_gi_bleeding
     - make_model_input-cohort_unvax-sub_covid_hospitalised_te_false-nonvariceal_gi_bleeding
@@ -16957,7 +16957,7 @@ actions:
   ## Table 2 - anticaogulants - vax 
 
   table2_anticaogulants_vax:
-    run: r:latest analysis/table2.R vax anticaogulants
+    run: r:latest analysis/descriptives/table2.R vax anticaogulants
     needs:
     - make_model_input-cohort_vax-sub_covid_hospitalised_te_false-lower_gi_bleeding
     - make_model_input-cohort_vax-sub_covid_hospitalised_te_false-nonvariceal_gi_bleeding
@@ -16975,7 +16975,7 @@ actions:
   ## Table 2 - thrombotic - prevax 
 
   table2_thrombotic_prevax:
-    run: r:latest analysis/table2.R prevax thrombotic
+    run: r:latest analysis/descriptives/table2.R prevax thrombotic
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised_ac_false-lower_gi_bleeding
     - make_model_input-cohort_prevax-sub_covid_hospitalised_ac_false-nonvariceal_gi_bleeding
@@ -16993,7 +16993,7 @@ actions:
   ## Table 2 - thrombotic - unvax 
 
   table2_thrombotic_unvax:
-    run: r:latest analysis/table2.R unvax thrombotic
+    run: r:latest analysis/descriptives/table2.R unvax thrombotic
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_ac_false-lower_gi_bleeding
     - make_model_input-cohort_unvax-sub_covid_hospitalised_ac_false-nonvariceal_gi_bleeding
@@ -17011,7 +17011,7 @@ actions:
   ## Table 2 - thrombotic - vax 
 
   table2_thrombotic_vax:
-    run: r:latest analysis/table2.R vax thrombotic
+    run: r:latest analysis/descriptives/table2.R vax thrombotic
     needs:
     - make_model_input-cohort_vax-sub_covid_hospitalised_ac_false-lower_gi_bleeding
     - make_model_input-cohort_vax-sub_covid_hospitalised_ac_false-nonvariceal_gi_bleeding

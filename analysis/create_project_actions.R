@@ -350,7 +350,7 @@ table2 <- function(cohort, focus){
     comment(glue("Table 2 - {focus} - {cohort}")),
     action(
       name = glue("table2_{focus}_{cohort}"),
-      run = "r:latest analysis/table2.R",
+      run = "r:latest analysis/descriptives/table2.R",
       arguments = c(cohort, focus),
       needs = c(as.list(paste0("make_model_input-",table2_names))),
       moderately_sensitive = list(
