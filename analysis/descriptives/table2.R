@@ -133,29 +133,32 @@ print('Save Table 2')
 
 write.csv(table2, paste0("output/table2_",focus,"_",cohort,".csv"), row.names = FALSE)
 
+
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
 
-rounded_cols <- setdiff(colnames(table2), c("name", "cohort", "exposure", "outcome", "analysis", "unexposed_person_days", "exposed_person_days", "total_person_days", "total_events"))
+table2$sample_size_midpoint6 <- roundmid_any(as.numeric(table2$sample_size), threshold)
+table2$day0_events_midpoint6 <- roundmid_any(as.numeric(table2$day0_events), threshold)
+table2$total_exposed_midpoint6 <- roundmid_any(as.numeric(table2$total_exposed), threshold)
+table2$unexposed_events_midpoint6 <- roundmid_any(as.numeric(table2$unexposed_events), threshold)
+table2$exposed_events_midpoint6 <- roundmid_any(as.numeric(table2$exposed_events), threshold)
+table2$total_events_midpoint6_derived <- table2$unexposed_events_midpoint6 + table2$exposed_events_midpoint6
 
-# Renaming the columns by adding '_midpoint6'-----------------------------------
-table2[rounded_cols] <- lapply(
-  table2[rounded_cols],
-  FUN = function(y) { roundmid_any(as.numeric(y), to = threshold) }
-)
+table2 <- table2[,c("name",
+                    "cohort",
+                    "exposure",
+                    "outcome",
+                    "analysis",
+                    "unexposed_person_days",
+                    "unexposed_events_midpoint6",
+                    "exposed_person_days",
+                    "exposed_events_midpoint6",
+                    "total_person_days",
+                    "total_events_midpoint6_derived",
+                    "day0_events_midpoint6",
+                    "total_exposed_midpoint6",
+                    "sample_size_midpoint6")]
 
-new_names<-paste0(rounded_cols, "_midpoint6")
-names(table2)[match(rounded_cols, names(table2))] <- new_names
-
-# Recalculate total columns --------------------------------------------------
-  print('Recalculate total columns')
-  
-  table2$total_events_derived <- table2$exposed_events_midpoint6 + table2$unexposed_events_midpoint6
-
-# Remove total_events
-print('Remove total events')
-table2 <- table2 %>% 
-           select(-c("total_events"))
 # Save Table 2 -----------------------------------------------------------------
 print('Save rounded Table 2')
 
