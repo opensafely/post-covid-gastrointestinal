@@ -129,10 +129,10 @@ generate_convert_rds_csv  <- function(cohort) {
     )
   )
 }
-# Create a function to generate data for anti-coagulants and thrombotic events
+# Create a function to generate data for anticoagulants and thrombotic events
 generate_ac_te_data <- function(cohort){
   splice(
-    comment(glue("Generate anti coagulants and thrombotic data - {cohort}")),
+    comment(glue("Generate anticoagulants and thrombotic data - {cohort}")),
     action(
       name = glue("generate_ac_te_data_{cohort}"),
       run = glue("cohortextractor:latest generate_cohort --study-definition study_definition_{cohort}_sensitivity --output-format csv.gz"),
@@ -337,14 +337,34 @@ table2 <- function(cohort, focus){
   
   table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
   
-  if (focus=="anticaogulants") {
-    table2_names <- table2_names[grepl("-sub_covid_hospitalised_te",table2_names) | grepl("-sub_covid_nonhospitalised_te",table2_names)]
-  }
+  splice(
+    comment(glue("Table 2 - {cohort}")),
+    action(
+      name = glue("table2_{cohort}"),
+      run = "r:latest analysis/descriptives/table2.R",
+      arguments = c(cohort),
+      needs = c(as.list(paste0("make_model_input-",table2_names))),
+      moderately_sensitive = list(
+        table2 = glue("output/table2_{cohort}.csv"),
+        table2_rounded = glue("output/table2_{cohort}_midpoint6.csv")
+      )
+   )
+  )
+}
+
+# Create function to make Table 2 additional analysis----------------------------------------------
+
+table2 <- function(cohort, focus){
   
-  if (focus=="thrombotic") {
-    table2_names <- table2_names[grepl("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
-  }
-  
+table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
+
+if (focus=="anticoagulants") {
+  table2_names <- table2_names[grepl("-sub_covid_hospitalised_te",table2_names) | grepl("-sub_covid_nonhospitalised_te",table2_names)]
+}
+
+if (focus=="thrombotic") {
+  table2_names <- table2_names[grepl("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
+}
   
   splice(
     comment(glue("Table 2 - {focus} - {cohort}")),
@@ -584,7 +604,7 @@ actions_list <- splice(
   
   splice(
     unlist(lapply(unique(active_analyses$cohort), 
-                  function(x) table2(cohort = x, focus = "anticaogulants")), 
+                  function(x) table2(cohort = x, focus = "anticoagulants")), 
            recursive = FALSE
     )
   ),

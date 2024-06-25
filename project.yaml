@@ -248,7 +248,7 @@ actions:
       highly_sensitive:
         hosp_data: output/input_vax_stage1_sens.csv.gz
 
-  ## Generate anti coagulants and thrombotic data - prevax 
+  ## Generate anticoagulants and thrombotic data - prevax 
 
   generate_ac_te_data_prevax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_prevax_sensitivity
@@ -259,7 +259,7 @@ actions:
       highly_sensitive:
         cohort: output/input_prevax_sensitivity.csv.gz
 
-  ## Generate anti coagulants and thrombotic data - unvax 
+  ## Generate anticoagulants and thrombotic data - unvax 
 
   generate_ac_te_data_unvax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_unvax_sensitivity
@@ -270,7 +270,7 @@ actions:
       highly_sensitive:
         cohort: output/input_unvax_sensitivity.csv.gz
 
-  ## Generate anti coagulants and thrombotic data - vax 
+  ## Generate anticoagulants and thrombotic data - vax 
 
   generate_ac_te_data_vax:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_vax_sensitivity
@@ -16918,10 +16918,10 @@ actions:
         medianfup: output/ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_median_fup.csv
         stata_output: output/ready-cohort_prevax-sub_covid_hospitalised-nonvariceal_gi_bleeding_cox_model.txt
 
-  ## Table 2 - anticaogulants - prevax 
+  ## Table 2 - anticoagulants - prevax 
 
-  table2_anticaogulants_prevax:
-    run: r:latest analysis/descriptives/table2.R prevax anticaogulants
+  table2_anticoagulants_prevax:
+    run: r:latest analysis/descriptives/table2.R prevax anticoagulants
     needs:
     - make_model_input-cohort_prevax-sub_covid_hospitalised_te_false-lower_gi_bleeding
     - make_model_input-cohort_prevax-sub_covid_hospitalised_te_false-nonvariceal_gi_bleeding
@@ -16933,13 +16933,13 @@ actions:
     - make_model_input-cohort_prevax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
-        table2: output/table2_anticaogulants_prevax.csv
-        table2_midpoint6: output/table2_anticaogulants_prevax_midpoint6.csv
+        table2: output/table2_anticoagulants_prevax.csv
+        table2_midpoint6: output/table2_anticoagulants_prevax_midpoint6.csv
 
-  ## Table 2 - anticaogulants - unvax 
+  ## Table 2 - anticoagulants - unvax 
 
-  table2_anticaogulants_unvax:
-    run: r:latest analysis/descriptives/table2.R unvax anticaogulants
+  table2_anticoagulants_unvax:
+    run: r:latest analysis/descriptives/table2.R unvax anticoagulants
     needs:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_te_false-lower_gi_bleeding
     - make_model_input-cohort_unvax-sub_covid_hospitalised_te_false-nonvariceal_gi_bleeding
@@ -16951,13 +16951,13 @@ actions:
     - make_model_input-cohort_unvax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
-        table2: output/table2_anticaogulants_unvax.csv
-        table2_midpoint6: output/table2_anticaogulants_unvax_midpoint6.csv
+        table2: output/table2_anticoagulants_unvax.csv
+        table2_midpoint6: output/table2_anticoagulants_unvax_midpoint6.csv
 
-  ## Table 2 - anticaogulants - vax 
+  ## Table 2 - anticoagulants - vax 
 
-  table2_anticaogulants_vax:
-    run: r:latest analysis/descriptives/table2.R vax anticaogulants
+  table2_anticoagulants_vax:
+    run: r:latest analysis/descriptives/table2.R vax anticoagulants
     needs:
     - make_model_input-cohort_vax-sub_covid_hospitalised_te_false-lower_gi_bleeding
     - make_model_input-cohort_vax-sub_covid_hospitalised_te_false-nonvariceal_gi_bleeding
@@ -16969,8 +16969,8 @@ actions:
     - make_model_input-cohort_vax-sub_covid_hospitalised_te_true-variceal_gi_bleeding
     outputs:
       moderately_sensitive:
-        table2: output/table2_anticaogulants_vax.csv
-        table2_midpoint6: output/table2_anticaogulants_vax_midpoint6.csv
+        table2: output/table2_anticoagulants_vax.csv
+        table2_midpoint6: output/table2_anticoagulants_vax_midpoint6.csv
 
   ## Table 2 - thrombotic - prevax 
 

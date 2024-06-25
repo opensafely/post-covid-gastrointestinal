@@ -35,8 +35,8 @@ active_analyses <- readr::read_rds("lib/active_analyses.rds")
 
 table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
 
-if (focus=="anticaogulants") {
-  table2_names <- table2_names[grepl("-sub_covid_hospitalised_te",table2_names) | grepl("-sub_covid_nonhospitalised_te",table2_names)]
+if (focus=="anticoagulants") {
+  table2_names <- table2_names[grelp("-sub_covid_hospitalised_te",table2_names) | grepl("-sub_covid_nonhospitalised_te",table2_names)]
 }
 
 if (focus=="thrombotic") {
@@ -133,7 +133,6 @@ print('Save Table 2')
 
 write.csv(table2, paste0("output/table2_",focus,"_",cohort,".csv"), row.names = FALSE)
 
-
 # Perform redaction ------------------------------------------------------------
 print('Perform redaction')
 
@@ -162,4 +161,4 @@ table2 <- table2[,c("name",
 # Save Table 2 -----------------------------------------------------------------
 print('Save rounded Table 2')
 
-write.csv(table2, paste0("output/table2_",focus,"",cohort,"_midpoint6.csv"), row.names = FALSE)
+write.csv(table2, paste0("output/table2_",focus,"_",cohort,"_midpoint6.csv"), row.names = FALSE)
