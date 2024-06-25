@@ -40,7 +40,7 @@ if (focus=="anticoagulants") {
 }
 
 if (focus=="thrombotic") {
-  table2_names <- table2_names[grelp("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
+  table2_names <- table2_names[grepl("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
 }
 
 #active_analyses <- active_analyses[active_analyses$cohort==cohort & active_analyses$analysis %in% c("main","sub_covid_hospitalised","sub_covid_nonhospitalised"),]

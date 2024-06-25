@@ -333,11 +333,9 @@ table1 <- function(cohort){
 }
 # Create function to make Table 2 ----------------------------------------------
 
-
-table2 <- function(cohort){
+table2 <- function(cohort, focus){
   
   table2_names <- gsub("out_date_","",unique(active_analyses[active_analyses$cohort=={cohort},]$name))
-  table2_names <- table2_names[grepl("-main-|-sub_covid_nonhospitalised-|-sub_covid_hospitalised-",table2_names)]
   
   splice(
     comment(glue("Table 2 - {cohort}")),
@@ -367,7 +365,6 @@ if (focus=="anticoagulants") {
 if (focus=="thrombotic") {
   table2_names <- table2_names[grepl("-sub_covid_hospitalised_ac",table2_names) | grepl("-sub_covid_nonhospitalised_ac",table2_names)]
 }
-
   
   splice(
     comment(glue("Table 2 - {focus} - {cohort}")),
@@ -618,8 +615,8 @@ actions_list <- splice(
            recursive = FALSE
     )
   ),
-
   
+    
   ## Make AER input--------------------------------------------------------------
   comment("Make absolute excess risk (AER) input"),
   
