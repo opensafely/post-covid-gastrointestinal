@@ -1,13 +1,22 @@
+#### Combine R and stata model output and filter the data to be used in plots####
 library(dplyr)
+
+# Specify paths ----------------------------------------------------------------
+print('Specify paths')
+
+# NOTE: 
+# This file is used to specify paths and is in the .gitignore to keep your information secret.
+# A file called specify_paths_example.R is provided for you to fill in.
+# Please remove "_example" from the file name and add your specific file paths before running this script.
+
+source("analysis/post_release/specify_paths.R")
+
 # Load model output ------------------------------------------------------------
 print('Load model output')
 
-output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
-path_model_output<-paste0(output_dir,"model_output_midpoint6.csv")
-
 actvie_analyses<- readRDS("lib/active_analyses.rds")
 
-df <- readr::read_csv(path_model_output,
+df <- readr::read_csv(path_model_r_output,
                       show_col_types = FALSE)
 df$source <- "R"
 
@@ -21,7 +30,7 @@ df <- df[grepl("day",df$term),
 # Load stata model output ------------------------------------------------------
 print('Load stata model output')
 
-tmp <- readr::read_csv(paste0(output_dir,"stata_model_output_midpoint6.csv"),
+tmp <- readr::read_csv(path_model_stata_output_1,
                        show_col_types = FALSE)
 tmp$outcome<- gsub("_cox_model","",tmp$outcome)
 tmp$name<- gsub("_cox_model","",tmp$name)
@@ -41,7 +50,7 @@ df <- df %>%
   
 #Exceptionally merge 2 stata outputs together because we ran them on 2 batches 
  
-tmp2 <- readr::read_csv(paste0(output_dir,"OS output /stata_model_output_midpoint6.csv"),#second stata file 
+tmp2 <- readr::read_csv(path_model_stata_output_2,
                          show_col_types = FALSE) 
 tmp2$outcome<- gsub("_cox_model","",tmp2$outcome)
 tmp2$name<- gsub("_cox_model","",tmp2$name)
@@ -66,5 +75,5 @@ df$rank <- NULL
 print('Save plot data')
 
 df <- df[!grepl("detailed",df$analysis),]
-readr::write_csv(df, "output/plot_model_output.csv")
+readr::write_csv(df, "plot_model_output.csv")
 

@@ -13,10 +13,15 @@ library(officer)
 library(scales)
 library(broman)
 
-#Directories
-# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/"
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
+# Specify paths ----------------------------------------------------------------
+print('Specify paths')
 
+# NOTE: 
+# This file is used to specify paths and is in the .gitignore to keep your information secret.
+# A file called specify_paths_example.R is provided for you to fill in.
+# Please remove "_example" from the file name and add your specific file paths before running this script.
+
+source("analysis/post_release/specify_paths.R")
 
 ###############################################
 # 1. CLEAN TABLE 2 FUNCTION
@@ -70,23 +75,107 @@ clean_table_2 <- function(df) {
 }
 
 #Load files
-table2_prevax <- read.csv(paste0(results_dir,"table2_prevax_midpoint6.csv")) 
-table2_unvax <- read.csv(paste0(results_dir,"table2_unvax_midpoint6.csv")) 
-table2_vax <- read.csv(paste0(results_dir,"table2_vax_midpoint6.csv")) 
+
+table2_prevax <- readr::read_csv(path_table2_prevax,
+                      show_col_types = FALSE) 
+table2_vax <- readr::read_csv(path_table2_vax,
+                      show_col_types = FALSE) 
+table2_unvax <- readr::read_csv(path_table2_unvax,
+                      show_col_types = FALSE) 
+
+table2_anticoag_prevax <- readr::read_csv(path_table2_anticoag_prevax,
+                      show_col_types = FALSE)   
+table2_anticoag_vax <- readr::read_csv(path_table2_anticoag_unvax,
+                      show_col_types = FALSE)  
+table2_anticoag_unvax <- readr::read_csv(path_table2_anticoag_vax,
+                      show_col_types = FALSE)  
+
+table2_thromb_prevax <- readr::read_csv(path_table2_thromb_prevax,
+                      show_col_types = FALSE)   
+table2_thromb_vax <- readr::read_csv(path_table2_thromb_unvax,
+                      show_col_types = FALSE)  
+table2_thromb_unvax <- readr::read_csv(path_table2_thromb_vax,
+                      show_col_types = FALSE)  
+
+#reformatting additional analysis table 2 --------------------------------------------------
+# column names
+colnames(table2_anticoag_prevax)[colnames(table2_anticoag_prevax) == 'total_events_midpoint6_derived'] <- 'total_events_derived'
+colnames(table2_anticoag_vax)[colnames(table2_anticoag_vax) == 'total_events_midpoint6_derived'] <- 'total_events_derived'
+colnames(table2_anticoag_unvax)[colnames(table2_anticoag_unvax) == 'total_events_midpoint6_derived'] <- 'total_events_derived'
+
+colnames(table2_thromb_prevax)[colnames(table2_thromb_prevax) == 'total_events_midpoint6_derived'] <- 'total_events_derived'
+colnames(table2_thromb_vax)[colnames(table2_thromb_vax) == 'total_events_midpoint6_derived'] <- 'total_events_derived'
+colnames(table2_thromb_unvax)[colnames(table2_thromb_unvax) == 'total_events_midpoint6_derived'] <- 'total_events_derived'
+
+# re-specifying outcome variable
+table2_anticoag_prevax$stratify <- ifelse(grepl("true", table2_anticoag_prevax$analysis), "_with_anticoagulants", "_without_anticoagulants")
+table2_anticoag_prevax$outcome <- paste(table2_anticoag_prevax$outcome, table2_anticoag_prevax$stratify)
+table2_anticoag_vax$stratify <- ifelse(grepl("true", table2_anticoag_vax$analysis), "_with_anticoagulants", "_without_anticoagulants")
+table2_anticoag_vax$outcome <- paste(table2_anticoag_vax$outcome, table2_anticoag_vax$stratify)
+table2_anticoag_unvax$stratify <- ifelse(grepl("true", table2_anticoag_unvax$analysis), "_with_anticoagulants", "_without_anticoagulants")
+table2_anticoag_unvax$outcome <- paste(table2_anticoag_unvax$outcome, table2_anticoag_prevax$stratify)
+
+table2_thromb_prevax$stratify <- ifelse(grepl("true", table2_thromb_prevax$analysis), "_with_thrombotic_event", "_without_thrombotic_event")
+table2_thromb_prevax$outcome <- paste(table2_thromb_prevax$outcome, table2_thromb_prevax$stratify)
+table2_thromb_vax$stratify <- ifelse(grepl("true", table2_thromb_vax$analysis), "_with_thrombotic_event", "_without_thrombotic_event")
+table2_thromb_vax$outcome <- paste(table2_thromb_vax$outcome, table2_thromb_vax$stratify)
+table2_thromb_unvax$stratify <- ifelse(grepl("true", table2_thromb_unvax$analysis), "_with_thrombotic_event", "_without_thrombotic_event")
+table2_thromb_unvax$outcome <- paste(table2_thromb_unvax$outcome, table2_thromb_prevax$stratify)
+
+# renaming analysis
+table2_anticoag_prevax['analysis'][table2_anticoag_prevax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
+table2_anticoag_vax['analysis'][table2_anticoag_vax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
+table2_anticoag_unvax['analysis'][table2_anticoag_unvax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
+
+table2_thromb_prevax['analysis'][table2_thromb_prevax['analysis'] == c('sub_covid_hospitalised_ac_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
+table2_thromb_vax['analysis'][table2_thromb_vax['analysis'] == c('sub_covid_hospitalised_ac_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
+table2_thromb_unvax['analysis'][table2_thromb_unvax['analysis'] == c('sub_covid_hospitalised_sc_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
 
 #Apply clean table 2 function --------------------------------------------------
 table2_prevax_format <- clean_table_2(table2_prevax)
 table2_vax_format <- clean_table_2(table2_vax)
 table2_unvax_format <- clean_table_2(table2_unvax)
 
-#Remove columns (period, outcom) from vax and unvax tables ---------------------
-table2_vax_format <- table2_vax_format %>%
-  select(-c(period, outcome))
-table2_unvax_format <- table2_unvax_format %>%
-  select(-c(period, outcome))
+table2_anticoag_prevax_format <- clean_table_2(table2_anticoag_prevax)
+table2_anticoag_vax_format <- clean_table_2(table2_anticoag_vax)
+table2_anticoag_unvax_format <- clean_table_2(table2_anticoag_unvax)
+
+table2_thromb_prevax_format <- clean_table_2(table2_thromb_prevax)
+table2_thromb_vax_format <- clean_table_2(table2_thromb_vax)
+table2_thromb_unvax_format <- clean_table_2(table2_thromb_unvax)
+
+#Rename columns vax and unvax --------------------------------------------------
+colnames(table2_vax_format)[colnames(table2_vax_format) == 'Event/person-years'] <- 'Vax:Event/person-years'  
+colnames(table2_unvax_format)[colnames(table2_unvax_format) == 'Event/person-years'] <- 'Unvax:Event/person-years'  
+colnames(table2_vax_format)[colnames(table2_vax_format) == 'Incidence rate*'] <- 'Vax:Incidence rate*'  
+colnames(table2_unvax_format)[colnames(table2_unvax_format) == 'Incidence rate*'] <- 'Unvax:Incidence rate*'  
+
+#Rename columns vax and unvax --------------------------------------------------
+colnames(table2_vax_format)[colnames(table2_vax_format) == 'Event/person-years'] <- 'Vax:Event/person-years'  
+colnames(table2_unvax_format)[colnames(table2_unvax_format) == 'Event/person-years'] <- 'Unvax:Event/person-years'  
+colnames(table2_vax_format)[colnames(table2_vax_format) == 'Incidence rate*'] <- 'Vax:Incidence rate*'  
+colnames(table2_unvax_format)[colnames(table2_unvax_format) == 'Incidence rate*'] <- 'Unvax:Incidence rate*'  
+
+colnames(table2_anticoag_vax_format)[colnames(table2_anticoag_vax_format) == 'Event/person-years'] <- 'Vax:Event/person-years'  
+colnames(table2_anticoag_unvax_format)[colnames(table2_anticoag_unvax_format) == 'Event/person-years'] <- 'Unvax:Event/person-years'  
+colnames(table2_anticoag_vax_format)[colnames(table2_anticoag_vax_format) == 'Incidence rate*'] <- 'Vax:Incidence rate*'  
+colnames(table2_anticoag_unvax_format)[colnames(table2_anticoag_unvax_format) == 'Incidence rate*'] <- 'Unvax:Incidence rate*'  
+
+colnames(table2_thromb_vax_format)[colnames(table2_thromb_vax_format) == 'Event/person-years'] <- 'Vax:Event/person-years'  
+colnames(table2_thromb_unvax_format)[colnames(table2_thromb_unvax_format) == 'Event/person-years'] <- 'Unvax:Event/person-years'  
+colnames(table2_thromb_vax_format)[colnames(table2_thromb_vax_format) == 'Incidence rate*'] <- 'Vax:Incidence rate*'  
+colnames(table2_thromb_unvax_format)[colnames(table2_thromb_unvax_format) == 'Incidence rate*'] <- 'Unvax:Incidence rate*'  
 
 #Combine tables by columns -----------------------------------------------------
-table2 <- bind_cols(list(table2_prevax_format, table2_vax_format, table2_unvax_format))
+
+table2 <- Reduce(function (...) { merge(..., all = TRUE) },  # Full join
+                            list(table2_prevax_format, table2_vax_format, table2_unvax_format))
+table2_anticoag <- Reduce(function (...) { merge(..., all = TRUE) },  # Full join
+                 list(table2_anticoag_prevax_format, table2_anticoag_vax_format, table2_anticoag_unvax_format))
+table2_thromb <- Reduce(function (...) { merge(..., all = TRUE) },  # Full join
+                          list(table2_thromb_prevax_format, table2_thromb_vax_format, table2_thromb_unvax_format))
+
+table2 <- rbind(table2, table2_anticoag, table2_thromb)
 
 # Add labels, re-order rows, a clean names -------------------------------------
 
@@ -96,17 +185,33 @@ table2$period <- factor(table2$period, levels = c("No COVID-19",
 table2$outcome<- gsub("gi","gastrointestinal", table2$outcome)
 table2$outcome<- stringr::str_trim(gsub("disease","", table2$outcome))
 table2$outcome<-factor(table2$outcome,levels =c("Nonvariceal gastrointestinal bleeding",
+                                                "Nonvariceal gastrointestinal bleeding  With thrombotic event",
+                                                "Nonvariceal gastrointestinal bleeding  Without thrombotic event",
+                                                "Nonvariceal gastrointestinal bleeding  With anticoagulants",
+                                                "Nonvariceal gastrointestinal bleeding  Without anticoagulants",
                                                 "Acute pancreatitis",
                                                 "Peptic ulcer",
                                                 "Appendicitis",
                                                 "Lower gastrointestinal bleeding",
+                                                "Lower gastrointestinal bleeding  With thrombotic event",
+                                                "Lower gastrointestinal bleeding  Without thrombotic event",
+                                                "Lower gastrointestinal bleeding  With anticoagulants",
+                                                "Lower gastrointestinal bleeding  Without anticoagulants",
                                                 "Upper gastrointestinal bleeding",
+                                                "Upper gastrointestinal bleeding  With thrombotic event",
+                                                "Upper gastrointestinal bleeding  Without thrombotic event",
+                                                "Upper gastrointestinal bleeding  With anticoagulants",
+                                                "Upper gastrointestinal bleeding  Without anticoagulants",
                                                 "Gastro oesophageal reflux",
                                                 "Gallstones", 
                                                 "Ibs",
                                                 "Dyspepsia",
                                                 "Nonalcoholic steatohepatitis",
-                                                "Variceal gastrointestinal bleeding"))
+                                                "Variceal gastrointestinal bleeding",
+                                                "Variceal gastrointestinal bleeding  With thrombotic event",
+                                                "Variceal gastrointestinal bleeding  Without thrombotic event",
+                                                "Variceal gastrointestinal bleeding  With anticoagulants",
+                                                "Variceal gastrointestinal bleeding  Without anticoagulants"))
 
 table2 <- table2[order(table2$outcome, table2$period),]
 
@@ -123,9 +228,8 @@ table2_format <- table2 %>%
   set_caption(as_paragraph(as_chunk("Table 2. Number of gastrointestinal events in prevaccination, vaccinated and unvaccinated cohorts, with person-years of follow-up, by COVID-19 severity. *Incidence rates are per 100,000 person-years", 
     props = fp_text_default(bold = TRUE))), align_with_table = F) %>%
   set_header_labels("outcome" = "Event", 'period' = 'COVID-19 severity', 
-                    'Event/person-years3' = 'Event/person-years', 'Incidence rate*4' = 'Incidence rate*',
-                    'Event/person-years5' = 'Event/person-years', 'Incidence rate*6' = 'Incidence rate*', 
-                    'Event/person-years7' = 'Event/person-years', 'Incidence rate*8' = 'Incidence rate*') %>%
+                    'Vax:Event/person-years5' = 'Event/person-years', 'Vax:Incidence rate*' = 'Incidence rate*', 
+                    'Unvax:Event/person-years7' = 'Event/person-years', 'Unvax:Incidence rate*' = 'Incidence rate*') %>%
   bold(j = 1, bold = TRUE, part = "body") %>%
   align(j = c(3:8), align = "right", part = "body") %>%
   fontsize(size = 10)
@@ -141,7 +245,7 @@ sect_properties <- prop_section(
 )
 
 #Save table 2
-save_as_docx(table2_format, path = paste0(results_dir, "table2_formatted_.docx"), pr_section = sect_properties)
+save_as_docx(table2_format, path = paste0("output/post_release/table2_formatted_.docx"), pr_section = sect_properties)
 #write.csv(table2, paste0(output_dir,"table2.csv"),row.names = F)
 
 #Notes 

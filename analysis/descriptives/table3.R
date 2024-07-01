@@ -1,11 +1,20 @@
 source("analysis/utility.R")
-# Load data --------------------------------------------------------------------
-print("Load data")
+# Specify paths ----------------------------------------------------------------
+print('Specify paths')
 
-output_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
+# NOTE: 
+# This file is used to specify paths and is in the .gitignore to keep your information secret.
+# A file called specify_paths_example.R is provided for you to fill in.
+# Please remove "_example" from the file name and add your specific file paths before running this script.
 
-df <- readr::read_csv("output/plot_model_output.csv",
+source("analysis/post_release/specify_paths.R")
+
+# #################
+#1- Get data
+#################
+df <- readr::read_csv("plot_model_output.csv",
                       show_col_types = FALSE) 
+
 # Filter data ------------------------------------------------------------------
 print("Filter data")
 
@@ -20,11 +29,11 @@ df <- df[df$model=="mdl_max_adj",
 
 
 
-# Add less than 50 events ------------------------------------------------------
-print("Add less than 50 events")
+# Add less than 20 events ------------------------------------------------------
+print("Add less than 20 events")
 
-tmp <- readr::read_csv(paste0(output_dir,"model_output_midpoint6.csv"),
-                       show_col_types = FALSE)
+tmp <- readr::read_csv(path_model_r_output,
+                      show_col_types = FALSE)
 
 tmp$source <- "R"
 

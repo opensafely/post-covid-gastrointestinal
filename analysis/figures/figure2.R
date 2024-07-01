@@ -3,8 +3,19 @@ library(data.table)
 library(tidyverse)
 library(ggplot2)
 library(stringr)
+
+# Specify paths ----------------------------------------------------------------
+print('Specify paths')
+
+# NOTE: 
+# This file is used to specify paths and is in the .gitignore to keep your information secret.
+# A file called specify_paths_example.R is provided for you to fill in.
+# Please remove "_example" from the file name and add your specific file paths before running this script.
+
+source("analysis/post_release/specify_paths.R")
+
 # Define results directory
-df <- readr::read_csv("output/plot_model_output.csv",
+df <- readr::read_csv(release, "plot_model_output.csv",
                       show_col_types = FALSE) 
 #################
 #1- Get data

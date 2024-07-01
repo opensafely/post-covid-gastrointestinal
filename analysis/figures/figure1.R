@@ -5,10 +5,20 @@ library(data.table)
 library(tidyverse)
 library(ggplot2)
 
+# Specify paths ----------------------------------------------------------------
+print('Specify paths')
+
+# NOTE: 
+# This file is used to specify paths and is in the .gitignore to keep your information secret.
+# A file called specify_paths_example.R is provided for you to fill in.
+# Please remove "_example" from the file name and add your specific file paths before running this script.
+
+source("analysis/post_release/specify_paths.R")
+
 # #################
 #1- Get data
 #################
-df <- readr::read_csv("output/plot_model_output.csv",
+df <- readr::read_csv("plot_model_output",
                       show_col_types = FALSE) 
 df <- df[df$outcome %in% c("acute_pancreatitis","peptic_ulcer","nonvariceal_gi_bleeding","appendicitis"),
          c("cohort","analysis","outcome","outcome_time_median","term","hr","conf_low","conf_high","model")]
