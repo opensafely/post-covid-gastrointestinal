@@ -83,18 +83,19 @@ table2_vax <- readr::read_csv(path_table2_vax,
 table2_unvax <- readr::read_csv(path_table2_unvax,
                       show_col_types = FALSE) 
 
-table2_anticoag_prevax <- readr::read_csv(path_table2_anticoag_prevax,
+# mistake in table 2 script whereby te (thrombotic event) was labeled anticoag and vice versa
+table2_thromb_prevax <- readr::read_csv(path_table2_anticoag_prevax,
                       show_col_types = FALSE)   
-table2_anticoag_vax <- readr::read_csv(path_table2_anticoag_unvax,
+table2_thromb_vax <- readr::read_csv(path_table2_anticoag_unvax,
                       show_col_types = FALSE)  
-table2_anticoag_unvax <- readr::read_csv(path_table2_anticoag_vax,
+table2_thromb_unvax <- readr::read_csv(path_table2_anticoag_vax,
                       show_col_types = FALSE)  
 
-table2_thromb_prevax <- readr::read_csv(path_table2_thromb_prevax,
+table2_anticoag_prevax <- readr::read_csv(path_table2_thromb_prevax,
                       show_col_types = FALSE)   
-table2_thromb_vax <- readr::read_csv(path_table2_thromb_unvax,
+table2_anticoag_vax <- readr::read_csv(path_table2_thromb_unvax,
                       show_col_types = FALSE)  
-table2_thromb_unvax <- readr::read_csv(path_table2_thromb_vax,
+table2_anticoag_unvax <- readr::read_csv(path_table2_thromb_vax,
                       show_col_types = FALSE)  
 
 #reformatting additional analysis table 2 --------------------------------------------------
@@ -123,13 +124,13 @@ table2_thromb_unvax$stratify <- ifelse(grepl("true", table2_thromb_unvax$analysi
 table2_thromb_unvax$outcome <- paste(table2_thromb_unvax$outcome, table2_thromb_prevax$stratify)
 
 # renaming analysis
-table2_anticoag_prevax['analysis'][table2_anticoag_prevax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
-table2_anticoag_vax['analysis'][table2_anticoag_vax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
-table2_anticoag_unvax['analysis'][table2_anticoag_unvax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
+table2_anticoag_prevax['analysis'][table2_anticoag_prevax['analysis'] == c('sub_covid_hospitalised_ac_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
+table2_anticoag_vax['analysis'][table2_anticoag_vax['analysis'] == c('sub_covid_hospitalised_ac_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
+table2_anticoag_unvax['analysis'][table2_anticoag_unvax['analysis'] == c('sub_covid_hospitalised_ac_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
 
-table2_thromb_prevax['analysis'][table2_thromb_prevax['analysis'] == c('sub_covid_hospitalised_ac_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
-table2_thromb_vax['analysis'][table2_thromb_vax['analysis'] == c('sub_covid_hospitalised_ac_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
-table2_thromb_unvax['analysis'][table2_thromb_unvax['analysis'] == c('sub_covid_hospitalised_sc_true','sub_covid_hospitalised_ac_false')] <- 'sub_covid_hospitalised'
+table2_thromb_prevax['analysis'][table2_thromb_prevax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
+table2_thromb_vax['analysis'][table2_thromb_vax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
+table2_thromb_unvax['analysis'][table2_thromb_unvax['analysis'] == c('sub_covid_hospitalised_te_true','sub_covid_hospitalised_te_false')] <- 'sub_covid_hospitalised'
 
 #Apply clean table 2 function --------------------------------------------------
 table2_prevax_format <- clean_table_2(table2_prevax)
