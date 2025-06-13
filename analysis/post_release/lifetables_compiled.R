@@ -43,7 +43,17 @@ for (i in 1:nrow(aer_input)) {
                          model_output$cohort==aer_input$cohort[i],])>0) {
     
     tmp <- lifetable(model_output = model_output,
-                     aer_input = aer_input[i,])
+                     aer_input = aer_input[i,],
+                     day0 = TRUE) 
+    
+    tmp$day0 <- TRUE
+    lifetables_compiled <- rbind(lifetables_compiled, tmp)
+    
+    tmp <- lifetable(model_output = model_output,
+                     aer_input = aer_input[i,],
+                     day0 = FALSE) 
+    
+    tmp$day0 <- FALSE
     
     lifetables_compiled <- rbind(lifetables_compiled, tmp)
     
@@ -70,16 +80,16 @@ print('Calculate overall AER')
 
 lifetable_overall <- lifetables_compiled[,c("analysis","outcome","cohort","days",
                                             "aer_age","aer_sex",
-                                            "cumulative_difference_absolute_excess_risk")]
+                                            "cumulative_difference_absolute_excess_risk","day0")]
 
 lifetable_overall <- merge(lifetable_overall, prevax_weightings,
                            by=c("analysis","outcome","aer_sex","aer_age"))
 
 lifetable_overall <- lifetable_overall %>% 
-  dplyr::group_by(analysis, outcome, cohort, days) %>%
+  dplyr::group_by(analysis, outcome, cohort, days, day0) %>%
   dplyr::mutate(cumulative_difference_absolute_excess_risk = weighted.mean(cumulative_difference_absolute_excess_risk,weight)) %>%
   dplyr::ungroup() %>%
-  dplyr::select(analysis, outcome, cohort, days, cumulative_difference_absolute_excess_risk) %>%
+  dplyr::select(analysis, outcome, cohort, days, day0, cumulative_difference_absolute_excess_risk) %>%
   unique
 
 lifetable_overall$aer_sex <- "overall"
@@ -88,7 +98,7 @@ lifetable_overall$aer_age <- "overall"
 # Compile aer_group and overall life tables -------------------------------------
 print('Compile aer_group and overall life tables')
 
-lifetables_compiled <- lifetables_compiled[,c("analysis","outcome","cohort","days",
+lifetables_compiled <- lifetables_compiled[,c("analysis","outcome","cohort","days", "day0"
                                               "aer_age","aer_sex",
                                               "cumulative_difference_absolute_excess_risk")]
 
