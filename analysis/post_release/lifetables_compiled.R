@@ -1,6 +1,6 @@
 library(dplyr)
 
-source("analysis/aer/fn-lifetable.R")
+source("analysis/post_release/fn-lifetable.R")
 # Specify parameters -----------------------------------------------------------
 print('Specify parameters')
 
@@ -25,7 +25,7 @@ model_output <- model_output[stringr::str_detect(model_output$term, "^days") &
 # Add start and end for time periods to model output ---------------------------
 print('Add start and end for time periods to model output')
 
-model_output$time_period_start <- as.numeric(gsub("_.*", "",gsub("days", "",model_output$term)))
+model_output$time_period_start <- as.numeric(gsub("_.*", "",gsub("days", "",model_output$term))) # nolint: line_length_linter. # nolint
 model_output$time_period_end <- as.numeric(gsub(".*_", "",model_output$term))
 
 # Load AER input ---------------------------------------------------------------
@@ -67,7 +67,6 @@ print('Calculate prevax weightings')
 prevax_weightings <- aer_input[aer_input$cohort=="prevax",
                                c("analysis",
                                  "outcome",
-                                 "aer_sex", 
                                  "aer_age", 
                                  "sample_size_midpoint6")]
 
@@ -79,11 +78,11 @@ prevax_weightings$sample_size_midpoint6 <- NULL
 print('Calculate overall AER')
 
 lifetable_overall <- lifetables_compiled[,c("analysis","outcome","cohort","days",
-                                            "aer_age","aer_sex",
+                                            "aer_age",
                                             "cumulative_difference_absolute_excess_risk","day0")]
 
 lifetable_overall <- merge(lifetable_overall, prevax_weightings,
-                           by=c("analysis","outcome","aer_sex","aer_age"))
+                           by=c("analysis","outcome","aer_age"))
 
 lifetable_overall <- lifetable_overall %>% 
   dplyr::group_by(analysis, outcome, cohort, days, day0) %>%
@@ -92,14 +91,13 @@ lifetable_overall <- lifetable_overall %>%
   dplyr::select(analysis, outcome, cohort, days, day0, cumulative_difference_absolute_excess_risk) %>%
   unique
 
-lifetable_overall$aer_sex <- "overall"
 lifetable_overall$aer_age <- "overall"
 
 # Compile aer_group and overall life tables -------------------------------------
 print('Compile aer_group and overall life tables')
 
-lifetables_compiled <- lifetables_compiled[,c("analysis","outcome","cohort","days", "day0"
-                                              "aer_age","aer_sex",
+lifetables_compiled <- lifetables_compiled[,c("analysis","outcome","cohort","days", "day0",
+                                              "aer_age", # nolint
                                               "cumulative_difference_absolute_excess_risk")]
 
 lifetables_compiled <- rbind(lifetables_compiled, lifetable_overall)

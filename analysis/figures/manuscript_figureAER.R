@@ -1,7 +1,8 @@
 # Load data --------------------------------------------------------------------
 print('Load data')
 
-df <- read.csv("output/post_release/lifetables_compiled.csv")
+df <- read.csv("output/post_release/lifetables_compiled.csv") %>%
+  dplyr::filter(day0==FALSE)
 
 # Format aer_age ---------------------------------------------------------------
 print("Format aer_age")
@@ -19,14 +20,14 @@ df$aer_age <- factor(df$aer_age,
                                 "Combined"))
 
 # Format aer_sex ---------------------------------------------------------------
-print("Format aer_sex")
-df$aer_sex <- factor(df$aer_sex,
-                     levels = c("Female",
-                                "Male",
-                                "overall"),
-                     labels = c("Sex: Female",
-                                "Sex: Male",
-                                "Combined"))
+# print("Format aer_sex")
+# df$aer_sex <- factor(df$aer_sex,
+#                      levels = c("Female",
+#                                 "Male",
+#                                 "overall"),
+#                      labels = c("Sex: Female",
+#                                 "Sex: Male",
+#                                 "Combined"))
 
 # Add plot labels --------------------------------------------------------------
 print("Add plot labels")
@@ -62,7 +63,7 @@ for (outcome in unique_outcomes) {
   ggplot2::ggplot(data = df_subset[df_subset$days < 197,], 
                   mapping = ggplot2::aes(x = days/7, 
                                          y = cumulative_difference_absolute_excess_risk*100, 
-                                         color = aer_age, linetype = aer_sex)) +
+                                         color = aer_age)) +
     ggplot2::geom_line() +
     ggplot2::scale_x_continuous(lim = c(0,28), breaks = seq(0,28,4), labels = seq(0,28,4)) +
     ggplot2::scale_color_manual(values = c("#006d2c",
@@ -71,10 +72,7 @@ for (outcome in unique_outcomes) {
                                            "#bae4b3",
                                            "#000000"), 
                                 labels = levels(df$aer_age)) +
-    ggplot2::scale_linetype_manual(values = c("solid",
-                                              "longdash",
-                                              "solid"), 
-                                   labels = levels(df$aer_sex))+
+    
     ggplot2::labs(x = "Weeks since COVID-19 diagnosis", y = "Cumulative difference in absolute risk  (%)") +
     ggplot2::guides(fill=ggplot2::guide_legend(ncol = 6, byrow = TRUE)) +
     ggplot2::theme_minimal() +

@@ -2,7 +2,7 @@
 # (1) model_output
 # (2) aer_input [adapted Table 2 with age grouping]
 
-lifetable <- function(model_output, aer_input) {
+lifetable <- function(model_output, aer_input, day0) {
 
   # Filter model output --------------------------------------------------------
   print('Filter model output')
