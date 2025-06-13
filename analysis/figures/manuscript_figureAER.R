@@ -86,7 +86,9 @@ for (outcome in unique_outcomes) {
                    plot.background = ggplot2::element_rect(fill = "white", colour = "white"),
                    plot.title = ggplot2::element_text(hjust = 0.5),
                    text = ggplot2::element_text(size=13,face="bold")) +
-    ggplot2::facet_wrap(outcome_label ~ cohort_label, scales = "free_x")
+    # ggplot2::facet_wrap(outcome_label ~ cohort_label, scales = "free_x")
+    ggplot2::facet_wrap(~ cohort_label, scales = "free_x") +
+    ggplot2::ggtitle(unique(df_subset$outcome_label))
   
   # Save plot --------------------------------------------------------------------
   print("Save plot")
@@ -94,3 +96,4 @@ for (outcome in unique_outcomes) {
   ggplot2::ggsave(paste0("output/post_release/figureAER_", outcome, ".png"), 
                   height = 210, width = 397, unit = "mm", dpi = 600, scale = 1)
 }
+
