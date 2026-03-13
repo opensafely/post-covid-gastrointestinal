@@ -15,7 +15,8 @@ library(broman)
 
 #Directories
 # results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Extended followup/table2/"
-results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
+# results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
+results_dir <- "./"
 
 
 ###############################################
@@ -23,7 +24,7 @@ results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-Uni
 ###############################################
 
 clean_table_2 <- function(df) {
-  
+
   df <- df %>%
     mutate(outcome = str_remove(outcome, "out_date_")) %>% 
     mutate(outcome = gsub("gi", "gastrointestinal", outcome, fixed = TRUE))%>%
@@ -55,6 +56,17 @@ clean_table_2 <- function(df) {
   table2[,"Incidence rate*"] <- add_commas(round((table2$event_count/(table2$person_days/365.25))*100000))
   table2[,"Event/person-years"] <- paste0(add_commas(table2$event_count), "/", add_commas(round((table2$person_days/365.25))))
   
+  table2 <- table2 %>%
+    mutate(
+      rate_calc = (event_count / (person_days / 365.25)) * 100000,
+      `Incidence rate*` = ifelse(is.na(rate_calc), NA, add_commas(round(rate_calc))),
+      `Event/person-years` = ifelse(
+        is.na(event_count) | is.na(person_days),
+        NA,
+        paste0(add_commas(event_count), "/", add_commas(round(person_days / 365.25)))
+      )
+    ) %>%
+    select(-rate_calc)
   table2$period <- ifelse(table2$period == "unexposed", "No COVID-19", table2$period)
   table2$period <- ifelse(table2$period == "exposed" & table2$analysis == "sub_covid_hospitalised", "Hospitalised COVID-19", table2$period)
   table2$period <- ifelse(table2$period == "exposed" & table2$analysis == "sub_covid_nonhospitalised", "Non-hospitalised COVID-19", table2$period)
@@ -70,9 +82,9 @@ clean_table_2 <- function(df) {
 }
 
 #Load files
-table2_prevax <- read.csv(paste0(results_dir,"table2_prevax_midpoint6.csv")) 
-table2_unvax <- read.csv(paste0(results_dir,"table2_unvax_midpoint6.csv")) 
-table2_vax <- read.csv(paste0(results_dir,"table2_vax_midpoint6.csv")) 
+table2_prevax <- read.csv(paste0(results_dir,"table2_prevax_midpoint6_updated.csv")) 
+table2_vax <- read.csv(paste0(results_dir,"table2_vax_midpoint6_updated.csv")) 
+table2_unvax <- read.csv(paste0(results_dir,"table2_unvax_midpoint6_updated.csv")) 
 
 #Apply clean table 2 function --------------------------------------------------
 table2_prevax_format <- clean_table_2(table2_prevax)
@@ -95,18 +107,17 @@ table2$period <- factor(table2$period, levels = c("No COVID-19",
                                                   "Non-hospitalised COVID-19"))
 table2$outcome<- gsub("gi","gastrointestinal", table2$outcome)
 table2$outcome<- stringr::str_trim(gsub("disease","", table2$outcome))
-table2$outcome<-factor(table2$outcome,levels =c("Nonvariceal gastrointestinal bleeding",
+table2$outcome<-factor(table2$outcome,levels =c( "Upper gastrointestinal bleeding",
+                                                 "Lower gastrointestinal bleeding",
+                                                 "Gastro oesophageal reflux",
+                                                 "Dyspepsia",
+                                                 "Ibs",
+                                                 "Gallstones", 
+                                                 "Peptic ulcer",
                                                 "Acute pancreatitis",
-                                                "Peptic ulcer",
                                                 "Appendicitis",
-                                                "Lower gastrointestinal bleeding",
-                                                "Upper gastrointestinal bleeding",
-                                                "Gastro oesophageal reflux",
-                                                "Gallstones", 
-                                                "Ibs",
-                                                "Dyspepsia",
-                                                "Nonalcoholic steatohepatitis",
-                                                "Variceal gastrointestinal bleeding"))
+                                                "Nonalcoholic steatohepatitis"
+                                               ))
 
 table2 <- table2[order(table2$outcome, table2$period),]
 

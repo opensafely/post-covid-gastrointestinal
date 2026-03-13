@@ -1,6 +1,6 @@
 # Load data --------------------------------------------------------------------
 print('Load data')
-
+setwd("../../../projects/GastroIntestinal/post-covid-gastrointestinal/")
 df <- read.csv("output/post_release/lifetables_compiled.csv") %>%
   dplyr::filter(day0==FALSE)
 
@@ -45,7 +45,7 @@ df <- dplyr::rename(df, "cohort_label" = "label")
 print("Order cohorts")
 
 df$cohort_label <- factor(df$cohort_label,
-                          levels = c("Pre-vaccination (Jan 1 2020 - Jun 18 2021)",
+                          levels = c("Pre-vaccination (Jan 1 2020 - Dec 14 2021)",
                                      "Vaccinated (Jun 1 2021 - Dec 14 2021)",
                                      "Unvaccinated (Jun 1 2021 - Dec 14 2021)"))
 
@@ -72,6 +72,12 @@ for (outcome in unique_outcomes) {
                                            "#bae4b3",
                                            "#000000"), 
                                 labels = levels(df$aer_age)) +
+    scale_y_continuous(
+      limits = c(ymin, ymax),
+      breaks = seq(ymin, ymax, by = dy),
+      labels = function(x) paste0(x),
+      expand = c(0, 0)
+    ) +
     
     ggplot2::labs(x = "Weeks since COVID-19 diagnosis", y = "Cumulative difference in absolute risk  (%)") +
     ggplot2::guides(fill=ggplot2::guide_legend(ncol = 6, byrow = TRUE)) +

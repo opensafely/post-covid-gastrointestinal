@@ -10,7 +10,7 @@ library(ggplot2)
 #################
 df <- readr::read_csv("output/plot_model_output.csv",
                       show_col_types = FALSE) 
-df <- df[df$outcome %in% c("acute_pancreatitis","peptic_ulcer","nonvariceal_gi_bleeding","appendicitis"),
+df <- df[df$outcome %in% c("upper_gi_bleeding","lower_gi_bleeding","gastro_oesophageal_reflux_disease","dyspepsia","ibs","gallstones_disease"),
          c("cohort","analysis","outcome","outcome_time_median","term","hr","conf_low","conf_high","model")]
 
 df <- df%>% filter(model == "mdl_max_adj",
@@ -50,9 +50,8 @@ levels(df$analysis) <- list("All COVID-19"="main", "Hospitalised COVID-19"="sub_
 df$grouping_name <- paste0(df$analysis,"-", df$outcome)
 
 
-outcomes_order <- c("nonvariceal_gi_bleeding", 
-                     "acute_pancreatitis",
-                    "peptic_ulcer", "appendicitis")
+outcomes_order <- c("upper_gi_bleeding", 
+                     "lower_gi_bleeding","gastro_oesophageal_reflux_disease","dyspepsia","gallstones_disease","ibs")
 outcomes <- unique(df$outcome)
 factor_levels <- c()
 prefixes <- c("All COVID-19-", "Hospitalised COVID-19-", "Non-hospitalised COVID-19-")
@@ -68,23 +67,34 @@ df$grouping_name <- factor(df$grouping_name, levels = factor_levels)
 
 # Set facets labels 
 labels <- c(
-  `All COVID-19-nonvariceal_gi_bleeding` = "All COVID-19
+  `All COVID-19-upper_gi_bleeding` = "All COVID-19
   ",
-  `Hospitalised COVID-19-nonvariceal_gi_bleeding` = "Hospitalised COVID-19
-  Nonvariceal gastrointestinal bleeding",
-  `Non-hospitalised COVID-19-nonvariceal_gi_bleeding` = "Non-hospitalised COVID-19
+  `Hospitalised COVID-19-upper_gi_bleeding` = "Hospitalised COVID-19
+  Upper gastrointestinal bleeding",
+  `Non-hospitalised COVID-19-upper_gi_bleeding` = "Non-hospitalised COVID-19
   ",
-  `All COVID-19-acute_pancreatitis` = "",
-  `Hospitalised COVID-19-acute_pancreatitis` = "Acute pancreatitis",
-  `Non-hospitalised COVID-19-acute_pancreatitis` = "",
+  `All COVID-19-lower_gi_bleeding` = "",
+  `Hospitalised COVID-19-lower_gi_bleeding` = "Lower gastrointestinal bleeding",
+  `Non-hospitalised COVID-19-lower_gi_bleeding` = "",
   
-  `All COVID-19-peptic_ulcer` = "",
-  `Hospitalised COVID-19-peptic_ulcer` = "Peptic ulcer",
-  `Non-hospitalised COVID-19-peptic_ulcer` = "",
+  `All COVID-19-gastro_oesophageal_reflux_disease` = "",
+  `Hospitalised COVID-19-gastro_oesophageal_reflux_disease` = "Gastro-oesophageal reflux",
+  `Non-hospitalised COVID-19-gastro_oesophageal_reflux_disease` = "",
   
-  `All COVID-19-appendicitis` = "",
-  `Hospitalised COVID-19-appendicitis` = "Appendicitis",
-  `Non-hospitalised COVID-19-appendicitis` = ""
+  `All COVID-19-dyspepsia` = "",
+  `Hospitalised COVID-19-dyspepsia` = "Dyspepsia",
+  `Non-hospitalised COVID-19-dyspepsia` = "",
+  
+  
+  
+  `All COVID-19-gallstones_disease` = "",
+  `Hospitalised COVID-19-gallstones_disease` = "Gallstones",
+  `Non-hospitalised COVID-19-gallstones_disease` = "",
+  
+  `All COVID-19-ibs` = "",
+  `Hospitalised COVID-19-ibs` = "Irritable bowel syndrome",
+  `Non-hospitalised COVID-19-ibs` = ""
+  
   
 )
 
@@ -108,7 +118,7 @@ plot_estimates <- function(df) {
     ) +
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
     #  guides( color = guide_legend(ncol= 2)) +
-    guides(fill=ggplot2::guide_legend(ncol = 2, byrow = FALSE),color= guide_legend(ncol=2) ) +
+    guides(fill=ggplot2::guide_legend(ncol = 3, byrow = FALSE),color= guide_legend(ncol=3) ) +
     # facet_wrap(outcome ~ analysis, ncol = 3, scales = "free_x", strip.position = "top") +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
@@ -122,10 +132,10 @@ plot_estimates <- function(df) {
                  legend.title = element_blank(),
                  legend.position="bottom",
                  plot.background = element_rect(fill = "white", colour = "white"),
-                 text=element_text(size=16),
-          axis.text.x = element_text(size=14), 
-          axis.text.y = element_text(size=14), 
-          legend.text=element_text(size=12),
+                 text=element_text(size=10),
+          axis.text.x = element_text(size=10), 
+          axis.text.y = element_text(size=10), 
+          legend.text=element_text(size=10),
                  strip.text = element_text(face = "bold",size=12)) +
    
   facet_wrap(grouping_name~.,labeller=as_labeller(labels), ncol=3)    
@@ -133,8 +143,8 @@ plot_estimates <- function(df) {
   # Add annotations
   
 
-  ggsave(paste0( "output/post_release/Figure_1", ".png"),
-         height = 250, width =280, unit = "mm", dpi = 600, scale = 0.8)
+  ggsave(paste0( "output/post_release/Figure_1_a", ".png"),
+         height = 380, width =300, unit = "mm", dpi = 600, scale = 0.8)
 
   return(p)
 }

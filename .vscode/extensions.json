@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "kylebarron.stata-enhanced"
+        "kylebarron.stata-enhanced",
+        "github.copilot-chat"
     ]
 }

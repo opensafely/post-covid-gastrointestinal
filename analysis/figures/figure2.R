@@ -16,12 +16,12 @@ df<-df%>%
   #keep only rows with time points 
   filter(grepl("days\\d+", term))%>%
   # remove day0
-  filter(term!="days0_1")%>%
+  filter(term!="days0_1") %>%
   # Modify outcome names
   mutate(outcome = str_remove(outcome, "out_date_")) %>%
   mutate(outcome = str_to_title(outcome)) %>%
   filter(!is.na(hr) & hr != "" & hr!="[redact]")%>% 
-  filter(!outcome %in%c("Acute_pancreatitis","Peptic_ulcer","Nonvariceal_gi_bleeding","Appendicitis")) %>% 
+  filter(outcome %in%c("Acute_pancreatitis","Peptic_ulcer","Appendicitis","Nonalcoholic_steatohepatitis")) %>% 
   filter(analysis=="main")
  
 
@@ -56,8 +56,7 @@ df$outcome_label<- str_replace_all(df$outcome,"_"," ")
 df$outcome_label<- str_replace(df$outcome_label,"disease","")%>%str_trim()
 df$outcome_label<- str_replace(df$outcome_label,"gi","gastrointestinal")
 # labels 
-outcomes_order <- c( "Lower gastrointestinal bleeding", "Upper gastrointestinal bleeding","Gastro oesophageal reflux",
-                      "Gallstones","Irritable bowel syndrom","Dyspepsia","Nonalcoholic steatohepatitis","Variceal gastrointestinal bleeding") 
+outcomes_order <- c("Peptic ulcer","Acute pancreatitis","Appendicitis","Nonalcoholic steatohepatitis") 
 df$outcome_label <- factor(df$outcome_label, levels = outcomes_order)
 ####################
 #3-Plotting function
@@ -74,8 +73,8 @@ plot_estimates <- function(df) {
                        width = 0.25), 
                   position = pd) +
     scale_color_manual(values = levels(df$colour_cohort), labels = levels(df$cohort)) +
-    guides( color = guide_legend(ncol= 2)) +
-    guides(fill=ggplot2::guide_legend(ncol = 2, byrow = FALSE) ) +
+    guides( color = guide_legend(ncol= 3)) +
+    guides(fill=ggplot2::guide_legend(ncol = 3, byrow = FALSE) ) +
     facet_wrap(~outcome_label , ncol=2,scales="free_y") +
     theme_minimal() +
     labs(x = "\nWeeks since COVID-19 diagnosis", y = "Hazard ratio and 95% confidence interval") +
@@ -94,7 +93,7 @@ plot_estimates <- function(df) {
           text = element_text(size = 12),
           strip.text= element_text(size=12, face="bold")
     )
-   ggsave(paste0("output/post_release/Figure_2.png"), height = 250, width = 250, unit = "mm", dpi = 600, scale = 0.8)
+   ggsave(paste0("output/post_release/Figure_2_.png"), height = 250, width = 300, unit = "mm", dpi = 600, scale = 0.8)
   
   return(p)
 }
