@@ -16,7 +16,7 @@ No clinical, policy or safety conclusions must be drawn from the contents of thi
 ## Repository navigation
 
 -   If you are interested in how we defined our code lists, look in the [`codelists`](./codelists) folder: 
-    -   The file [`codelist.json`](.codelists/codelists.json) contain links to the codelists in opencodelist where these where developped, with the tree that contains included and excluded coedes. 
+    -   The file [`codelist.json`](./codelists/codelists.json) contain links to the codelists in opencodelist where these where developped, with the tree that contains included and excluded coedes. 
 
 -   Analyses scripts are in the [`analysis`](./analysis) directory:
 
