@@ -7,7 +7,9 @@
 
 release <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/" # Specify path to release directory  
 
-path_aer_input <- paste0(release,"OS output /aer_input-main-midpoint6.csv")
+# path_aer_input <- paste0(release,"OS output /aer_input-main-midpoint6.csv")
+path_aer_input <- ("../aer_input_updated.csv")
+
 path_model_output<-paste0(release,"model_output_midpoint6.csv") 
 
 # path_consort <- paste0(release,"20230807/consort_output_rounded.csv")

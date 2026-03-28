@@ -16,18 +16,33 @@ library(scales)
 
 # results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/Day0/tables/table1/"
 results_dir <- "/Users/cu20932/Library/CloudStorage/OneDrive-SharedLibraries-UniversityofBristol/grp-EHR - OS outputs/death_fix20240305/"
+results_dir<- "output/tables/"
 ###############################################
 # 1. CLEAN TABLE 1 FUNCTION
 ###############################################
-
 clean_table_1 <- function(df) {
+
   df <- df %>%
-    rename('N (%)' = "N.....derived", 'COVID-19 diagnoses' = "COVID.19.diagnoses.midpoint6") %>%
-    separate(`N (%)`, into = c('N', '(%)'), sep = ' ') %>%
-    mutate(`COVID-19 diagnoses` = scales::comma(`COVID-19 diagnoses`),
-           N = scales::comma(as.numeric(N)),
-           `(%)` = replace_na(`(%)`, "")) %>%
-    unite(col = "N (%)", c("N", "(%)"), sep = " ") 
+    rename('N (%)' = "N.....derived",
+           'COVID-19 diagnoses' = "COVID.19.diagnoses.midpoint6") %>%
+    mutate(`COVID-19 diagnoses` = readr::parse_number(as.character(`COVID-19 diagnoses`))) %>%
+
+    mutate(
+      `COVID-19 diagnoses` = ifelse(
+        is.na(`COVID-19 diagnoses`) |
+          is.na(`COVID-19 diagnoses`[1]) |
+          `COVID-19 diagnoses`[1] == 0,
+        NA_character_,
+        paste0(
+          scales::comma(`COVID-19 diagnoses`),
+          " (",
+          round(100 * `COVID-19 diagnoses` / `COVID-19 diagnoses`[1], 1),
+          "%)"
+        )
+      )
+    ) %>%
+    select(Characteristic, Subcharacteristic, `N (%)`, `COVID-19 diagnoses`)
+
 }
 
 # Read datasets before preprocessing
@@ -35,6 +50,33 @@ dataset_names <- c("prevax", "vax", "unvax")
 #Load datasets as list
 df_list_t1 <- lapply(dataset_names, function(name) read.csv(paste0(results_dir, "table1_", name, "_midpoint6.csv")))
 
+df_list_t1 <- lapply(df_list_t1, function(df){
+
+  total_col <- "N.....derived"
+  covid_col <- "COVID.19.diagnoses.midpoint6"
+
+  # Extract total N
+  total <- readr::parse_number(as.character(df[[total_col]]))
+  covid <- readr::parse_number(as.character(df[[covid_col]]))
+
+  noncovid <- total - covid
+
+  total_noncovid <- noncovid[1]
+  total_covid <- covid[1]
+
+  # Non-COVID column (replace N.....derived)
+  df[[total_col]] <- paste0(
+    scales::comma(noncovid),
+    " (",
+    round(100 * noncovid / total_noncovid,1),
+    "%)"
+  )
+
+  # COVID column → convert to N (%)
+  df[[covid_col]] <- covid
+
+  df
+})
 
 #Apply clean table 1 function
 table1 <- lapply(df_list_t1, clean_table_1) %>% 

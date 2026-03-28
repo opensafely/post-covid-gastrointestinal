@@ -1,8 +1,8 @@
 # Function for making life tables that requires two inputs:
 # (1) model_output
-# (2) aer_input [adapted Table 2 with age and sex groupings]
+# (2) aer_input [adapted Table 2 with age grouping]
 
-lifetable <- function(model_output, aer_input) {
+lifetable <- function(model_output, aer_input, day0) {
 
   # Filter model output --------------------------------------------------------
   print('Filter model output')
@@ -13,14 +13,21 @@ lifetable <- function(model_output, aer_input) {
   
   # Step 0. Create life table --------------------------------------------------
   print('Step 0. Create life table')
-  
+    if (day0==FALSE) {
   lifetable <- data.frame(analysis = aer_input$analysis, 
                           outcome = aer_input$outcome, 
                           cohort = aer_input$cohort,
                           aer_age = aer_input$aer_age,
-                          aer_sex = aer_input$aer_sex,
-                          days = c(0:(max(model_output$time_period_end)-1)),
+                          days = c(1:(max(model_output$time_period_end)-1)),
                           stringsAsFactors = FALSE)
+    } else {
+    lifetable <- data.frame(analysis = aer_input$analysis, 
+                            outcome = aer_input$outcome, 
+                            cohort = aer_input$cohort,
+                            aer_age = aer_input$aer_age,
+                            days = c(0:(max(model_output$time_period_end)-1)),
+                            stringsAsFactors = FALSE)
+  }
   # Step 1. Average daily incidence of the outcome in the unexposed ------------
   print('Step 1. Average daily incidence of the outcome in the unexposed')
   lifetable$incidence_unexp <- aer_input$unexposed_events_midpoint6 / aer_input$unexposed_person_days_midpoint6

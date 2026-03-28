@@ -21,4 +21,6 @@ Untitled.ipynb
 .RData
 .vscode/settings.json
 .vscode/tasks.json
+.vscode/*
 analysis/specify_paths.R
+results_pack_v6.docx

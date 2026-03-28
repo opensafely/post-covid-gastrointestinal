@@ -1,7 +1,8 @@
 # Load data --------------------------------------------------------------------
 print('Load data')
-
-df <- read.csv("output/post_release/lifetables_compiled.csv")
+setwd("../../../projects/GastroIntestinal/post-covid-gastrointestinal/")
+df <- read.csv("output/post_release/lifetables_compiled.csv") %>%
+  dplyr::filter(day0==FALSE)
 
 # Format aer_age ---------------------------------------------------------------
 print("Format aer_age")
@@ -19,14 +20,14 @@ df$aer_age <- factor(df$aer_age,
                                 "Combined"))
 
 # Format aer_sex ---------------------------------------------------------------
-print("Format aer_sex")
-df$aer_sex <- factor(df$aer_sex,
-                     levels = c("Female",
-                                "Male",
-                                "overall"),
-                     labels = c("Sex: Female",
-                                "Sex: Male",
-                                "Combined"))
+# print("Format aer_sex")
+# df$aer_sex <- factor(df$aer_sex,
+#                      levels = c("Female",
+#                                 "Male",
+#                                 "overall"),
+#                      labels = c("Sex: Female",
+#                                 "Sex: Male",
+#                                 "Combined"))
 
 # Add plot labels --------------------------------------------------------------
 print("Add plot labels")
@@ -44,7 +45,7 @@ df <- dplyr::rename(df, "cohort_label" = "label")
 print("Order cohorts")
 
 df$cohort_label <- factor(df$cohort_label,
-                          levels = c("Pre-vaccination (Jan 1 2020 - Jun 18 2021)",
+                          levels = c("Pre-vaccination (Jan 1 2020 - Dec 14 2021)",
                                      "Vaccinated (Jun 1 2021 - Dec 14 2021)",
                                      "Unvaccinated (Jun 1 2021 - Dec 14 2021)"))
 
@@ -62,7 +63,7 @@ for (outcome in unique_outcomes) {
   ggplot2::ggplot(data = df_subset[df_subset$days < 197,], 
                   mapping = ggplot2::aes(x = days/7, 
                                          y = cumulative_difference_absolute_excess_risk*100, 
-                                         color = aer_age, linetype = aer_sex)) +
+                                         color = aer_age)) +
     ggplot2::geom_line() +
     ggplot2::scale_x_continuous(lim = c(0,28), breaks = seq(0,28,4), labels = seq(0,28,4)) +
     ggplot2::scale_color_manual(values = c("#006d2c",
@@ -71,10 +72,13 @@ for (outcome in unique_outcomes) {
                                            "#bae4b3",
                                            "#000000"), 
                                 labels = levels(df$aer_age)) +
-    ggplot2::scale_linetype_manual(values = c("solid",
-                                              "longdash",
-                                              "solid"), 
-                                   labels = levels(df$aer_sex))+
+    scale_y_continuous(
+      limits = c(ymin, ymax),
+      breaks = seq(ymin, ymax, by = dy),
+      labels = function(x) paste0(x),
+      expand = c(0, 0)
+    ) +
+    
     ggplot2::labs(x = "Weeks since COVID-19 diagnosis", y = "Cumulative difference in absolute risk  (%)") +
     ggplot2::guides(fill=ggplot2::guide_legend(ncol = 6, byrow = TRUE)) +
     ggplot2::theme_minimal() +
@@ -88,7 +92,9 @@ for (outcome in unique_outcomes) {
                    plot.background = ggplot2::element_rect(fill = "white", colour = "white"),
                    plot.title = ggplot2::element_text(hjust = 0.5),
                    text = ggplot2::element_text(size=13,face="bold")) +
-    ggplot2::facet_wrap(outcome_label ~ cohort_label, scales = "free_x")
+    # ggplot2::facet_wrap(outcome_label ~ cohort_label, scales = "free_x")
+    ggplot2::facet_wrap(~ cohort_label, scales = "free_x") +
+    ggplot2::ggtitle(unique(df_subset$outcome_label))
   
   # Save plot --------------------------------------------------------------------
   print("Save plot")
@@ -96,3 +102,4 @@ for (outcome in unique_outcomes) {
   ggplot2::ggsave(paste0("output/post_release/figureAER_", outcome, ".png"), 
                   height = 210, width = 397, unit = "mm", dpi = 600, scale = 1)
 }
+

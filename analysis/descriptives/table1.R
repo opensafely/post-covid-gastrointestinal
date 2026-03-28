@@ -204,18 +204,21 @@ df[,setdiff(colnames(df),c("characteristic","subcharacteristic"))] <- lapply(df[
                                                                                                 FUN=function(y){roundmid_any(as.numeric(y), to=threshold)})
 
 # Rename rounded columns--------------------------------------------------------
-df <- df%>% 
-rename(
-  total_midpoint6 = total,
-  exposed_midpoint6 = exposed
-)
+df <- df %>% 
+  rename(
+    total_midpoint6 = total,
+    exposed_midpoint6 = exposed
+  )
+
+# Calculate unexposed from total - exposed -------------------------------------
+df$unexposed_midpoint6 <- df$total_midpoint6 - df$exposed_midpoint6
+
 # Calculate column percentages -------------------------------------------------
+df$Npercent_derived <- paste0(df$total_midpoint6, ifelse(df$characteristic == "All", "",
+                              paste0(" (", round(100 * (df$total_midpoint6 / df[df$characteristic == "All", "total_midpoint6"]), 1), "%)")))
 
-df$Npercent_derived <- paste0(df$total_midpoint6,ifelse(df$characteristic=="All","",
-                                      paste0(" (",round(100*(df$total_midpoint6 / df[df$characteristic=="All","total_midpoint6"]),1),"%)")))
-
-df <- df[,c("characteristic","subcharacteristic","Npercent_derived","exposed_midpoint6")]
-colnames(df) <- c("Characteristic","Subcharacteristic","N (%) derived","COVID-19 diagnoses midpoint6")
+df <- df[, c("characteristic", "subcharacteristic", "Npercent_derived", "exposed_midpoint6", "unexposed_midpoint6")]
+colnames(df) <- c("Characteristic", "Subcharacteristic", "N (%) derived", "COVID-19 diagnoses midpoint6", "Non-COVID-19 midpoint6")
 
 # Save Table 1 -----------------------------------------------------------------
 print('Save rounded Table 1')

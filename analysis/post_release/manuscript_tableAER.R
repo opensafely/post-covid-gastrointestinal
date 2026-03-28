@@ -6,13 +6,12 @@ perpeople <- 100000 # per X people
 # Load data --------------------------------------------------------------------
 print('Load data')
 
-df <- read.csv("output/post_release/lifetables_compiled.csv")
-
+df <- read.csv("output/post_release/lifetables_compiled.csv") %>%
+  dplyr::filter(day0==FALSE)
 # Filter data ------------------------------------------------------------------
 print("Filter data")
 
 df <- df[df$aer_age=="overall" &
-           df$aer_sex=="overall" &
            df$analysis=="main" & 
            df$days==196,]
 
@@ -42,8 +41,8 @@ df <- tidyr::pivot_wider(df,
 print("Order outcomes")
 
 df$outcome_label <- factor(df$outcome_label,
-                           levels = c(c("Nonvariceal gi bleeding", "Lower gi bleeding", "Upper gi bleeding","Gastro oesophageal reflux",
-                      "Gallstones","Ibs","Acute pancreatitis","Peptic ulcer","Appendicitis","Nonalcoholic steatohepatitis"))
+                           levels = c(  "Upper gastrointestinal bleeding","Lower gastrointestinal bleeding", "Gastro oesophageal reflux",
+                     "Dyspepsia","Ibs", "Gallstones","Acute pancreatitis","Peptic ulcer","Appendicitis","Nonalcoholic steatohepatitis"))
 
 # Tidy table -------------------------------------------------------------------
 print("Tidy table")
